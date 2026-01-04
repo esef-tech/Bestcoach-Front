@@ -1,0 +1,100 @@
+/* Navbar.css */
+
+/* Hover effect for links (unchanged) */
+.nav-link:hover {
+  color: #fd7e14 !important; /* Orange on hover */
+  transition: color 0.3s ease;
+}
+
+/* Animation container - absolute positioned behind navbar content */
+.animation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none; /* Doesn't block clicks */
+  z-index: 0; /* Behind content */
+}
+
+/* Musical symbols - bolder with orange color */
+.music-symbol {
+  position: absolute;
+  font-size: 2rem; /* Bolder size */
+  font-weight: bold; /* Bolder weight */
+  color: rgba(253, 126, 20, 0.5); /* Orange semi-transparent */
+  animation: float 10s linear infinite;
+}
+
+/* Different delays and positions for full coverage */
+.music-symbol:nth-child(1) {
+  left: 5%;
+  animation-delay: 0s;
+}
+.music-symbol:nth-child(2) {
+  left: 15%;
+  animation-delay: 1.5s;
+}
+.music-symbol:nth-child(3) {
+  left: 30%;
+  animation-delay: 3s;
+}
+.music-symbol:nth-child(4) {
+  left: 45%;
+  animation-delay: 4.5s;
+}
+.music-symbol:nth-child(5) {
+  left: 55%;
+  animation-delay: 6s;
+}
+.music-symbol:nth-child(6) {
+  left: 70%;
+  animation-delay: 7.5s;
+}
+.music-symbol:nth-child(7) {
+  left: 85%;
+  animation-delay: 9s;
+}
+.music-symbol:nth-child(8) {
+  left: 95%;
+  animation-delay: 0.5s; /* Overlap for continuity */
+}
+
+/* Keyframe animation: Float up and fade (unchanged) */
+@keyframes float {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .music-symbol {
+    font-size: 1.2rem; /* Slightly bolder but scaled down for mobile */
+  }
+  .music-symbol:nth-child(n+5) {
+    display: none; /* Fewer symbols on small screens for performance */
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(50%); /* Shorter path */
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-50%);
+      opacity: 0;
+    }
+  }
+}
