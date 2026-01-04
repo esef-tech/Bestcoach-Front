@@ -1,0 +1,123 @@
+.services-section {
+  position: relative; /* For animation container */
+  overflow: hidden; /* Prevent overflow from animations */
+}
+
+.animation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none; /* Doesn't block interactions */
+  z-index: 0; /* Behind content */
+}
+
+.music-icon {
+  position: absolute;
+  font-size: 80px; /* Bold size */
+  opacity: 0.6; /* Semi-transparent */
+  filter: brightness(1.2) contrast(1.2); /* Bolder appearance */
+  animation-duration: 15s; /* Slow for appeal */
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+/* Varied colors for colourful effect */
+.music-icon:nth-child(1) {
+  color: #fd7e14; /* Orange */
+}
+.music-icon:nth-child(2) {
+  color: #007bff; /* Blue */
+}
+.music-icon:nth-child(3) {
+  color: #28a745; /* Green */
+}
+.music-icon:nth-child(4) {
+  color: #dc3545; /* Red */
+}
+.music-icon:nth-child(5) {
+  color: #6f42c1; /* Purple */
+}
+.music-icon:nth-child(6) {
+  color: #ffc107; /* Yellow */
+}
+
+/* Varied animations for all-around movement (unchanged) */
+.music-icon:nth-child(1) {
+  top: 10%;
+  left: 20%;
+  animation: topToBottom 15s infinite, rotate360 20s infinite;
+}
+.music-icon:nth-child(2) {
+  top: 30%;
+  left: 50%;
+  animation: leftToRight 18s infinite, rotate360 25s infinite;
+}
+.music-icon:nth-child(3) {
+  top: 50%;
+  left: 80%;
+  animation: bottomToTop 20s infinite, rotate360 15s infinite;
+}
+.music-icon:nth-child(4) {
+  top: 70%;
+  left: 10%;
+  animation: rightToLeft 16s infinite, rotate360 18s infinite;
+}
+.music-icon:nth-child(5) {
+  top: 20%;
+  left: 60%;
+  animation: topToBottom 17s infinite reverse, rotate360 22s infinite;
+}
+.music-icon:nth-child(6) {
+  top: 40%;
+  left: 30%;
+  animation: leftToRight 19s infinite reverse, rotate360 16s infinite;
+}
+
+/* Keyframes (unchanged) */
+@keyframes topToBottom {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+@keyframes bottomToTop {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
+}
+@keyframes leftToRight {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes rightToLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes rotate360 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Card styles with hover (unchanged) */
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover {
+  transform: scale(1.05); /* Slight zoom */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+}
+
+/* Responsive adjustments (unchanged) */
+@media (max-width: 768px) {
+  .music-icon {
+    font-size: 50px; /* Smaller on mobile */
+    animation-duration: 20s; /* Slower for performance */
+  }
+  .music-icon:nth-child(n+4) {
+    display: none; /* Fewer icons on small screens */
+  }
+}
+.music-icon-wrapper {
+  position: absolute;
+  /* Copy positions from .music-icon nth-child styles if needed, but since class is on icon, it's fine */
+}
