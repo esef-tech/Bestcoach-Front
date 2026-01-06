@@ -1,0 +1,72 @@
+.programs-section {
+  background: linear-gradient(to bottom, #f8f9fa, #ffffff); /* Light gradient for appeal */
+  padding-top: 5rem;
+  padding-bottom: 3rem;
+}
+
+.section-title {
+  background-color: #007bff; /* Primary blue */
+  color: white;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.programs-title h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.program-card {
+  border: none !important; /* Match original border-0 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeIn 1s ease-in-out; /* Fade-in for appeal */
+}
+
+.program-card:hover {
+  transform: translateY(-5px); /* Lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.program-card img {
+  height: 250px; /* Consistent height */
+  object-fit: cover; /* Fill without distortion */
+}
+
+.card-footer {
+  background: transparent !important;
+  border-top: none !important;
+}
+
+.card-footer .row {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.card-footer strong {
+  text-align: right;
+  padding-right: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .programs-title h1 {
+    font-size: 2rem; /* Scale down */
+  }
+  
+  .program-card img {
+    height: 200px; /* Adjust for mobile */
+  }
+  
+  .card-footer {
+    padding: 1rem !important; /* Reduced padding */
+  }
+}

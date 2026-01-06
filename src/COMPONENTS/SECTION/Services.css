@@ -121,3 +121,23 @@
   position: absolute;
   /* Copy positions from .music-icon nth-child styles if needed, but since class is on icon, it's fine */
 }
+/* Add to existing CSS */
+
+.service-card {
+  display: flex;
+  flex-direction: row; /* Icon and text side-by-side */
+  align-items: flex-start; /* Top align for consistency */
+  padding: 30px !important; /* Consistent internal padding */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 8px; /* Softer corners for professional look */
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure even row spacing - Bootstrap gy-4 handles it, but override if needed */
+.row.gy-4 > .col {
+  margin-bottom: 1.5rem; /* Fallback for even bottom margin */
+}

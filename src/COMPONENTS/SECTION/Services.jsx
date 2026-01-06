@@ -69,7 +69,7 @@ const Services = () => {
         <Row>
           {services.map((service, idx) => (
             <Col lg={4} md={6} className="pb-1" key={idx}>
-              <div className="d-flex bg-white shadow-sm border-top rounded mb-4 service-card" style={{ padding: '30px' }}>
+              <div className="d-flex bg-white shadow-sm border-top rounded mb-4 service-card h-100" style={{ padding: '30px' }}>
                 <span className="h1 font-weight-normal text-primary mb-3">{service.emoji}</span>
                 <div className="pl-4">
                   <h4>{service.title}</h4>
