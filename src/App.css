@@ -1,1 +1,17 @@
 body { margin: 0; padding: 0; }
+/* Ensure AI chat appears on top of all elements */
+/* Force AI chatbot on top of hero images and all other elements */
+.relevance-chat-container, /* Main chat window */
+.relevance-bubble, /* Icon/bubble */
+[data-relevanceai-chat], /* Fallback for data attributes */
+.relevance-chat-expanded { /* If expanded state has this class */
+  z-index: 9999 !important; /* Very high value to overlay everything (hero z-index likely <1000) */
+}
+
+/* Responsive: Ensure no overlap issues on mobile */
+@media (max-width: 768px) {
+  .relevance-chat-container,
+  .relevance-bubble {
+    z-index: 9999 !important;
+  }
+}

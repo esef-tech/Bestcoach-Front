@@ -1,0 +1,127 @@
+.footer-section {
+  background-color: hwb(209 46% 37%); /* bg-secondary gray */
+  color: rgb(255, 255, 255) !important;
+  padding: 3rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-brand {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  color: #007bff; /* Primary blue */
+}
+
+.footer-text {
+  color: white;
+}
+
+.social-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #007bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  transition: transform 0.3s ease, background 0.3s;
+}
+
+.social-btn:hover {
+  transform: scale(1.1) rotate(15deg); /* Animated hover */
+  background: #007bff;
+  color: white;
+}
+
+.footer-link {
+  color: white;
+  transition: color 0.3s, text-decoration 0.3s;
+}
+
+.footer-link:hover {
+  color: #fd7e14; /* Orange hover for appeal */
+  text-decoration: underline;
+}
+
+.newsletter-form .form-control {
+  border: none;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.newsletter-btn {
+  background: #007bff;
+  border: none;
+  padding: 1rem;
+  transition: background 0.3s;
+}
+
+.newsletter-btn:hover {
+  background: #0056b3;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007bff;
+  color: white;
+  padding: 1rem;
+  border-radius: 50%;
+  display: none; /* Shown via JS */
+  animation: slideUp 0.3s ease;
+  z-index: 1000;
+}
+
+.back-to-top.show {
+  display: block;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Floating notes animation for appeal */
+.note-particle {
+  position: absolute;
+  font-size: 1.5rem;
+  color: rgba(253, 126, 20, 0.4); /* Orange semi-transparent */
+  animation: floatNote 10s linear infinite;
+  z-index: 0;
+}
+
+.note-particle:nth-child(even) {
+  animation-duration: 15s;
+}
+
+@keyframes floatNote {
+  0% { transform: translateY(100%) rotate(0deg); }
+  100% { transform: translateY(-100%) rotate(360deg); }
+}
+
+/* Random positions */
+.note-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.note-particle:nth-child(2) { left: 30%; animation-delay: 2s; }
+.note-particle:nth-child(3) { left: 50%; animation-delay: 4s; }
+.note-particle:nth-child(4) { left: 70%; animation-delay: 6s; }
+.note-particle:nth-child(5) { left: 90%; animation-delay: 8s; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-section {
+    padding: 2rem 1rem;
+  }
+  .footer-brand {
+    font-size: 2rem;
+  }
+  .note-particle {
+    font-size: 1rem;
+  }
+  .back-to-top {
+    bottom: 10px;
+    right: 10px;
+    padding: 0.75rem;
+  }
+}

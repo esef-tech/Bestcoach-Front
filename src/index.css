@@ -12,3 +12,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* Ensure AI chat appears on top of all elements */
+.relevance-chat-container, /* Main container class from Relevance AI */
+[data-relevanceai-chat] { /* Fallback selector if class changes */
+  z-index: 2000 !important; /* High value to overlay hero/slider (Header z-index is likely <1000) */
+}
+
+/* Responsive: On mobile, ensure it doesn't overlap nav/footer */
+@media (max-width: 768px) {
+  .relevance-chat-container {
+    z-index: 2000 !important;
+  }
+}
+/* Offset AI bubble to avoid overlap with back-to-top */
+.relevance-chat-bubble { /* Bubble wrapper class */
+  bottom: 80px !important; /* Move up from bottom (above back-to-top at 20px) */
+  right: 20px !important; /* Keep right-aligned */
+  transition: bottom 0.3s ease; /* Smooth animation for appeal */
+}
+
+/* On hover/expand, maintain separation */
+.relevance-chat-bubble:hover {
+  bottom: 85px !important; /* Slight lift for fantastic feel */
+}
+
+/* Responsive: On small screens, stack vertically if needed */
+@media (max-width: 576px) {
+  .relevance-chat-bubble {
+    bottom: 70px !important; /* Adjust for smaller screens */
+    right: 10px !important; /* Closer to edge */
+  }
+  .back-to-top {
+    bottom: 10px !important;
+    right: 10px !important;
+  }
+}
