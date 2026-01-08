@@ -40,6 +40,7 @@ const teamMembers = [
       <div className="particle">♬</div>
       <div className="particle">♪</div>
       <div className="particle">♫</div>
+      
 
       <Container>
         <div className="text-center pb-2 team-title">

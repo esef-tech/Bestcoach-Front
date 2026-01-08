@@ -140,3 +140,38 @@
 .header-section {
   z-index: 1; /* Low value to keep below chat */
 }
+/* Target Relevance AI injected elements (from script) - broad selectors for reliability */
+div[class*="relevance-chat"], /* Common prefix from Relevance AI embeds */
+div[data-relevanceai-chat], /* Data attribute selector */
+.relevance-chat-bubble, /* Bubble icon */
+.relevance-chat-container, /* Main container */
+.relevance-chat-expanded { /* Expanded window */
+  z-index: 10000 !important; /* Higher than typical hero (e.g., 1-1000) */
+  position: fixed !important; /* Ensure fixed if not */
+}
+
+/* Lower hero stacking context to allow overlay */
+.header-section, 
+.carousel, 
+.carousel-item, 
+.carousel-inner {
+  z-index: 0 !important; /* Low value - chat will now overlay */
+  position: relative; /* Maintain if needed, but no overflow hidden */
+  overflow: visible !important; /* Prevent clipping if hero has overflow: hidden */
+}
+
+/* Body/root adjustments from inspector - ensure no clipping */
+body, #root {
+  overflow: visible !important; /* Allow chat to extend beyond */
+  z-index: auto !important;
+}
+
+/* Responsive: Maintain on mobile */
+@media (max-width: 768px) {
+  .header-section {
+    z-index: 0 !important;
+  }
+  div[class*="relevance-chat"] {
+    z-index: 10000 !important;
+  }
+}
