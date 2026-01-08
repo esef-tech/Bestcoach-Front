@@ -65,7 +65,7 @@ const [showModal, setShowModal] = useState(false);
               <Nav.Link as={Link} to="/" smooth={true} duration={500} className="mx-2">Home</Nav.Link>
               
               {/* Services Dropdown */}
-              <NavDropdown title="Services" id="services-dropdown" className="mx-2">
+              <NavDropdown title="Categories" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="schools" smooth={true} duration={500}>Schools</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="churches" smooth={true} duration={500}>Churches</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="individuals" smooth={true} duration={500}>Individuals</NavDropdown.Item>

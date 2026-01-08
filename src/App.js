@@ -25,10 +25,10 @@ function App() {
       <Routes>
        <Route path="/" element={<Home />} />
         <Route path="/packages" element={<Package />} />
-        <Route path="/services/schools" element={<SchoolServices />} />
-        <Route path="/services/churches" element={<ChurchServices />} />
-        <Route path="/services/individuals" element={<IndividualServices />} />
-        <Route path="/services/groups" element={<GroupServices />} />
+        <Route path="/categories/schools" element={<SchoolServices />} />
+        <Route path="/categories/churches" element={<ChurchServices />} />
+        <Route path="/categories/individuals" element={<IndividualServices />} />
+        <Route path="/categories/groups" element={<GroupServices />} />
         <Route path="/quick-links" element={<Links />} />
         <Route path="/news" element={<News />} />
         <Route path="/team" element={<Team />} />
