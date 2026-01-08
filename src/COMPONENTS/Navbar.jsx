@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown} from 'react-bootstrap';
-import { Link } from 'react-scroll'; // For smooth scrolling to sections
+import { Link } from 'react-router-dom'; // For smooth scrolling to sections
 import { FcGoogle } from 'react-icons/fc'; // Icons for auth buttons
 import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
 import './Navbar.css'; // Custom styles for Navbar
@@ -62,7 +62,7 @@ const [showModal, setShowModal] = useState(false);
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="home" smooth={true} duration={500} className="mx-2">Home</Nav.Link>
+              <Nav.Link as={Link} to="/" smooth={true} duration={500} className="mx-2">Home</Nav.Link>
               
               {/* Services Dropdown */}
               <NavDropdown title="Services" id="services-dropdown" className="mx-2">
@@ -72,7 +72,7 @@ const [showModal, setShowModal] = useState(false);
                 <NavDropdown.Item as={Link} to="groups" smooth={true} duration={500}>Groups</NavDropdown.Item>
               </NavDropdown>
               
-              <Nav.Link as={Link} to="packages" smooth={true} duration={500} className="mx-2">Packages</Nav.Link>
+              <Nav.Link as={Link} to="package" smooth={true} duration={500} className="mx-2">Packages</Nav.Link>
               <Nav.Link as={Link} to="team" smooth={true} duration={500} className="mx-2">Team</Nav.Link>
               <Nav.Link as={Link} to="news" smooth={true} duration={500} className="mx-2">News</Nav.Link>
               <Nav.Link as={Link} to="social" smooth={true} duration={500} className="mx-2">Social</Nav.Link>
