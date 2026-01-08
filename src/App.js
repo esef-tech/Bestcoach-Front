@@ -29,12 +29,10 @@ function App() {
         <Route path="/services/churches" element={<ChurchServices />} />
         <Route path="/services/individuals" element={<IndividualServices />} />
         <Route path="/services/groups" element={<GroupServices />} />
-
         <Route path="/quick-links" element={<Links />} />
         <Route path="/news" element={<News />} />
         <Route path="/team" element={<Team />} />
         <Route path="/contact" element={<Contact />} />
-
       </Routes>
       <Footer />
       <AIAgent />

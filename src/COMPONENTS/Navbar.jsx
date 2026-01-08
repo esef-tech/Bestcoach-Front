@@ -50,7 +50,7 @@ const [showModal, setShowModal] = useState(false);
         </div>
 
         <Container>
-          <Navbar.Brand href="#home" style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: '#007bff' }}>
+          <Navbar.Brand href="https://bestcoach-front.vercel.app/" style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: '#007bff' }}>
             <img 
               src={logoUrl} 
               alt="Bestcoach Music Logo" 
