@@ -25,19 +25,19 @@ function App() {
       <Routes>
        <Route path="/" element={<Home />} />
         <Route path="/packages" element={<Package />} />
-        <Route path="/categories/schools" element={<SchoolServices />} />
-        <Route path="/categories/churches" element={<ChurchServices />} />
-        <Route path="/categories/individuals" element={<IndividualServices />} />
-        <Route path="/categories/groups" element={<GroupServices />} />
         <Route path="/quick-links" element={<Links />} />
         <Route path="/news" element={<News />} />
         <Route path="/team" element={<Team />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/schools" element={<SchoolServices />} /> {/* Match your dropdown path */}
+          <Route path="/churches" element={<ChurchServices />} />
+          <Route path="/individuals" element={<IndividualServices />} />
+          <Route path="/groups" element={<GroupServices />} />
+
       </Routes>
       <Footer />
       <AIAgent />
       </div>
-
 </Router>
 
     </>

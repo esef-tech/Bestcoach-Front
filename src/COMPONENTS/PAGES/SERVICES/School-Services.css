@@ -1,0 +1,78 @@
+/* src/pages/SchoolsPage.css */
+
+/* Fade-in animation */
+.animate-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Slide-up animation */
+.animate-slide-up {
+  animation: slideUp 1s ease-in-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Zoom-in for images */
+.animate-zoom-in {
+  animation: zoomIn 1s ease-in-out;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Slide-right for sidebar */
+.animate-slide-right {
+  animation: slideRight 1s ease-in-out;
+}
+
+@keyframes slideRight {
+  from { transform: translateX(50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Bounce-in for tags */
+.animate-bounce-in {
+  animation: bounceIn 0.5s ease-in-out;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Header styles */
+.header {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Detail section */
+.detail p, .detail h2, .detail h3 {
+  animation-delay: 0.2s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .img-fluid.w-50 {
+    width: 100% !important;
+    float: none !important;
+    margin: 0 0 1rem 0 !important;
+  }
+  .animate-slide-up, .animate-slide-right {
+    animation-duration: 0.8s; /* Faster on mobile */
+  }
+}
