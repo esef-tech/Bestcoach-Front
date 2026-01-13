@@ -1,16 +1,15 @@
 import React, {useState} from 'react'
 import './School-Services.css'
 import { Container, Row, Col, Card, Form, Button, Carousel, Alert } from 'react-bootstrap';
-import { FaCheckCircle, FaSearch } from 'react-icons/fa';
-
+import {  FaSearch } from 'react-icons/fa';
 
 const SchoolService = () => {
+
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchError, setSearchError] = useState('');
 
-
-// Dynamic data for sections
+  // Dynamic data for sections
   const courses = [
     { icon: '🎹', title: 'Piano', desc: 'Step into a transformative journey where music becomes the heartbeat of your school’s curriculum.' },
     { icon: '🥁', title: 'Drums', desc: 'Discover the joy of transforming education through sound by enrolling in our exclusive drum lessons designed for schools.' },
@@ -72,12 +71,9 @@ const SchoolService = () => {
   };
 
 
-
   return (
     <>
-
-
-    <section className="schools-page">
+      <section className="schools-page">
       {/* Header */}
       <div className="header bg-primary text-white text-center py-5 animate-fade-in">
         <h1 className="display-4">Bestcoach for Schools</h1>
@@ -284,10 +280,8 @@ const SchoolService = () => {
         </Row>
       </Container>
     </section>
-      
     </>
   )
 }
-
 
 export default SchoolService
