@@ -73,16 +73,25 @@ const [showModal, setShowModal] = useState(false);
               </NavDropdown>
               
               <Nav.Link as={Link} to="package" smooth={true} duration={500} className="mx-2">Packages</Nav.Link>
-              <Nav.Link as={Link} to="team" smooth={true} duration={500} className="mx-2">Team</Nav.Link>
-              <Nav.Link as={Link} to="news" smooth={true} duration={500} className="mx-2">News</Nav.Link>
-              <Nav.Link as={Link} to="social" smooth={true} duration={500} className="mx-2">Social</Nav.Link>
-              <Nav.Link as={Link} to="contact" smooth={true} duration={500} className="mx-2">Contact</Nav.Link>
-              <Nav.Link as={Link} to="quicklinks" smooth={true} duration={500} className="mx-2">About</Nav.Link>
-              <Nav.Link as={Link} to="newsletter" smooth={true} duration={500} className="mx-2">Resources</Nav.Link>
+              
+               <NavDropdown title="Company" id="services-dropdown" className="mx-2">
+                <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}>Blog</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="about" smooth={true} duration={500}>About Us</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="news" smooth={true} duration={500}>Press</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="team" smooth={true} duration={500}>Team</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="hiring" smooth={true} duration={500}>We are Hiring!</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="contact" smooth={true} duration={500}>Contact Us</NavDropdown.Item>
+              </NavDropdown>
+
+              <NavDropdown title="Events" id="services-dropdown" className="mx-2">
+                <NavDropdown.Item as={Link} to="/tss" smooth={true} duration={500}>The Singers Sanctuary</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/tmme" smooth={true} duration={500}>The Music Mentorship Experience</NavDropdown.Item>
+              </NavDropdown>
         
-               <NavDropdown title="Events" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/schools" smooth={true} duration={500}>TSS</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="churches" smooth={true} duration={500}>TMME</NavDropdown.Item>
+               <NavDropdown title="Resources" id="services-dropdown" className="mx-2">
+                <NavDropdown.Item as={Link} to="/webinars" smooth={true} duration={500}>Webinars</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/help-centre" smooth={true} duration={500}>Help Centre</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/studio-tutorials" smooth={true} duration={500}>Studio Tutorials</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav>
