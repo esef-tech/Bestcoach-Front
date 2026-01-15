@@ -115,7 +115,7 @@ const [formData, setFormData] = useState({ name: '', email: '' });
           </Col>
         </Row>
         <div className="pt-5 border-top border-light text-center">
-          <p className="m-0">&copy; {currentYear} <a href="https://bestcoachmusic.netlify.app/home" className="text-primary font-weight-bold">Bestcoach</a>. All Rights Reserved. <a href="https://esef-tech.netlify.app/" className="text-primary font-weight-bold">Bestcoach.Dev</a></p>
+          <p className="m-0">&copy; {currentYear} <a href="https://bestcoach-front.vercel.app/" className="text-primary font-weight-bold">Bestcoach</a>. All Rights Reserved. <a href="https://esef-tech.netlify.app/" className="text-primary font-weight-bold">Bestcoach.Dev</a></p>
         </div>
       </Container>
 
