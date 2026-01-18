@@ -14,7 +14,7 @@ import ChurchServices from './COMPONENTS/PAGES/SERVICES/Church-Services';
 import SchoolServices from './COMPONENTS/PAGES/SERVICES/School-Service';
 import IndividualServices from './COMPONENTS/PAGES/SERVICES/Individual-Services';
 import GroupServices from './COMPONENTS/PAGES/SERVICES/Group-Services';
-
+import About from './COMPONENTS/PAGES/ABOUT/About';
 
 function App() {
   return (
@@ -33,6 +33,7 @@ function App() {
           <Route path="/churches" element={<ChurchServices />} />
           <Route path="/individuals" element={<IndividualServices />} />
           <Route path="/groups" element={<GroupServices />} />
+          <Route path="/about" element={<About />} />
 
       </Routes>
       <Footer />
