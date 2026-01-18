@@ -15,6 +15,7 @@ import IndividualServices from './COMPONENTS/PAGES/SERVICES/Individual-Services'
 import GroupServices from './COMPONENTS/PAGES/SERVICES/Group-Services';
 import About from './COMPONENTS/PAGES/ABOUT/About';
 import Contact from './COMPONENTS/PAGES/CONTACT/Contact';
+import Careers from './COMPONENTS/PAGES/CAREERS/Careers';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/groups" element={<GroupServices />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/careers" element={<Careers />} />
       </Routes>
       <Footer />
       <AIAgent />
