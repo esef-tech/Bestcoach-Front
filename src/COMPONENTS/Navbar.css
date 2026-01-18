@@ -2,7 +2,7 @@
 
 /* Hover effect for links (unchanged) */
 .nav-link:hover {
-  color: #fd7e14 !important; /* Orange on hover */
+  color: #fa7000 !important; /* Orange on hover */
   transition: color 0.3s ease;
 }
 
