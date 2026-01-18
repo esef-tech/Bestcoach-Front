@@ -32,7 +32,7 @@ const About = () => {
       <Container className="py-5">
         <Row className="align-items-center">
           <Col lg={5} className="mb-5 mb-lg-0 animate-slide-left">
-            <img src={about} alt="About Image" className="img-fluid rounded shadow-lg animate-zoom-in" />
+            <img src={about} alt="About-pic" className="img-fluid rounded shadow-lg animate-zoom-in" />
           </Col>
           <Col lg={7} className="animate-slide-right">
             <p className="section-title pr-5 mb-2"><span className="pr-2">Learn About Us</span></p>
@@ -40,7 +40,7 @@ const About = () => {
             <p className="lead mb-4">BCM empowers students with musical skills that provide a means of survival and success, promoting personal growth and well-being, and supporting them in times of uncertainty.</p>
             <Row className="pt-2 pb-4">
               <Col xs={6} md={4} className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <img src={featureImage} alt="Feature Image" className="img-fluid rounded shadow animate-zoom-in" />
+                <img src={featureImage} alt="Feature-pic" className="img-fluid rounded shadow animate-zoom-in" />
               </Col>
               <Col xs={6} md={8}>
                 <ul className="list-inline m-0">
@@ -52,7 +52,7 @@ const About = () => {
                 </ul>
               </Col>
             </Row>
-            <Link to="/services" className="btn btn-primary mt-2 py-2 px-4 animate-bounce-in">Learn More</Link>
+            <Link to="#" className="btn btn-primary mt-2 py-2 px-4 animate-bounce-in">Learn More</Link>
           </Col>
         </Row>
       </Container>

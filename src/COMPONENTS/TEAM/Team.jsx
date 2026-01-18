@@ -1,7 +1,7 @@
 import React from 'react'
 import './Team.css'
-import { Container, Row, Col } from 'react-bootstrap';
-import { FaTwitter, FaFacebookF, FaLinkedinIn } from 'react-icons/fa';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa';
 import Tilt from 'react-parallax-tilt'; // For 3D tilt effect on cards
 
 
@@ -40,7 +40,6 @@ const teamMembers = [
       <div className="particle">♬</div>
       <div className="particle">♪</div>
       <div className="particle">♫</div>
-      
 
       <Container>
         <div className="text-center pb-2 team-title">
@@ -52,11 +51,17 @@ const teamMembers = [
             <Col md={6} lg={3} className="team-card" key={idx}>
               <Tilt options={{ max: 25, scale: 1.05 }}> {/* 3D tilt for extraordinary effect */}
                 <div className="team-image-wrapper">
-                  <img src={member.image} alt={member.name} className="team-image" />
+                  <img src={member.image} alt={`${member.name}, ${member.role}`} className="team-image" /> {/* Descriptive alt for accessibility */}
                   <div className="team-overlay">
-                    <a href="#" className="social-btn"><FaTwitter /></a>
-                    <a href="#" className="social-btn"><FaFacebookF /></a>
-                    <a href="#" className="social-btn"><FaLinkedinIn /></a>
+                    <Button variant="link" href="https://www.instagram.com/bestcoachmusic" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <FaInstagram />
+                    </Button>
+                    <Button variant="link" href="https://www.facebook.com/bestcoachmusic" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <FaFacebookF />
+                    </Button>
+                    <Button variant="link" href="https://wa.me/message/CJZ4XQCNRWWTB1" target="_blank" rel="noopener noreferrer" className="social-btn">
+                      <FaWhatsapp />
+                    </Button>
                   </div>
                 </div>
               </Tilt>
@@ -66,7 +71,7 @@ const teamMembers = [
           ))}
         </Row>
       </Container>
-    </section>
+      </section>
 
     </>
   )
