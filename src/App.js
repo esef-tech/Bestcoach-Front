@@ -9,12 +9,12 @@ import Teams from './COMPONENTS/PAGES/TEAMS/Teams';
 import Footer from './COMPONENTS/FOOTER/Footer';
 import AIAgent from './COMPONENTS/AIAgent';
 import  Home from './COMPONENTS/PAGES/HOME/Home';
-import Contact from './COMPONENTS/PAGES/CONTACT/Contact';
 import ChurchServices from './COMPONENTS/PAGES/SERVICES/Church-Services';
 import SchoolServices from './COMPONENTS/PAGES/SERVICES/School-Service';
 import IndividualServices from './COMPONENTS/PAGES/SERVICES/Individual-Services';
 import GroupServices from './COMPONENTS/PAGES/SERVICES/Group-Services';
 import About from './COMPONENTS/PAGES/ABOUT/About';
+import Contact from './COMPONENTS/PAGES/CONTACT/Contact';
 
 function App() {
   return (
@@ -28,13 +28,12 @@ function App() {
         <Route path="/quick-links" element={<Links />} />
         <Route path="/news" element={<News />} />
         <Route path="/team" element={<Teams />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/schools" element={<SchoolServices />} /> {/* Match your dropdown path */}
-          <Route path="/churches" element={<ChurchServices />} />
-          <Route path="/individuals" element={<IndividualServices />} />
-          <Route path="/groups" element={<GroupServices />} />
-          <Route path="/about" element={<About />} />
-
+        <Route path="/churches" element={<ChurchServices />} />
+        <Route path="/individuals" element={<IndividualServices />} />
+        <Route path="/groups" element={<GroupServices />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
       <AIAgent />
