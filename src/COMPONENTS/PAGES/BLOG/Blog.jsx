@@ -7,8 +7,7 @@ import axios from 'axios';
 
 const Blog = () => {
 
-    const [ setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 3;
