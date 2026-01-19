@@ -16,6 +16,8 @@ import GroupServices from './COMPONENTS/PAGES/SERVICES/Group-Services';
 import About from './COMPONENTS/PAGES/ABOUT/About';
 import Contact from './COMPONENTS/PAGES/CONTACT/Contact';
 import Careers from './COMPONENTS/PAGES/CAREERS/Careers';
+import Blog from './COMPONENTS/PAGES/BLOG/Blog';
+import SingleBlogPage from './COMPONENTS/PAGES/BLOG/SingleBlogPage';
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/careers" element={<Careers />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<SingleBlogPage />} />
       </Routes>
       <Footer />
       <AIAgent />

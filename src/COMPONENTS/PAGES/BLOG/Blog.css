@@ -1,0 +1,38 @@
+/* src/pages/BlogPage.css - Teal/orange, animations, responsive */
+
+.bg-teal { background-color: hsl(192, 89%, 45%) !important; }
+.text-orange { color: #F57C00 !important; }
+.btn-orange { background-color: #F57C00; border-color: #F57C00; }
+.btn-outline-orange { border-color: #F57C00; color: #F57C00; }
+.btn-outline-orange:hover { background-color: #F57C00; color: white; }
+
+.header {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Card hover */
+.card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .card h3 { font-size: 1.5rem; }
+}
