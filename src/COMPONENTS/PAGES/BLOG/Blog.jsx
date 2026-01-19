@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Blog = () => {
 
-    const [posts, setPosts] = useState([]);
+    const [ setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +18,7 @@ const Blog = () => {
 
 
   // Dynamic posts from analysis (array for easy expansion; can fetch from backend/API)
-   const fallbackPosts = [
+   const posts = [
     {
       id: 'post-7769', 
       title: 'The Butterfly Effect in Online Teaching',
@@ -146,22 +146,7 @@ const Blog = () => {
   };
 
 
-  useEffect(() => {
-    setLoading(true);
-    axios.get('http://localhost:5000/api/blog-posts')
-      .then(response => {
-        setPosts(response.data.length > 0 ? response.data : fallbackPosts); // Use fetched or fallback
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Fetch error:', error);
-        setPosts(fallbackPosts); // Fallback on error
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-5" />;
-
+ 
   // Pagination logic
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
