@@ -219,6 +219,7 @@ const TSS = () => {
         {/* RSVP / Buy Ticket Iframe */}
         <h2 className="mb-3 text-dark"> Buy Ticket / Register for TSS</h2>
         <iframe 
+        title='TSS-MAP'
           src="https://ayatickets.com/embed/event/the-singers-sanctuary" 
           width="100%" 
           height="720" 
@@ -278,7 +279,7 @@ const TSS = () => {
             <Button variant="primary" type="submit" className="w-100">Get Directions</Button>
           </Form>
           {directionsUrl && (
-            <iframe src={directionsUrl} width="100%" height="400" className="mt-3" style={{ border: 0 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe title='TSS-MAP' src={directionsUrl} width="100%" height="400" className="mt-3" style={{ border: 0 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           )}
         </Modal.Body>
       </Modal>
