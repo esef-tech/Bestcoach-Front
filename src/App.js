@@ -17,6 +17,7 @@ import About from './COMPONENTS/PAGES/ABOUT/About';
 import Contact from './COMPONENTS/PAGES/CONTACT/Contact';
 import Careers from './COMPONENTS/PAGES/CAREERS/Careers';
 import Blog from './COMPONENTS/PAGES/BLOG/Blog';
+import TSS from './COMPONENTS/PAGES/EVENTS/TSS';  
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/careers" element={<Careers />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/tss" element={<TSS />} />
         
       
       </Routes>

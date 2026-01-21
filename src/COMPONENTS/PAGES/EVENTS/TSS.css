@@ -1,0 +1,178 @@
+/* src/pages/EventsTSSPage.css - Animations, dynamic, appealing */
+
+.header {
+  background-color: #26A69A;
+  animation: fadeIn 1s;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Card hover */
+.card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .timeline-item h4 { font-size: 1.2rem; }
+}
+
+/* src/pages/EventsTSSPage.css - Update for ListGroup timeline */
+
+.list-group-item {
+  border: none;
+  padding: 1rem 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+.list-group-item .text-orange {
+  min-width: 150px;
+}
+
+/* Keep previous animations/responsive styles */
+/* src/pages/EventsTSSPage.css - White background, purple accents, animations, responsive */
+
+/* General */
+.events-tss-page {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Purple accents from screenshot */
+.text-purple { color: #6f42c1 !important; }
+
+/* Header - No header in screenshot, but keep minimal if needed */
+.header { display: none; } /* Remove if not in screenshot */
+
+/* Sections */
+h2, h3 { color: #333; }
+
+.lead { color: #666; font-size: 1.1rem; }
+
+.list-unstyled li { font-size: 1rem; margin-bottom: 0.5rem; }
+
+.accordion-button { background-color: #f8f9fa; color: #333; }
+
+.accordion-button:not(.collapsed) { background-color: #e9ecef; }
+
+/* Iframe styling */
+iframe { box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
+
+iframe:hover { transform: scale(1.02); }
+
+/* Organized by card */
+.card.bg-light { border: none; }
+
+/* Animations (same as before) */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  h2, h3 { font-size: 1.5rem; }
+  .lead { font-size: 1rem; }
+  iframe { height: 500px; } /* Adjust height on mobile */
+}
+/* src/pages/EventsTSSPage.css - Updated for screenshot layout (white bg, minimal, purple accents) */
+
+.events-tss-page {
+  background-color: #fff;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Purple accents */
+.text-purple { color: #6f42c1 !important; }
+
+/* Sections */
+h2, h3 { font-weight: bold; color: #333; }
+
+.lead { font-size: 1.1rem; color: #666; }
+
+.list-unstyled li { font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; }
+
+.cursor-pointer { cursor: pointer; transition: color 0.3s; }
+
+.cursor-pointer:hover { color: #6f42c1; }
+
+/* Accordion styling */
+.accordion-button { background-color: #f8f9fa; color: #333; font-weight: bold; }
+.accordion-button:not(.collapsed) { background-color: #e9ecef; }
+
+/* Button styling */
+.btn-light { background-color: #f1f3f5; border: none; color: #333; }
+
+/* Register button */
+.btn-register { background-color: #fd7e14 !important; color: white !important; font-size: 1.25rem; padding: 0.75rem 2rem; border-radius: 8px; }
+
+/* Organized by card */
+.card.bg-light { border: none; }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  h2, h3 { font-size: 1.5rem; }
+  .lead { font-size: 1rem; }
+  iframe { height: 500px; }
+  .accordion-button { font-size: 1rem; }
+}
+
+/* src/pages/EventsTSSPage.css - Update for map display */
+
+/* Map iframe styling */
+.map-iframe iframe {
+  width: 100%;
+  height: 450px;
+  border: 0;
+  border-radius: 8px;
+}
+
+/* Keep previous styles */
