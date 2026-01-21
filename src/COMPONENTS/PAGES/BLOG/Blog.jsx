@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Container, Row, Col, Card, Form, Button, Image } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Image, Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For Read More routing
 import { FaSearch, FaCalendarAlt, FaUser, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import axios from 'axios';
@@ -224,9 +224,15 @@ const Blog = () => {
 
             <div className="mb-5">
               <h2 className="mb-4 text-orange">Subscribe</h2>
-              <Form>
-                <Form.Control type="email" placeholder="Your email" className="mb-3" />
-                <Button variant="orange" block>Subscribe</Button>
+            <Form onSubmit={handleSubscribe}>
+                <Form.Group className="mb-3">
+                  <Form.Control type="email" placeholder="Your email" value={subscribeEmail} onChange={(e) => setSubscribeEmail(e.target.value)} required />
+                </Form.Group>
+                <Button variant="orange" block type="submit" disabled={subscribeStatus.loading}>
+                  {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
+                </Button>
+                {subscribeStatus.success && <Alert variant="success" className="mt-3">Subscribed successfully!</Alert>}
+                {subscribeStatus.error && <Alert variant="danger" className="mt-3">{subscribeStatus.error}</Alert>}
               </Form>
             </div>
           </Col>
