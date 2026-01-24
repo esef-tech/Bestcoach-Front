@@ -6,12 +6,13 @@
 .btn-outline-orange { border-color: #F57C00; color: #F57C00; }
 .btn-outline-orange:hover { background-color: #F57C00; color: white; }
 
-.header {
+.header-blog {
   min-height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: hsl(192, 89%, 45%);
 }
 
 /* Animations */
@@ -32,7 +33,8 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header h1 { font-size: 2.5rem; }
-  .lead { font-size: 1rem; }
+  .header-blog h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; color: #F57C00 !important; font-weight: bold;}
   .card h3 { font-size: 1.5rem; }
 }
+.lead-blog { font-size: 1rem; color: #F57C00 !important; font-weight: bold;}

@@ -1,0 +1,72 @@
+/* src/pages/PressPage.css - Teal/orange theme, animations, responsive */
+
+/* Colors */
+.bg-teal { background-color: #26A69A !important; }
+.text-orange { color: #F57C00 !important; }
+.btn-primary { background-color: #007bff; border-color: #007bff; }
+
+/* Header */
+.header-press {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card styling */
+.card { transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s ease; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s ease; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .card-body { flex-direction: column; text-align: center; }
+  .card-body img { margin-bottom: 1rem; margin-right: 0; }
+}
+/* src/pages/PressPage.css - Updated for header image background */
+
+/* Header with image background */
+.header-press {
+  background-image: url('https://tonara.com/wp-content/themes/tonara/img/press/company_tonara_press.jpg'); /* Replace with your image URL or local path */
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header-press::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(38, 166, 154, 0.7); /* Teal overlay for readability */
+  z-index: 1;
+}
+
+.header-press > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Orange p text */
+.lead.text-orange { color: #F57C00 !important; font-weight: bolder;  }
+
+/* Keep previous animations/responsive styles */

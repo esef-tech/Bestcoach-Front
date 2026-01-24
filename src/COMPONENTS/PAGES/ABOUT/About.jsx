@@ -19,7 +19,7 @@ const About = () => {
     <>
       <section className="about-page">
       {/* Header */}
-      <div className="header bg-primary text-white text-center py-5 animate-fade-in">
+      <div className="header-about  text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold">About Us</h1>
         <div className="d-inline-flex breadcrumb">
           <p className="m-0"><Link to="/https://bestcoach-front.vercel.app/" className="text-white">Home</Link></p>

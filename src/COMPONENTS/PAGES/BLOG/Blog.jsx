@@ -170,9 +170,9 @@ const Blog = () => {
    <React.Fragment>
     <section className="blog-page">
       {/* Header */}
-      <div className="header bg-teal text-white text-center py-5 animate-fade-in">
+      <div className="header-blog  text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold">Bestcoach Music Blog</h1>
-        <p className="lead">Insights, tips, and stories from the world of music education.</p>
+        <p className="lead-blog">Insights, tips, and stories from the world of music education.</p>
       </div>
 
       {/* Main Content */}

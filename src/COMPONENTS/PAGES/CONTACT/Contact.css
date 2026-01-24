@@ -1,13 +1,14 @@
 /* src/pages/ContactPage.css - Animations, dynamic, appealing */
 
 /* Header */
-.header {
+.header-contact {
   min-height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   animation: fadeIn 1.5s ease;
+  background:   linear-gradient(to right, #007bff, #0056b3);
 }
 
 @keyframes fadeIn {
@@ -66,10 +67,10 @@
 
 /* Responsive */
 @media (max-width: 992px) {
-  .header {
+  .header-contact {
     min-height: 300px;
   }
-  .header h1 {
+  .header-contact h1 {
     font-size: 2.5rem;
   }
 }
