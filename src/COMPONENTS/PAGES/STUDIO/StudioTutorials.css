@@ -1,0 +1,50 @@
+/* src/pages/StudioTutorialPage.css - Updated header background image, orange text, animations, responsive */
+
+/* Header background image */
+.header-studio {
+  background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg'); /* Replace with your image path/URL */
+  background-size: cover;
+  background-position: center;
+  height: 300px; /* Adjust height as needed */
+  animation: fadeIn 1s;
+}
+
+/* Orange bold text for h1/p */
+.text-orange { color: #F57C00 !important; font-weight: bold !important; }
+
+/* Play button overlay */
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.card:hover .play-btn {
+  opacity: 1;
+}
+
+/* Card hover */
+.card { transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-background { height: 300px; }
+  h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .w-50 { width: 100% !important; }
+}
