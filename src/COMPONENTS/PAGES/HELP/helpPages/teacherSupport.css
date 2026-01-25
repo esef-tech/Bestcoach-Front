@@ -9,7 +9,7 @@
 .header-teach {background-image: url('https://www.tonara.com/helpcenter/wp-content/uploads/2020/03/connect_illustration@2x-392x246.png'); 
 background-size: cover;
   background-position: center;
-  min-height: 400px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
