@@ -16,7 +16,7 @@
 }
 
 @media (max-width: 768px) {
-  .header {
+  .header-1 {
     min-height: 300px;
     background-position: top;
   }

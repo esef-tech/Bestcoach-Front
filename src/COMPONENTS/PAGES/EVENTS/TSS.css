@@ -1,7 +1,8 @@
 /* src/pages/EventsTSSPage.css - Animations, dynamic, appealing */
 
 .header {
-  background-color: #26A69A;
+  background-color: hsl(204, 97%, 49%);
+  background: linear-gradient(to right, hsl(204, 97%, 49%), hsl(204, 97%, 35%));
   animation: fadeIn 1s;
 }
 
@@ -69,12 +70,14 @@
 .text-purple { color: #6f42c1 !important; }
 
 /* Header - No header in screenshot, but keep minimal if needed */
-.header { display: none; } /* Remove if not in screenshot */
+/*.header { display: none; } /* Remove if not in screenshot */
 
 /* Sections */
 h2, h3 { color: #333; }
 
-.lead { color: #666; font-size: 1.1rem; }
+.lead { color: #333 !important; font-size: 1.1rem; font-weight: bold;}
+
+.lead-1 { color: #fd7e14 !important; font-size: 1.1rem; font-weight: bold;}
 
 .list-unstyled li { font-size: 1rem; margin-bottom: 0.5rem; }
 

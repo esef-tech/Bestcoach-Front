@@ -1,0 +1,53 @@
+/* src/pages/WebinarsPage.css - Teal/orange, animations, responsive */
+
+/* Colors */
+.bg-teal { background-color: #26A69A !important; }
+.text-orange { color: #F57C00 !important; }
+.btn-primary { background-color: #007bff; border-color: #007bff; }
+.btn-watch { font-size: 1.1rem; padding: 0.75rem 1.5rem; }
+
+/* Header */
+.header-webinar { min-height: 300px; 
+  animation: fadeIn 1s;
+   background-image: url('https://tonara.com/wp-content/themes/tonara/img/press/company_tonara_press.jpg'); /* Add your image path */
+  background-size: cover;
+  background-position: center;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #F57C00;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* For readability on image */
+
+
+}
+
+/* Intro text */
+.intro-text { max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: whitesmoke; font-weight: bolder;
+   }
+
+/* Card styling */
+.card { transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-webinar h1 { font-size: 2.5rem; }
+  .intro-text { font-size: 1rem; padding: 0 1rem; }
+  .card h3 { font-size: 1.5rem; }
+  .btn-watch { width: 100%; }
+}

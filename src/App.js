@@ -23,6 +23,7 @@ import Help from './COMPONENTS/PAGES/HELP/Help';
 import TeacherSupport from './COMPONENTS/PAGES/HELP/helpPages/TeacherSupport';
 import StudentSupport from './COMPONENTS/PAGES/HELP/helpPages/StuedentSupport';
 import ParentSupport from './COMPONENTS/PAGES/HELP/helpPages/Parents';
+import Webinar from './COMPONENTS/PAGES/WEBINARS/Webinar';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
             <Route path="/help/teacher-support" element={<TeacherSupport />} />
             <Route path="/help/student-support" element={<StudentSupport />} />
             <Route path="/help/parent-support" element={<ParentSupport />} />
+            <Route path="/webinars" element={<Webinar />} />
           </Routes>
           <Footer />
           <AIAgent />
