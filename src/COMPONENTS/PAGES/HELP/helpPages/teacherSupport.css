@@ -1,0 +1,39 @@
+/* src/pages/TeacherSupport.css - Teal/orange, animations, responsive */
+
+.bg-teal { background-color: #26A69A !important; }
+.text-orange { color: #F57C00 !important; }
+.nav-link { color: #333; font-weight: bold; transition: color 0.3s; }
+.nav-link:hover { color: #F57C00; }
+
+/* Header */
+.header-teach {background-image: url('https://www.tonara.com/helpcenter/wp-content/uploads/2020/03/connect_illustration@2x-392x246.png'); 
+background-size: cover;
+  background-position: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Card styling */
+.card { transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .nav-link { font-size: 0.9rem; }
+}

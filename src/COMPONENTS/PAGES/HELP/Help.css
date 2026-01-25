@@ -1,0 +1,45 @@
+/* src/pages/HelpPage.css - Teal/orange, animations, responsive */
+
+/* Colors */
+.bg-teal { background-color: #26A69A !important; }
+.text-orange { color: #F57C00 !important; }
+.btn-orange { background-color: #F57C00; border-color: #F57C00; }
+.btn-primary { background-color: #007bff; border-color: #007bff; }
+
+/* Header */
+.header-help {background-image: url('https://www.tonara.com/helpcenter/wp-content/uploads/2020/03/connect_illustration@2x-392x246.png'); 
+background-size: cover;
+  background-position: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Card hover */
+.card { transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header img { max-width: 200px; }
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 1.8rem; }
+  .w-50 { width: 100% !important; }
+  .card h3 { font-size: 1.2rem; }
+}

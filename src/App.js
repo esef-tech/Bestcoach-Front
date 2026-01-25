@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './COMPONENTS/Navbar';
 import Package from './COMPONENTS/PAGES/PACKAGES/Package';
-import Links from './COMPONENTS/PAGES/QUICK-LINKS/Links'
+import Links from './COMPONENTS/PAGES/QUICK-LINKS/Links';
 import News from './COMPONENTS/PAGES/NEWS/News';
 import Teams from './COMPONENTS/PAGES/TEAMS/Teams';
 import Footer from './COMPONENTS/FOOTER/Footer';
@@ -19,38 +19,43 @@ import Careers from './COMPONENTS/PAGES/CAREERS/Careers';
 import Blog from './COMPONENTS/PAGES/BLOG/Blog';
 import TSS from './COMPONENTS/PAGES/EVENTS/TSS';  
 import Press from './COMPONENTS/PAGES/PRESS/Press';
+import Help from './COMPONENTS/PAGES/HELP/Help';
+import TeacherSupport from './COMPONENTS/PAGES/HELP/helpPages/TeacherSupport';
+import StudentSupport from './COMPONENTS/PAGES/HELP/helpPages/StuedentSupport';
+import ParentSupport from './COMPONENTS/PAGES/HELP/helpPages/Parents';
 
 
 function App() {
   return (
     <>
-    <Router>
-     <div className="App"> 
-      <Navbar />
-      <Routes>
-       <Route path="/" element={<Home />} />
-        <Route path="/package" element={<Package />} />
-        <Route path="/quick-links" element={<Links />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/team" element={<Teams />} />
-        <Route path="/schools" element={<SchoolServices />} /> {/* Match your dropdown path */}
-        <Route path="/churches" element={<ChurchServices />} />
-        <Route path="/individuals" element={<IndividualServices />} />
-        <Route path="/groups" element={<GroupServices />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/careers" element={<Careers />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/tss" element={<TSS />} />
-          <Route path="/press" element={<Press />} />
-        
-      
-      </Routes>
-      <Footer />
-      <AIAgent />
-      </div>
-</Router>
-
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/package" element={<Package />} />
+            <Route path="/quick-links" element={<Links />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/team" element={<Teams />} />
+            <Route path="/schools" element={<SchoolServices />} />
+            <Route path="/churches" element={<ChurchServices />} />
+            <Route path="/individuals" element={<IndividualServices />} />
+            <Route path="/groups" element={<GroupServices />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/tss" element={<TSS />} />
+            <Route path="/press" element={<Press />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/help/teacher-support" element={<TeacherSupport />} />
+            <Route path="/help/student-support" element={<StudentSupport />} />
+            <Route path="/help/parent-support" element={<ParentSupport />} />
+          </Routes>
+          <Footer />
+          <AIAgent />
+        </div>
+      </Router>
     </>
   );
 }

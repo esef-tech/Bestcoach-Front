@@ -90,7 +90,7 @@ const [showModal, setShowModal] = useState(false);
         
                <NavDropdown title="Resources" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/webinars" smooth={true} duration={500}>Webinars</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/help-centre" smooth={true} duration={500}>Help Centre</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/help" smooth={true} duration={500}>Help Centre</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/studio-tutorials" smooth={true} duration={500}>Studio Tutorials</NavDropdown.Item>
               </NavDropdown>
             </Nav>
