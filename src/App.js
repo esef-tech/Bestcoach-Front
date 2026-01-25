@@ -24,6 +24,7 @@ import TeacherSupport from './COMPONENTS/PAGES/HELP/helpPages/TeacherSupport';
 import StudentSupport from './COMPONENTS/PAGES/HELP/helpPages/StuedentSupport';
 import ParentSupport from './COMPONENTS/PAGES/HELP/helpPages/Parents';
 import Webinar from './COMPONENTS/PAGES/WEBINARS/Webinar';
+import Faq from './COMPONENTS/PAGES/FAQS/Faq';
 import StudioTutorials from './COMPONENTS/PAGES/STUDIO/StudioTutorials';
 
 
@@ -55,6 +56,7 @@ function App() {
             <Route path="/help/parent-support" element={<ParentSupport />} />
             <Route path="/webinars" element={<Webinar />} />
             <Route path="/studio-tutorials" element={<StudioTutorials />} />
+            <Route path="/faq" element={<Faq/>}/>
           </Routes>
           <Footer />
           <AIAgent />

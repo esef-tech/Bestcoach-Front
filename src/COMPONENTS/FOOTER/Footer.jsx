@@ -88,7 +88,8 @@ const [formData, setFormData] = useState({ name: '', email: '' });
               <RouterLink to="/about" className="footer-link mb-2"><FaAngleRight className="me-2" />About Us</RouterLink>
               <RouterLink to="/services" className="footer-link mb-2"><FaAngleRight className="me-2" />Our Services</RouterLink>
               <RouterLink to="/contact" className="footer-link mb-2"><FaAngleRight className="me-2" />Contact Us</RouterLink>
-              <RouterLink to="/faqs" className="footer-link"><FaAngleRight className="me-2" />FAQ's</RouterLink> {/* Assume /faqs page exists or add it */}
+              <RouterLink to="/faq" className="footer-link"><FaAngleRight className="me-2" />FAQ's</RouterLink> {/* Assume /faqs page exists or add it */}
+              <RouterLink to="/help" className='footer-link'><FaAngleRight className='me-2'/>Help!</RouterLink>         
             </div>
           </Col>
 
