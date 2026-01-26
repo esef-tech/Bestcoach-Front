@@ -1,0 +1,25 @@
+/* src/pages/FAQsPage.css - Teal/orange theme, animations, responsive */
+
+.bg-teal { background-color: #0998d1 !important; }
+.text-orange { color: #F57C00 !important; }
+.btn-orange { background-color: #F57C00; border-color: #F57C00; }
+
+/* Accordion styling */
+.accordion-button { background-color: #f8f9fa; color: #333; font-weight: bold; }
+.accordion-button:not(.collapsed) { background-color: #e9ecef; }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 { font-size: 2.5rem; }
+  .lead-faq { font-size: 1rem; color: #F57C00; font-weight: bold;}
+  .w-75 { width: 100% !important; }
+  .accordion-button { font-size: 1rem; }
+}
+.lead-faq { font-size: 1rem; color: #F57C00; font-weight: bold;}

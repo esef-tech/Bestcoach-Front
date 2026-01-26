@@ -2,13 +2,15 @@
 
 /* Header */
 .header-contact {
-  min-height: 400px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   animation: fadeIn 1.5s ease;
   background:   linear-gradient(to right, #007bff, #0056b3);
+  background-size: cover;
+  background-position: center;
 }
 
 @keyframes fadeIn {
@@ -74,3 +76,55 @@
     font-size: 2.5rem;
   }
 }
+
+/* Accordion styling for FAQs */
+.accordion-button { background-color: #fff; color: #333; font-weight: bold; border-bottom: 1px solid #dee2e6; }
+.accordion-button:not(.collapsed) { background-color: #f8f9fa; }
+
+/* Form card */
+.card { border-radius: 10px; }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+.animate-slide-left { animation: slideLeft 1s; }
+@keyframes slideLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-contact h1 { font-size: 2.5rem; }
+  .w-50 { width: 100% !important; }
+  .accordion-button { font-size: 1rem; }
+}
+/* src/pages/ContactPage.css - Updated for urgent contact buttons */
+
+/* Urgent buttons styling - Light gray, rounded, black text/icons */
+.urgent-btn {
+  background-color: #f8f9fa !important;
+  border: 1px solid #dee2e6 !important;
+  color: #333 !important;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.urgent-btn:hover {
+  background-color: #e9ecef !important;
+}
+
+/* Icons spacing */
+.urgent-btn svg { margin-right: 0.5rem; }
+
+/* Responsive - Stack buttons on mobile */
+@media (max-width: 768px) {
+  .urgent-btn { font-size: 0.9rem; padding: 0.75rem; }
+}
+
+/* Keep previous animations/responsive styles */

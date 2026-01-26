@@ -2,13 +2,16 @@
 
 /* Header */
 .header-about {
-  min-height: 400px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   animation: fadeIn 1.5s ease;
   background: linear-gradient(to right, #007bff, #0056b3);
+  background-size: cover;
+  background-position: center;
+
 
 }
 
