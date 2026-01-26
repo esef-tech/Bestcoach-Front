@@ -1,7 +1,7 @@
 /* src/pages/AboutPage.css */
 
 /* Header 
-.header-about {
+.hero {
   min-height: 200px;
   display: flex;
   flex-direction: column;
@@ -102,7 +102,12 @@
   /* src/pages/AboutPage.css - Updated for Pianote style (clean, bold, orange accents) */
 
 /* Hero */
-.hero { background-color: #007bff; }
+.hero { background-color: #007bff; 
+   min-height: 100px;
+   background-size: cover;
+  background-position: center;
+
+}
 
 /* Timeline cards */
 .card { border-radius: 10px; }

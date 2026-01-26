@@ -166,7 +166,7 @@ const About = () => {
       </Container>
 
       {/* As Seen In */}
-      <Container className="py-5 bg-danger text-center">
+      <Container className="py-5 bg-info text-center">
         <h2 className="mb-5 text-orange animate-slide-up">As Seen In</h2>
         <Row className="justify-content-center">
           {seenInLogos.map((logo, idx) => (
