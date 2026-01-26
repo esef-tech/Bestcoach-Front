@@ -1,6 +1,6 @@
 /* src/pages/AboutPage.css */
 
-/* Header */
+/* Header 
 .header-about {
   min-height: 200px;
   display: flex;
@@ -20,7 +20,7 @@
   to { opacity: 1; }
 }
 
-/* Animations */
+/* Animations 
 .animate-slide-left {
   animation: slideLeft 1s ease;
 }
@@ -71,7 +71,7 @@
   100% { transform: scale(1); }
 }
 
-/* Section Title */
+/* Section Title 
 .section-title {
   position: relative;
   display: inline-block;
@@ -86,7 +86,7 @@
   border-radius: 4px;
 }
 
-/* Responsive */
+/* Responsive 
 @media (max-width: 992px) {
   .header-about {
     min-height: 300px;
@@ -97,4 +97,53 @@
   .img-fluid.rounded.mb-5 {
     margin-bottom: 2rem !important;
   }
+}
+  */
+  /* src/pages/AboutPage.css - Updated for Pianote style (clean, bold, orange accents) */
+
+/* Hero */
+.hero { background-color: #007bff; }
+
+/* Timeline cards */
+.card { border-radius: 10px; }
+
+/* Coaches images */
+.card img { object-fit: cover; }
+
+/* Metrics */
+.metrics h3 { font-size: 3rem; }
+
+/* Seen In logos */
+.seen-in img { filter: grayscale(100%); transition: filter 0.3s; }
+.seen-in img:hover { filter: grayscale(0%); }
+
+/* Newsletter form */
+.form-inline .form-control { width: 300px; }
+
+/* Animations (as before) */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+.animate-slide-left { animation: slideLeft 1s; }
+@keyframes slideLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+.animate-slide-right { animation: slideRight 1s; }
+@keyframes slideRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .metrics h3 { font-size: 2rem; }
+  .form-inline .form-control { width: 100%; }
+  .form-inline button { width: 100%; margin-top: 1rem; }
 }

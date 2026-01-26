@@ -42,7 +42,7 @@
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/press/company_tonara_press.jpg'); /* Replace with your image URL or local path */
   background-size: cover;
   background-position: center;
-  min-height: 400px;
+  min-height: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
