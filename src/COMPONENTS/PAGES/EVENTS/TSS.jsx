@@ -39,24 +39,24 @@ const TSS = () => {
 
 // Dynamic event data (can fetch from backend /api/events)
   const event = {
-    title: 'The Singers Sanctuary',
-    description: 'Join us at The Singers Sanctuary for a vocal workshop where you\'ll unleash your inner superstar and hit those high notes like never before! A gathering for voices with purpose. Before the spotlight... Before the stage .... There must be a sanctuary. Calling all gospel singers. Calling all voices seeking growth. Calling all hearts ready to sing as one. #TheSingersSanctuary #GospelVoiceTransformation',
+    title: 'The Singers Sanctuary (TSS)',
+    description: 'THE SINGERS SANCTUARY is a carefully curated vocal mentorship and artistic development experience designed to NURTURE, REFINE, and EMPOWER SINGERS across churches, music ministries, and the creative space.nnCreated by BEST COACH MUSIC, the programme exists to address a growing gap in the music and worship ecosystem: talented singers with passion, but without clarity, healthy technique, or access to intentional mentorship. nnThe Singer’s Sanctuary is not a concert, talent show, or performance showcase. nIt is a transformation-focused learning environment where singers gain insight, skill, direction, and spiritual grounding for long-term vocal and artistic growth.nnTHE SINGERS SANCTUARY - FINDING THE VOICE THAT FINDS YOU BACK ',
     date: 'Sat, Apr 18, 2026',
     time: '10:00 AM',
     duration: '4 hours',
-    location: 'Reverb Studios Suwutuom, JP9C+JMC, Sowutoum, Accra Sowutoum, Greater Accra Region 0023 Ghana',
+    location: 'Word Temple Assemblies of God Church , GPWG+9RG, Accra, Greater Accra Region 0023 Ghana',
     organizer: 'BEST COACH MUSIC',
-    ticketPrice: 'GH₵ 350.00',
+    ticketPrice: ' from GH₵ 150.00',
     ageRestriction: 'Ages 12+',
     parking: 'Free parking',
     doorsOpen: '8:00 AM',
     refundPolicy: 'Refunds up to 7 days before event',
     category: 'Music, Singer/Songwriter',
-    mapIframe: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15882.607745132986!2d-0.2782019!3d5.618303200000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9900519ff485%3A0x27089c34c2887a59!2sReverb%20studios%20Sowutuom!5e0!3m2!1sen!2sgh!4v1769009669735!5m2!1sen!2sgh" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
-    image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174461869%2F1406041452053%2F1%2Foriginal.20260109-233454?crop=focalpoint&fit=crop&w=940&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.446&fp-y=0.048&s=956057131762279eacf37136f82c990f', // Placeholder - use searched music workshop image
+    mapIframe: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.1421523060635!2d-0.2754977242975032!3d5.545931633749404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9790ccb546c7%3A0xc3c829323923c9f8!2sWord%20Temple%2C%20Assemblies%20of%20God%20Church!5e0!3m2!1sen!2sgh!4v1769994147843!5m2!1sen!2sgh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+    image: 'https://ayatickets.com/uploads/events/38b12fb62f96ce87f902d9fb8bd96dee.jpg', //  music workshop image
     agenda: [
       { time: '10:00 AM - 10:50 AM', activity: 'TSS Introduction & Ministration by Minister Joe Mettle' },
-      { time: '10:50 AM - 12:00 PM', activity: 'Live Music & Practical Sessions by MD Nana Yaw Ampare' },
+      { time: '10:50 AM  12:00 PM', activity: 'Live Music & Practical Sessions by MD Nana Yaw Ampare' },
       { time: '12:30 PM - 1:00 PM', activity: 'Music  Ministration & Vocal Mentorship by Minister Sandra Boakye Duah' },
        { time: '12:30 PM - 1:00 PM', activity: 'Music Theory & Ministration by Minister Noble G' }
     ],
