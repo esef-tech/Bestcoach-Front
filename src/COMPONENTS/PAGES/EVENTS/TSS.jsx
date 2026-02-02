@@ -186,8 +186,8 @@ const TSS = () => {
 
         {/* Location */}
         <h2 className="mb-3 text-dark">Location</h2>
-        <p className="mb-2 animate-slide-up">Reverb Studios Suwutuom</p>
-        <p className="text-muted mb-4 animate-slide-up">JP9C+JMC, Sowutoum, Accra Sowutoum, Greater Accra Region 0023</p>
+        <p className="mb-2 animate-slide-up">Word Temple, Assemblies of God Church, Accra Ghana </p>
+        <p className="text-muted mb-4 animate-slide-up">GPWG+9RG, Accra, Greater Accra Region 0023 Ghana</p>
        <Button variant="light" onClick={() => setShowMapModal(true)} className="mb-5 animate-bounce-in">Show map</Button>
 
         {/* How to Get There */}
