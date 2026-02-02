@@ -218,14 +218,21 @@ const TSS = () => {
 
         {/* RSVP / Buy Ticket Iframe */}
         <h2 className="mb-3 text-dark"> Buy Ticket / Register for TSS</h2>
-        <iframe 
+         {/* Register Button */}
+        <div className="text-center mt-5">
+          <Button style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }} href="https://creion.app/events/the-singers-sanctuary-tss-yj0vo" target="_blank" rel="noopener noreferrer" className="px-5 py-3 fs-5 animate-bounce-in">
+            Get Tickets Now
+          </Button>
+        </div>
+  
+        {/*<iframe 
         title='TSS-MAP'
           src="https://ayatickets.com/embed/event/the-singers-sanctuary" 
           width="100%" 
           height="720" 
           style={{ border: '1px solid #ddd', borderRadius: '12px' }} 
           className="mb-5 animate-zoom-in"
-        ></iframe>
+        ></iframe>*/}
 
         {/* FAQ */}
         <h2 className="mb-3 text-dark">Frequently asked questions</h2>
