@@ -8,7 +8,7 @@ const Header = () => {
 
 // 5 vibrant music education images from search
   const images = [
-    'https://thumbs.dreamstime.com/b/enthusiastic-young-music-teacher-leads-his-diverse-student-orchestra-vibrant-classroom-filled-colorful-instruments-399131937.jpg',
+    'https://bestcoachmusic.netlify.app/IMAGES/bestcoach-pictures/9345.jpg',
     'https://thumbs.dreamstime.com/b/music-teacher-giving-violin-lesson-to-young-child-student-vector-design-generative-ai-heartwarming-illustration-patiently-392976173.jpg',
     'https://thumbs.dreamstime.com/b/little-girls-singing-song-teacher-plating-piano-isolated-white-woman-kids-cartoon-chorus-people-characters-music-education-188732307.jpg',
     'https://thumbs.dreamstime.com/b/school-music-female-teacher-audience-class-concept-vector-illustration-69929922.jpg',
