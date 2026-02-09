@@ -1,18 +1,26 @@
 import React from 'react'
 import './Header.css'
 import { Container, Row, Col, Carousel, Button } from 'react-bootstrap';
+//import Song from '../Images/team/bc-piano-lesson.jpeg'
+import Lessons from '../Images/team/EDDDITED.jpeg'
+import TSS from '../Images/team/tss_tss_new.png'
 
 
 
-const Header = () => {
+const Header = () => { 
 
 // 5 vibrant music education images from search
   const images = [
-    'https://bestcoachmusic.netlify.app/IMAGES/bestcoach-pictures/9345.jpg',
-    'https://thumbs.dreamstime.com/b/music-teacher-giving-violin-lesson-to-young-child-student-vector-design-generative-ai-heartwarming-illustration-patiently-392976173.jpg',
-    'https://thumbs.dreamstime.com/b/little-girls-singing-song-teacher-plating-piano-isolated-white-woman-kids-cartoon-chorus-people-characters-music-education-188732307.jpg',
-    'https://thumbs.dreamstime.com/b/school-music-female-teacher-audience-class-concept-vector-illustration-69929922.jpg',
-    'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+        
+        'https://bestcoachmusic.netlify.app/IMAGES/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).jpeg',
+        'https://bestcoachmusic.netlify.app/IMAGES/bestcoach-pictures/9345.jpg',
+        'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+        `${Lessons}`,
+        `${TSS}`,
+    
+
+    
+    
   ];
 
   return (
