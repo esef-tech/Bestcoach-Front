@@ -3,7 +3,9 @@ import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown} from 'react-b
 import { Link } from 'react-router-dom'; // For smooth scrolling to sections
 import { FcGoogle } from 'react-icons/fc'; // Icons for auth buttons
 import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
-import { FaInfoCircle, FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle} from 'react-icons/fa'; 
+import { FaInfoCircle, FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone,FaMusic, FaMicrophoneAlt, FaSchool, FaUserFriends, FaUserAlt, FaChurch, FaShoppingCart} from 'react-icons/fa'; 
+import {FaPeopleGroup} from 'react-icons/fa6';
+
 import './Navbar.css'; // Custom styles for Navbar
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg'
@@ -67,10 +69,10 @@ const [showModal, setShowModal] = useState(false);
               
               {/* Services Dropdown */}
               <NavDropdown title="Modules" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/schools" smooth={true} duration={500}>Schools</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="churches" smooth={true} duration={500}>Churches</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="individuals" smooth={true} duration={500}>Individuals</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="groups" smooth={true} duration={500}>Groups</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/schools" smooth={true} duration={500}><FaSchool className="me-2 text-orange" />Schools</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/churches" smooth={true} duration={500}><FaChurch className="me-2 text-orange" />Churches</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/individuals" smooth={true} duration={500}><FaUserAlt className="me-2 text-orange" />Individuals</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/groups" smooth={true} duration={500}><FaUserFriends className="me-2 text-orange" />Groups</NavDropdown.Item>
               </NavDropdown>
               {/* Features Dropdown */}
               <NavDropdown title="Features" id="services-dropdown" className="mx-2">
@@ -85,19 +87,19 @@ const [showModal, setShowModal] = useState(false);
                 <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}><FaBlog className="me-2 text-orange" />Blog</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}><FaInfoCircle className="me-2 text-orange" />About Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/press" smooth={true} duration={500}><FaNewspaper className="me-2 text-orange" />Press</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/team" smooth={true} duration={500}>Team</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}>Contact Us</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/team" smooth={true} duration={500}><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
              <NavDropdown.Item as={Link} to="/careers" smooth={true} duration={500}><FaBriefcase className="me-2 text-orange" />Careers At Bestcoach</NavDropdown.Item>
               </NavDropdown>
 
                         {/* Events Dropdown */}
               <NavDropdown title="Events" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/tss" smooth={true} duration={500}>The Singers Sanctuary</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/tmme" smooth={true} duration={500}>The Music Mentorship Experience</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/tss" smooth={true} duration={500}><FaMicrophoneAlt className="me-2 text-orange" />The Singers Sanctuary</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/tmme" smooth={true} duration={500}><FaMusic className="me-2 text-orange" />The Music Mentorship Experience</NavDropdown.Item>
               </NavDropdown>
 
               {/* Bestcoach Music Shopping page */}
-            <Nav.Link as={Link} to="/shop" smooth={true} duration={500} className="mx-2">Shop</Nav.Link>
+            <Nav.Link as={Link} to="/shop" smooth={true} duration={500} className="mx-2"><FaShoppingCart className="me-2 text-orange" />Shop</Nav.Link>
 
         
         {/* Resources Dropdown */}
