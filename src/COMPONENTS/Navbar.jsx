@@ -3,6 +3,7 @@ import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown} from 'react-b
 import { Link } from 'react-router-dom'; // For smooth scrolling to sections
 import { FcGoogle } from 'react-icons/fc'; // Icons for auth buttons
 import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
+import { FaInfoCircle, FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle} from 'react-icons/fa'; 
 import './Navbar.css'; // Custom styles for Navbar
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg'
@@ -73,20 +74,20 @@ const [showModal, setShowModal] = useState(false);
               </NavDropdown>
               {/* Features Dropdown */}
               <NavDropdown title="Features" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="package" smooth={true} duration={500}>Packages</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/coach" smooth={true} duration={500}>Coaches</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/method" smooth={true} duration={500}>Methods</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/package" smooth={true} duration={500}><FaBoxOpen className="me-2 text-orange" />Packages</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/coach" smooth={true} duration={500}><FaUsers className="me-2 text-orange" />Coaches</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/method" smooth={true} duration={500}><FaRoad className="me-2 text-orange" />Methods</NavDropdown.Item>
                 </NavDropdown>
 
           {/* Company Dropdown */}
               
                <NavDropdown title="Company" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}>Blog</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}>About Us</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/press" smooth={true} duration={500}>Press</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}><FaBlog className="me-2 text-orange" />Blog</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}><FaInfoCircle className="me-2 text-orange" />About Us</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/press" smooth={true} duration={500}><FaNewspaper className="me-2 text-orange" />Press</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/team" smooth={true} duration={500}>Team</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}>Contact Us</NavDropdown.Item>
-             <NavDropdown.Item as={Link} to="/careers" smooth={true} duration={500}>Careers At Bestcoach</NavDropdown.Item>
+             <NavDropdown.Item as={Link} to="/careers" smooth={true} duration={500}><FaBriefcase className="me-2 text-orange" />Careers At Bestcoach</NavDropdown.Item>
               </NavDropdown>
 
                         {/* Events Dropdown */}
@@ -101,15 +102,15 @@ const [showModal, setShowModal] = useState(false);
         
         {/* Resources Dropdown */}
                <NavDropdown title="Resources" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/webinars" smooth={true} duration={500}>Webinars</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/help" smooth={true} duration={500}>Help Centre</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/studio-tutorials" smooth={true} duration={500}>Studio Tutorials</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/webinars" smooth={true} duration={500}><FaVideo className="me-2 text-orange" />Webinars</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/help" smooth={true} duration={500}><FaLifeRing className="me-2 text-orange" />Help Centre</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/studio-tutorials" smooth={true} duration={500}><FaBookOpen className="me-2 text-orange" />Studio Tutorials</NavDropdown.Item>
               </NavDropdown>
             </Nav>
 
             {/* Sign/Signup Modal */}
             <Nav>
-              <Button variant="outline-primary" onClick={handleShow} className="me-2">
+              <Button variant="outline-primary" onClick={handleShow} className="me-2"> <FaUserCircle className="me-2 text-orange" />
                 Login / Signup
               </Button>
             </Nav>

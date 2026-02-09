@@ -98,3 +98,39 @@
     }
   }
 }
+/* src/components/Navbar.css - Updated for orange icons, dynamic hovers/animations, responsive */
+
+/* Orange color for icons */
+.text-orange { color: #fd7e14 !important; }
+
+/* Navbar links styling */
+.nav-link-custom {
+  color: #333 !important;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.nav-link-custom:hover {
+  color: #fd7e14 !important;
+  transform: translateY(-2px);
+}
+
+/* Dropdown items styling - Orange icons, hover effects */
+.dropdown-item {
+  transition: background-color 0.3s, color 0.3s;
+}
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #fd7e14 !important;
+}
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Responsive - Icons scale, dropdowns full width on mobile */
+@media (max-width: 768px) {
+  .nav-link-custom svg { font-size: 1.2rem; } /* Larger icons on mobile */
+  .navbar-brand { font-size: 1.2rem; }
+  .dropdown-menu { width: 100%; text-align: center; } /* Full width dropdowns */
+}
