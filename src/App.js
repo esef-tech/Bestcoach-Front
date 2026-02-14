@@ -62,8 +62,6 @@ function App() {
             <Route path="/method" element={<Method />} />
             <Route path="/coach" element={<Coaches />} />
             <Route path="/loyalty" element={<Loyalty />} /> 
-
-
           </Routes>
           <Footer />
           <AIAgent />

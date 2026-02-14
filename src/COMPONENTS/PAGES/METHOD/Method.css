@@ -1,0 +1,51 @@
+/* src/pages/MethodPage.css - Clean, blue accents (Pianote style), animations, responsive */
+
+.bg-primary { background-color: #007bff !important; }
+.text-primary { color: #007bff !important; }
+
+/* Hero */
+.hero { min-height: 200px; }
+
+/* Accordion styling */
+.accordion-button { font-weight: bold; background-color: #f8f9fa; }
+.accordion-button:not(.collapsed) { background-color: #e9ecef; }
+
+/* List group */
+.list-group-item { border: none; border-bottom: 1px solid #dee2e6; padding: 1rem 0; }
+.list-group-item:last-child { border-bottom: none; }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .accordion-button { font-size: 1rem; }
+}
+/* Level image styling - Fixed size for equality */
+.level-image {
+  height: 300px; /* Equal height */
+  width: 100%; /* Full width in col */
+  object-fit: cover; /* Crop to fit */
+  border-radius: 8px;
+}
+
+/* Accordion body row - Equal columns */
+.accordion-body .row {
+  align-items: stretch; /* Stretch to equal height */
+}
+
+/* Responsive - Stack image/desc on mobile, adjust sizes */
+@media (max-width: 768px) {
+  .level-image { height: 200px; } /* Smaller on mobile */
+  .accordion-body .row { flex-direction: column; } /* Stack vertically */
+  .accordion-body .col-md-6 { flex: 1; margin-bottom: 1rem; } /* Equal space */
+}

@@ -77,7 +77,7 @@ const [showModal, setShowModal] = useState(false);
               </NavDropdown>
               {/* Features Dropdown */}
               <NavDropdown title="Features" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/loyalty" smooth={true} duration={500}><FaHourglassHalf className="me-2 text-orange" />Loyalty Project</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/loyalty" smooth={true} duration={500}><FaHourglassHalf className="me-2 text-orange" />Loyalty Ambassador  Program</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/package" smooth={true} duration={500}><FaBoxOpen className="me-2 text-orange" />Packages</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/coach" smooth={true} duration={500}><FaUsers className="me-2 text-orange" />Coaches</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/method" smooth={true} duration={500}><FaRoad className="me-2 text-orange" />Methods</NavDropdown.Item>
