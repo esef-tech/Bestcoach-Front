@@ -26,7 +26,9 @@ import ParentSupport from './COMPONENTS/PAGES/HELP/helpPages/Parents';
 import Webinar from './COMPONENTS/PAGES/WEBINARS/Webinar';
 import Faq from './COMPONENTS/PAGES/FAQS/Faq';
 import StudioTutorials from './COMPONENTS/PAGES/STUDIO/StudioTutorials';
-
+import Method from './COMPONENTS/PAGES/METHOD/Method';
+import Coaches from './COMPONENTS/PAGES/COACHES/Coaches';   
+import Loyalty from './COMPONENTS/PAGES/LOYALTYPROJECT/Loyalty';
 
 function App() {
   return (
@@ -57,6 +59,11 @@ function App() {
             <Route path="/webinars" element={<Webinar />} />
             <Route path="/studio-tutorials" element={<StudioTutorials />} />
             <Route path="/faq" element={<Faq/>}/>
+            <Route path="/method" element={<Method />} />
+            <Route path="/coach" element={<Coaches />} />
+            <Route path="/loyalty" element={<Loyalty />} /> 
+
+
           </Routes>
           <Footer />
           <AIAgent />

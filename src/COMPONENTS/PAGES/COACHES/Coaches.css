@@ -1,0 +1,45 @@
+/* src/pages/CoachesPage.css - Orange/blue/white/black theme, animations, responsive */
+
+/* Colors */
+.bg-primary { background-color: #007bff !important; }
+.text-orange { color: #fd7e14 !important; } /* Bright orange */
+.bg-light { background-color: #f8f9fa !important; }
+
+/* Header */
+.header { min-height: 100px; }
+
+/* Coach card */
+.coach-card { transition: transform 0.3s, box-shadow 0.3s; }
+.coach-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+/* Featured badge */
+.featured-badge {
+  background-color: #fd7e14;
+  color: white;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  top: -15px;
+}
+
+/* Filter buttons */
+.btn-outline-primary { border-color: #007bff; color: #007bff; }
+.btn-outline-primary:hover { background-color: #007bff; color: white; }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .coach-card { margin-bottom: 2rem; }
+  .btn { font-size: 1rem; }
+}

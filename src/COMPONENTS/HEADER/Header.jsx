@@ -77,6 +77,7 @@ const Header = () => {
               ))}
             </Carousel>
           </Col>
+          
         </Row>
       </Container>
     </section>
