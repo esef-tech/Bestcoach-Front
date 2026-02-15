@@ -1,0 +1,116 @@
+/* src/pages/LoyaltyAmbassadorPage.css - Orange/blue accents, animations, responsive, smooth scroll */
+
+/* Smooth scrolling */
+html { scroll-behavior: smooth; }
+
+/* Colors */
+.bg-primary { background-color: #007bff !important; }
+.text-primary { color: #007bff !important; }
+.text-success { color: #28a745 !important; }
+.btn-light { background-color: #f8f9fa; color: #333; border: 1px solid #dee2e6; transition: background-color 0.3s; }
+.btn-light:hover { background-color: #e2e6ea; }
+
+/* Hero */
+.hero { min-height: 100px;
+  animation: fadeIn 1s;
+   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg'); /* Add your image path */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* For readability on image */
+}
+
+/* List group items */
+.list-group-item { padding: 1.5rem 0; font-size: 1.1rem; }
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s ease; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s ease; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s ease; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .list-group-item { flex-direction: column; text-align: center; }
+  .list-group-item span { margin-bottom: 0.5rem; }
+  .btn-lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
+}
+
+/* src/pages/LoyaltyAmbassadorPage.css - Updated for header image */
+
+/* Hero with centered image */
+
+/* Keep previous styles */
+
+/* src/pages/LoyaltyAmbassadorPage.css - Updated for equal section sizes, dynamic hovers, orange/blue/white/black, animations, responsive, smooth scroll */
+
+/* Smooth scrolling */
+html { scroll-behavior: smooth; }
+
+/* Colors */
+.bg-blue { background-color: #007bff !important; }
+.text-blue { color: #007bff !important; }
+.text-orange { color: #fd7e14 !important; }
+.text-black { color: #000 !important; }
+.bg-white { background-color: #fff !important; }
+.btn-orange { background-color: #fd7e14; border-color: #fd7e14; color: #fff; }
+
+/* Section equal sizes - Flex row, equal cols, fixed image height */
+.section-equal {
+  align-items: stretch; /* Equal height */
+}
+
+.section-image {
+  height: 300px; /* Fixed height for equality */
+  width: 100%; /* Full width */
+  object-fit: cover; /* Crop to fit */
+  border-radius: 8px;
+}
+
+/* List group items - Dynamic hover (orange color change, scale) */
+.dynamic-hover {
+  transition: color 0.3s, transform 0.3s;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.dynamic-hover:hover {
+  color: #fd7e14 !important;
+  transform: scale(1.02);
+  background-color: #f8f9fa;
+}
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.animate-slide-up { animation: slideUp 1s ease; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.animate-zoom-in { animation: zoomIn 1s ease; }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.animate-bounce-in { animation: bounceIn 0.5s ease; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Responsive - Stack cols on mobile, adjust image height */
+@media (max-width: 768px) {
+  .section-equal { flex-direction: column; } /* Stack vertically */
+  .section-image { height: 200px; margin-bottom: 1rem; } /* Smaller image */
+  .dynamic-hover { text-align: center; } /* Center on mobile */
+}
