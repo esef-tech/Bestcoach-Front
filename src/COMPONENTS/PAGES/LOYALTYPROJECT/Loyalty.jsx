@@ -47,7 +47,7 @@ const Loyalty = () => {
           {/*<Image src="https://www.tonara.com/wp-content/uploads/2021/08/Header-image.svg" alt="Ambassador Header Image" fluid className="header-image mb-4 animate-zoom-in" />*/}
           <h1 className="display-3 fw-bold mb-3">Join the Bestcoach Loyalty Ambassador Program</h1>
           <p className="lead text-orange text-bg-secondary mb-5">Influence through education, continue building your personal brand, and enjoy an amazing new revenue stream!</p>
-          <Button variant="light" size="lg" href="mailto:support@bestcoachmusic.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
+          <Button variant="light" size="lg" href="mailto:bestcoachmusic@gmail.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
         </div>
       ),
     },
@@ -70,7 +70,7 @@ const Loyalty = () => {
               </Card>
             </Col>
           </Row>
-          <Button variant="light" size="lg" href="mailto:support@bestcoachmusic.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="mt-4 animate-bounce-in">Schedule A Call</Button>
+          <Button variant="light" size="lg" href="mailto:bestcoachmusic@gmail.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="mt-4 animate-bounce-in">Schedule A Call</Button>
         </Container>
       ),
     },
@@ -93,7 +93,7 @@ const Loyalty = () => {
                 ))}
               </ListGroup>
               <div className="text-center text-md-start">
-                <Button variant="light" size="lg" href="mailto:support@bestcoachmusic.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
+                <Button variant="light" size="lg" href="mailto:bestcoachmusic@gmail.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
               </div>
             </Col>
           </Row>
@@ -119,7 +119,7 @@ const Loyalty = () => {
                 ))}
               </ListGroup>
               <div className="text-center text-md-start">
-                <Button variant="light" size="lg" href="mailto:support@bestcoachmusic.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
+                <Button variant="light" size="lg" href="mailto:bestcoachmusic@gmail.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
               </div>
             </Col>
           </Row>
@@ -145,7 +145,7 @@ const Loyalty = () => {
                 ))}
               </ListGroup>
               <div className="text-center text-md-start">
-                <Button variant="light" size="lg" href="mailto:support@bestcoachmusic.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
+                <Button variant="light" size="lg" href="mailto:bestcoachmusic@gmail.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
               </div>
             </Col>
           </Row>
@@ -179,7 +179,7 @@ const Loyalty = () => {
                 ))}
               </ListGroup>
               <div className="text-center text-md-start">
-                <Button variant="light" size="lg" href="mailto:support@bestcoachmusic.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
+                <Button variant="light" size="lg" href="mailto:bestcoachmusic@gmail.com?subject=Ambassador Program Inquiry&body=I'd like to schedule a call about the Ambassador Program." className="animate-bounce-in">Schedule A Call</Button>
               </div>
             </Col>
           </Row>
