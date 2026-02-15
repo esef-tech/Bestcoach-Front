@@ -161,7 +161,7 @@ const Loyalty = () => {
               <Image src={BestMethod} alt="Student Benefits" fluid className="rounded shadow section-image" />
             </Col>
             <Col md={6} className="animate-fade-in">
-              <h2 className="mb-4 text-primary">What else do Bestcoach Learning Groups offer students?</h2>
+              <h2 className="mb-4 text-primary">What else does the  Bestcoach Music  Loyalty  Program offer students?</h2>
               <Row className="justify-content-center mb-5">
                 {lessonTypes.map((type, idx) => (
                   <Col md={4} key={idx} className="text-center mb-4 animate-zoom-in" style={{ animationDelay: `${0.2 * idx}s` }}>
