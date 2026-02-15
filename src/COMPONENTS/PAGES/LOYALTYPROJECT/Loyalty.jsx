@@ -33,7 +33,7 @@ const Loyalty = () => {
   const lessonTypes = [
     { icon: 'https://www.tonara.com/wp-content/uploads/2021/08/0wFVLpANoYc.webp', title: 'Mentorship Training' },
     { icon: 'https://www.tonara.com/wp-content/uploads/2021/08/OgT83CPGbQI.webp', title: 'Technical Training' },
-    { icon: 'https://www.tonara.com/wp-content/uploads/2021/08/OgT83CPGbQI.webp', title: 'Continual Growth  & Development' },
+    { icon: 'https://www.tonara.com/wp-content/uploads/2021/08/dW6dFBoHUu4.webp', title: 'Continual Growth  & Development' },
   ];
 
   const [currentSection, setCurrentSection] = useState(0);
