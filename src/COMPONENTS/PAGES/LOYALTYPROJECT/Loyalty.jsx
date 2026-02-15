@@ -10,14 +10,14 @@ const Loyalty = () => {
 
   // Dynamic data for sections (easy to update)
   const benefits = [
-    'Secure a new, highly lucrative recurring revenue stream',
+  
     'Continue building your personal brand with a unique offering',
     'Control every aspect of your group (study material, engagement, pricing)',
     'Further strengthen your community presence and reach',
   ];
 
   const responsibilities = [
-    'Work with Bestcoach to build your group (flexible options)',
+    'Work with Bestcoach to build your group',
     'Promote your course to drive subscriptions',
     'Moderate the group and teach students the joy of music',
   ];
