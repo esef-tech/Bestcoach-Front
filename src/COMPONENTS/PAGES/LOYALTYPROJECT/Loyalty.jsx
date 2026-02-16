@@ -153,7 +153,8 @@ const Loyalty = () => {
       ),
     },
     {
-      // Clear FAQ section with engaging icons and a call to action
+      // Clear FAQ section with engaging icons and a call to actionls
+      
       content: (
         <Container className="py-5">
           <Row className="align-items-center section-equal">

@@ -81,7 +81,8 @@ const About = () => {
         <h1 className="display-3 fw-bold mb-4">Life is better with music</h1>
         <p className="lead mb-5">Learn how to play piano, whenever you want, wherever you want.</p>
         <Button variant="light" as={Link} to="/story" className="me-2 animate-bounce-in">Our Story</Button>
-        <Button variant="light" as={Link} to="/team" className="animate-bounce-in">Our Team</Button>
+        {/*<Button variant="light" as={Link} to="/team" className="animate-bounce-in">Our Team</Button>*/}
+
       </div>
 
       {/* Mission */}
