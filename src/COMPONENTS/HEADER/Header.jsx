@@ -46,7 +46,7 @@ const Header = () => {
         <Row className="align-items-center">
           {/* Left: Text */}
           <Col md={6} className="header-text mb-4 mb-md-0">
-            <h4>Best Coach Music</h4>
+            {/*<h4>Best Coach Music</h4>8*/}
             <h1>Welcome to Bestcoach Music 🎶</h1>
             <p>
               Unlock your musical potential with us! Join our vibrant community and take your skills to the next level. Whether you're a beginner or a seasoned musician, we have something for everyone. Get started today and let the music flow! 🎸🎤
