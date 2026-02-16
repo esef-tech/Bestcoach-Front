@@ -1,6 +1,7 @@
 .header-section {
   padding: 4rem 0; /* Top/bottom padding for spacing */
   color: white; /* White text on primary blue bg */
+  background-color: hsl(192, 89%, 45%);
 }
 
 .header-text {
@@ -44,6 +45,8 @@
 .hero-section {
   position: relative; /* For absolute animation container */
   overflow: hidden; /* Prevent overflow */
+    background-color: hsl(192, 89%, 45%);
+
 }
 
 /* Animation container */

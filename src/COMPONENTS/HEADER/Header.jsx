@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <>
 
-<div className="container-fluid bg-primary px-0 px-md-5 mb-5 hero-section">
+<div className="container-fluid  px-0 px-md-5 mb-5 hero-section">
       {/* Animation Background */}
       <div className="animation-container">
         <span className="music-symbol">♪</span>
@@ -41,7 +41,7 @@ const Header = () => {
 
 
 
-   <section className="header-section bg-primary">
+   <section className="header-section">
       <Container>
         <Row className="align-items-center">
           {/* Left: Text */}
