@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
     <Container fluid className="p-0">
-      <Header />
+      <Header/>
       <Programs />
       <Register />
     </Container>

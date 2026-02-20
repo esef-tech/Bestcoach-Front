@@ -2,22 +2,33 @@
   background: linear-gradient(to bottom, #f8f9fa, #ffffff); /* Light gradient for appeal */
   padding-top: 5rem;
   padding-bottom: 3rem;
+  background-color: hsl(192, 89%, 45%)
 }
 
-.section-title {
-  background-color: #007bff; /* Primary blue */
+#section-p{
+  background-color: hsl(192, 89%, 45%)  ;
   color: white;
   display: inline-block;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   font-size: 1rem;
   margin-bottom: 0;
+  font-weight: bolder;
+
+}
+
+#join-btn {
+  background-color: hsl(192, 89%, 45%);
+  color: white;
+  font-weight: bolder;
+  border-color: hsl(192, 89%, 45%);
 }
 
 .programs-title h1 {
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 2rem;
+  
 }
 
 .program-card {

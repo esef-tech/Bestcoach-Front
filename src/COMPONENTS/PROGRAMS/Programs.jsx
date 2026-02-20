@@ -64,7 +64,7 @@ const [showModal, setShowModal] = useState(false);
 <section id="programs" className="programs-section">
       <Container>
         <div className="text-center pb-2 programs-title">
-          <p className="section-title px-5"><span className="px-2">Bestcoach Music</span></p>
+          <p className="px-5" id='section-p'><span className="px-2">Bestcoach Music</span></p>
           <h1 className="mb-4">Bestcoach For Everyone</h1>
         </div>
         <Row>
@@ -95,7 +95,7 @@ const [showModal, setShowModal] = useState(false);
                   </Row>
                 </Card.Footer>
                 <Button 
-                  variant="primary" 
+                  id="join-btn"
                   className="px-4 mx-auto mb-4" 
                   onClick={() => handleShow(pkg.title)}
                 >

@@ -81,14 +81,14 @@ const Register = () => {
             </ul>
 
             <Button 
-              variant="primary" 
+              id="primary-v" 
               size="lg" 
               className="mt-4 py-3 px-5"
               href="https://form.jotform.com/252515722619559" 
               target="_blank"
               rel="noopener noreferrer"
             >
-              Alternative Enrollment (JotForm)
+              Enroll Now
             </Button>
           </Col>
 

@@ -4,7 +4,7 @@
 }
 
 .section-title {
-  background-color: #007bff;
+  background-color: #17a2b8;
   color: white;
   display: inline-block;
   padding: 0.5rem 1.5rem;
@@ -12,10 +12,24 @@
   font-weight: 600;
   margin-bottom: 1rem;
 }
+#primary-v {
+  background-color: #17a2b8;
+  color: white;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  line-height: 1.5;
+  display: inline-block;
+  border-color: #17a2b8;
+}
 
 .register-title {
-  font-weight: 700;
-  color: #333;
+  font-weight: bold;
+  color: #ff6900;
+  font-family: "Handlee", cursive;
+  line-height: 1.2;
+  font-size: 2.5rem;
+  
 }
 
 .check-list li {
@@ -49,7 +63,7 @@
 }
 
 .form-body {
-  background: #007bff;
+  background: #17a2b8;
   color: white;
   padding: 2.5rem;
 }
@@ -65,15 +79,16 @@
 }
 
 .btn-submit {
-  background: #343a40;
+  background: #00394f;
   border: none;
   font-weight: 600;
   padding: 1rem;
   transition: all 0.3s;
+  border-radius: 30px;
 }
 
 .btn-submit:hover {
-  background: #23272b;
+  background: #00394f;
   transform: translateY(-2px);
 }
 
@@ -98,5 +113,9 @@
   }
 }
 .text-orange {
-  color: #fd7e14 !important; /* Vibrant orange for appeal; !important to override if needed */
+  color: #fd7e14 !important; 
+  font-family: "Handlee", cursive;
+  font-weight: bold;
+  
+  /* Vibrant orange for appeal; !important to override if needed */
 }

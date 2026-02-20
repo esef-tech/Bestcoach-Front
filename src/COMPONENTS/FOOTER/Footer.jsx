@@ -56,23 +56,23 @@ const [formData, setFormData] = useState({ name: '', email: '' });
 
           {/* Get In Touch */}
           <Col lg={3} md={6} className="mb-5">
-            <h3 className="text-primary mb-4">Get In Touch</h3>
+            <h3 className="text-color mb-4">Get In Touch</h3>
             <div className="d-flex mb-3">
-              <FaMapMarkerAlt className="text-primary me-3" size={24} />
+              <FaMapMarkerAlt className="text-color me-3" size={24} />
               <div>
                 <h5 className="text-white">Address</h5>
                 <p>Dansoman Control-down, World Temple AG, Accra, Ghana</p>
               </div>
             </div>
             <div className="d-flex mb-3">
-              <FaEnvelope className="text-primary me-3" size={24} />
+              <FaEnvelope className="text-color me-3" size={24} />
               <div>
                 <h5 className="text-white">Email</h5>
                 <p>bestcoachmusic@gmail.com</p>
               </div>
             </div>
             <div className="d-flex">
-              <FaPhoneAlt className="text-primary me-3" size={24} />
+              <FaPhoneAlt className="text-color me-3" size={24} />
               <div>
                 <h5 className="text-white">Phone</h5>
                 <p>+233 5930 88047<br />+233 2085 02819</p>
@@ -82,7 +82,7 @@ const [formData, setFormData] = useState({ name: '', email: '' });
 
           {/* Quick Links - Use RouterLink for internal navigation */}
           <Col lg={3} md={6} className="mb-5">
-            <h3 className="text-primary mb-4">Quick Links</h3>
+            <h3 className="text-color mb-4">Quick Links</h3>
             <div className="d-flex flex-column">
               <RouterLink to="/" className="footer-link mb-2"><FaAngleRight className="me-2" />Home</RouterLink>
               <RouterLink to="/about" className="footer-link mb-2"><FaAngleRight className="me-2" />About Us</RouterLink>
@@ -95,7 +95,7 @@ const [formData, setFormData] = useState({ name: '', email: '' });
 
           {/* Newsletter */}
           <Col lg={3} md={6} className="mb-5">
-            <h3 className="text-primary mb-4">Newsletter</h3>
+            <h3 className="text-color mb-4">Newsletter</h3>
             <Form onSubmit={handleSubmit} className="newsletter-form">
               <Form.Group className="mb-3">
                 <Form.Control type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
@@ -103,7 +103,8 @@ const [formData, setFormData] = useState({ name: '', email: '' });
               <Form.Group className="mb-3">
                 <Form.Control type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
               </Form.Group>
-              <Button type="submit" className="newsletter-btn btn-block" disabled={status.loading}>
+              <Button type="submit" id="newsletter-color"
+              className="newsletter-btn btn-block" disabled={status.loading}>
                 {status.loading ? 'Submitting...' : 'Submit Now'}
               </Button>
               {status.success && <Alert variant="success" className="mt-2">Subscribed successfully!</Alert>}
