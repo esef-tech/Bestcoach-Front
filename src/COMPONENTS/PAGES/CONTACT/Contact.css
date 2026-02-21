@@ -12,6 +12,11 @@
   background-size: cover;
   background-position: center;
 }
+#contact-button-submit-color{
+  background-color: #17a2b8 !important;
+  border-color: #17a2b8 !important;
+  color: #fff !important;
+}
 
 @keyframes fadeIn {
   from { opacity: 0; }

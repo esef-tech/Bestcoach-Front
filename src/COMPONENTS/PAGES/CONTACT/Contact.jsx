@@ -125,7 +125,7 @@ const Contact = () => {
                   <Form.Label>Attachment (optional)</Form.Label>
                   <Form.Control type="file" name="attachment" onChange={handleChange} />
                 </Form.Group>
-                <Button variant="primary" type="submit" disabled={status.loading} className="w-100 animate-bounce-in">
+                <Button id="contact-button-submit-color" type="submit" disabled={status.loading} className="w-100 animate-bounce-in">
                   {status.loading ? 'Sending...' : 'Send Message'}
                 </Button>
                 {status.success && <Alert variant="success" className="mt-3">Message sent successfully!</Alert>}
