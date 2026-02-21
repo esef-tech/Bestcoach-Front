@@ -66,7 +66,7 @@ const Careers = () => {
       {/* Header with image background */}
       <div className="header-1 text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold">Careers at Bestcoach Music</h1>
-        <p className="lead">Join our team and inspire the next generation of musicians.</p>
+        <p  className="primary-text">Join our team and inspire the next generation of musicians.</p>
         <div className="breadcrumb">
           <Link to="/https://bestcoach-front.vercel.app/" className="text-white">Home</Link> / Careers
         </div>
