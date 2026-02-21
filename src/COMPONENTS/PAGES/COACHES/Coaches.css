@@ -6,7 +6,15 @@
 .bg-light { background-color: #f8f9fa !important; }
 
 /* Header */
-.header { min-height: 100px; }
+.header { min-height: 70px; }
+
+.lead{
+  font-family: "Handlee", cursive;
+  font-size: 8.2rem;
+  font-weight: bolder;
+  color: black;
+}
+
 
 /* Coach card */
 .coach-card { transition: transform 0.3s, box-shadow 0.3s; }
