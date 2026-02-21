@@ -115,6 +115,8 @@
   transform: translateY(-2px);
 }
 
+
+
 /* Dropdown items styling - Orange icons, hover effects */
 .dropdown-item {
   transition: background-color 0.3s, color 0.3s;

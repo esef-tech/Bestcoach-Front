@@ -7,12 +7,12 @@
 .btn-outline-orange:hover { background-color: #F57C00; color: white; }
 
 .header-blog {
-  min-height: 200px;
+  min-height: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: hsl(192, 89%, 45%);
+  background:  linear-gradient(135deg, #17a2b8, #fd7e14);
 }
 
 /* Animations */
@@ -37,4 +37,4 @@
   .lead { font-size: 1rem; color: #F57C00 !important; font-weight: bold;}
   .card h3 { font-size: 1.5rem; }
 }
-.lead-blog { font-size: 1rem; color: #F57C00 !important; font-weight: bold;}
+.lead-blog { font-size: 1rem; color: #000 !important; font-weight: bolder; font-family: "Handlee", cursive; font: 8rem; line-height: 1.2;}

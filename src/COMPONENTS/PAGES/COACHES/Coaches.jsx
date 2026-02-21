@@ -184,7 +184,7 @@ const Coaches = () => {
       {/* CTA */}
       <Container className="py-5 text-center bg-light">
         <h2 className="mb-4 text-primary animate-slide-up">Ready to Learn from the Best?</h2>
-        <Button variant="primary" size="lg" className="animate-bounce-in">Start Your Free Trial</Button>
+        <Button variant="primary" size="lg" className="anmate-bounce-in">Start Your Free Trial</Button>
       </Container>
     </section>
 </React.Fragment>

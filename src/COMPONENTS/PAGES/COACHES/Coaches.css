@@ -1,7 +1,7 @@
 /* src/pages/CoachesPage.css - Orange/blue/white/black theme, animations, responsive */
 
 /* Colors */
-.bg-primary { background-color: #007bff !important; }
+.bg-primary { background-color: #17a2b8 !important; }
 .text-orange { color: #fd7e14 !important; } /* Bright orange */
 .bg-light { background-color: #f8f9fa !important; }
 
@@ -23,8 +23,8 @@
 }
 
 /* Filter buttons */
-.btn-outline-primary { border-color: #007bff; color: #007bff; }
-.btn-outline-primary:hover { background-color: #007bff; color: white; }
+.btn-outline-primary { border-color: #17a2b8; color: #17a2b8; }
+.btn-outline-primary:hover { background-color: #17a2b8; color: white; }
 
 /* Animations */
 .animate-fade-in { animation: fadeIn 1s; }

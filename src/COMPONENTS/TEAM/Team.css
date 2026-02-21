@@ -1,139 +1,66 @@
-.team-section {
-  padding-top: 5rem;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(to bottom, #f8f9fa, #ffffff); /* Soft gradient for fantastic look */
-}
+/* src/pages/CoachesPage.css - Orange/blue/white/black theme, animations, responsive */
 
-.section-title {
-  background-color: #007bff; /* Primary blue */
+/* Colors */
+.bg-primary { background-color: #17a2b8 !important; }
+.text-orange { color: #fd7e14 !important; } /* Bright orange */
+.bg-light { background-color: #f8f9fa !important; }
+
+/* Header */
+.header { min-height: 70px; }
+#header-color {
+  background: linear-gradient(135deg, #17a2b8, #fd7e14);
+}
+#button-color {
+  background-color: #17a2b8;
   color: white;
-  display: inline-block;
+  border-color: #17a2b8;
+}
+#button-profile-color{
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+#button-join-color{
+  background-color:  #17a2b8;
+  border-color: #17a2b8;
+  font-weight: bolder;
+}
+.text-animate{
+  color: #17a2b8;
+  font-weight: bolder;
+  font-family: "Handlee", cursive;
+}
+/* Coach card */
+.coach-card { transition: transform 0.3s, box-shadow 0.3s; }
+.coach-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+/* Featured badge */
+.featured-badge {
+  background-color: #fd7e14;
+  color: white;
+  font-size: 0.9rem;
   padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  margin-bottom: 0;
+  border-radius: 20px;
+  top: -15px;
 }
 
-.team-title h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-}
+/* Filter buttons */
+.btn-outline-primary { border-color: #17a2b8; color: #17a2b8; }
+.btn-outline-primary:hover { background-color: #17a2b8; color: white; }
 
-.team-card {
-  text-align: center;
-  margin-bottom: 3rem;
-  transition: transform 0.3s ease;
-}
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.team-image-wrapper {
-  position: relative;
-  overflow: hidden;
-  border-radius: 50%; /* Circular */
-  width: 200px; /* Fixed for consistency */
-  height: 200px;
-  margin: 0 auto 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Depth for extraordinary feel */
-}
+.animate-slide-up { animation: slideUp 1s; }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-.team-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
+.animate-bounce-in { animation: bounceIn 0.5s; }
+@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-.team-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 123, 255, 0.7); /* Blue overlay */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  transform: translateY(100%); /* Slide up from bottom */
-}
-
-.team-card:hover .team-overlay {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.team-card:hover .team-image {
-  transform: scale(1.1); /* Zoom on hover */
-}
-
-.social-btn {
-  width: 38px;
-  height: 38px;
-  background: white;
-  color: #007bff;
-  border-radius: 50%;
-  margin: 0 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s, color 0.3s;
-}
-
-.social-btn:hover {
-  background: #007bff;
-  color: white;
-}
-
-.team-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-}
-
-.team-role {
-  font-style: italic;
-  color: #6c757d;
-  font-size: 1.1rem;
-}
-
-/* Background particles for fantastic animation */
-.particle {
-  position: absolute;
-  font-size: 2rem;
-  color: rgba(0, 123, 255, 0.3);
-  animation: floatParticle 15s linear infinite;
-  z-index: 0;
-}
-
-.particle:nth-child(odd) {
-  animation-duration: 20s;
-  animation-direction: reverse;
-}
-
-@keyframes floatParticle {
-  0% { transform: translateY(100vh) rotate(0deg); }
-  100% { transform: translateY(-100vh) rotate(360deg); }
-}
-
-/* Position particles randomly */
-.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { left: 30%; animation-delay: 3s; }
-.particle:nth-child(3) { left: 50%; animation-delay: 6s; }
-.particle:nth-child(4) { left: 70%; animation-delay: 9s; }
-.particle:nth-child(5) { left: 90%; animation-delay: 12s; }
-
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
-  .team-image-wrapper {
-    width: 150px;
-    height: 150px;
-  }
-  .particle {
-    font-size: 1.5rem;
-  }
-  .team-title h1 {
-    font-size: 2rem;
-  }
+  .header h1 { font-size: 2.5rem; }
+  .lead { font-size: 1rem; }
+  .coach-card { margin-bottom: 2rem; }
+  .btn { font-size: 1rem; }
 }
