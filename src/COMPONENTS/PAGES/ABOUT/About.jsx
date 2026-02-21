@@ -90,7 +90,7 @@ const About = () => {
       {/* Mission */}
       <Container className="py-5 text-center">
         <h2 className="mb-4 text-orange animate-slide-up">Our Mission</h2>
-        <p className="lead mb-5 animate-slide-up">To spread music education widely and remove barriers of age or location for playing piano.</p>
+        <p className="lead mb-5 animate-slide-up">To spread music education widely and remove barriers of age or location for learning music.</p>
       </Container>
 
       {/* Timeline */}
