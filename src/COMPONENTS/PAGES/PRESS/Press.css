@@ -5,14 +5,8 @@
 .text-orange { color: #F57C00 !important; }
 .btn-primary { background-color: #007bff; border-color: #007bff; }
 
-/* Header */
-.header-press {
-  min-height: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+
+
 
 /* Card styling */
 .card { transition: transform 0.3s; }
@@ -42,7 +36,7 @@
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/press/company_tonara_press.jpg'); /* Replace with your image URL or local path */
   background-size: cover;
   background-position: center;
-  min-height: 350px;
+  min-height: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
