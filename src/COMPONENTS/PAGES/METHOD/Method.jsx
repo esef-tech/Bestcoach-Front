@@ -151,7 +151,7 @@ const Method = () => {
       {/* Hero Header */}
       <div className="hero bg-primary text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold mb-4">The BestCoach Music  Method</h1>
-        <p className="lead mb-5">Your clear path to playing your musical instrument, frustration-free.</p>
+        <p className="lead-method mb-5">Your clear path to playing your musical instrument, frustration-free.</p>
         <Button variant="light" size="lg" className="animate-bounce-in">Start for Free</Button>
       </div>
 

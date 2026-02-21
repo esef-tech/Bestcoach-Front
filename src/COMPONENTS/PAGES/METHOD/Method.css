@@ -5,6 +5,13 @@
 
 /* Hero */
 .hero { min-height: 200px; }
+.lead-method{ color: navy;
+  font-weight: bolder;
+  font-family: "Handlee", cursive;
+
+}
+  
+
 
 /* Accordion styling */
 .accordion-button { font-weight: bold; background-color: #f8f9fa; }
@@ -27,7 +34,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .hero h1 { font-size: 2.5rem; }
-  .lead { font-size: 1rem; }
+  .lead-method { font-size: 1rem; color: navy;}
   .accordion-button { font-size: 1rem; }
 }
 /* Level image styling - Fixed size for equality */
