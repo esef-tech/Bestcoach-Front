@@ -7,7 +7,7 @@
 .btn-watch { font-size: 1.1rem; padding: 0.75rem 1.5rem; }
 
 /* Header */
-.header-webinar { min-height: 300px; 
+.header-webinar { min-height: 70px; 
   animation: fadeIn 1s;
    background-image: url('https://tonara.com/wp-content/themes/tonara/img/press/company_tonara_press.jpg'); /* Add your image path */
   background-size: cover;

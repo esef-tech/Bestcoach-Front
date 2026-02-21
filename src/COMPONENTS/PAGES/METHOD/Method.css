@@ -4,7 +4,7 @@
 .text-primary { color: #007bff !important; }
 
 /* Hero */
-.hero { min-height: 200px; }
+.hero { min-height: 70px; }
 .lead-method{ color: navy;
   font-weight: bolder;
   font-family: "Handlee", cursive;
