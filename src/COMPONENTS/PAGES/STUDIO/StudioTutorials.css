@@ -5,7 +5,7 @@
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg'); /* Replace with your image path/URL */
   background-size: cover;
   background-position: center;
-  height: 70px; /* Adjust height as needed */
+  height: 100px; /* Adjust height as needed */
   animation: fadeIn 1s;
 }
 
