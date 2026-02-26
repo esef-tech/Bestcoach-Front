@@ -28,8 +28,9 @@ import Faq from './COMPONENTS/PAGES/FAQS/Faq';
 import StudioTutorials from './COMPONENTS/PAGES/STUDIO/StudioTutorials';
 import Method from './COMPONENTS/PAGES/METHOD/Method';
 import Coaches from './COMPONENTS/PAGES/COACHES/Coaches';   
-import Loyalty from './COMPONENTS/PAGES/LOYALTYPROJECT/Loyalty';
+//import Loyalty from './COMPONENTS/PAGES/LOYALTYPROJECT/Loyalty';
 import TMME from './COMPONENTS/PAGES/EVENTS/TMME';
+import Loyal from './COMPONENTS/PAGES/LOYAL/Loyal';
 
 function App() {
   return (
@@ -63,7 +64,7 @@ function App() {
             <Route path="/faq" element={<Faq/>}/>
             <Route path="/method" element={<Method />} />
             <Route path="/coach" element={<Coaches />} />
-            <Route path="/loyalty" element={<Loyalty />} /> 
+            <Route path="/loyal" element={<Loyal/>} /> 
           </Routes>
           <Footer />
           <AIAgent />

@@ -67,7 +67,7 @@ const [showModal, setShowModal] = useState(false);
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/" smooth={true} duration={500} className="mx-2">Home</Nav.Link>
-              <Nav.Link as={Link} to="/loyalty" smooth={true} duration={500} className="mx-2"><FaHourglassHalf className="me-2 text-orange" />Loyalty Project</Nav.Link>
+              <Nav.Link as={Link} to="/loyal" smooth={true} duration={500} className="mx-2"><FaHourglassHalf className="me-2 text-orange" />Loyalty Project</Nav.Link>
 
 
                                       {/* Events Dropdown */}
