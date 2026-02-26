@@ -1,0 +1,61 @@
+/* src/pages/LandingPage.css */
+.landing-page {
+  background: linear-gradient(45deg, #ff8a00 0%, #e52e71 100%);
+  color: #f0f0f0;
+  min-height: 100vh;
+  align-items: center;
+  display: flex;
+}
+
+.countdown-row .col-3 {
+  padding: 0 10px;
+}
+
+.countdown-item {
+  font-size: 3.5rem;
+  font-weight: bold;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 15px 10px;
+  margin-bottom: 8px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.countdown-label {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #f8d1ff;
+  font-weight: 500;
+}
+
+.btn-notify {
+  background-color: white;
+  color: #e52e71;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 50px;
+}
+
+.social-icon {
+  font-size: 1.8rem;
+  margin: 0 15px;
+  color: #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #17a2b8;
+  transform: translateY(-5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .countdown-item {
+    font-size: 2.2rem;
+  }
+  .display-1 {
+    font-size: 3rem;
+  }
+}

@@ -29,6 +29,7 @@ import StudioTutorials from './COMPONENTS/PAGES/STUDIO/StudioTutorials';
 import Method from './COMPONENTS/PAGES/METHOD/Method';
 import Coaches from './COMPONENTS/PAGES/COACHES/Coaches';   
 import Loyalty from './COMPONENTS/PAGES/LOYALTYPROJECT/Loyalty';
+import TMME from './COMPONENTS/PAGES/EVENTS/TMME';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="/careers" element={<Careers />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/tss" element={<TSS />} />
+            <Route path="/tmme" element={<TMME />} />
             <Route path="/press" element={<Press />} />
             <Route path="/help" element={<Help />} />
             <Route path="/help/teacher-support" element={<TeacherSupport />} />
