@@ -26,7 +26,7 @@ const ServiceCards = () => {
   ];
 
   // Background image URL
-  const bgImage = 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174469023%2F1406041452053%2F1%2Foriginal.20260110-015414?w=150&auto=format%2Ccompress&q=75&sharp=10&s=f476a473682fa3e2cc6a3f202a5e2666';
+  //const bgImage = 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174469023%2F1406041452053%2F1%2Foriginal.20260110-015414?w=150&auto=format%2Ccompress&q=75&sharp=10&s=f476a473682fa3e2cc6a3f202a5e2666';
 
   const handleFlip = (idx) => {
     setFlipped((prev) => ({ ...prev, [idx]: !prev[idx] }));
