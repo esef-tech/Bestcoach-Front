@@ -1,0 +1,63 @@
+/* src/components/ServiceCards.css - Slower flip animation (0.8s), close button styling, responsive */
+
+/* Card container for 3D flip */
+.card-container {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+/* Slower flip animation */
+.service-card {
+  min-height: 300px; /* Equal height */
+  transition: transform 0.8s; /* Slower for better usability */
+  transform-style: preserve-3d;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+.service-card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* Front and back faces */
+.card-front, .card-back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background-color: #f8f9fa;
+}
+
+/* Close button on back */
+.close-btn {
+  color: #333;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #fd7e14;
+}
+
+/* Hover animation (scale + shadow) */
+.card-container:hover .service-card {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+/* Responsive - Stack cards on mobile */
+@media (max-width: 768px) {
+  .service-card { min-height: 250px; } /* Adjust height for mobile */
+}

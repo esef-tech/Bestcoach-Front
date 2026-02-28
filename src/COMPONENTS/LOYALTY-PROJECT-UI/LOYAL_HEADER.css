@@ -1,0 +1,220 @@
+.header-section {
+  padding: 4rem 0; /* Top/bottom padding for spacing */
+  color: white; /* White text on primary blue bg */
+  background-color: hsl(192, 89%, 45%);
+}
+
+.header-text {
+  text-align: left; /* Left align */
+}
+
+.header-text h4 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.header-text p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.carousel-item img {
+  height: 400px; /* Fixed height for consistency; adjust as needed */
+  object-fit: cover; /* Cover without distortion */
+  border-radius: 0.5rem; /* Subtle rounding */
+}
+
+@media (max-width: 768px) {
+  .header-section {
+    padding: 2rem 0; /* Reduced padding on mobile */
+  }
+  
+  .carousel-item img {
+    height: 250px; /* Smaller on mobile */
+  }
+  
+  .header-text h1 {
+    font-size: 2rem; /* Scale down headings */
+  }
+}
+.hero-section {
+  position: relative; /* For absolute animation container */
+  overflow: hidden; /* Prevent overflow */
+    background-color: hsl(192, 89%, 45%);
+
+}
+
+/* Animation container */
+.animation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none; /* Non-interactive */
+  z-index: 0; /* Behind content */
+}
+
+/* Music elements (tiny, orange, bold) */
+.music-symbol {
+  position: absolute;
+  font-size: 1.5rem; /* Tiny and appealing */
+  font-weight: bold;
+  color: rgba(253, 126, 20, 0.4); /* Slightly more transparent for subtle rain effect */
+  animation: rain-fall linear infinite;
+  will-change: transform, opacity; /* Performance optimization */
+}
+
+/* Varied positions, delays, and durations for dynamic spread */
+.music-symbol:nth-child(1) { left: 5%; animation-duration: 10s; animation-delay: 0s; }
+.music-symbol:nth-child(2) { left: 12%; animation-duration: 12s; animation-delay: 1s; }
+.music-symbol:nth-child(3) { left: 20%; animation-duration: 9s; animation-delay: 2s; }
+.music-symbol:nth-child(4) { left: 28%; animation-duration: 14s; animation-delay: 0.5s; }
+.music-symbol:nth-child(5) { left: 35%; animation-duration: 11s; animation-delay: 3s; }
+.music-symbol:nth-child(6) { left: 45%; animation-duration: 13s; animation-delay: 1.5s; }
+.music-symbol:nth-child(7) { left: 55%; animation-duration: 10s; animation-delay: 4s; }
+.music-symbol:nth-child(8) { left: 65%; animation-duration: 15s; animation-delay: 2.5s; }
+.music-symbol:nth-child(9) { left: 72%; animation-duration: 8s; animation-delay: 5s; }
+.music-symbol:nth-child(10) { left: 80%; animation-duration: 12s; animation-delay: 3.5s; }
+.music-symbol:nth-child(11) { left: 88%; animation-duration: 11s; animation-delay: 0s; }
+.music-symbol:nth-child(12) { left: 95%; animation-duration: 13s; animation-delay: 4.5s; }
+
+/* Keyframe animation: Rain down with subtle sway */
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-100%) translateX(0); /* Start above */
+    opacity: 0;
+  }
+  20% {
+    opacity: 1; /* Fade in quickly */
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%) translateX(10px); /* Fall down with slight right sway; alternate with -10px for variety if needed */
+    opacity: 0; /* Fade out at bottom */
+  }
+}
+
+/* Make alternate symbols sway left for dynamic direction */
+.music-symbol:nth-child(even) {
+  animation-name: rain-fall-left;
+}
+
+@keyframes rain-fall-left {
+  0% {
+    transform: translateY(-100%) translateX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%) translateX(-10px); /* Sway left */
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .music-symbol {
+    font-size: 1rem; /* Smaller for mobile */
+  }
+  .music-symbol:nth-child(n+7) {
+    display: none; /* Fewer symbols for performance */
+  }
+  @keyframes rain-fall {
+    100% { transform: translateY(50%) translateX(5px); } /* Shorter path */
+  }
+  @keyframes rain-fall-left {
+    100% { transform: translateY(50%) translateX(-5px); }
+  }
+}
+.header-section {
+  z-index: 1; /* Low value to keep below chat */
+}
+/* Target Relevance AI injected elements (from script) - broad selectors for reliability */
+div[class*="relevance-chat"], /* Common prefix from Relevance AI embeds */
+div[data-relevanceai-chat], /* Data attribute selector */
+.relevance-chat-bubble, /* Bubble icon */
+.relevance-chat-container, /* Main container */
+.relevance-chat-expanded { /* Expanded window */
+  z-index: 10000 !important; /* Higher than typical hero (e.g., 1-1000) */
+  position: fixed !important; /* Ensure fixed if not */
+}
+
+/* Lower hero stacking context to allow overlay */
+.header-section, 
+.carousel, 
+.carousel-item, 
+.carousel-inner {
+  z-index: 0 !important; /* Low value - chat will now overlay */
+  position: relative; /* Maintain if needed, but no overflow hidden */
+  overflow: visible !important; /* Prevent clipping if hero has overflow: hidden */
+}
+
+/* Body/root adjustments from inspector - ensure no clipping */
+body, #root {
+  overflow: visible !important; /* Allow chat to extend beyond */
+  z-index: auto !important;
+}
+
+/* Responsive: Maintain on mobile */
+@media (max-width: 768px) {
+  .header-section {
+    z-index: 0 !important;
+  }
+  div[class*="relevance-chat"] {
+    z-index: 10000 !important;
+  }
+}
+/* src/components/InfoButtonModal.css */
+.text-orange {
+  color: #fd7e14 !important;
+}
+
+.modal-content-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.modal-content-text ul {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.modal-content-text li {
+  margin-bottom: 0.75rem;
+}
+
+/* Optional - subtle entrance animation */
+.modal.fade .modal-dialog {
+  transform: translateY(-30px);
+  transition: transform 0.4s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  .modal-content-text {
+    font-size: 0.95rem;
+  }
+}
