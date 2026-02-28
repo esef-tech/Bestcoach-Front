@@ -1,4 +1,4 @@
-// src/components/ServiceCards.jsx - Modified for stable back side (no auto-flip, close button), slower animation, functional enroll
+// src/components/ServiceCards.jsx - Modified with background image on front (#17a2b8 color on back), stable, functional enroll, dynamic/responsive
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Modal, Form, Alert } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa'; // Close icon for back
@@ -24,6 +24,9 @@ const ServiceCards = () => {
     { name: 'Songwriting Workshop', description: 'Create your own songs with guidance on lyrics and melody.' },
     { name: 'Performance Prep', description: 'Prepare for stage with confidence-building sessions.' },
   ];
+
+  // Background image URL
+  const bgImage = 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174469023%2F1406041452053%2F1%2Foriginal.20260110-015414?w=150&auto=format%2Ccompress&q=75&sharp=10&s=f476a473682fa3e2cc6a3f202a5e2666';
 
   const handleFlip = (idx) => {
     setFlipped((prev) => ({ ...prev, [idx]: !prev[idx] }));
@@ -59,20 +62,18 @@ const ServiceCards = () => {
           <Col md={4} key={idx} className="mb-4">
             <div className="card-container">
               <Card className={`service-card shadow ${flipped[idx] ? 'flipped' : ''}`}>
-                <div className="card-front text-center py-5">
-                  <h3 className="fw-bold text-primary">{service.name}</h3>
-                  <p className="text-muted">Click to learn more</p>
-                   <Button variant="primary" onClick={() => handleEnroll(service.name)}>Enroll</Button>
-                  
+                <div className="card-front text-center py-5" style={{ backgroundColor: '#17a2b8', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                  <h3 className="fw-bold text-white">{service.name}</h3>
+                  <p className="text-white">Click to learn more</p>
+                  <Button variant="outline-light" onClick={() => handleEnroll(service.name)} className="mt-3">Enroll</Button>
                 </div>
-                <div className="card-back text-center py-5 position-relative">
+                <div className="card-back text-center py-5 position-relative" style={{ backgroundColor: '#17a2b8' }}>
                   <Button variant="link" className="close-btn position-absolute top-0 right-0 m-2" onClick={() => handleFlip(idx)}>
-                    <FaTimes size={20} />
+                    <FaTimes size={20} color="#fff" />
                   </Button>
-                  <h4 className="fw-bold text-primary">{service.name}</h4>
-                  <p className="text-muted mb-4">{service.description}</p>
-                   <Button variant="outline-primary" onClick={() => handleFlip(idx)} className="mt-3">More Info</Button>
-                
+                  <h4 className="fw-bold text-white">{service.name}</h4>
+                  <p className="text-white mb-4">{service.description}</p>
+                  <Button variant="light" onClick={() => handleFlip(idx)}>More Info</Button>
                 </div>
               </Card>
             </div>
