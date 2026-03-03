@@ -214,7 +214,7 @@ const TSS = () => {
             </Accordion.Item>
           ))}
         </Accordion>
-        <Button variant="link" className="d-block mx-auto mb-5 animate-fade-in">Show all agenda</Button>
+        {/*<Button variant="link" className="d-block mx-auto mb-5 animate-fade-in">Show all agenda</Button>*/}
 
         {/* RSVP / Buy Ticket Iframe */}
         <h2 className="mb-3 text-dark"> Buy Ticket / Register for TSS</h2>
