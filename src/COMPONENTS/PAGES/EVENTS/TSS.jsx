@@ -40,7 +40,7 @@ const TSS = () => {
 // Dynamic event data (can fetch from backend /api/events)
   const event = {
     title: 'The Singers Sanctuary (TSS)',
-    description: 'THE SINGERS SANCTUARY is a carefully curated vocal mentorship and artistic development experience designed to NURTURE, REFINE, and EMPOWER SINGERS across churches, music ministries, and the creative space.nnCreated by BEST COACH MUSIC, the programme exists to address a growing gap in the music and worship ecosystem: talented singers with passion, but without clarity, healthy technique, or access to intentional mentorship. nnThe Singer’s Sanctuary is not a concert, talent show, or performance showcase. nIt is a transformation-focused learning environment where singers gain insight, skill, direction, and spiritual grounding for long-term vocal and artistic growth.nnTHE SINGERS SANCTUARY - FINDING THE VOICE THAT FINDS YOU BACK ',
+    description: 'THE SINGERS SANCTUARY is a carefully curated vocal mentorship and artistic development experience designed to NURTURE, REFINE, and EMPOWER SINGERS across churches, music ministries, and the creative space. Created by BEST COACH MUSIC, the programme exists to address a growing gap in the music and worship ecosystem: talented singers with passion, but without clarity, healthy technique, or access to intentional mentorship. The Singer’s Sanctuary is not a concert, talent show, or performance showcase. It is a transformation-focused learning environment where singers gain insight, skill, direction, and spiritual grounding for long-term vocal and artistic growth.nnTHE SINGERS SANCTUARY - FINDING THE VOICE THAT FINDS YOU BACK ',
     date: 'Sat, Apr 18, 2026',
     time: '10:00 AM',
     duration: '4 hours',
