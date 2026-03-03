@@ -95,7 +95,7 @@ const TSS = () => {
           </Col>
           <Col lg={6}>
             <h2 className="mb-4 text-orange">Event Description</h2>
-            <p className="lead">{event.description}</p>
+            <p className="lead-p">{event.description}</p>
           </Col>
         </Row>
 
@@ -140,8 +140,8 @@ const TSS = () => {
     <section className="events-tss-page">
       {/* Overview */}
       <Container className="py-5 animate-fade-in">
-        <h2 className="mb-3 text-dark">Overview</h2>
-        <p className="lead mb-4 animate-slide-up">{event.description}</p>
+        {/*<h2 className="mb-3 text-dark">Overview</h2>
+        <p className="lead mb-4 animate-slide-up">{event.description}</p>*/}
 
         <h3 className="mb-3 text-dark">The Singers Sanctuary</h3>
         <p className="mb-4 animate-slide-up">A gathering for voices with purpose. Before the spotlight... Before the stage .... There must be a sanctuary.</p>
@@ -246,12 +246,12 @@ const TSS = () => {
         </Accordion>
 
 
-        {/* Register Button */}
+        {/* Register Button 
         <div className="text-center mt-5">
           <Button style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }} href="https://www.eventbrite.com/e/the-singers-sanctuary-tickets-1980234197792?aff=oddtdtcreator" target="_blank" rel="noopener noreferrer" className="px-5 py-3 fs-5 animate-bounce-in">
             Register for TSS Event
           </Button>
-        </div>
+        </div>*/}
   
         {/* Organized By */}
         <h2 className="mb-3 text-dark">Organized by</h2>
@@ -259,8 +259,8 @@ const TSS = () => {
           <Image src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174469023%2F1406041452053%2F1%2Foriginal.20260110-015414?w=150&auto=format%2Ccompress&q=75&sharp=10&s=f476a473682fa3e2cc6a3f202a5e2666" roundedCircle width={60} height={60} className="mx-auto mb-3" />
           <h4>BEST COACH MUSIC</h4>
           <p className="text-mutEvented">Followers: 1.2k | Hosting: Events</p>
-          <Button variant="outline-primary" className="me-2">Contact</Button>
-          <Button variant="outline-warning">Follow</Button>
+          <Button style={{ backgroundColor: '#17a2b8', borderColor: '#17a2b8' }} className="me-2">Contact</Button>
+          <Button  style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }}>Follow</Button>
         </Card>
        {/* Map Modal - Fixed to display map */}
       <Modal show={showMapModal} onHide={() => setShowMapModal(false)} size="lg" centered>

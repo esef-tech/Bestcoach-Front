@@ -1,7 +1,7 @@
 /* src/pages/EventsTSSPage.css - Animations, dynamic, appealing */
 
 .header {
-  background-color: hsl(204, 97%, 49%);
+  background-color: #17a2b8;
   background: linear-gradient(to right, hsl(204, 97%, 49%), hsl(204, 97%, 35%));
   animation: fadeIn 1s;
 }
@@ -38,6 +38,7 @@
 @media (max-width: 768px) {
   .header h1 { font-size: 2.5rem; }
   .lead { font-size: 1rem; }
+  .lead-p { font-size: 1rem; }
   .timeline-item h4 { font-size: 1.2rem; }
 }
 
@@ -110,6 +111,7 @@ iframe:hover { transform: scale(1.02); }
 @media (max-width: 768px) {
   h2, h3 { font-size: 1.5rem; }
   .lead { font-size: 1rem; }
+  .lead-p { font-size: 1rem; }
   iframe { height: 500px; } /* Adjust height on mobile */
 }
 /* src/pages/EventsTSSPage.css - Updated for screenshot layout (white bg, minimal, purple accents) */
@@ -127,6 +129,7 @@ iframe:hover { transform: scale(1.02); }
 h2, h3 { font-weight: bold; color: #333; }
 
 .lead { font-size: 1.1rem; color: #666; }
+.lead-p { font-size: 1.1rem; color: #333; font-weight: bold; font-family: 'Arial', sans-serif;}
 
 .list-unstyled li { font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; }
 
