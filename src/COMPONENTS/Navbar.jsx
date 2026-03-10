@@ -5,7 +5,6 @@ import { FcGoogle } from 'react-icons/fc'; // Icons for auth buttons
 import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
 import {  FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone,FaMusic, FaMicrophoneAlt, FaShoppingCart} from 'react-icons/fa';  //{/*Add_FaSchool, FaUserFriends, FaUserAlt, FaChurch,*/}
 import {FaPeopleGroup} from 'react-icons/fa6';
-import { FaHourglassHalf } from "react-icons/fa6";
 import { BsPeopleFill } from "react-icons/bs";
 
 
