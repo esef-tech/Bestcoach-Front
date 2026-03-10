@@ -3,9 +3,11 @@ import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown} from 'react-b
 import { Link } from 'react-router-dom'; // For smooth scrolling to sections
 import { FcGoogle } from 'react-icons/fc'; // Icons for auth buttons
 import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
-import { FaInfoCircle, FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone,FaMusic, FaMicrophoneAlt, FaShoppingCart} from 'react-icons/fa';  //{/*Add_FaSchool, FaUserFriends, FaUserAlt, FaChurch,*/}
+import {  FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone,FaMusic, FaMicrophoneAlt, FaShoppingCart} from 'react-icons/fa';  //{/*Add_FaSchool, FaUserFriends, FaUserAlt, FaChurch,*/}
 import {FaPeopleGroup} from 'react-icons/fa6';
 import { FaHourglassHalf } from "react-icons/fa6";
+import { BsPeopleFill } from "react-icons/bs";
+
 
 import './Navbar.css'; // Custom styles for Navbar
 
@@ -67,7 +69,8 @@ const [showModal, setShowModal] = useState(false);
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/" smooth={true} duration={500} className="mx-2">Home</Nav.Link>
-              <Nav.Link as={Link} to="/loyal" smooth={true} duration={500} className="mx-2"><FaHourglassHalf className="me-2 text-orange" />Loyalty Project</Nav.Link>
+              <Nav.Link as={Link} to="/community" smooth={true} duration={500} className="mx-2"><BsPeopleFill  className="me-2 text-orange" />Community & Forums</Nav.Link>
+              {/*<Nav.Link as={Link} to="/loyal" smooth={true} duration={500} className="mx-2"><FaHourglassHalf className="me-2 text-orange" />Loyalty Project</Nav.Link>*/}
 
 
                                       {/* Events Dropdown */}
@@ -80,7 +83,7 @@ const [showModal, setShowModal] = useState(false);
               
                <NavDropdown title="Company" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}><FaBlog className="me-2 text-orange" />Blog</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}><FaInfoCircle className="me-2 text-orange" />About Us</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}>About Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/press" smooth={true} duration={500}><FaNewspaper className="me-2 text-orange" />Press</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/team" smooth={true} duration={500}><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
