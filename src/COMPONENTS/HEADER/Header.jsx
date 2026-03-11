@@ -3,7 +3,8 @@ import './Header.css'
 import { Container, Row, Col, Carousel, Button } from 'react-bootstrap';
 //import Song from '../Images/team/bc-piano-lesson.jpeg'
 import Lessons from '../Images/team/EDDDITED.jpeg'
-import TSS from '../Images/team/tss_tss_new.png'
+import TSS from '../../COMPONENTS/Images/bestcoach-pictures/TSS_NEW.jpeg'
+
 
 
 

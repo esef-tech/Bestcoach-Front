@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Button,  ListGroup, Image, Accordion, 
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTicketAlt, FaUsers,   FaCar, FaBus, FaBicycle, FaWalking } from 'react-icons/fa';
 
 import './TSS.css'
-
+import TssLogo from '../../Images/bestcoach-pictures/App.test.png'
 
 const TSS = () => {
     
@@ -53,7 +53,7 @@ const TSS = () => {
     refundPolicy: 'Refunds up to 7 days before event',
     category: 'Music, Singer/Songwriter',
     mapIframe: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.1421523060635!2d-0.2754977242975032!3d5.545931633749404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9790ccb546c7%3A0xc3c829323923c9f8!2sWord%20Temple%2C%20Assemblies%20of%20God%20Church!5e0!3m2!1sen!2sgh!4v1769994147843!5m2!1sen!2sgh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
-    image: 'https://ayatickets.com/uploads/events/38b12fb62f96ce87f902d9fb8bd96dee.jpg', //  music workshop image
+    image: `${TssLogo}`, //  music workshop image
     agenda: [
       { time: '10:00 AM - 10:50 AM', activity: 'TSS Introduction & Ministration by Minister Joe Mettle' },
       { time: '10:50 AM  12:00 PM', activity: 'Live Music & Practical Sessions by MD Nana Yaw Ampare' },
@@ -220,7 +220,7 @@ const TSS = () => {
         <h2 className="mb-3 text-dark"> Buy Ticket / Register for TSS</h2>
          {/* Register Button */}
         <div className="text-center mt-5">
-          <Button style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }} href="https://creion.app/events/the-singers-sanctuary-tss-yj0vo" target="_blank" rel="noopener noreferrer" className="px-5 py-3 fs-5 animate-bounce-in">
+          <Button style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }} href="ticketplace.co/event/the-singers-sanctuary" target="_blank" rel="noopener noreferrer" className="px-5 py-3 fs-5 animate-bounce-in">
             Get Tickets Now
           </Button>
         </div>
