@@ -17,18 +17,16 @@ const TSS = () => {
 
 
   const lineup = [
-    { name: 'Joe Mettle', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463335%2F1406041452053%2F1%2Foriginal.jpg?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C640%2C640&s=e7bb3d730baceb2df9010a3147f2974a' },
-    { name: 'Noble G', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463360%2F1406041452053%2F1%2Foriginal.jpg?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C640%2C640&s=2a248049d7d34dcd2288c4d87cd7b3e0' },
+    { name: 'Emmanuel Ameko', image: 'https://bestcoachmusic.netlify.app/IMAGES/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).jpeg' },
     { name: 'Sandra Boakye-Duah', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463400%2F1406041452053%2F1%2Foriginal.jpg?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C640%2C640&s=f2a4bf70d90b93165c0a96cd7406f3ae' },
     { name: 'Nana Yaw Apare', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463836%2F1406041452053%2F1%2Foriginal.20260110-000930?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C150%2C150&s=717519cc96ed9ab5b8f940345751a04b' },
   ];
 
   const agenda = [
     { time: '10:30 AM - 10:50 AM', activity: 'Live Music & Practical Sessions', speaker: 'MD Nana Yaw Apare', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463836%2F1406041452053%2F1%2Foriginal.20260110-000930?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C150%2C150&s=717519cc96ed9ab5b8f940345751a04b' },
-    { time: '10:50 AM - 11:50 AM', activity: 'TSS Introduction & Ministration', speaker: 'Minister Joe Mettle', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463335%2F1406041452053%2F1%2Foriginal.jpg?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C640%2C640&s=e7bb3d730baceb2df9010a3147f2974a' },
+    { time: '10:50 AM - 11:50 AM', activity: 'TSS Introduction & Ministration', speaker: 'Emmanuel Ameko', image: 'https://bestcoachmusic.netlify.app/IMAGES/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).jpeg' },
     { time: '12:30 PM - 1:00 PM', activity: 'Music  Ministration & Vocal Mentorship', speaker: 'Minister Sandra Boakye Duah', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463400%2F1406041452053%2F1%2Foriginal.jpg?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C640%2C640&s=f2a4bf70d90b93165c0a96cd7406f3ae' },
-    { time: '1: 00PM -  2:00 PM', activity: 'Music Theory & Ministration', speaker: 'Minister Noble G', image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1174463360%2F1406041452053%2F1%2Foriginal.jpg?h=294&w=294&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C640%2C640&s=2a248049d7d34dcd2288c4d87cd7b3e0' },
-    
+      
 ];
 
   const faqs = [
@@ -180,8 +178,8 @@ const TSS = () => {
             </ul>
           </Col>
           <Col md={6} className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <p>Refund Policy</p>
-            <p className="text-muted">Refunds up to 7 days before event</p>
+           {/* <p>Refund Policy</p>
+            <p className="text-muted">Refunds up to 7 days before event</p>*/}
           </Col>
         </Row>
 
@@ -221,7 +219,13 @@ const TSS = () => {
         <h2 className="mb-3 text-dark"> Buy Ticket / Register for TSS</h2>
          {/* Register Button */}
         <div className="text-center mt-5">
-          <Button style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }} href="ticketplace.co/event/the-singers-sanctuary" target="_blank" rel="noopener noreferrer" className="px-5 py-3 fs-5 animate-bounce-in">
+          <Button 
+            href="https://ticketplace.co/event/the-singers-sanctuary" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ backgroundColor: '#fd7e14', borderColor: '#fd7e14' }} 
+            className="px-5 py-3 fs-5 animate-bounce-in"
+          >
             Get Tickets Now
           </Button>
         </div>
