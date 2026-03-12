@@ -136,3 +136,85 @@
   .navbar-brand { font-size: 1.2rem; }
   .dropdown-menu { width: 100%; text-align: center; } /* Full width dropdowns */
 }
+/* src/components/Navbar.css - Updated with modal styles: orange accents, cursor pointers, animations, responsive */
+
+/* Base Navbar Styles (keep your existing) */
+.text-orange { color: #fd7e14 !important; }
+.cursor-pointer { cursor: pointer; }
+
+/* Modal General Styles */
+.modal-content {
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  background-color: #fff;
+}
+
+/* Logo in Modal */
+.modal-body img {
+  max-width: 150px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.modal-body img:hover {
+  transform: scale(1.05);
+}
+
+/* Headers and Text */
+.modal-title { color: #000; font-weight: bold; }
+.lead { color: #000; font-size: 1rem; }
+
+/* Forms */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #fd7e14;
+  box-shadow: 0 0 0 0.2rem rgba(253,126,20,0.25);
+}
+
+/* Buttons */
+.btn-primary { background-color: #007bff; border-color: #007bff; }
+.btn-primary:hover { background-color: #0062cc; }
+
+.btn-outline-dark { border-color: #ced4da; color: #333; }
+.btn-outline-dark:hover { background-color: #f8f9fa; }
+
+/* OAuth Buttons Icons */
+.btn-outline-dark svg { margin-right: 0.5rem; }
+
+/* Forgot Password Link */
+.text-end { font-size: 0.9rem; }
+
+/* Footer Text */
+.text-muted { font-size: 0.85rem; }
+
+/* Animations - Fade-in for modal, bounce for buttons */
+.modal.fade .modal-dialog { transition: transform 0.3s ease-out; transform: translateY(-50px); opacity: 0; }
+.modal.show .modal-dialog { transform: translateY(0); opacity: 1; }
+
+.animate-bounce-in {
+  animation: bounceIn 0.5s ease;
+}
+@keyframes bounceIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Responsive - Adjust padding/sizes on mobile */
+@media (max-width: 576px) {
+  .modal-body { padding: 1.25rem; }
+  .modal-title { font-size: 1.5rem; }
+  .lead { font-size: 0.9rem; }
+  .form-control { font-size: 0.95rem; }
+  .btn { font-size: 0.95rem; padding: 0.5rem 1rem; }
+  .modal-content { border-radius: 10px; }
+}
+
+/* Existing animation container/music symbols (keep your styles) */
+.animation-container { /* ... */ }
+.music-symbol { /* ... */ }
