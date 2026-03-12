@@ -3,7 +3,8 @@ import { Container, Row, Col, Card, Form, Button,  ListGroup, Image, Accordion, 
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTicketAlt, FaUsers,   FaCar, FaBus, FaBicycle, FaWalking } from 'react-icons/fa';
 
 import './TSS.css'
-import TssLogo from '../../Images/bestcoach-pictures/App.test.png'
+//import TssLogo from '../../Images/bestcoach-pictures/App.test.png'
+import TssLogo from '../../Images/bestcoach-pictures/TSS_NEW.jpeg'
 
 const TSS = () => {
     
