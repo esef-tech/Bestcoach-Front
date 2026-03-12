@@ -107,9 +107,14 @@ const [showLogin, setShowLogin] = useState(false);
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      await axios.post('/api/login', loginForm, { withCredentials: true }); // Secure with cookies/JWT
+      const response = await axios.post('/api/login', loginForm, { withCredentials: true }); // Secure with cookies/JWT
+      // Store auth token in localStorage
+      if (response.data.token) {
+        localStorage.setItem('authToken', response.data.token);
+      }
       setStatus({ loading: false, success: true, error: '' });
       setIsLoggedIn(true); // Set logged in
+      setLoginForm({ email: '', password: '' }); // Clear form
       setShowLogin(false);
     } catch (err) {
       setStatus({ loading: false, success: false, error: 'Login failed' });
@@ -120,9 +125,14 @@ const [showLogin, setShowLogin] = useState(false);
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      await axios.post('/api/signup', signupForm, { withCredentials: true }); // Secure with cookies/JWT
+      const response = await axios.post('/api/signup', signupForm, { withCredentials: true }); // Secure with cookies/JWT
+      // Store auth token in localStorage
+      if (response.data.token) {
+        localStorage.setItem('authToken', response.data.token);
+      }
       setStatus({ loading: false, success: true, error: '' });
       setIsLoggedIn(true); // Set logged in
+      setSignupForm({ email: '', country: null, language: null, password: '', confirmPassword: '' }); // Clear form
       setShowSignup(false);
     } catch (err) {
       setStatus({ loading: false, success: false, error: 'Signup failed' });
@@ -164,8 +174,21 @@ const [showLogin, setShowLogin] = useState(false);
   // Mock logout
   const handleLogout = () => {
     setIsLoggedIn(false);
-    // Clear token
+    setLoginForm({ email: '', password: '' });
+    setStatus({ loading: false, success: false, error: '' });
+    // Clear token from localStorage or cookies
+    localStorage.removeItem('authToken');
+    // Optional: Redirect to home
+    window.location.href = '/';
   };
+
+  // Check localStorage for existing token on mount
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <>
@@ -251,11 +274,18 @@ const [showLogin, setShowLogin] = useState(false);
               </NavDropdown>
             </Nav>
 
-            {/* Sign/Signup Modal */}
+            {/* Auth Buttons - Conditional Rendering */}
             <Nav>
-              <Button variant="outline-primary" onClick={() => setShowLogin(true)} className="me-2"> <FaUserCircle className="me-2 text-orange" />
-                Login / Signup
-              </Button>
+              {isLoggedIn ? (
+                <>
+                  <Nav.Link as={Link} to="/profile" className="mx-2"><FaUserCircle className="me-2 text-orange" />Profile</Nav.Link>
+                  <Button variant="danger" onClick={handleLogout} className="me-2">Logout</Button>
+                </>
+              ) : (
+                <Button variant="outline-primary" onClick={() => setShowLogin(true)} className="me-2"> <FaUserCircle className="me-2 text-orange" />
+                  Login / Signup
+                </Button>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
