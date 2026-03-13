@@ -9,6 +9,12 @@ import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import './Shop.css'; // Custom styles
 import JP from '../../Images/bestcoach-pictures/IMG_2906.png'
 import MV from '../../Images/bestcoach-pictures/mov_bbb.mp4'
+import  A from '../../Images/bestcoach-pictures/180.jpeg'
+import  B from '../../Images/bestcoach-pictures/190.jpeg'
+import  C from '../../Images/bestcoach-pictures/270.jpeg'
+import  D from '../../Images/bestcoach-pictures/280.jpeg'
+import  E from '../../Images/bestcoach-pictures/360.jpeg'
+
 
 // Initialize Stripe - Replace with your actual publishable key
 const stripePromise = loadStripe('pk_test_YOUR_PUBLISHABLE_KEY');
@@ -32,11 +38,11 @@ const Shop = () => {
       name: 'The Bestcoach Music Digital Deal', 
       image: JP, // Main image
       angles: [
-        JP,
-        JP,
-        JP,
-        JP,
-        JP,
+        A,
+        B,
+        C,
+        D,
+        E,
       ],
       video: MV, // YouTube URL (not embed)
       originalPrice: 1205, 
@@ -50,11 +56,11 @@ const Shop = () => {
       name: 'The Singers Sanctuary Deal', 
       image: JP,
       angles: [
-        JP,
-        JP,
-        JP,
-        JP,
-        JP,
+       A,
+        B,
+        C,
+        D,
+        E,
       ],
       video: MV,
       originalPrice: 389, 
@@ -68,11 +74,11 @@ const Shop = () => {
       name: 'The Music Mentorship Experience', 
       image: JP,
       angles: [
-       JP,
-        JP,
-        JP,
-        JP,
-        JP,
+       A,
+        B,
+        C,
+        D,
+        E,
       ],
       video: MV,
       originalPrice: 489, 
@@ -86,11 +92,11 @@ const Shop = () => {
       name: '30-Day Independence', 
       image:  JP,
       angles: [
-        JP,
-        JP,
-        JP,
-        JP,
-        JP,
+        A,
+        B,
+        C,
+        D,
+        E,
       ],
       video: MV,
       price: 127, 
