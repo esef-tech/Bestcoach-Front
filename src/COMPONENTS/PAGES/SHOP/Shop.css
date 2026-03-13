@@ -15,3 +15,39 @@
   .countdown { flex-wrap: wrap; }
   .countdown .badge { font-size: 1.2rem; padding: 0.75rem; }
 }
+
+/* src/pages/ShopPage.css - Updated for editable quantity, cart updates, animations, responsive */
+
+/* Quantity Input Group - Editable */
+.qty-input { width: 60px; border-left: none; border-right: none; }
+
+/* Product Image - Fixed aspect ratio, rounded corners */
+.product-image {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .product-image {
+  transform: scale(1.05);
+}
+
+/* Cart List Items */
+.list-group-item { border-bottom: 1px solid #dee2e6; }
+
+/* Modal Form */
+.modal-body form .form-control { border-radius: 8px; }
+
+/* Stripe CardElement Styling */
+.CardElement { border: 1px solid #ced4da; border-radius: 8px; padding: 10px; }
+
+/* Animations (keep previous) */
+
+/* Responsive - Smaller images/inputs on mobile */
+@media (max-width: 768px) {
+  .product-image { height: 150px; }
+  .qty-input { width: 50px; font-size: 0.9rem; }
+  .modal-body { padding: 1rem; }
+}
