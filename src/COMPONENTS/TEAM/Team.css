@@ -33,6 +33,13 @@
 .coach-card { transition: transform 0.3s, box-shadow 0.3s; }
 .coach-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
 
+/* Ensure images fit fully within the card without cropping */
+.coach-card .card-img-top {
+  object-fit: contain;
+  height: 250px; /* Set a fixed height for consistency */
+  width: 100%;
+}
+
 /* Featured badge */
 .featured-badge {
   background-color: #fd7e14;
