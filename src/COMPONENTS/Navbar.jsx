@@ -30,6 +30,13 @@ const [showLogin, setShowLogin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Mock logged-in state (use auth context in prod)
 
 
+
+
+//
+
+
+
+
   // Fetch countries/languages dynamically (example from API)
   useEffect(() => {
     // Fetch countries (use restcountries API for all countries)
