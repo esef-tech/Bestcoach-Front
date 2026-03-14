@@ -8,7 +8,7 @@ import { Elements, CardElement } from '@stripe/react-stripe-js'; // Import Eleme
 import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import './Shop.css'; // Custom styles
 import JP from '../../Images/bestcoach-pictures/IMG_2906.png'
-import MV from '@bestcoach-videos/mov_bbb.mp4'
+import MV from '../../Images/bestcoach-pictures/edited/mov_bbb.mp4'
 import  A from '../../Images/bestcoach-pictures/180.jpeg'
 import  B from '../../Images/bestcoach-pictures/190.jpeg'
 import  C from '../../Images/bestcoach-pictures/270.jpeg'
