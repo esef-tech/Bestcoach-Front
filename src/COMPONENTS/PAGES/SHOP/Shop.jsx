@@ -1,14 +1,14 @@
 // src/pages/ShopPage.jsx - Updated with video tutorials (YouTube embeds), wishlist feature (add/view/manage), enhanced zoom with slider
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal, Form, Alert, InputGroup, Carousel, ListGroup, Image } from 'react-bootstrap';
-import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaVideo, FaSearch, FaTimes } from 'react-icons/fa';
+import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaVideo, FaSearch, FaTimes, FaStar } from 'react-icons/fa';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'; // For zoom/pan
 import ReactPlayer from 'react-player'; // Install: npm i react-player (for video embeds)
 import { Elements, CardElement } from '@stripe/react-stripe-js'; // Import Elements and CardElement from Stripe
 import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import './Shop.css'; // Custom styles
 import JP from '../../Images/bestcoach-pictures/IMG_2906.png'
-import MV from '../../Images/bestcoach-pictures/mov_bbb.mp4'
+import MV from '@bestcoach-videos/mov_bbb.mp4'
 import  A from '../../Images/bestcoach-pictures/180.jpeg'
 import  B from '../../Images/bestcoach-pictures/190.jpeg'
 import  C from '../../Images/bestcoach-pictures/270.jpeg'
@@ -27,12 +27,15 @@ const Shop = () => {
   const [showViewer, setShowViewer] = useState(false); // Image viewer modal
   const [showVideo, setShowVideo] = useState(false); // Video tutorial modal
   const [selectedProduct, setSelectedProduct] = useState(null); // Selected product for viewer/video
-  const [videoPlaying, setVideoPlaying] = useState(false); // Video player state
-  const videoPlayerRef = React.useRef(null); // Ref for video player
+  //const [videoPlaying, setVideoPlaying] = useState(false); // Video player state
+  //const videoPlayerRef = React.useRef(null); // Ref for video player
   const [formData, setFormData] = useState({ name: '', email: '', address: '', card: '' });
   const [submitStatus, setSubmitStatus] = useState({ loading: false, success: false, error: '' });
   const [quantities, setQuantities] = useState({}); // Quantity per product (before add)
-  const [products, setProducts] = useState([ // Dynamic products with state management
+  const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' }); // Review form state
+  const [reviews, setReviews] = useState({}); // Dynamic reviews per product ID
+
+  const products = [
     { 
       id: 1, 
       name: 'The Bestcoach Music Digital Deal', 
@@ -44,7 +47,7 @@ const Shop = () => {
         D,
         E,
       ],
-      video: MV, // YouTube URL (not embed)
+      video: 'https://youtu.be/QJZa_uIErIA?si=0Wm3QeZe6pimZBzt', // YouTube URL (not embed)
       originalPrice: 1205, 
       discountedPrice: 240, 
       save: 80, 
@@ -80,7 +83,7 @@ const Shop = () => {
         D,
         E,
       ],
-      video: MV,
+      video: 'https://youtu.be/QJZa_uIErIA?si=0Wm3QeZe6pimZBzt',
       originalPrice: 489, 
       discountedPrice: 240, 
       save: 51, 
@@ -98,13 +101,13 @@ const Shop = () => {
         D,
         E,
       ],
-      video: MV,
+      video: 'https://youtu.be/QJZa_uIErIA?si=0Wm3QeZe6pimZBzt',
       price: 127, 
       stock: 0, 
       soldOut: true 
     },
     // Add more products with angles/video
-  ]);
+  ];
 
   const updateQuantity = (id, value) => {
     const prod = products.find(p => p.id === id);
@@ -127,27 +130,25 @@ const Shop = () => {
         return [...prev, { ...product, quantity: qty }];
       });
       setQuantities((prev) => ({ ...prev, [product.id]: 1 })); // Reset
-      setProducts((prev) => prev.map(p => p.id === product.id ? { ...p, stock: p.stock - qty } : p)); // Local stock update
     }
   };
 
   const updateCartQuantity = (id, value) => {
     const prod = products.find(p => p.id === id);
-    const qty = Math.max(1, Math.min(parseInt(value) || 1, prod.stock + (cart.find(item => item.id === id)?.quantity || 0))); // Validate with available stock
-    const diff = qty - (cart.find(item => item.id === id)?.quantity || 0);
+    const currentQty = cart.find(item => item.id === id)?.quantity || 0;
+    const qty = Math.max(1, Math.min(parseInt(value) || 1, prod.stock + currentQty)); // Validate with available stock
+    const diff = qty - currentQty; // Diff tracks the quantity change
 
     setCart((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity: qty } : item
+        item.id === id ? { ...item, quantity: item.quantity + diff } : item
       )
     );
-    setProducts((prev) => prev.map(p => p.id === id ? { ...p, stock: p.stock - diff } : p)); // Local stock update
   };
 
   const removeFromCart = (id) => {
     const item = cart.find(i => i.id === id);
     if (item) {
-      setProducts((prev) => prev.map(p => p.id === id ? { ...p, stock: p.stock + item.quantity } : p)); // Restore stock
       setCart((prev) => prev.filter((item) => item.id !== id));
     }
   };
@@ -169,10 +170,10 @@ const Shop = () => {
 
   const openVideo = (product) => {
     setSelectedProduct(product);
-    setVideoPlaying(false); // Reset first
+    //setVideoPlaying(false); // Reset first
     setShowVideo(true);
     // Delay to allow modal to render first
-    setTimeout(() => setVideoPlaying(true), 300);
+    //setTimeout(() => setVideoPlaying(true), 300);
   };
 
   const handleChange = (e) => {
@@ -189,6 +190,19 @@ const Shop = () => {
       setTimeout(() => setShowCheckout(false), 2000);
     }, 1500);
   };
+
+
+
+  const addReview = (id, review) => {
+    setReviews((prev) => ({ ...prev, [id]: [...(prev[id] || []), review] }));
+    setReviewForm({ rating: 0, comment: '' }); // Reset form
+  };
+
+  const getAverageRating = (id) => {
+    const revs = reviews[id] || [];
+    return revs.length ? (revs.reduce((sum, r) => sum + r.rating, 0) / revs.length).toFixed(1) : 'No reviews';
+  };
+
 
   // Filter products based on search
   const filteredProducts = products.filter(prod => prod.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -240,11 +254,38 @@ const Shop = () => {
                 </Button>
                 <Button variant="outline-secondary" className="ms-2" onClick={() => openVideo(prod)}><FaVideo /> Tutorial</Button>
                 <Button variant="outline-danger" className="ms-2" onClick={() => addToWishlist(prod)}><FaHeart /></Button>
+                {/* Reviews Section */}
+                <div className="mt-3">
+                  <h6>Reviews ({(reviews[prod.id] || []).length})</h6>
+                  <Badge bg="warning" className="mb-2"><FaStar /> {getAverageRating(prod.id)}</Badge>
+                  <ListGroup variant="flush" className="mb-3">
+                    {(reviews[prod.id] || []).slice(0, 3).map((rev, rIdx) => (
+                      <ListGroup.Item key={rIdx} className="p-1 small">
+                        <Badge bg="secondary" className="me-2">{rev.rating} <FaStar /></Badge> {rev.comment}
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                  <Form onSubmit={(e) => { e.preventDefault(); addReview(prod.id, reviewForm); }}>
+                    <InputGroup className="mb-2">
+                      <Form.Select value={reviewForm.rating} onChange={(e) => setReviewForm({ ...reviewForm, rating: parseInt(e.target.value) })}>
+                        <option>Rate</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </Form.Select>
+                      <Form.Control placeholder="Comment" value={reviewForm.comment} onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })} />
+                      <Button type="submit" variant="primary" disabled={reviewForm.rating === 0 || !reviewForm.comment}>Submit</Button>
+                    </InputGroup>
+                  </Form>
+                </div>
               </Card.Body>
             </Card>
           </Col>
         ))}
       </Row>
+
 
       {/* Wishlist Section */}
       {wishlist.length > 0 && (
@@ -289,6 +330,7 @@ const Shop = () => {
           </Row>
         </div>
       )}
+      
 
       {/* Image Viewer Modal - Interactive Carousel with Zoom/Pan */}
       <Modal show={showViewer} onHide={() => setShowViewer(false)} size="lg" centered>
@@ -334,40 +376,14 @@ const Shop = () => {
         </Modal.Body>
       </Modal>
 
-      {/* Video Tutorial Modal */}
-      <Modal show={showVideo} onHide={() => {
-        setShowVideo(false);
-        setVideoPlaying(false);
-        setSelectedProduct(null);
-      }} size="lg" centered backdrop="static">
+{/* Video Tutorial Modal */}
+      <Modal show={showVideo} onHide={() => setShowVideo(false)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>{selectedProduct?.name} - Tutorial Video</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="d-flex justify-content-center bg-dark p-0" style={{ minHeight: '450px' }}>
-          {selectedProduct && showVideo && (
-            <div className="video-container w-100" style={{ maxWidth: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ReactPlayer
-                ref={videoPlayerRef}
-                url={selectedProduct.video}
-                playing={videoPlaying}
-                controls={true}
-                width="100%"
-                height="400px"
-                onStart={() => console.log('Video started playing')}
-                onPlay={() => console.log('Video is playing')}
-                onError={(error) => {
-                  console.error('Video error:', error);
-                }}
-                config={{
-                  file: {
-                    attributes: {
-                      controlsList: 'nodownload',
-                      crossOrigin: 'anonymous'
-                    }
-                  }
-                }}
-              />
-            </div>
+        <Modal.Body>
+          {selectedProduct && (
+            <ReactPlayer url={selectedProduct.video} width="100%" height="400px" controls className="animate-fade-in" />
           )}
         </Modal.Body>
       </Modal>

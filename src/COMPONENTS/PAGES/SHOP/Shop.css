@@ -51,3 +51,23 @@
   .qty-input { width: 50px; font-size: 0.9rem; }
   .modal-body { padding: 1rem; }
 }
+
+/* src/pages/ShopPage.css - Updated for video modal responsiveness, reviews section, animations */
+
+/* Video Modal - Responsive (aspect ratio 16:9) */
+.video-modal .modal-body { padding: 0; }
+.video-modal .react-player { aspect-ratio: 16/9; }
+
+/* Reviews Section - Scrollable if many */
+.reviews-list { max-height: 150px; overflow-y: auto; }
+
+/* Star Rating */
+.star-badge { font-size: 1rem; }
+
+/* Responsive - Adjust video on mobile */
+@media (max-width: 768px) {
+  .video-modal .modal-dialog { max-width: 90vw; }
+  .reviews-list { max-height: 100px; }
+}
+
+/* Keep previous styles */
