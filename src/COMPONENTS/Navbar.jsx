@@ -1,23 +1,21 @@
+// src/components/Navbar.jsx - Updated with real-time Google/Microsoft/Apple OAuth, password strength indicator, enhanced OAuth styling, full countries/languages from backend
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown, Alert, Image} from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // For smooth scrolling to sections
-import { FcGoogle } from 'react-icons/fc'; // Icons for auth buttons
+import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown, Alert, Image } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
 import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
-import {  FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone,FaMusic, FaMicrophoneAlt, FaShoppingCart} from 'react-icons/fa';  //{/*Add_FaSchool, FaUserFriends, FaUserAlt, FaChurch,*/}
-import {FaPeopleGroup} from 'react-icons/fa6';
+import { FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone, FaMusic, FaMicrophoneAlt, FaShoppingCart } from 'react-icons/fa';
+import { FaPeopleGroup } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import Select from 'react-select';
-import axios from 'axios'
-import AIAgent from './AIAgent'
+import axios from 'axios';
+import AIAgent from './AIAgent';
+import './Navbar.css'; // Updated with OAuth styling + strength indicator
 
-
-import './Navbar.css'; // Custom styles for Navbar
-
-const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg'
+const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg';
 
 const AppNavbar = () => {
-
-const [showLogin, setShowLogin] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
@@ -27,33 +25,17 @@ const [showLogin, setShowLogin] = useState(false);
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const [countries, setCountries] = useState([]);
   const [languages, setLanguages] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Mock logged-in state (use auth context in prod)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userProfile, setUserProfile] = useState({});
+  const [passwordStrength, setPasswordStrength] = useState({ level: 'weak', color: 'red', width: '25%' }); // Real-time strength
 
-
-
-
-//
-
-
-
-
-  // Fetch countries/languages dynamically (example from API)
+  // 13. Fetch ALL countries and languages from backend in real-time
   useEffect(() => {
-    // Fetch countries (use restcountries API for all countries)
-    axios.get('https://restcountries.com/v3.1/all').then(res => {
-      setCountries(res.data.map(country => ({ value: country.cca2.toLowerCase(), label: country.name.common })));
-    }).catch(() => setCountries([])); // Fallback
-
-    // Languages (static list - expand as needed)
-    setLanguages([
-      { value: 'en', label: 'English' },
-      { value: 'es', label: 'Spanish' },
-      { value: 'fr', label: 'French' },
-      // Add all languages
-    ]);
+    axios.get('/api/countries').then(res => setCountries(res.data)).catch(() => setCountries([]));
+    axios.get('/api/languages').then(res => setLanguages(res.data)).catch(() => setLanguages([]));
   }, []);
 
-  // Real-time email validation (debounce for performance)
+  // Real-time email validation (debounce)
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (loginForm.email) {
@@ -68,7 +50,6 @@ const [showLogin, setShowLogin] = useState(false);
     return () => clearTimeout(timer);
   }, [loginForm.email]);
 
-  // Similar for signup email (check if NOT exists)
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (signupForm.email) {
@@ -83,13 +64,26 @@ const [showLogin, setShowLogin] = useState(false);
     return () => clearTimeout(timer);
   }, [signupForm.email]);
 
-  // Password validation
+  // 3 & 8. Real-time password strength indicator + validation
   const validatePassword = (password, confirm) => {
     if (password.length < 8) return 'At least 8 characters';
     if (!/[A-Z]/.test(password)) return 'Include uppercase';
     if (!/[0-9]/.test(password)) return 'Include number';
     if (confirm && password !== confirm) return 'Passwords do not match';
     return '';
+  };
+
+  const calculateStrength = (password) => {
+    let score = 0;
+    if (password.length >= 8) score += 1;
+    if (/[A-Z]/.test(password)) score += 1;
+    if (/[0-9]/.test(password)) score += 1;
+    if (/[^A-Za-z0-9]/.test(password)) score += 1;
+    if (password.length >= 12) score += 1;
+
+    if (score <= 2) return { level: 'Weak', color: 'red', width: '25%' };
+    if (score === 3) return { level: 'Medium', color: 'orange', width: '50%' };
+    return { level: 'Strong', color: 'green', width: '100%' };
   };
 
   const handleLoginChange = (e) => {
@@ -99,9 +93,12 @@ const [showLogin, setShowLogin] = useState(false);
   };
 
   const handleSignupChange = (e) => {
-    const { name, value } = e.target || { name: e.name, value: e.value }; // For Select
+    const { name, value } = e.target || { name: e.name, value: e.value };
     setSignupForm(prev => ({ ...prev, [name]: value }));
-    if (name === 'password') setErrors(prev => ({ ...prev, password: validatePassword(value, signupForm.confirmPassword) }));
+    if (name === 'password') {
+      setErrors(prev => ({ ...prev, password: validatePassword(value, signupForm.confirmPassword) }));
+      setPasswordStrength(calculateStrength(value)); // Real-time strength
+    }
     if (name === 'confirmPassword') setErrors(prev => ({ ...prev, confirmPassword: validatePassword(signupForm.password, value) }));
   };
 
@@ -110,42 +107,45 @@ const [showLogin, setShowLogin] = useState(false);
     setForgotForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // 1. Login with Email/Password (real backend)
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const response = await axios.post('/api/login', loginForm, { withCredentials: true }); // Secure with cookies/JWT
-      // Store auth token in localStorage
+      const response = await axios.post('/api/login', loginForm, { withCredentials: true });
       if (response.data.token) {
         localStorage.setItem('authToken', response.data.token);
+        setIsLoggedIn(true);
+        const profileRes = await axios.get('/api/profile', { headers: { Authorization: `Bearer ${response.data.token}` } });
+        setUserProfile(profileRes.data);
       }
       setStatus({ loading: false, success: true, error: '' });
-      setIsLoggedIn(true); // Set logged in
-      setLoginForm({ email: '', password: '' }); // Clear form
       setShowLogin(false);
     } catch (err) {
-      setStatus({ loading: false, success: false, error: 'Login failed' });
+      setStatus({ loading: false, success: false, error: err.response?.data?.error || 'Login failed' });
     }
   };
 
+  // 7. Signup with Email, Country, Language, Password
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const response = await axios.post('/api/signup', signupForm, { withCredentials: true }); // Secure with cookies/JWT
-      // Store auth token in localStorage
+      const response = await axios.post('/api/signup', signupForm, { withCredentials: true });
       if (response.data.token) {
         localStorage.setItem('authToken', response.data.token);
+        setIsLoggedIn(true);
+        const profileRes = await axios.get('/api/profile', { headers: { Authorization: `Bearer ${response.data.token}` } });
+        setUserProfile(profileRes.data);
       }
       setStatus({ loading: false, success: true, error: '' });
-      setIsLoggedIn(true); // Set logged in
-      setSignupForm({ email: '', country: null, language: null, password: '', confirmPassword: '' }); // Clear form
       setShowSignup(false);
     } catch (err) {
-      setStatus({ loading: false, success: false, error: 'Signup failed' });
+      setStatus({ loading: false, success: false, error: err.response?.data?.error || 'Signup failed' });
     }
   };
 
+  // 2. Password Reset
   const handleForgotSubmit = async (e) => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
@@ -155,143 +155,108 @@ const [showLogin, setShowLogin] = useState(false);
       setShowForgot(false);
       setShowLogin(true);
     } catch (err) {
-      setStatus({ loading: false, success: false, error: 'Reset failed' });
+      setStatus({ loading: false, success: false, error: err.response?.data?.error || 'Reset failed' });
     }
   };
 
-  // Placeholder auth handlers - replace with real OAuth (e.g., Firebase/Google Auth)
-  const handleGoogleLogin = () => {
-    console.log('Login with Google');
-    // e.g., signInWithPopup(auth, googleProvider);
-    setShowLogin(false);
-  };
-
-  const handleAppleLogin = () => {
-    console.log('Login with Apple');
-    // Implement Apple OAuth
-    setShowLogin(false);
-  };
-
-  const handleFacebookLogin = () => {
-    console.log('Login with Facebook');
-    // e.g., signInWithPopup(auth, facebookProvider);
-    setShowLogin(false);
-  };
+  // 4,5,6,9,10,11. Real OAuth (backend redirects)
+  const handleGoogleLogin = () => { window.location.href = '/api/auth/google'; };
+  const handleAppleLogin = () => { window.location.href = '/api/auth/apple'; };
+  const handleFacebookLogin = () => { window.location.href = '/api/auth/facebook'; };
+  const handleMicrosoftLogin = () => { window.location.href = '/api/auth/microsoft'; };
 
   // Mock logout
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    setLoginForm({ email: '', password: '' });
-    setStatus({ loading: false, success: false, error: '' });
-    // Clear token from localStorage or cookies
     localStorage.removeItem('authToken');
-    // Optional: Redirect to home
+    setIsLoggedIn(false);
+    setUserProfile({});
     window.location.href = '/';
   };
 
-  // Check localStorage for existing token on mount
+  // Handle OAuth callback with token in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      localStorage.setItem('authToken', token);
+      setIsLoggedIn(true);
+      axios.get('/api/profile', { headers: { Authorization: `Bearer ${token}` } })
+        .then(res => setUserProfile(res.data))
+        .catch(() => setIsLoggedIn(false));
+      window.history.replaceState({}, document.title, window.location.pathname); // Clean URL
+    }
+  }, []);
+
+  // Check token on mount
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
       setIsLoggedIn(true);
+      axios.get('/api/profile', { headers: { Authorization: `Bearer ${token}` } })
+        .then(res => setUserProfile(res.data))
+        .catch(() => setIsLoggedIn(false));
     }
   }, []);
 
   return (
     <>
-     <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm position-relative"> {/* position-relative for animation container */}
-        {/* Animation Background */}
+      <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm position-relative">
         <div className="animation-container">
-       <span className="music-symbol">♪</span>
-    <span className="music-symbol">♫</span>
-    <span className="music-symbol">♬</span>
-    <span className="music-symbol">♪</span>
-    <span className="music-symbol">♫</span>
-    <span className="music-symbol">♬</span>
-    <span className="music-symbol">♪</span>
-    <span className="music-symbol">♫</span>
+          <span className="music-symbol">♪</span>
+          <span className="music-symbol">♫</span>
+          <span className="music-symbol">♬</span>
+          <span className="music-symbol">♪</span>
+          <span className="music-symbol">♫</span>
+          <span className="music-symbol">♬</span>
+          <span className="music-symbol">♪</span>
+          <span className="music-symbol">♫</span>
         </div>
-
         <Container>
           <Navbar.Brand href="https://bestcoach-front.vercel.app/" style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold', color: '#007bff' }}>
-            <img 
-              src={logoUrl} 
-              alt="Bestcoach Music Logo" 
-              style={{ height: '40px', marginRight: '10px', maxHeight: '40px' }} // Responsive height
-              className="img-fluid" // Bootstrap responsive image
-            />
+            <img src={logoUrl} alt="Bestcoach Music Logo" style={{ height: '40px', marginRight: '10px' }} className="img-fluid" />
             Bestcoach Music
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/" smooth={true} duration={500} className="mx-2">Home</Nav.Link>
-              <Nav.Link as={Link} to="/community" smooth={true} duration={500} className="mx-2"><BsPeopleFill  className="me-2 text-orange" />Community & Forums</Nav.Link>
-              {/*<Nav.Link as={Link} to="/loyal" smooth={true} duration={500} className="mx-2"><FaHourglassHalf className="me-2 text-orange" />Loyalty Project</Nav.Link>*/}
-
-
-                                      {/* Events Dropdown */}
+              <Nav.Link as={Link} to="/community" smooth={true} duration={500} className="mx-2"><BsPeopleFill className="me-2 text-orange" />Community & Forums</Nav.Link>
               <NavDropdown title="Events" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/tss" smooth={true} duration={500}><FaMicrophoneAlt className="me-2 text-orange" />The Singers Sanctuary</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/tmme" smooth={true} duration={500}><FaMusic className="me-2 text-orange" />The Music Mentorship Experience</NavDropdown.Item>
               </NavDropdown>
-
-              {/* Company Dropdown */}
-              
-               <NavDropdown title="Company" id="services-dropdown" className="mx-2">
+              <NavDropdown title="Company" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}><FaBlog className="me-2 text-orange" />Blog</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}>About Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/press" smooth={true} duration={500}><FaNewspaper className="me-2 text-orange" />Press</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/team" smooth={true} duration={500}><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
-             <NavDropdown.Item as={Link} to="/careers" smooth={true} duration={500}><FaBriefcase className="me-2 text-orange" />Careers At Bestcoach</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/careers" smooth={true} duration={500}><FaBriefcase className="me-2 text-orange" />Careers At Bestcoach</NavDropdown.Item>
               </NavDropdown>
-
-
-              {/* Services Dropdown 
-              <NavDropdown title="Modules" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/schools" smooth={true} duration={500}><FaSchool className="me-2 text-orange" />Schools</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/churches" smooth={true} duration={500}><FaChurch className="me-2 text-orange" />Churches</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/individuals" smooth={true} duration={500}><FaUserAlt className="me-2 text-orange" />Individuals</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/groups" smooth={true} duration={500}><FaUserFriends className="me-2 text-orange" />Groups</NavDropdown.Item>
-              </NavDropdown> Add-Icons-For-Each-Item
-              */}
-
-
-
-              {/* Features Dropdown */}
               <NavDropdown title="Features" id="services-dropdown" className="mx-2">
-                {/*<NavDropdown.Item as={Link} to="/loyalty" smooth={true} duration={500}><FaHourglassHalf className="me-2 text-orange" />Loyalty Ambassador  Program</NavDropdown.Item>*/}
                 <NavDropdown.Item as={Link} to="/package" smooth={true} duration={500}><FaBoxOpen className="me-2 text-orange" />Packages</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/coach" smooth={true} duration={500}><FaUsers className="me-2 text-orange" />Coaches</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/method" smooth={true} duration={500}><FaRoad className="me-2 text-orange" />Methods</NavDropdown.Item>
-                </NavDropdown>
-
-          
-
-              {/* Bestcoach Music Shopping page */}
-            <Nav.Link as={Link} to="/shop" smooth={true} duration={500} className="mx-2"><FaShoppingCart className="me-2 text-orange" />Shop</Nav.Link>
-
-        
-        {/* Resources Dropdown */}
-               <NavDropdown title="Resources" id="services-dropdown" className="mx-2">
+              </NavDropdown>
+              <Nav.Link as={Link} to="/shop" smooth={true} duration={500} className="mx-2"><FaShoppingCart className="me-2 text-orange" />Shop</Nav.Link>
+              <NavDropdown title="Resources" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/webinars" smooth={true} duration={500}><FaVideo className="me-2 text-orange" />Webinars</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/help" smooth={true} duration={500}><FaLifeRing className="me-2 text-orange" />Help Centre</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/studio-tutorials" smooth={true} duration={500}><FaBookOpen className="me-2 text-orange" />Studio Tutorials</NavDropdown.Item>
               </NavDropdown>
             </Nav>
-
-            {/* Auth Buttons - Conditional Rendering */}
             <Nav>
               {isLoggedIn ? (
                 <>
-                  <Nav.Link as={Link} to="/profile" className="mx-2"><FaUserCircle className="me-2 text-orange" />Profile</Nav.Link>
+                  <Nav.Link className="mx-2" title={userProfile.email}>
+                    <FaUserCircle className="me-2 text-orange" />
+                    {userProfile.email ? userProfile.email.split('@')[0] : 'Profile'}
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/profile" className="mx-2">View Full Profile</Nav.Link>
                   <Button variant="danger" onClick={handleLogout} className="me-2">Logout</Button>
                 </>
               ) : (
-                <Button variant="outline-primary" onClick={() => setShowLogin(true)} className="me-2"> <FaUserCircle className="me-2 text-orange" />
-                  Login / Signup
-                </Button>
+                <Button variant="outline-primary" onClick={() => setShowLogin(true)} className="me-2"> <FaUserCircle className="me-2 text-orange" /> Login / Signup</Button>
               )}
             </Nav>
           </Navbar.Collapse>
@@ -324,12 +289,13 @@ const [showLogin, setShowLogin] = useState(false);
           <p className="text-center mb-3">
             Not a member? <span className="text-orange cursor-pointer" onClick={() => { setShowLogin(false); setShowSignup(true); }}>Sign up here!</span>
           </p>
-          <Button variant="outline-dark" className="w-100 mb-2" onClick={handleGoogleLogin}><FcGoogle /> Sign in with Google</Button>
-          <Button variant="outline-dark" className="w-100 mb-2" onClick={handleAppleLogin}><AiFillApple /> Sign in with Apple</Button>
-          <Button variant="outline-dark" className="w-100 mb-3" onClick={handleFacebookLogin}><AiFillFacebook /> Sign in with Facebook</Button>
+          {/* Enhanced OAuth buttons */}
+          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleGoogleLogin}><FcGoogle /> Sign in with Google</Button>
+          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleMicrosoftLogin}><span style={{color: '#0078D4'}}>⊞</span> Sign in with Microsoft</Button>
+          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleAppleLogin}><AiFillApple /> Sign in with Apple</Button>
+          <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign in with Facebook</Button>
           <p className="text-center text-orange cursor-pointer" onClick={() => console.log('Get Support')}>Get Support</p>
-          {/* AI Chatbot Integration */}
-          <AIAgent /> {/* Your chatbot component */}
+          <AIAgent />
         </Modal.Body>
       </Modal>
 
@@ -357,6 +323,9 @@ const [showLogin, setShowLogin] = useState(false);
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" name="password" value={signupForm.password} onChange={handleSignupChange} required isInvalid={!!errors.password} />
               <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+              {/* 3 & 8. Real-time Password Strength Indicator */}
+              <div className="strength-bar mt-2" style={{ backgroundColor: passwordStrength.color, width: passwordStrength.width, height: '6px', borderRadius: '4px' }}></div>
+              <small className="text-muted">Strength: <span style={{ color: passwordStrength.color }}>{passwordStrength.level}</span></small>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Confirm Password</Form.Label>
@@ -369,9 +338,11 @@ const [showLogin, setShowLogin] = useState(false);
             {status.success && <Alert variant="success">Signed up successfully!</Alert>}
             {status.error && <Alert variant="danger">{status.error}</Alert>}
           </Form>
-          <Button variant="outline-dark" className="w-100 mb-2" onClick={handleGoogleLogin}><FcGoogle /> Sign up with Google</Button>
-          <Button variant="outline-dark" className="w-100 mb-2" onClick={handleAppleLogin}><AiFillApple /> Sign up with Apple</Button>
-          <Button variant="outline-dark" className="w-100 mb-3" onClick={handleFacebookLogin}><AiFillFacebook /> Sign up with Facebook</Button>
+          {/* Enhanced OAuth buttons */}
+          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleGoogleLogin}><FcGoogle /> Sign up with Google</Button>
+          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleMicrosoftLogin}><span style={{color: '#0078D4'}}>⊞</span> Sign up with Microsoft</Button>
+          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleAppleLogin}><AiFillApple /> Sign up with Apple</Button>
+          <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign up with Facebook</Button>
           <p className="text-center mb-2">
             Already have an account? <span className="text-orange cursor-pointer" onClick={() => { setShowSignup(false); setShowLogin(true); }}>Sign in</span>
           </p>
@@ -404,10 +375,8 @@ const [showLogin, setShowLogin] = useState(false);
           </p>
         </Modal.Body>
       </Modal>
-
-    
     </>
-  )
-}
+  );
+};
 
-export default AppNavbar
+export default AppNavbar;
