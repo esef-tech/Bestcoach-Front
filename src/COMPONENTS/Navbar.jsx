@@ -198,6 +198,25 @@ const AppNavbar = () => {
     }
   }, []);
 
+
+
+  // Add this useEffect here (after the password strength useEffect)
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  if (token) {
+    localStorage.setItem('authToken', token);
+    setIsLoggedIn(true);
+    // Optional: Fetch profile immediately
+    axios.get('/api/profile', { 
+      headers: { Authorization: `Bearer ${token}` } 
+    }).then(res => setUserProfile(res.data));
+    
+    // Clean URL (remove ?token= from address bar)
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+}, []);
+
   return (
     <>
       <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm position-relative">
