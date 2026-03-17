@@ -33,6 +33,7 @@ import TMME from "./COMPONENTS/PAGES/EVENTS/TMME";
 import Loyal from "./COMPONENTS/PAGES/LOYAL/Loyal";
 import Shop from "./COMPONENTS/PAGES/SHOP/Shop";
 import Community from "./COMPONENTS/PAGES/COMMUNITY/Community";
+import Profile from "./COMPONENTS/Profile";
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
             <Route path="/loyal" element={<Loyal />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
           <Footer />
           <AIAgent />

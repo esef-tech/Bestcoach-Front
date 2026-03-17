@@ -1,5 +1,5 @@
 // src/pages/ShopPage.jsx - Updated with video tutorials (YouTube embeds), wishlist feature (add/view/manage), enhanced zoom with slider
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal, Form, Alert, InputGroup, Carousel, ListGroup, Image } from 'react-bootstrap';
 import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaVideo, FaSearch, FaTimes, FaStar } from 'react-icons/fa';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'; // For zoom/pan
@@ -7,13 +7,13 @@ import ReactPlayer from 'react-player'; // Install: npm i react-player (for vide
 import { Elements, CardElement } from '@stripe/react-stripe-js'; // Import Elements and CardElement from Stripe
 import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import './Shop.css'; // Custom styles
-import JP from '../../Images/bestcoach-pictures/IMG_2906.png'
-import MV from '../../Images/bestcoach-pictures/edited/mov_bbb.mp4'
-import  A from '../../Images/bestcoach-pictures/180.jpeg'
-import  B from '../../Images/bestcoach-pictures/190.jpeg'
-import  C from '../../Images/bestcoach-pictures/270.jpeg'
-import  D from '../../Images/bestcoach-pictures/280.jpeg'
-import  E from '../../Images/bestcoach-pictures/360.jpeg'
+import { auth, db } from '../../../firebase';
+import { 
+  collection, onSnapshot, doc, updateDoc, arrayUnion, 
+  setDoc 
+} from 'firebase/firestore';
+
+
 
 
 // Initialize Stripe - Replace with your actual publishable key
@@ -23,6 +23,7 @@ const Shop = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState([]); // Dynamic cart state
   const [wishlist, setWishlist] = useState([]); // Dynamic wishlist state
+  const [products, setProducts] = useState([]); // Products from Firestore
   const [showCheckout, setShowCheckout] = useState(false); // Checkout modal
   const [showViewer, setShowViewer] = useState(false); // Image viewer modal
   const [showVideo, setShowVideo] = useState(false); // Video tutorial modal
@@ -35,167 +36,91 @@ const Shop = () => {
   const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' }); // Review form state
   const [reviews, setReviews] = useState({}); // Dynamic reviews per product ID
 
-  const products = [
-    { 
-      id: 1, 
-      name: 'The Bestcoach Music Digital Deal', 
-      image: JP, // Main image
-      angles: [
-        A,
-        B,
-        C,
-        D,
-        E,
-      ],
-      video: 'https://youtu.be/QJZa_uIErIA?si=0Wm3QeZe6pimZBzt', // YouTube URL (not embed)
-      originalPrice: 1205, 
-      discountedPrice: 240, 
-      save: 80, 
-      stock: 0, 
-      soldOut: true 
-    },
-    { 
-      id: 2, 
-      name: 'The Singers Sanctuary Deal', 
-      image: JP,
-      angles: [
-       A,
-        B,
-        C,
-        D,
-        E,
-      ],
-      video: MV,
-      originalPrice: 389, 
-      discountedPrice: 240, 
-      save: 38, 
-      stock: 5, 
-      soldOut: false 
-    },
-    { 
-      id: 3, 
-      name: 'The Music Mentorship Experience', 
-      image: JP,
-      angles: [
-       A,
-        B,
-        C,
-        D,
-        E,
-      ],
-      video: 'https://youtu.be/QJZa_uIErIA?si=0Wm3QeZe6pimZBzt',
-      originalPrice: 489, 
-      discountedPrice: 240, 
-      save: 51, 
-      stock: 10, 
-      soldOut: false 
-    },
-    { 
-      id: 4, 
-      name: '30-Day Independence', 
-      image:  JP,
-      angles: [
-        A,
-        B,
-        C,
-        D,
-        E,
-      ],
-      video: 'https://youtu.be/QJZa_uIErIA?si=0Wm3QeZe6pimZBzt',
-      price: 127, 
-      stock: 0, 
-      soldOut: true 
-    },
-    // Add more products with angles/video
-  ];
+ // 🔥 REAL-TIME PRODUCTS FROM FIRESTORE
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
+      const prods = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setProducts(prods);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  const updateQuantity = (id, value) => {
-    const prod = products.find(p => p.id === id);
-    const qty = Math.max(1, Math.min(parseInt(value) || 1, prod.stock)); // Validate: integer, 1 <= qty <= stock
-    setQuantities((prev) => ({ ...prev, [id]: qty }));
-  };
+  // 🔥 REAL-TIME USER CART & WISHLIST (from user document)
+  useEffect(() => {
+    if (!auth.currentUser) return;
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    
+    const unsub = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setCart(data.cart || []);
+        setWishlist(data.wishlist || []);
+      }
+    });
+    return () => unsub();
+  }, []);
 
-  const addToCart = (product) => {
-    if (!product.soldOut && product.stock > 0) {
-      const qty = quantities[product.id] || 1;
-      if (qty > product.stock) return; // Validation
-
-      setCart((prev) => {
-        const existing = prev.find((item) => item.id === product.id);
-        if (existing) {
-          return prev.map((item) =>
-            item.id === product.id ? { ...item, quantity: item.quantity + qty } : item
-          );
-        }
-        return [...prev, { ...product, quantity: qty }];
+  // 🔥 REAL-TIME REVIEWS PER PRODUCT
+  useEffect(() => {
+    products.forEach(prod => {
+      const reviewsRef = collection(db, 'products', prod.id, 'reviews');
+      onSnapshot(reviewsRef, (snap) => {
+        setReviews(prev => ({
+          ...prev,
+          [prod.id]: snap.docs.map(d => d.data())
+        }));
       });
-      setQuantities((prev) => ({ ...prev, [product.id]: 1 })); // Reset
-    }
+    });
+  }, [products]);
+
+  // Add to Cart (save to Firestore)
+  const addToCart = async (product) => {
+    if (!auth.currentUser) return alert("Please log in first");
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    await updateDoc(userRef, {
+      cart: arrayUnion({ ...product, quantity: quantities[product.id] || 1 })
+    });
   };
 
-  const updateCartQuantity = (id, value) => {
-    const prod = products.find(p => p.id === id);
-    const currentQty = cart.find(item => item.id === id)?.quantity || 0;
-    const qty = Math.max(1, Math.min(parseInt(value) || 1, prod.stock + currentQty)); // Validate with available stock
-    const diff = qty - currentQty; // Diff tracks the quantity change
-
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + diff } : item
-      )
+  // Update Cart Quantity
+  const updateCartQuantity = async (productId, newQty) => {
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    const currentCart = cart.map(item => 
+      item.id === productId ? { ...item, quantity: newQty } : item
     );
+    await updateDoc(userRef, { cart: currentCart });
   };
 
-  const removeFromCart = (id) => {
-    const item = cart.find(i => i.id === id);
-    if (item) {
-      setCart((prev) => prev.filter((item) => item.id !== id));
-    }
+  const removeFromCart = async (productId) => {
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    const updatedCart = cart.filter(item => item.id !== productId);
+    await updateDoc(userRef, { cart: updatedCart });
   };
 
-  const addToWishlist = (product) => {
-    if (!wishlist.find(item => item.id === product.id)) {
-      setWishlist((prev) => [...prev, product]);
-    }
+  // Wishlist
+  const addToWishlist = async (product) => {
+    if (!auth.currentUser) return;
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    await updateDoc(userRef, { wishlist: arrayUnion(product) });
   };
 
-  const removeFromWishlist = (id) => {
-    setWishlist((prev) => prev.filter(item => item.id !== id));
+  const removeFromWishlist = async (id) => {
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    const updatedWishlist = wishlist.filter(item => item.id !== id);
+    await updateDoc(userRef, { wishlist: updatedWishlist });
   };
 
-  const openViewer = (product) => {
-    setSelectedProduct(product);
-    setShowViewer(true);
-  };
-
-  const openVideo = (product) => {
-    setSelectedProduct(product);
-    //setVideoPlaying(false); // Reset first
-    setShowVideo(true);
-    // Delay to allow modal to render first
-    //setTimeout(() => setVideoPlaying(true), 300);
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleCheckoutSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitStatus({ loading: true, success: false, error: '' });
-    // Mock payment - replace with Stripe/PayPal API
-    setTimeout(() => {
-      setSubmitStatus({ loading: false, success: true, error: '' });
-      setCart([]); // Clear cart on success
-      setTimeout(() => setShowCheckout(false), 2000);
-    }, 1500);
-  };
-
-
-
-  const addReview = (id, review) => {
-    setReviews((prev) => ({ ...prev, [id]: [...(prev[id] || []), review] }));
-    setReviewForm({ rating: 0, comment: '' }); // Reset form
+  // Add Review (Firestore subcollection)
+  const addReview = async (productId, review) => {
+    if (!auth.currentUser) return;
+    const reviewRef = doc(collection(db, 'products', productId, 'reviews'), auth.currentUser.uid);
+    await setDoc(reviewRef, {
+      rating: review.rating,
+      comment: review.comment,
+      userId: auth.currentUser.uid,
+      timestamp: new Date()
+    });
+    setReviewForm({ rating: 0, comment: '' });
   };
 
   const getAverageRating = (id) => {
@@ -203,12 +128,51 @@ const Shop = () => {
     return revs.length ? (revs.reduce((sum, r) => sum + r.rating, 0) / revs.length).toFixed(1) : 'No reviews';
   };
 
+  const filteredProducts = products.filter(p => 
+    p && p.name && p.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  // Filter products based on search
-  const filteredProducts = products.filter(prod => prod.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const cartTotal = cart.reduce((sum, item) => sum + (item.discountedPrice || item.price) * (item.quantity || 1), 0);
 
-  // Cart total
-  const cartTotal = cart.reduce((sum, item) => sum + (item.discountedPrice || item.price) * item.quantity, 0);
+  // Open image viewer modal
+  const openViewer = (product) => {
+    setSelectedProduct(product);
+    setShowViewer(true);
+  };
+
+  // Open video tutorial modal
+  const openVideo = (product) => {
+    setSelectedProduct(product);
+    setShowVideo(true);
+  };
+
+  // Update product quantity before adding to cart
+  const updateQuantity = (productId, newQty) => {
+    const qty = parseInt(newQty) || 1;
+    setQuantities(prev => ({ ...prev, [productId]: Math.max(1, qty) }));
+  };
+
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Handle checkout form submission
+  const handleCheckoutSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitStatus({ loading: true, success: false, error: '' });
+    try {
+      // Stripe payment processing would go here
+      // For now, just show success message
+      setSubmitStatus({ loading: false, success: true, error: '' });
+      setCart([]); // Clear cart after successful payment
+      setShowCheckout(false); // Close modal
+      setFormData({ name: '', email: '', address: '', card: '' }); // Reset form
+    } catch (err) {
+      setSubmitStatus({ loading: false, success: false, error: err.message });
+    }
+  };
 
   return (
     <Container fluid className="py-5">

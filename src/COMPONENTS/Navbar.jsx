@@ -8,9 +8,19 @@ import { FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBo
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import Select from 'react-select';
-import axios from 'axios';
 import AIAgent from './AIAgent';
 import './Navbar.css'; // Updated with OAuth styling + strength indicator
+import { auth, db, googleProvider, appleProvider, microsoftProvider } from '../firebase';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  sendPasswordResetEmail, 
+  signInWithPopup, 
+  onAuthStateChanged, 
+  updatePassword,
+  OAuthProvider
+} from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg';
 
@@ -18,88 +28,62 @@ const AppNavbar = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signupForm, setSignupForm] = useState({ email: '', country: null, language: null, password: '', confirmPassword: '' });
   const [forgotForm, setForgotForm] = useState({ email: '' });
+  const [changePasswordForm, setChangePasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
-  const [countries, setCountries] = useState([]);
-  const [languages, setLanguages] = useState([]);
+  const [countries] = useState([ /* Full list - 250+ countries */ 
+    { value: 'gh', label: 'Ghana' }, { value: 'us', label: 'United States' }, /* ... add all from Firebase or static */
+    // For speed, you can fetch once from Firestore or keep static
+  ]);
+  const [languages] = useState([
+    { value: 'en', label: 'English' }, { value: 'es', label: 'Spanish' }, { value: 'fr', label: 'French' },
+    // Add all 100+ languages
+  ]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userProfile, setUserProfile] = useState({});
-  const [passwordStrength, setPasswordStrength] = useState({ level: 'weak', color: 'red', width: '25%' }); // Real-time strength
+  const [passwordStrength, setPasswordStrength] = useState({ level: 'weak', color: 'red', width: '25%' });
 
-  // 13. Fetch ALL countries and languages from backend in real-time
+  // Real-time Firebase Auth Listener (replaces all token logic)
   useEffect(() => {
-    axios.get('/api/countries').then(res => setCountries(res.data)).catch(() => setCountries([]));
-    axios.get('/api/languages').then(res => setLanguages(res.data)).catch(() => setLanguages([]));
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        setUserProfile(userDoc.exists() ? userDoc.data() : { email: user.email });
+      } else {
+        setIsLoggedIn(false);
+        setUserProfile({});
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
-  // Real-time email validation (debounce)
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (loginForm.email) {
-        try {
-          const res = await axios.get(`/api/check-email?email=${loginForm.email}`);
-          setErrors(prev => ({ ...prev, email: res.data.exists ? '' : 'Email not found' }));
-        } catch {
-          setErrors(prev => ({ ...prev, email: 'Validation error' }));
-        }
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [loginForm.email]);
-
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (signupForm.email) {
-        try {
-          const res = await axios.get(`/api/check-email?email=${signupForm.email}`);
-          setErrors(prev => ({ ...prev, email: res.data.exists ? 'Email already in use' : '' }));
-        } catch {
-          setErrors(prev => ({ ...prev, email: 'Validation error' }));
-        }
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [signupForm.email]);
-
-  // 3 & 8. Real-time password strength indicator + validation
-  const validatePassword = (password, confirm) => {
-    if (password.length < 8) return 'At least 8 characters';
-    if (!/[A-Z]/.test(password)) return 'Include uppercase';
-    if (!/[0-9]/.test(password)) return 'Include number';
-    if (confirm && password !== confirm) return 'Passwords do not match';
-    return '';
-  };
-
+  // Real-time password strength
   const calculateStrength = (password) => {
     let score = 0;
-    if (password.length >= 8) score += 1;
-    if (/[A-Z]/.test(password)) score += 1;
-    if (/[0-9]/.test(password)) score += 1;
-    if (/[^A-Za-z0-9]/.test(password)) score += 1;
-    if (password.length >= 12) score += 1;
-
-    if (score <= 2) return { level: 'Weak', color: 'red', width: '25%' };
-    if (score === 3) return { level: 'Medium', color: 'orange', width: '50%' };
-    return { level: 'Strong', color: 'green', width: '100%' };
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+    if (password.length >= 12) score++;
+    return score <= 2 ? { level: 'Weak', color: 'red', width: '25%' } :
+           score === 3 ? { level: 'Medium', color: 'orange', width: '50%' } :
+           { level: 'Strong', color: 'green', width: '100%' };
   };
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginForm(prev => ({ ...prev, [name]: value }));
-    if (name === 'password') setErrors(prev => ({ ...prev, password: validatePassword(value) }));
   };
 
   const handleSignupChange = (e) => {
     const { name, value } = e.target || { name: e.name, value: e.value };
     setSignupForm(prev => ({ ...prev, [name]: value }));
-    if (name === 'password') {
-      setErrors(prev => ({ ...prev, password: validatePassword(value, signupForm.confirmPassword) }));
-      setPasswordStrength(calculateStrength(value)); // Real-time strength
-    }
-    if (name === 'confirmPassword') setErrors(prev => ({ ...prev, confirmPassword: validatePassword(signupForm.password, value) }));
+    if (name === 'password') setPasswordStrength(calculateStrength(value));
   };
 
   const handleForgotChange = (e) => {
@@ -107,115 +91,117 @@ const AppNavbar = () => {
     setForgotForm(prev => ({ ...prev, [name]: value }));
   };
 
-  // 1. Login with Email/Password (real backend)
-  const handleLoginSubmit = async (e) => {
+  const handleChangePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setChangePasswordForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleChangePasswordSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
+    
+    // Validate passwords match
+    if (changePasswordForm.newPassword !== changePasswordForm.confirmPassword) {
+      setErrors({ confirmPassword: 'Passwords do not match' });
+      return;
+    }
+
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const response = await axios.post('/api/login', loginForm, { withCredentials: true });
-      if (response.data.token) {
-        localStorage.setItem('authToken', response.data.token);
-        setIsLoggedIn(true);
-        const profileRes = await axios.get('/api/profile', { headers: { Authorization: `Bearer ${response.data.token}` } });
-        setUserProfile(profileRes.data);
-      }
+      await handlePasswordChange(changePasswordForm.newPassword);
+      setChangePasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setStatus({ loading: false, success: true, error: 'Password changed successfully!' });
+      setShowChangePassword(false);
+    } catch (err) {
+      setErrors({ password: err.message });
+      setStatus({ loading: false, success: false, error: err.message });
+    }
+  };
+
+  // 1. Login with Email/Password
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setErrors({});
+    setStatus({ loading: true, success: false, error: '' });
+    try {
+      await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password);
       setStatus({ loading: false, success: true, error: '' });
       setShowLogin(false);
     } catch (err) {
-      setStatus({ loading: false, success: false, error: err.response?.data?.error || 'Login failed' });
+      setErrors({ email: err.message });
+      setStatus({ loading: false, success: false, error: err.message });
     }
   };
 
-  // 7. Signup with Email, Country, Language, Password
+  // 7. Signup + Auto-create Profile in Firestore
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
+    
+    // Validate passwords match
+    if (signupForm.password !== signupForm.confirmPassword) {
+      setErrors({ confirmPassword: 'Passwords do not match' });
+      return;
+    }
+
     setStatus({ loading: true, success: false, error: '' });
     try {
-      const response = await axios.post('/api/signup', signupForm, { withCredentials: true });
-      if (response.data.token) {
-        localStorage.setItem('authToken', response.data.token);
-        setIsLoggedIn(true);
-        const profileRes = await axios.get('/api/profile', { headers: { Authorization: `Bearer ${response.data.token}` } });
-        setUserProfile(profileRes.data);
-      }
+      const userCredential = await createUserWithEmailAndPassword(auth, signupForm.email, signupForm.password);
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
+        email: signupForm.email,
+        country: signupForm.country?.label,
+        language: signupForm.language?.label,
+        createdAt: new Date().toISOString(),
+        profilePicture: ''
+      });
       setStatus({ loading: false, success: true, error: '' });
       setShowSignup(false);
     } catch (err) {
-      setStatus({ loading: false, success: false, error: err.response?.data?.error || 'Signup failed' });
+      setErrors({ email: err.message });
+      setStatus({ loading: false, success: false, error: err.message });
     }
   };
 
-  // 2. Password Reset
+  // 2. Forgot Password
   const handleForgotSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     setStatus({ loading: true, success: false, error: '' });
     try {
-      await axios.post('/api/forgot-password', forgotForm);
+      await sendPasswordResetEmail(auth, forgotForm.email);
       setStatus({ loading: false, success: true, error: '' });
       setShowForgot(false);
-      setShowLogin(true);
     } catch (err) {
-      setStatus({ loading: false, success: false, error: err.response?.data?.error || 'Reset failed' });
+      setErrors({ email: err.message });
+      setStatus({ loading: false, success: false, error: err.message });
     }
   };
 
-  // 4,5,6,9,10,11. Real OAuth (backend redirects)
-  const handleGoogleLogin = () => { window.location.href = '/api/auth/google'; };
-  const handleAppleLogin = () => { window.location.href = '/api/auth/apple'; };
-  const handleFacebookLogin = () => { window.location.href = '/api/auth/facebook'; };
-  const handleMicrosoftLogin = () => { window.location.href = '/api/auth/microsoft'; };
-
-  // Mock logout
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setIsLoggedIn(false);
-    setUserProfile({});
-    window.location.href = '/';
+  // Update password for currently logged-in user
+  const handlePasswordChange = async (newPassword) => {
+    if (!auth.currentUser) {
+      setErrors({ password: 'No user logged in' });
+      return;
+    }
+    try {
+      await updatePassword(auth.currentUser, newPassword);
+      setStatus({ loading: false, success: true, error: 'Password updated successfully!' });
+      setErrors({});
+      return true;
+    } catch (err) {
+      setErrors({ password: err.message });
+      setStatus({ loading: false, success: false, error: err.message });
+      return false;
+    }
   };
 
-  // Handle OAuth callback with token in URL
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    if (token) {
-      localStorage.setItem('authToken', token);
-      setIsLoggedIn(true);
-      axios.get('/api/profile', { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => setUserProfile(res.data))
-        .catch(() => setIsLoggedIn(false));
-      window.history.replaceState({}, document.title, window.location.pathname); // Clean URL
-    }
-  }, []);
+  // Real OAuth (Google, Microsoft, Apple)
+  const handleGoogleLogin = () => signInWithPopup(auth, googleProvider);
+  const handleMicrosoftLogin = () => signInWithPopup(auth, microsoftProvider);
+  const handleAppleLogin = () => signInWithPopup(auth, appleProvider);
+  const handleFacebookLogin = () => signInWithPopup(auth, new OAuthProvider('facebook.com')); // if needed
 
-  // Check token on mount
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      setIsLoggedIn(true);
-      axios.get('/api/profile', { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => setUserProfile(res.data))
-        .catch(() => setIsLoggedIn(false));
-    }
-  }, []);
-
-
-
-  // Add this useEffect here (after the password strength useEffect)
-useEffect(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
-  if (token) {
-    localStorage.setItem('authToken', token);
-    setIsLoggedIn(true);
-    // Optional: Fetch profile immediately
-    axios.get('/api/profile', { 
-      headers: { Authorization: `Bearer ${token}` } 
-    }).then(res => setUserProfile(res.data));
-    
-    // Clean URL (remove ?token= from address bar)
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-}, []);
+  const handleLogout = () => auth.signOut();  
 
   return (
     <>
@@ -265,18 +251,21 @@ useEffect(() => {
               </NavDropdown>
             </Nav>
             <Nav>
-              {isLoggedIn ? (
-                <>
-                  <Nav.Link className="mx-2" title={userProfile.email}>
-                    <FaUserCircle className="me-2 text-orange" />
-                    {userProfile.email ? userProfile.email.split('@')[0] : 'Profile'}
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/profile" className="mx-2">View Full Profile</Nav.Link>
-                  <Button variant="danger" onClick={handleLogout} className="me-2">Logout</Button>
-                </>
-              ) : (
-                <Button variant="outline-primary" onClick={() => setShowLogin(true)} className="me-2"> <FaUserCircle className="me-2 text-orange" /> Login / Signup</Button>
-              )}
+             {isLoggedIn ? (
+    <>
+      <Nav.Link as={Link} to="/profile" className="mx-2">
+        <FaUserCircle className="me-2 text-orange" />
+        {userProfile.name || auth.currentUser?.email?.split('@')[0] || 'Profile'}
+      </Nav.Link>
+      <Button variant="danger" onClick={handleLogout} className="me-2">
+        Logout
+      </Button>
+    </>
+  ) : (
+    <Button variant="outline-primary" onClick={() => setShowLogin(true)} className="me-2">
+      <FaUserCircle className="me-2 text-orange" /> Login / Signup
+    </Button>
+  )}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -391,6 +380,35 @@ useEffect(() => {
           </Form>
           <p className="text-center mt-3">
             Back to <span className="text-orange cursor-pointer" onClick={() => { setShowForgot(false); setShowLogin(true); }}>Sign In</span>
+          </p>
+        </Modal.Body>
+      </Modal>
+
+      {/* Change Password Modal */}
+      <Modal show={showChangePassword} onHide={() => setShowChangePassword(false)} centered>
+        <Modal.Body>
+          <Image src={logoUrl} alt="BCM Logo" className="d-block mx-auto mb-3" fluid />
+          <h3 className="text-center mb-4">Change Password</h3>
+          <p className="text-center mb-4">Enter your new password.</p>
+          <Form onSubmit={handleChangePasswordSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>New Password</Form.Label>
+              <Form.Control type="password" name="newPassword" value={changePasswordForm.newPassword} onChange={handleChangePasswordChange} required isInvalid={!!errors.newPassword} />
+              <Form.Control.Feedback type="invalid">{errors.newPassword}</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control type="password" name="confirmPassword" value={changePasswordForm.confirmPassword} onChange={handleChangePasswordChange} required isInvalid={!!errors.confirmPassword} />
+              <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={status.loading} className="w-100 mb-3">
+              {status.loading ? 'Updating...' : 'Update Password'}
+            </Button>
+            {status.success && <Alert variant="success">Password updated successfully!</Alert>}
+            {status.error && <Alert variant="danger">{status.error}</Alert>}
+          </Form>
+          <p className="text-center mt-3">
+            <span className="text-orange cursor-pointer" onClick={() => setShowChangePassword(false)}>Cancel</span>
           </p>
         </Modal.Body>
       </Modal>
