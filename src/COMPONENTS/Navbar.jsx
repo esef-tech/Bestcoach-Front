@@ -21,6 +21,7 @@ import {
   OAuthProvider
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { FcAbout } from "react-icons/fc";
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg';
 
@@ -232,7 +233,7 @@ const AppNavbar = () => {
               </NavDropdown>
               <NavDropdown title="Company" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/blog" smooth={true} duration={500}><FaBlog className="me-2 text-orange" />Blog</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}>About Us</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/about" smooth={true} duration={500}><FcAbout className="me-2 text-orange" />About Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/press" smooth={true} duration={500}><FaNewspaper className="me-2 text-orange" />Press</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/team" smooth={true} duration={500}><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/contact" smooth={true} duration={500}><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
