@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -26,6 +26,40 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script>
+      // Global error handler to prevent unhandled script errors from external sources
+      window.addEventListener(
+        "error",
+        function (event) {
+          // Only log external errors without throwing
+          if (
+            event.filename &&
+            (event.filename.includes("relevanceai") ||
+              event.filename.includes("embed"))
+          ) {
+            console.warn(
+              "External script error handled silently:",
+              event.message,
+            );
+            event.preventDefault();
+            return false;
+          }
+        },
+        true,
+      );
+
+      // Handle unhandled promise rejections
+      window.addEventListener("unhandledrejection", function (event) {
+        if (
+          event.reason &&
+          event.reason.message &&
+          event.reason.message.includes("relevanceai")
+        ) {
+          console.warn("External API error handled silently:", event.reason);
+          event.preventDefault();
+        }
+      });
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
