@@ -213,6 +213,8 @@ const Shop = () => {
   const cartTotal = cart.reduce((sum, item) => sum + (item.discountedPrice || item.price) * item.quantity, 0);
 
   return (
+
+    <React.Fragment>
     <Container fluid className="py-5">
       {/* Search Bar */}
       <Row className="mb-4 animate-slide-up">
@@ -449,6 +451,7 @@ const Shop = () => {
         </Modal.Body>
       </Modal>
     </Container>
+    </React.Fragment>
   );
 };
 

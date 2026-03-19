@@ -126,7 +126,7 @@
 }
 
 /* Buttons */
-.btn-primary {
+.btn-profile {
   background: linear-gradient(45deg, #fd7e14, #e06b00);
   border: none;
   font-weight: 600;
@@ -135,7 +135,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-profile:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(253, 126, 20, 0.4);
 }
