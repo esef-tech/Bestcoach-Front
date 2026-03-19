@@ -27,38 +27,51 @@
     -->
     <title>React App</title>
     <script>
-      // Global error handler to prevent unhandled script errors from external sources
+      // Comprehensive error suppression for external scripts
       window.addEventListener(
         "error",
         function (event) {
-          // Only log external errors without throwing
+          // Suppress errors from external sources
           if (
             event.filename &&
             (event.filename.includes("relevanceai") ||
-              event.filename.includes("embed"))
+              event.filename.includes("embed") ||
+              event.filename.includes("app.relevanceai.com"))
           ) {
-            console.warn(
-              "External script error handled silently:",
-              event.message,
-            );
+            console.warn("External script error suppressed:", event.message);
             event.preventDefault();
             return false;
+          }
+          // Suppress generic "Script error" from cross-origin scripts
+          if (event.message === "Script error") {
+            console.warn("Cross-origin script error suppressed");
+            event.preventDefault();
+            return false;
+          }
+          return true;
+        },
+        true,
+      );
+
+      // Handle unhandled promise rejections from external sources
+      window.addEventListener(
+        "unhandledrejection",
+        function (event) {
+          const reason = String(event.reason || "");
+          if (
+            reason.includes("relevanceai") ||
+            reason.includes("Script error")
+          ) {
+            console.warn("External promise rejection suppressed:", reason);
+            event.preventDefault();
           }
         },
         true,
       );
 
-      // Handle unhandled promise rejections
-      window.addEventListener("unhandledrejection", function (event) {
-        if (
-          event.reason &&
-          event.reason.message &&
-          event.reason.message.includes("relevanceai")
-        ) {
-          console.warn("External API error handled silently:", event.reason);
-          event.preventDefault();
-        }
-      });
+      // Override console methods to catch errors before display
+      const originalWarn = console.warn;
+      const originalError = console.error;
     </script>
   </head>
   <body>

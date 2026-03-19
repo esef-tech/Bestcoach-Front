@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown, Alert, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
+//import { AiFillApple, AiFillFacebook } from 'react-icons/ai';
 import { FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone, FaMusic, FaMicrophoneAlt, FaShoppingCart } from 'react-icons/fa';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import Select from 'react-select';
 import AIAgent from './AIAgent';
 import './Navbar.css'; // Updated with OAuth styling + strength indicator
-import { auth, db, googleProvider, appleProvider, microsoftProvider } from '../firebase';
+import { auth, db, googleProvider,  } from '../firebase'; //add later appleProvider, microsoftProvider
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -18,7 +18,7 @@ import {
   signInWithPopup, 
   onAuthStateChanged, 
   updatePassword,
-  OAuthProvider
+  //OAuthProvider
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { FcAbout } from "react-icons/fc";
@@ -230,9 +230,9 @@ const AppNavbar = () => {
 
   // Real OAuth (Google, Microsoft, Apple)
   const handleGoogleLogin = () => signInWithPopup(auth, googleProvider);
-  const handleMicrosoftLogin = () => signInWithPopup(auth, microsoftProvider);
-  const handleAppleLogin = () => signInWithPopup(auth, appleProvider);
-  const handleFacebookLogin = () => signInWithPopup(auth, new OAuthProvider('facebook.com')); // if needed
+  //const handleMicrosoftLogin = () => signInWithPopup(auth, microsoftProvider);
+  //const handleAppleLogin = () => signInWithPopup(auth, appleProvider);
+  //const handleFacebookLogin = () => signInWithPopup(auth, new OAuthProvider('facebook.com')); // if needed
 
   const handleLogout = () => auth.signOut();  
 
@@ -332,9 +332,9 @@ const AppNavbar = () => {
           </p>
           {/* Enhanced OAuth buttons */}
           <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleGoogleLogin}><FcGoogle /> Sign in with Google</Button>
-          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleMicrosoftLogin}><span style={{color: '#0078D4'}}>⊞</span> Sign in with Microsoft</Button>
+         {/* <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleMicrosoftLogin}><span style={{color: '#0078D4'}}>⊞</span> Sign in with Microsoft</Button>
           <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleAppleLogin}><AiFillApple /> Sign in with Apple</Button>
-          <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign in with Facebook</Button>
+          <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign in with Facebook</Button>*/}
           <p className="text-center text-orange cursor-pointer" onClick={() => console.log('Get Support')}>Get Support</p>
           <AIAgent />
         </Modal.Body>
@@ -381,9 +381,9 @@ const AppNavbar = () => {
           </Form>
           {/* Enhanced OAuth buttons */}
           <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleGoogleLogin}><FcGoogle /> Sign up with Google</Button>
-          <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleMicrosoftLogin}><span style={{color: '#0078D4'}}>⊞</span> Sign up with Microsoft</Button>
+         {/* <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleMicrosoftLogin}><span style={{color: '#0078D4'}}>⊞</span> Sign up with Microsoft</Button>
           <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleAppleLogin}><AiFillApple /> Sign up with Apple</Button>
-          <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign up with Facebook</Button>
+          <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign up with Facebook</Button>*/}
           <p className="text-center mb-2">
             Already have an account? <span className="text-orange cursor-pointer" onClick={() => { setShowSignup(false); setShowLogin(true); }}>Sign in</span>
           </p>
