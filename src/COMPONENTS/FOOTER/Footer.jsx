@@ -3,32 +3,62 @@ import './Footer.css'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link as RouterLink } from 'react-router-dom';
 import { FaWhatsapp, FaFacebookF, FaTiktok, FaInstagram, FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaAngleRight, } from 'react-icons/fa';
-import axios from 'axios';
 import { Alert } from 'react-bootstrap';
+import { db } from '../../firebase'; // ← Import Firebase
+import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore';
 
 
 const Footer = () => {
 
-const [formData, setFormData] = useState({ name: '', email: '' });
+  const [formData, setFormData] = useState({ name: '', email: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const currentYear = new Date().getFullYear();
 
+ 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.email) return;
+
     setStatus({ loading: true, success: false, error: '' });
+
     try {
-      await axios.post('http://localhost:5000/api/newsletter', formData);
+      // Duplicate check
+      const q = query(collection(db, 'newsletter'), where('email', '==', formData.email));
+      const existing = await getDocs(q);
+
+      if (!existing.empty) {
+        setStatus({ loading: false, success: false, error: 'You are already subscribed!' });
+        return;
+      }
+
+      await addDoc(collection(db, 'newsletter'), {
+        name: formData.name || 'Anonymous',
+        email: formData.email,
+        timestamp: serverTimestamp(),
+        subscribedAt: new Date().toISOString()
+      });
+
       setStatus({ loading: false, success: true, error: '' });
       setFormData({ name: '', email: '' });
+
     } catch (err) {
-      setStatus({ loading: false, success: false, error: 'Error subscribing. Try again.' });
+      console.error("Newsletter error:", err);
+      
+      // Better error messages
+      let errorMsg = 'Failed to subscribe. Please try again later.';
+      if (err.code === 'permission-denied') {
+        errorMsg = 'Permission denied. Please check Firestore security rules.';
+      } else if (err.code === 'not-found') {
+        errorMsg = 'Database not found. Please contact support.';
+      } else if (err.message) {
+        errorMsg = err.message;
+      }
+      
+      setStatus({ loading: false, success: false, error: errorMsg });
     }
   };
-
-   
-
 
   return (
     <>
@@ -93,25 +123,28 @@ const [formData, setFormData] = useState({ name: '', email: '' });
             </div>
           </Col>
 
-          {/* Newsletter */}
-          <Col lg={3} md={6} className="mb-5">
-            <h3 className="text-color mb-4">Newsletter</h3>
-            <Form onSubmit={handleSubmit} className="newsletter-form">
-              <Form.Group className="mb-3">
-                <Form.Control type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Control type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
-              </Form.Group>
-              <Button type="submit" id="newsletter-color"
-              className="newsletter-btn btn-block" disabled={status.loading}>
-                {status.loading ? 'Submitting...' : 'Submit Now'}
-              </Button>
-              {status.success && <Alert variant="success" className="mt-2">Subscribed successfully!</Alert>}
-              {status.error && <Alert variant="danger" className="mt-2">{status.error}</Alert>}
-            </Form>
-          </Col>
-        </Row>
+         {/* Newsletter */}
+            <Col lg={3} md={6} className="mb-5">
+              <h3 className="text-color mb-4">Newsletter</h3>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                  <Form.Control type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Control type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
+                </Form.Group>
+
+                <Button type="submit" className="newsletter-btn btn-block" disabled={status.loading}>
+                  {status.loading ? 'Submitting...' : 'Submit Now'}
+                </Button>
+
+                {status.success && <Alert variant="success" className="mt-3">✅ You're now subscribed! Thank you.</Alert>}
+                {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
+              </Form>
+            </Col>
+          </Row>
+
+
         <div className="pt-5 border-top border-light text-center">
           <p className="m-0">&copy; {currentYear} <a href="https://bestcoachmusic.netlify.app/" className="text-color font-weight-bold" target="_blank" rel="noopener noreferrer">Bestcoach</a>. All Rights Reserved. <a href="https://esef-tech.netlify.app/" className="text-color font-weight-bold" target="_blank" rel="noopener noreferrer">Bestcoach.Dev</a></p>
         </div>
@@ -119,8 +152,7 @@ const [formData, setFormData] = useState({ name: '', email: '' });
 
       {/* Back to Top */}
     
-        
-    
+  
     </footer>
     </>
   )
