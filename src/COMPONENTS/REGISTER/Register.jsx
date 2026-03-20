@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Form, Alert } from 'react-bootstrap';
-import axios from 'axios';
 import { FaCheckCircle } from 'react-icons/fa';
 import './Register.css';
+import { db } from '../../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -38,14 +39,29 @@ const Register = () => {
     setStatus({ loading: true, success: false, error: '' });
 
     try {
-      await axios.post('http://localhost:5000/api/register', formData);
+      await addDoc(collection(db, 'special-requests'), {
+        name: formData.name,
+        email: formData.email,
+        service: formData.service,
+        timestamp: serverTimestamp(),
+      });
+
       setStatus({ loading: false, success: true, error: '' });
+
+      // Auto-clear form
       setFormData({ name: '', email: '', service: '' });
+
+      // Auto-hide success message after 4 seconds
+      setTimeout(() => {
+        setStatus(prev => ({ ...prev, success: false }));
+      }, 4000);
+
     } catch (err) {
+      console.error(err);
       setStatus({
         loading: false,
         success: false,
-        error: err.response?.data?.error || 'Something went wrong. Please try again.',
+        error: 'Something went wrong. Please try again.',
       });
     }
   };
@@ -110,7 +126,6 @@ const Register = () => {
                       required
                     />
                   </Form.Group>
-
                   <Form.Group className="mb-4">
                     <Form.Control
                       type="email"
@@ -121,7 +136,6 @@ const Register = () => {
                       required
                     />
                   </Form.Group>
-
                   <Form.Group className="mb-4">
                     <Form.Select
                       name="service"
@@ -156,7 +170,6 @@ const Register = () => {
                       Thank you! Your request has been sent successfully. 🎉
                     </Alert>
                   )}
-
                   {status.error && (
                     <Alert variant="danger" className="form-message mt-4">
                       {status.error}
