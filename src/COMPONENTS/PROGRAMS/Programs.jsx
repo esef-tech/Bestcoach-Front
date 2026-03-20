@@ -1,10 +1,15 @@
 import React, {useState} from 'react'
 import './Programs.css'
-import { Container, Row, Col, Card, Button, Modal, Form } from 'react-bootstrap';
-import axios from 'axios';
+import { Container, Row, Col, Card, Button, Modal, Form, Alert } from 'react-bootstrap';
+import { auth, db } from '../../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 const Programs = () => {
-const [showModal, setShowModal] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', package: '' });
+  const [status, setStatus] = useState({ loading: false, success: false, error: '' });
+
 
   const packages = [
     {
@@ -43,20 +48,31 @@ const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus({ loading: true, success: false, error: '' });
+
     try {
-      await axios.post('http://localhost:5000/api/enroll', formData); // New backend route
-      alert('Enrollment submitted!');
-      setShowModal(false);
+      await addDoc(collection(db, 'enrollments'), {
+        name: formData.name,
+        email: formData.email,
+        package: formData.package,
+        timestamp: serverTimestamp(),
+        userId: auth.currentUser?.uid || 'anonymous'
+      });
+
+      setStatus({ loading: false, success: true, error: '' });
+      setFormData({ name: '', email: '', package: '' }); // Clear form
+      setShowModal(false); // Close modal
     } catch (err) {
-      alert('Error submitting enrollment');
+      console.error(err);
+      setStatus({ loading: false, success: false, error: 'Enrollment failed. Please try again.' });
     }
   };
-
-
   return (
     <>
       
@@ -67,65 +83,70 @@ const [showModal, setShowModal] = useState(false);
           <p className="px-5" id='section-p'><span className="px-2">Bestcoach Music</span></p>
           <h1 className="mb-4">Bestcoach For Everyone</h1>
         </div>
-        <Row>
-          {packages.map((pkg, idx) => (
-            <Col lg={4} className="mb-5" key={idx}>
-              <Card className="program-card pb-2">
-                <Card.Img variant="top" src={pkg.img} className="mb-2 img-fluid" />
-                <Card.Body className="text-center">
-                  <Card.Title as="h4">{pkg.title}</Card.Title>
-                  <Card.Text>{pkg.desc}</Card.Text>
-                </Card.Body>
-                <Card.Footer className="bg-transparent py-4 px-5">
-                  <Row className="border-bottom">
-                    <Col xs={6} className="py-1 text-right border-right"><strong>Age range</strong></Col>
-                    <Col xs={6} className="py-1">{pkg.age}</Col>
-                  </Row>
-                  <Row className="border-bottom">
-                    <Col xs={6} className="py-1 text-right border-right"><strong>Price</strong></Col>
-                    <Col xs={6} className="py-1">{pkg.price}</Col>
-                  </Row>
-                  <Row className="border-bottom">
-                    <Col xs={6} className="py-1 text-right border-right"><strong>Duration</strong></Col>
-                    <Col xs={6} className="py-1">{pkg.duration}</Col>
-                  </Row>
-                  <Row>
-                    <Col xs={6} className="py-1 text-right border-right"><strong>Schedule</strong></Col>
-                    <Col xs={6} className="py-1">{pkg.schedule}</Col>
-                  </Row>
-                </Card.Footer>
-                <Button 
-                  id="join-btn"
-                  className="px-4 mx-auto mb-4" 
-                  onClick={() => handleShow(pkg.title)}
-                >
-                  Join Now
-                </Button>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+       <Row>
+            {packages.map((pkg, idx) => (
+              <Col lg={4} className="mb-5" key={idx}>
+                <Card className="program-card pb-2">
+                  <Card.Img variant="top" src={pkg.img} className="mb-2 img-fluid" />
+                  <Card.Body className="text-center">
+                    <Card.Title as="h4">{pkg.title}</Card.Title>
+                    <Card.Text>{pkg.desc}</Card.Text>
+                  </Card.Body>
+                  <Card.Footer className="bg-transparent py-4 px-5">
+                    <Row className="border-bottom">
+                      <Col xs={6} className="py-1 text-right border-right"><strong>Age range</strong></Col>
+                      <Col xs={6} className="py-1">{pkg.age}</Col>
+                    </Row>
+                    <Row className="border-bottom">
+                      <Col xs={6} className="py-1 text-right border-right"><strong>Price</strong></Col>
+                      <Col xs={6} className="py-1">{pkg.price}</Col>
+                    </Row>
+                    <Row className="border-bottom">
+                      <Col xs={6} className="py-1 text-right border-right"><strong>Duration</strong></Col>
+                      <Col xs={6} className="py-1">{pkg.duration}</Col>
+                    </Row>
+                    <Row>
+                      <Col xs={6} className="py-1 text-right border-right"><strong>Schedule</strong></Col>
+                      <Col xs={6} className="py-1">{pkg.schedule}</Col>
+                    </Row>
+                  </Card.Footer>
+                  <Button id="join-btn" className="px-4 mx-auto mb-4" onClick={() => handleShow(pkg.title)}>
+                    Join Now
+                  </Button>
+                </Card>
+              </Col>
+            ))}
+          </Row>
       </Container>
 
-      {/* Enrollment Modal */}
-      <Modal show={showModal} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Enroll in {formData.package}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
-              <Form.Control name="name" onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control name="email" type="email" onChange={handleChange} required />
-            </Form.Group>
-            <Button type="submit" variant="primary">Submit Enrollment</Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
+     {/* Enrollment Modal */}
+        <Modal show={showModal} onHide={handleClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Enroll in {formData.package}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control name="name" value={formData.name} onChange={handleChange} required />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
+              </Form.Group>
+               <Form.Group className="mb-3">
+                <Form.Label>Price</Form.Label>
+                <Form.Control name="price" type="number" value={formData.price} onChange={handleChange} required />
+              </Form.Group>
+              <Button type="submit" variant="primary" disabled={status.loading} className="w-100">
+                {status.loading ? 'Submitting...' : 'Submit Enrollment'}
+              </Button>
+
+              {status.success && <Alert variant="success" className="mt-3">Enrollment submitted successfully!</Alert>}
+              {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
+            </Form>
+          </Modal.Body>
+        </Modal>
     </section>
 
     </>
