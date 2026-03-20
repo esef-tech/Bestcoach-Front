@@ -22,6 +22,11 @@ const Footer = () => {
     if (!formData.email) return;
 
     setStatus({ loading: true, success: false, error: '' });
+    setStatus({ loading: false, success: true, error: '' });
+setFormData({ name: '', email: '' });
+
+// Auto-hide success message after 3 seconds
+setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
 
     try {
       // Duplicate check
@@ -142,7 +147,6 @@ const Footer = () => {
               </Form>
             </Col>
           </Row>
-
 
         <div className="pt-5 border-top border-light text-center">
           <p className="m-0">&copy; {currentYear} <a href="https://bestcoachmusic.netlify.app/" className="text-color-footer font-weight-bold" target="_blank" rel="noopener noreferrer">Bestcoach</a>. All Rights Reserved. <a href="https://esef-tech.netlify.app/" className="text-color-footer font-weight-bold" target="_blank" rel="noopener noreferrer">Bestcoach.Dev</a></p>

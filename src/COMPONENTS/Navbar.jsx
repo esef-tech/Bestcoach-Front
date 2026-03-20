@@ -8,7 +8,6 @@ import { FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBo
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import Select from 'react-select';
-import AIAgent from './AIAgent';
 import './Navbar.css'; // Updated with OAuth styling + strength indicator
 import { auth, db, googleProvider,  } from '../firebase'; //add later appleProvider, microsoftProvider
 import { 
@@ -95,6 +94,17 @@ const AppNavbar = () => {
     return () => unsubscribe();
   }, []);
 
+
+
+  // Auto-open Login modal when ?login=true is in URL (from Careers/Footer prompt)
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('login') === 'true') {
+    setShowLogin(true);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+}, []);
+
   // Real-time password strength
   const calculateStrength = (password) => {
     let score = 0;
@@ -151,32 +161,22 @@ const AppNavbar = () => {
     }
   };
 
-  // 1. Login with Email/Password
+   // Auto-close modal + clear form on success
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
     setStatus({ loading: true, success: false, error: '' });
     try {
       await signInWithEmailAndPassword(auth, loginForm.email, loginForm.password);
+      setLoginForm({ email: '', password: '' }); // Clear form
+      setShowLogin(false); // Close modal
       setStatus({ loading: false, success: true, error: '' });
-      setShowLogin(false);
     } catch (err) {
-      setErrors({ email: err.message });
       setStatus({ loading: false, success: false, error: err.message });
     }
   };
 
-  // 7. Signup + Auto-create Profile in Firestore
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
-    
-    // Validate passwords match
-    if (signupForm.password !== signupForm.confirmPassword) {
-      setErrors({ confirmPassword: 'Passwords do not match' });
-      return;
-    }
-
     setStatus({ loading: true, success: false, error: '' });
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, signupForm.email, signupForm.password);
@@ -187,8 +187,9 @@ const AppNavbar = () => {
         createdAt: new Date().toISOString(),
         profilePicture: ''
       });
+      setSignupForm({ email: '', country: null, language: null, password: '', confirmPassword: '' }); // Clear form
+      setShowSignup(false); // Close modal
       setStatus({ loading: false, success: true, error: '' });
-      setShowSignup(false);
     } catch (err) {
       setErrors({ email: err.message });
       setStatus({ loading: false, success: false, error: err.message });
@@ -228,8 +229,14 @@ const AppNavbar = () => {
     }
   };
 
+ 
+
+  
+  // OAuth auto-close
+  const handleGoogleLogin = () => signInWithPopup(auth, googleProvider).then(() => setShowLogin(false));
+
   // Real OAuth (Google, Microsoft, Apple)
-  const handleGoogleLogin = () => signInWithPopup(auth, googleProvider);
+  //const handleGoogleLogin = () => signInWithPopup(auth, googleProvider);
   //const handleMicrosoftLogin = () => signInWithPopup(auth, microsoftProvider);
   //const handleAppleLogin = () => signInWithPopup(auth, appleProvider);
   //const handleFacebookLogin = () => signInWithPopup(auth, new OAuthProvider('facebook.com')); // if needed
@@ -336,7 +343,6 @@ const AppNavbar = () => {
           <Button variant="outline-dark" className="w-100 mb-2 oauth-btn" onClick={handleAppleLogin}><AiFillApple /> Sign in with Apple</Button>
           <Button variant="outline-dark" className="w-100 mb-3 oauth-btn" onClick={handleFacebookLogin}><AiFillFacebook /> Sign in with Facebook</Button>*/}
           <p className="text-center text-orange cursor-pointer" onClick={() => console.log('Get Support')}>Get Support</p>
-          <AIAgent />
         </Modal.Body>
       </Modal>
 

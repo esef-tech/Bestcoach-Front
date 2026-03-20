@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Modal, Alert , Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaBriefcase, FaUsers, FaHeart, FaUpload } from 'react-icons/fa';
-import axios from 'axios';
 import './Careers.css';
 import about from './../../Images/team/20.jpg'
+import { auth, db, storage } from '../../../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 
 const Careers = () => {
@@ -13,6 +15,7 @@ const Careers = () => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', job: '', resumeFile: null, resumeUrl: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false); // New prompt
 
   // Dynamic job listings (expandable array)
   const jobs = [
@@ -35,6 +38,10 @@ const Careers = () => {
   };
 
   const handleApply = (jobTitle) => {
+    if (!auth.currentUser) {
+      setShowLoginPrompt(true);
+      return;
+    }
     setFormData({ ...formData, job: jobTitle });
     setShowModal(true);
   };
@@ -43,18 +50,26 @@ const Careers = () => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
 
-    const formPayload = new FormData();
-    formPayload.append('name', formData.name);
-    formPayload.append('email', formData.email);
-    formPayload.append('job', formData.job);
-    if (formData.resumeFile) formPayload.append('resumeFile', formData.resumeFile); // Local file
-    formPayload.append('resumeUrl', formData.resumeUrl); // Cloud/LinkedIn URL
-
     try {
-      await axios.post('http://localhost:5000/api/apply', formPayload, { headers: { 'Content-Type': 'multipart/form-data' } });
+      let resumeUrl = formData.resumeUrl || '';
+      if (formData.resumeFile) {
+        const fileRef = ref(storage, `resumes/${Date.now()}_${formData.resumeFile.name}`);
+        await uploadBytes(fileRef, formData.resumeFile);
+        resumeUrl = await getDownloadURL(fileRef);
+      }
+
+      await addDoc(collection(db, 'applications'), {
+        name: formData.name,
+        email: formData.email,
+        job: formData.job,
+        resumeUrl,
+        userId: auth.currentUser.uid,
+        timestamp: serverTimestamp()
+      });
+
       setStatus({ loading: false, success: true, error: '' });
-      setShowModal(false);
       setFormData({ name: '', email: '', job: '', resumeFile: null, resumeUrl: '' });
+      setShowModal(false);
     } catch (err) {
       setStatus({ loading: false, success: false, error: 'Application failed. Try again.' });
     }
@@ -149,34 +164,56 @@ const Careers = () => {
       </Container>
 
       {/* Apply Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Apply for {formData.job}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control name="name" value={formData.name} onChange={handleChange} required />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Which position are you applying for?</Form.Label>
+                <Form.Control name="job" value={formData.job} onChange={handleChange} required />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Resume File (img, word, pdf, odt) <FaUpload className="text-orange" /></Form.Label>
+                <Form.Control type="file" name="resumeFile" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text" onChange={handleChange} />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Or Resume URL (Google Drive, LinkedIn, etc.)</Form.Label>
+                <Form.Control name="resumeUrl" value={formData.resumeUrl} onChange={handleChange} placeholder="https://drive.google.com/... or https://linkedin.com/in/..." />
+              </Form.Group>
+              <Button type="submit" variant="primary" disabled={status.loading} className="w-100">
+                {status.loading ? 'Submitting...' : 'Submit Application'}
+              </Button>
+
+              {status.success && <Alert variant="success" className="mt-3">Application sent successfully!</Alert>}
+              {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
+            </Form>
+          </Modal.Body>
+        </Modal>
+
+        {/* Login Required Prompt Modal */}
+      <Modal show={showLoginPrompt} onHide={() => setShowLoginPrompt(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Apply for {formData.job}</Modal.Title>
+          <Modal.Title>Login Required</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
-              <Form.Control name="name" value={formData.name} onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Resume File (img, word, pdf, odt)<FaUpload className="text-orange" /></Form.Label>
-              <Form.Control type="file" name="resumeFile" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text" onChange={handleChange} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Or Resume URL (Google Drive, LinkedIn, etc.)</Form.Label>
-              <Form.Control name="resumeUrl" value={formData.resumeUrl} onChange={handleChange} placeholder="https://drive.google.com/resume-link or https://linkedin.com/in/yourprofile" />
-            </Form.Group>
-            <Button type="submit" variant="primary" disabled={status.loading}>
-              {status.loading ? 'Submitting...' : 'Submit Application'}
-            </Button>
-            {status.success && <Alert variant="success" className="mt-3">Application sent successfully!</Alert>}
-            {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
-          </Form>
+        <Modal.Body className="text-center">
+          <h5>You must be logged in to apply for jobs.</h5>
+          <p>Please sign in or create an account first.</p>
+          <Button variant="primary" onClick={() => {
+            setShowLoginPrompt(false);
+            window.location.href = '/?login=true'; // Triggers Navbar login modal
+          }}>
+            Sign In Now
+          </Button>
         </Modal.Body>
       </Modal>
     </section>

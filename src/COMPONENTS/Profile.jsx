@@ -90,7 +90,13 @@ const Profile = () => {
     setLoading(false);
   };
 
-  const handleLogout = () => auth.signOut();
+  const handleLogout = () => {
+    auth.signOut().then(() => {
+      window.location.href = '/'; // Redirect to home + close profile
+    });
+  };
+
+
   return (
     <Container fluid className="profile-container">
       <Card className="profile-card">
