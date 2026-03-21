@@ -34,12 +34,16 @@ import Loyal from "./COMPONENTS/PAGES/LOYAL/Loyal";
 import Shop from "./COMPONENTS/PAGES/SHOP/Shop";
 import Community from "./COMPONENTS/PAGES/COMMUNITY/Community";
 import Profile from "./COMPONENTS/Profile";
+//import TopHeader from '../src/COMPONENTS/TOPHEADER/TopHeader'
 
 function App() {
   return (
+
+    <React.Fragment> 
     <>
       <Router>
         <div className="App">
+          {/*<TopHeader/>*/}
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -77,6 +81,7 @@ function App() {
         </div>
       </Router>
     </>
+    </React.Fragment>
   );
 }
 

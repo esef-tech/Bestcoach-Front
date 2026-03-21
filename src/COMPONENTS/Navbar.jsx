@@ -21,6 +21,7 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { FcAbout } from "react-icons/fc";
+import TopHeader from './TOPHEADER/TopHeader';
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg';
 
@@ -244,7 +245,9 @@ useEffect(() => {
   const handleLogout = () => auth.signOut();  
 
   return (
-    <>
+    <React.Fragment>
+      <TopHeader />
+      <>
       <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm position-relative">
         <div className="animation-container">
           <span className="music-symbol">♪</span>
@@ -452,6 +455,7 @@ useEffect(() => {
         </Modal.Body>
       </Modal>
     </>
+    </React.Fragment>
   );
 };
 

@@ -3,24 +3,76 @@ import './Contact.css'
 import { Container, Row, Col, Form, Button, Alert, Accordion,Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock, FaSearch, FaQuestionCircle, FaGlobe } from 'react-icons/fa';
-import axios from 'axios';
+import { db, storage } from '../../../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+    hasAccount: ''
+  });
+  const [attachment, setAttachment] = useState(null);
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    if (e.target.name === 'attachment') {
+      setAttachment(e.target.files[0]);
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
+
     try {
-      await axios.post('http://localhost:5000/api/contact', formData);
+      let attachmentUrl = '';
+
+      // Upload attachment if selected
+      if (attachment) {
+        const fileRef = ref(storage, `contact-attachments/${Date.now()}_${attachment.name}`);
+        await uploadBytes(fileRef, attachment);
+        attachmentUrl = await getDownloadURL(fileRef);
+      }
+
+      // Save to Firestore
+      await addDoc(collection(db, 'contacts'), {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        hasAccount: formData.hasAccount,
+        attachmentUrl: attachmentUrl || null,
+        timestamp: serverTimestamp()
+      });
+
+      // SUCCESS
       setStatus({ loading: false, success: true, error: '' });
-      setFormData({ name: '', email: '', subject: '', message: '' });
+
+      // Auto-clear form + file
+      setFormData({ name: '', email: '', subject: '', message: '', hasAccount: '' });
+      setAttachment(null);
+
+      // Auto-hide success message after 4 seconds
+      setTimeout(() => {
+        setStatus(prev => ({ ...prev, success: false }));
+      }, 4000);
+
     } catch (err) {
-      setStatus({ loading: false, success: false, error: 'Submission failed. Try again.' });
+      console.error('🔥 Firebase Error Details:', err); // ← Check console for full details
+      setStatus({
+        loading: false,
+        success: false,
+        error: err.message || 'Submission failed. Please try again.' // ← REAL ERROR NOW SHOWN
+      });
     }
   };
 
@@ -90,51 +142,72 @@ const Contact = () => {
       </Container>
 
       {/* Contact Form */}
-      <Container className="py-5">
-        <h3 className="mb-4 text-orange text-center animate-slide-up">Reach Out Directly <FaEnvelope className="me-2" /></h3>
-        <p className="text-center mb-5 animate-slide-up">Get in touch with our support team!</p>
-        <Row className="justify-content-center">
-          <Col lg={7} className="animate-slide-left">
-            <Card className="shadow p-4 bg-white rounded">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control name="name" value={formData.name} onChange={handleChange} required />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Subject</Form.Label>
-                  <Form.Control name="subject" value={formData.subject} onChange={handleChange} required />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Message</Form.Label>
-                  <Form.Control as="textarea" rows={6} name="message" value={formData.message} onChange={handleChange} required />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Do you have an account with BestCoach Music?</Form.Label>
-                  <Form.Select name="hasAccount" value={formData.hasAccount} onChange={handleChange} required>
-                    <option value="">Select Yes or No</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Attachment (optional)</Form.Label>
-                  <Form.Control type="file" name="attachment" onChange={handleChange} />
-                </Form.Group>
-                <Button id="contact-button-submit-color" type="submit" disabled={status.loading} className="w-100 animate-bounce-in">
-                  {status.loading ? 'Sending...' : 'Send Message'}
-                </Button>
-                {status.success && <Alert variant="success" className="mt-3">Message sent successfully!</Alert>}
-                {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
-              </Form>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      {/* Contact Form - NOW FIREBASE CONNECTED */}
+       {/* Contact Form - FIXED */}
+        <Container className="py-5">
+          <h3 className="mb-4 text-orange text-center animate-slide-up">
+            Reach Out Directly <FaEnvelope className="me-2" />
+          </h3>
+          <p className="text-center mb-5 animate-slide-up">Get in touch with our support team!</p>
+
+          <Row className="justify-content-center">
+            <Col lg={7} className="animate-slide-left">
+              <Card className="shadow p-4 bg-white rounded">
+                <Form onSubmit={handleSubmit}>
+                  {/* All form fields unchanged */}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control name="name" value={formData.name} onChange={handleChange} required />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Subject</Form.Label>
+                    <Form.Control name="subject" value={formData.subject} onChange={handleChange} required />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Message</Form.Label>
+                    <Form.Control as="textarea" rows={6} name="message" value={formData.message} onChange={handleChange} required />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Do you have an account with BestCoach Music?</Form.Label>
+                    <Form.Select name="hasAccount" value={formData.hasAccount} onChange={handleChange} required>
+                      <option value="">Select Yes or No</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </Form.Select>
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Attachment (optional)</Form.Label>
+                    <Form.Control type="file" name="attachment" onChange={handleChange} />
+                  </Form.Group>
+
+                  <Button
+                    id="contact-button-submit-color"
+                    type="submit"
+                    disabled={status.loading}
+                    className="w-100 animate-bounce-in"
+                  >
+                    {status.loading ? 'Sending...' : 'Send Message'}
+                  </Button>
+
+                  {status.success && (
+                    <Alert variant="success" className="mt-3">
+                      Message sent successfully! 🎉
+                    </Alert>
+                  )}
+                  {status.error && (
+                    <Alert variant="danger" className="mt-3">
+                      {status.error}
+                    </Alert>
+                  )}
+                </Form>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
 
       {/* Urgent Contact */}
            <Container className="py-5 text-center animate-fade-in">

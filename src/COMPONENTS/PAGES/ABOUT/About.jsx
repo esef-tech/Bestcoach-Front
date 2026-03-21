@@ -1,17 +1,19 @@
 import React, {useState} from 'react'
 import { Container, Row, Col, Card, Form, Button, Alert, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For breadcrumb or links
-import axios from 'axios';
 import './About.css';
 import about from './../../Images/team/24.jpg';
 import {BiLogoPlayStore} from "react-icons/bi";
 import {FaAppStoreIos} from "react-icons/fa6";  
 //import featureImage from './../../Images/team/WhatsApp Image 2024-12-27 at 5.44.48 PM (1).jpeg'
+import { db } from '../../../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 
 const About = () => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState({ loading: false, success: false, error: '' });
+  
 
   // Dynamic data arrays
   const timeline = [
@@ -56,24 +58,42 @@ const About = () => {
     'https://d2vyvo0tyx8ig5.cloudfront.net/sales/about/equipboard_icon.svg',
   ];
 
+
   const handleNewsletterChange = (e) => setNewsletterEmail(e.target.value);
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
+    if (!newsletterEmail) return;
+
     setNewsletterStatus({ loading: true, success: false, error: '' });
+
     try {
-      await axios.post('http://localhost:5000/api/newsletter', { email: newsletterEmail });
+      await addDoc(collection(db, 'newsletter'), {
+        email: newsletterEmail,
+        source: 'About Page',
+        timestamp: serverTimestamp()
+      });
+
       setNewsletterStatus({ loading: false, success: true, error: '' });
-      setNewsletterEmail('');
+      setNewsletterEmail(''); // Auto-clear email
+
+      // Auto-hide success message after 4 seconds
+      setTimeout(() => {
+        setNewsletterStatus(prev => ({ ...prev, success: false }));
+      }, 4000);
+
     } catch (err) {
-      setNewsletterStatus({ loading: false, success: false, error: 'Subscription failed. Try again.' });
+      console.error(err);
+      setNewsletterStatus({
+        loading: false,
+        success: false,
+        error: err.message || 'Subscription failed. Please try again.'
+      });
     }
   };
 
-
-
-
   
+
   return (
     <React.Fragment>
 
@@ -181,17 +201,39 @@ const About = () => {
       </Container>
 
       {/* Newsletter Signup */}
-      <Container className="py-5 text-center">
-        <h2 className="mb-4 text-orange animate-slide-up">Get Free Weekly Lessons</h2>
-        <Form onSubmit={handleNewsletterSubmit} className="d-inline-flex mb-3 animate-fade-in">
-          <Form.Control type="email" placeholder="Your email" value={newsletterEmail} onChange={handleNewsletterChange} required className="me-2" />
-          <Button id="about-signup-button-color" type="submit" disabled={newsletterStatus.loading} className="animate-bounce-in">
-            {newsletterStatus.loading ? 'Signing Up...' : 'Sign Up'}
-          </Button>
-        </Form>
-        {newsletterStatus.success && <Alert variant="success" className="mt-3">Subscribed successfully!</Alert>}
-        {newsletterStatus.error && <Alert variant="danger" className="mt-3">{newsletterStatus.error}</Alert>}
-      </Container>
+      {/* Newsletter Signup - NOW FIREBASE CONNECTED */}
+        <Container className="py-5 text-center">
+          <h2 className="mb-4 text-orange animate-slide-up">Get Free Weekly Lessons</h2>
+          <Form onSubmit={handleNewsletterSubmit} className="d-inline-flex mb-3 animate-fade-in">
+            <Form.Control 
+              type="email" 
+              placeholder="Your email" 
+              value={newsletterEmail} 
+              onChange={handleNewsletterChange} 
+              required 
+              className="me-2" 
+            />
+            <Button 
+              id="about-signup-button-color" 
+              type="submit" 
+              disabled={newsletterStatus.loading} 
+              className="animate-bounce-in"
+            >
+              {newsletterStatus.loading ? 'Signing Up...' : 'Sign Up'}
+            </Button>
+          </Form>
+
+          {newsletterStatus.success && (
+            <Alert variant="success" className="mt-3 d-inline-block">
+              Subscribed successfully! 🎉 Check your email for the first lesson.
+            </Alert>
+          )}
+          {newsletterStatus.error && (
+            <Alert variant="danger" className="mt-3 d-inline-block">
+              {newsletterStatus.error}
+            </Alert>
+          )}
+        </Container>
 
       {/* App Downloads */}
       <Container className="py-5 text-center">
