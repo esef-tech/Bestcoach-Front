@@ -2,15 +2,15 @@
 
 /* Header */
 .header-contact {
-  min-height: 70px;
-  display: flex;
+   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   animation: fadeIn 1.5s ease;
-  background:   linear-gradient(135deg, #17a2b8, #fd7e14);;
+  background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
+  color: white;
 }
 #contact-button-submit-color{
   background-color: #17a2b8 !important;

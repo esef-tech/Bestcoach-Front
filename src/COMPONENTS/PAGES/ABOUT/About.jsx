@@ -102,7 +102,7 @@ const About = () => {
       <div id="about-header-background" className="hero-about text-white text-center py-5 animate-fade-in">
         {/*<h1 id="h-text-color" className="display-3 fw-bold mb-4">Life is better with music</h1>*/}
         {/*<p className="lead mb-5">Learn how to play piano, whenever you want, wherever you want.</p>*/}
-        <Button variant="light" as={Link} to="/story" className="me-2 animate-bounce-in">Our Story</Button>
+        <Button variant="light" as={Link} to="/about" className="me-2 animate-bounce-in">About Us</Button>
         {/*<Button variant="light" as={Link} to="/team" className="animate-bounce-in">Our Team</Button>*/}
 
       </div>

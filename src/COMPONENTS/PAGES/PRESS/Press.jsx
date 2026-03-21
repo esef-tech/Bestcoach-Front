@@ -100,7 +100,7 @@ const Press = () => {
       {/* Header with image background */}
       <div className="header-press text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold">Press</h1>
-        <p className="lead text-orange">Stay updated with the latest Bestcoach Music news!</p>
+        <p className="lead-press text-orange">Stay updated with the latest Bestcoach Music news!</p>
       </div>
 
       {/* Press Entries */}

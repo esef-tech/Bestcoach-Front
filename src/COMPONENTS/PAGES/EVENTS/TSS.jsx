@@ -81,9 +81,9 @@ const TSS = () => {
   
 <section className="events-tss-page">
       {/* Header */}
-      <div className="header text-white text-center py-5 animate-fade-in">
+      <div className="header-tss text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold">{event.title}</h1>
-        <p className="lead-1">A gathering for voices with purpose</p>
+        <p className="lead-1-tss">A gathering for voices with purpose</p>
       </div>
 
       {/* Main Content */}

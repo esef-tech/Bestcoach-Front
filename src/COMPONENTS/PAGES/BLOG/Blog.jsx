@@ -2,17 +2,17 @@ import React, {useState} from 'react'
 import { Container, Row, Col, Card, Form, Button, Image, Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For Read More routing
 import { FaSearch, FaCalendarAlt, FaUser, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import axios from 'axios';
-
 import './Blog.css'; 
+import { db } from '../../../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 
 const Blog = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [subscribeEmail, setSubscribeEmail] = useState('');
-    const [subscribeStatus, setSubscribeStatus] = useState({ loading: false, success: false, error: '' });
-     const postsPerPage = 3;
+   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [subscribeStatus, setSubscribeStatus] = useState({ loading: false, success: false, error: '' });
+  const postsPerPage = 3;
 
   // Dynamic posts from analysis (array for easy expansion; can fetch from backend/API)
    const posts = [
@@ -129,24 +129,11 @@ const Blog = () => {
   ];
 
 
-  // Subscribe handler
-  const handleSubscribe = async (e) => {
-    e.preventDefault();
-    setSubscribeStatus({ loading: true, success: false, error: '' });
-    try {
-      await axios.post('http://localhost:5000/api/subscribe', { email: subscribeEmail });
-      setSubscribeStatus({ loading: false, success: true, error: '' });
-      setSubscribeEmail('');
-    } catch (err) {
-      setSubscribeStatus({ loading: false, success: false, error: 'Subscription failed. Try again.' });
-    }
-  };
-  // Pagination logic
+  // Pagination logic (unchanged)
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-  // Filter current posts if search active
   const filteredCurrentPosts = currentPosts.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -155,15 +142,40 @@ const Blog = () => {
 
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
-  const handlePrev = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  const handlePrev = () => { if (currentPage > 1) setCurrentPage(currentPage - 1); };
+  const handleNext = () => { if (currentPage < totalPages) setCurrentPage(currentPage + 1); };
+
+  // 🔥 NEW FIREBASE SUBSCRIPTION HANDLER
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!subscribeEmail) return;
+
+    setSubscribeStatus({ loading: true, success: false, error: '' });
+
+    try {
+      await addDoc(collection(db, 'newsletter'), {
+        email: subscribeEmail,
+        source: 'Blog Page',
+        timestamp: serverTimestamp()
+      });
+
+      setSubscribeStatus({ loading: false, success: true, error: '' });
+      setSubscribeEmail(''); // Auto-clear email field
+
+      // Auto-hide success message after 4 seconds
+      setTimeout(() => {
+        setSubscribeStatus(prev => ({ ...prev, success: false }));
+      }, 4000);
+
+    } catch (err) {
+      console.error(err);
+      setSubscribeStatus({
+        loading: false,
+        success: false,
+        error: err.message || 'Subscription failed. Please try again.'
+      });
+    }
   };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-
 
 
   return (
@@ -223,18 +235,38 @@ const Blog = () => {
             </div>
 
             <div className="mb-5">
-              <h2 className="mb-4 text-orange">Subscribe</h2>
-            <Form onSubmit={handleSubscribe}>
-                <Form.Group className="mb-3">
-                  <Form.Control type="email" placeholder="Your email" value={subscribeEmail} onChange={(e) => setSubscribeEmail(e.target.value)} required />
-                </Form.Group>
-                <Button variant="orange" block type="submit" disabled={subscribeStatus.loading}>
-                  {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
-                </Button>
-                {subscribeStatus.success && <Alert variant="success" className="mt-3">Subscribed successfully!</Alert>}
-                {subscribeStatus.error && <Alert variant="danger" className="mt-3">{subscribeStatus.error}</Alert>}
-              </Form>
-            </div>
+                <h2 className="mb-4 text-orange">Subscribe</h2>
+                <Form onSubmit={handleSubscribe}>
+                  <Form.Group className="mb-3">
+                    <Form.Control 
+                      type="email" 
+                      placeholder="Your email" 
+                      value={subscribeEmail} 
+                      onChange={(e) => setSubscribeEmail(e.target.value)} 
+                      required 
+                    />
+                  </Form.Group>
+                  <Button 
+                    variant="orange" 
+                    block 
+                    type="submit" 
+                    disabled={subscribeStatus.loading}
+                  >
+                    {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
+                  </Button>
+
+                  {subscribeStatus.success && (
+                    <Alert variant="success" className="mt-3">
+                      Subscribed successfully! 🎉
+                    </Alert>
+                  )}
+                  {subscribeStatus.error && (
+                    <Alert variant="danger" className="mt-3">
+                      {subscribeStatus.error}
+                    </Alert>
+                  )}
+                </Form>
+              </div>
           </Col>
         </Row>
       </Container>
