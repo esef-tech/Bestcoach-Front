@@ -6,11 +6,23 @@
 .bg-light { background-color: #f8f9fa !important; }
 
 /* Header */
-.header { min-height: 70px; }
+.header-coach { min-height: 70px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 1.5s ease;
+  background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
 
-.lead{
+
+}
+
+.lead-coach {
   font-family: "Handlee", cursive;
-  font-size: 8.2rem;
+  font-size: 1.2rem;
   font-weight: bolder;
   color: black;
 }
@@ -46,8 +58,8 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header h1 { font-size: 2.5rem; }
-  .lead { font-size: 1rem; }
+  .header-coach h1 { font-size: 2.5rem; }
+  .lead-coach { font-size: 1rem; }
   .coach-card { margin-bottom: 2rem; }
   .btn { font-size: 1rem; }
 }

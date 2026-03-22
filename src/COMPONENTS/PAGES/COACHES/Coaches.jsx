@@ -122,9 +122,9 @@ const Coaches = () => {
 
 <section className="coaches-page">
       {/* Header */}
-      <div className="header text-primary text-white text-center py-5 animate-fade-in">
+      <div className="header-coach text-primary text-white text-center py-5 animate-fade-in">
         <h1 className="display-3 fw-bold mb-4">Meet Our Coaches</h1>
-        <p className="lead mb-5">World-class musicians dedicated to your progress.</p>
+        <p className="lead-coach mb-5">World-class musicians dedicated to your progress.</p>
       </div>
 
      {/* Filters */}
