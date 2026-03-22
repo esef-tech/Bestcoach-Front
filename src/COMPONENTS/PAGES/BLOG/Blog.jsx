@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
-import { Container, Row, Col, Card, Form, Button, Image, Alert} from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Image, } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For Read More routing
 import { FaSearch, FaCalendarAlt, FaUser, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import './Blog.css'; 
 import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 
 const Blog = () => {
@@ -162,6 +164,10 @@ const Blog = () => {
       setSubscribeStatus({ loading: false, success: true, error: '' });
       setSubscribeEmail(''); // Auto-clear email field
 
+
+      toast.success("Subscribed successfully! 🎉");
+      setSubscribeEmail('');
+
       // Auto-hide success message after 4 seconds
       setTimeout(() => {
         setSubscribeStatus(prev => ({ ...prev, success: false }));
@@ -251,20 +257,18 @@ const Blog = () => {
                     block 
                     type="submit" 
                     disabled={subscribeStatus.loading}
+                    className='w-100'
                   >
-                    {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
+                    {subscribeStatus.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
+                   {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
                   </Button>
 
-                  {subscribeStatus.success && (
-                    <Alert variant="success" className="mt-3">
-                      Subscribed successfully! 🎉
-                    </Alert>
-                  )}
-                  {subscribeStatus.error && (
-                    <Alert variant="danger" className="mt-3">
-                      {subscribeStatus.error}
-                    </Alert>
-                  )}
+                {subscribeStatus.success && (
+                  <div className="text-success mt-2">Subscribed successfully! 🎉</div>
+                )}
+                {subscribeStatus.error && (
+                  <div className="text-danger mt-2">{subscribeStatus.error}</div>
+                )}
                 </Form>
               </div>
           </Col>

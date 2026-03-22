@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Container, Row, Col, Card, Form, Button, Alert, Image } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For breadcrumb or links
 import './About.css';
 import about from './../../Images/team/24.jpg';
@@ -8,6 +8,8 @@ import {FaAppStoreIos} from "react-icons/fa6";
 //import featureImage from './../../Images/team/WhatsApp Image 2024-12-27 at 5.44.48 PM (1).jpeg'
 import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 
 const About = () => {
@@ -76,6 +78,9 @@ const About = () => {
 
       setNewsletterStatus({ loading: false, success: true, error: '' });
       setNewsletterEmail(''); // Auto-clear email
+
+      toast.success("Subscribed successfully! 🎉");
+    setNewsletterEmail('');
 
       // Auto-hide success message after 4 seconds
       setTimeout(() => {
@@ -217,21 +222,18 @@ const About = () => {
               id="about-signup-button-color" 
               type="submit" 
               disabled={newsletterStatus.loading} 
-              className="animate-bounce-in"
+              className="animate-bounce-in w-100"
             >
-              {newsletterStatus.loading ? 'Signing Up...' : 'Sign Up'}
+              {newsletterStatus.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
+               {newsletterStatus.loading ? 'Sending...' : 'Send Message'}
             </Button>
           </Form>
 
           {newsletterStatus.success && (
-            <Alert variant="success" className="mt-3 d-inline-block">
-              Subscribed successfully! 🎉 Check your email for the first lesson.
-            </Alert>
+            <p className="text-success mt-2">Subscribed successfully! 🎉</p>
           )}
           {newsletterStatus.error && (
-            <Alert variant="danger" className="mt-3 d-inline-block">
-              {newsletterStatus.error}
-            </Alert>
+            <p className="text-danger mt-2">{newsletterStatus.error}</p>
           )}
         </Container>
 

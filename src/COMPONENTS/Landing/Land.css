@@ -32,10 +32,14 @@
 
 .btn-notify {
   background-color: white;
-  color: #e52e71;
+  color: black;
   font-weight: bold;
   padding: 12px 30px;
   border-radius: 50px;
+}
+.btn-notify:hover {
+  color: #17a2b8;
+  transform: translateY(-5px);
 }
 
 .social-icon {

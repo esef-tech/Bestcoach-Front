@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx - Updated with real-time Google/Microsoft/Apple OAuth, password strength indicator, enhanced OAuth styling, full countries/languages from backend
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown, Alert, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
@@ -22,6 +22,8 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { FcAbout } from "react-icons/fc";
 import TopHeader from './TOPHEADER/TopHeader';
+import { ThemeContext } from '../context/ThemeContext';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg';
 
@@ -29,6 +31,7 @@ const AppNavbar = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
+  const { isDark, setIsDark } = useContext(ThemeContext);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signupForm, setSignupForm] = useState({ email: '', country: null, language: null, password: '', confirmPassword: '' });
@@ -309,6 +312,11 @@ useEffect(() => {
       <FaUserCircle className="me-2 text-orange" /> Login / Signup
     </Button>
   )}
+
+
+  <Button variant="outline-light" onClick={() => setIsDark(!isDark)} className="me-2 text-orange">
+  {isDark ? <FaSun /> : <FaMoon />}
+</Button>
             </Nav>
           </Navbar.Collapse>
         </Container>

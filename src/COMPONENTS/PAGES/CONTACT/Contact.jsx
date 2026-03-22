@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import './Contact.css'
-import { Container, Row, Col, Form, Button, Alert, Accordion,Card } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Accordion,Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock, FaSearch, FaQuestionCircle, FaGlobe } from 'react-icons/fa';
 import { db, storage } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 const Contact = () => {
   
@@ -20,6 +22,7 @@ const Contact = () => {
   const [attachment, setAttachment] = useState(null);
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const [searchQuery, setSearchQuery] = useState('');
+  
 
   const handleChange = (e) => {
     if (e.target.name === 'attachment') {
@@ -32,6 +35,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
+
 
     try {
       let attachmentUrl = '';
@@ -53,6 +57,13 @@ const Contact = () => {
         attachmentUrl: attachmentUrl || null,
         timestamp: serverTimestamp()
       });
+
+
+
+      // In handleSubmit
+      toast.success("Message sent successfully! 🎉");
+      setFormData({ name: '', email: '', subject: '', message: '', hasAccount: '' });
+      setAttachment(null);
 
       // SUCCESS
       setStatus({ loading: false, success: true, error: '' });
@@ -190,18 +201,19 @@ const Contact = () => {
                     disabled={status.loading}
                     className="w-100 animate-bounce-in"
                   >
+                    {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
                     {status.loading ? 'Sending...' : 'Send Message'}
                   </Button>
 
                   {status.success && (
-                    <Alert variant="success" className="mt-3">
+                    <div className="alert alert-success mt-3 text-center">
                       Message sent successfully! 🎉
-                    </Alert>
+                    </div>
                   )}
                   {status.error && (
-                    <Alert variant="danger" className="mt-3">
+                    <div className="alert alert-danger mt-3 text-center">
                       {status.error}
-                    </Alert>
+                    </div>
                   )}
                 </Form>
               </Card>

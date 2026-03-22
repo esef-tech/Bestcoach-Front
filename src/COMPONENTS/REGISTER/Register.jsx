@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form,  } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 import './Register.css';
 import { db } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -47,6 +49,11 @@ const Register = () => {
       });
 
       setStatus({ loading: false, success: true, error: '' });
+
+
+      // In handleSubmit
+       toast.success("Request sent successfully! 🎉");
+       setFormData({ name: '', email: '', service: '' });
 
       // Auto-clear form
       setFormData({ name: '', email: '', service: '' });
@@ -162,19 +169,9 @@ const Register = () => {
                     className="btn-submit w-100"
                     disabled={status.loading}
                   >
-                    {status.loading ? 'Sending...' : 'Join Now'}
+                    {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
+                    {status.loading ? 'Sending...' : 'Send Message'}
                   </Button>
-
-                  {status.success && (
-                    <Alert variant="success" className="form-message mt-4">
-                      Thank you! Your request has been sent successfully. 🎉
-                    </Alert>
-                  )}
-                  {status.error && (
-                    <Alert variant="danger" className="form-message mt-4">
-                      {status.error}
-                    </Alert>
-                  )}
                 </Form>
               </Card.Body>
             </Card>

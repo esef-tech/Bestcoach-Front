@@ -15,3 +15,20 @@ body { margin: 0; padding: 0; }
     z-index: 9999 !important;
   }
 }
+
+.dark {
+  --bg: #121212;
+  --text: #ffffff;
+  --card: #1e1e1e;
+  --accent: #17a2b8;
+}
+
+.dark body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dark .card, .dark .bg-white, .dark .bg-light {
+  background: var(--card) !important;
+  color: var(--text);
+}

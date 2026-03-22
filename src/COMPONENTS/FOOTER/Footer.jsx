@@ -3,10 +3,10 @@ import './Footer.css'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link as RouterLink } from 'react-router-dom';
 import { FaWhatsapp, FaFacebookF, FaTiktok, FaInstagram, FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaAngleRight, } from 'react-icons/fa';
-import { Alert } from 'react-bootstrap';
 import { db } from '../../firebase'; // ← Import Firebase
 import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore';
-
+import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 const Footer = () => {
 
@@ -45,8 +45,11 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
         subscribedAt: new Date().toISOString()
       });
 
-      setStatus({ loading: false, success: true, error: '' });
+        toast.success("Subscribed successfully! Check your email 🎉");
       setFormData({ name: '', email: '' });
+
+      setStatus({ loading: false, success: true, error: '' });
+      
 
     } catch (err) {
       console.error("Newsletter error:", err);
@@ -137,13 +140,10 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
                 <Form.Group className="mb-3">
                   <Form.Control type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
                 </Form.Group>
-
-                <Button type="submit"  id='btn-news' className="newsletter-footer btn-block" disabled={status.loading}>
-                  {status.loading ? 'Submitting...' : 'Submit Now'} 
+                <Button type="submit"  id='btn-news' className="newsletter-footer btn-block w-100" disabled={status.loading}>
+                  {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
+                  {status.loading ? 'Submitting ...' : 'Submit Now'}
                 </Button>
-
-                {status.success && <Alert variant="success" className="mt-3">✅ You're now subscribed! Thank you.</Alert>}
-                {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
               </Form>
             </Col>
           </Row>

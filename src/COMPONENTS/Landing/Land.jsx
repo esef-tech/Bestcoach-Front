@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import {Container, Row, Col, Form, Button, Alert} from 'react-bootstrap'
+import {Container, Row, Col, Form, Button, } from 'react-bootstrap'
 import {FaFacebook, FaInstagram, FaWhatsapp, FaTiktok }  from 'react-icons/fa'
 import './Land.css'
 import { db } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { BsTwitterX } from "react-icons/bs";
+import { Spinner } from 'react-bootstrap';
 
 
 
@@ -59,6 +62,10 @@ const Land = () => {
 
       setStatus({ loading: false, success: true, error: '' });
       setEmail(''); // Clear email field
+
+      // In handleSubscribe
+        toast.success("You'll be notified when we launch! 🎉");
+        setEmail('');
 
       // Auto-hide success message after 4 seconds
       setTimeout(() => {
@@ -120,30 +127,26 @@ const Land = () => {
                     />
                   </div>
                   <div className="col-auto">
-                    <Button type="submit" className="btn-notify" disabled={status.loading}>
+                    <Button type="submit" className="btn-notify w-100" disabled={status.loading}>
+                      {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
                       {status.loading ? 'Submitting...' : 'Notify Me'}
                     </Button>
                   </div>
                 </Form>
-
-                {status.success && (
-                  <Alert variant="success" className="mt-3 d-inline-block">
-                    Thank you! We'll notify you soon 🎉
-                  </Alert>
-                )}
-                {status.error && (
-                  <Alert variant="danger" className="mt-3 d-inline-block">
-                    {status.error}
-                  </Alert>
-                )}
               </div>
 
               {/* Social Media Links */}
               <div>
-                <a href="https://facebook.com/bestcoachmusic" className="social-icon"><FaFacebook /></a>
-                <a href="https://vm.tiktok.com/ZMS68pSTC/" className="social-icon"><FaTiktok /></a>
-                <a href="https://www.instagram.com/bestcoachmusic" className="social-icon"><FaInstagram /></a>
-                <a href="https://wa.me/message/CJZ4XQCNRWWTB1" className="social-icon"><FaWhatsapp /></a>
+                <a href="https://facebook.com/bestcoachmusic"  target="_blank" 
+             rel="noopener noreferrer" className="social-icon"><FaFacebook /></a>
+                <a href="https://vm.tiktok.com/ZMS68pSTC/"   target="_blank" 
+             rel="noopener noreferrer" className="social-icon"><FaTiktok /></a>
+                <a href="https://www.instagram.com/bestcoachmusic"  target="_blank" 
+             rel="noopener noreferrer"  className="social-icon"><FaInstagram /></a>
+                <a href="https://wa.me/message/CJZ4XQCNRWWTB1"    target="_blank" 
+             rel="noopener noreferrer" className="social-icon"><FaWhatsapp /></a>
+                 <a href="https://x.com/BestCoachMusic"   target="_blank" 
+             rel="noopener noreferrer" className="social-icon"><BsTwitterX /></a>
               </div>
             </Col>
           </Row>
