@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 import './Programs.css'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Form, } from 'react-bootstrap';
 import { auth, db } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { Spinner } from 'react-bootstrap';
 
 const Programs = () => {
 
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', package: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', package: '', price: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
 
 
@@ -53,20 +55,26 @@ const Programs = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+         e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
+    
+    // In handleSubmit
+    toast.success("Request sent successfully! 🎉");
+    setFormData({ name: '', email: '', package: '' , price: ''}); // Clear form
+    
 
     try {
       await addDoc(collection(db, 'enrollments'), {
         name: formData.name,
         email: formData.email,
         package: formData.package,
+        price: formData.price,
         timestamp: serverTimestamp(),
         userId: auth.currentUser?.uid || 'anonymous'
       });
 
       setStatus({ loading: false, success: true, error: '' });
-      setFormData({ name: '', email: '', package: '' }); // Clear form
+      setFormData({ name: '', email: '', package: '', price: '' }); // Clear form
       setShowModal(false); // Close modal
     } catch (err) {
       console.error(err);
@@ -139,11 +147,9 @@ const Programs = () => {
                 <Form.Control name="price" type="number" value={formData.price} onChange={handleChange} required />
               </Form.Group>
               <Button type="submit" variant="primary" disabled={status.loading} className="w-100">
-                {status.loading ? 'Submitting...' : 'Submit Enrollment'}
+                {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
+              {status.loading ? 'Sending...' : 'Send Message'}
               </Button>
-
-              {status.success && <Alert variant="success" className="mt-3">Enrollment submitted successfully!</Alert>}
-              {status.error && <Alert variant="danger" className="mt-3">{status.error}</Alert>}
             </Form>
           </Modal.Body>
         </Modal>

@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}>
       <App />
-    </GoogleReCaptchaProvider>
+    
     <ToastContainer position="top-right"
   autoClose={4000}
   hideProgressBar={false}
@@ -24,7 +24,9 @@ root.render(
   draggable
   pauseOnHover
   theme="colored"/>
+  </GoogleReCaptchaProvider>
   </React.StrictMode>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function

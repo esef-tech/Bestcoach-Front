@@ -7,28 +7,40 @@ import { db } from '../../firebase'; // ← Import Firebase
 import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
+//import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 
 const Footer = () => {
 
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const currentYear = new Date().getFullYear();
+  //const { executeRecaptcha } = useGoogleReCaptcha();
 
  
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //const token = await executeRecaptcha('newsletter_footer');
     if (!formData.email) return;
 
     setStatus({ loading: true, success: false, error: '' });
     setStatus({ loading: false, success: true, error: '' });
-setFormData({ name: '', email: '' });
+    toast.success("Subscribed successfully! Check your email 🎉");
+      setFormData({ name: '', email: '' });
 
+      
 // Auto-hide success message after 3 seconds
 setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
 
     try {
+
+      /*if (!executeRecaptcha) {
+        toast.error("reCAPTCHA not loaded. Please refresh.");
+        return;
+      }*/
+      
       // Duplicate check
       const q = query(collection(db, 'newsletter'), where('email', '==', formData.email));
       const existing = await getDocs(q);
@@ -38,16 +50,17 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
         return;
       }
 
+
+     
       await addDoc(collection(db, 'newsletter'), {
         name: formData.name || 'Anonymous',
         email: formData.email,
+        //recaptchaToken: token,
         timestamp: serverTimestamp(),
         subscribedAt: new Date().toISOString()
       });
 
-        toast.success("Subscribed successfully! Check your email 🎉");
-      setFormData({ name: '', email: '' });
-
+      
       setStatus({ loading: false, success: true, error: '' });
       
 
@@ -67,6 +80,10 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
       setStatus({ loading: false, success: false, error: errorMsg });
     }
   };
+
+
+      
+
 
   return (
     <>
@@ -141,8 +158,9 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
                   <Form.Control type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
                 </Form.Group>
                 <Button type="submit"  id='btn-news' className="newsletter-footer btn-block w-100" disabled={status.loading}>
-                  {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
+                  {status.success ? <Spinner animation="border" size="sm" className="me-2" /> : null}
                   {status.loading ? 'Submitting ...' : 'Submit Now'}
+                  
                 </Button>
               </Form>
             </Col>
