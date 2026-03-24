@@ -1,152 +1,165 @@
 // src/pages/Profile.jsx - Full Real-Time Profile (Picture + Name + Password + Dashboard + Logout)
-import React, { useState, useEffect } from 'react';
-import { Container, Card, Button, Form, Alert, Image, Row, Col,} from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
+import { Container, Card, Button, Form, Image, Spinner } from 'react-bootstrap';
 //import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { auth, db, storage } from '../firebase';
-import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { sendEmailVerification } from 'firebase/auth';
 import { doc, updateDoc, onSnapshot, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './Profile.css';
+import { ThemeContext } from '../../src/context/ThemeContext';
+import { FaUserEdit, FaSignOutAlt, FaEnvelope } from 'react-icons/fa';
+import { signOut } from 'firebase/auth';
 
 const Profile = () => {
-  const [userProfile, setUserProfile] = useState({ name: '', country: '', language: '', profilePicture: '' });
-  const [newName, setNewName] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [profilePicFile, setProfilePicFile] = useState(null);
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState({ fullName: '', photoURL: '' });
+  const [newFullName, setNewFullName] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const { isDark } = useContext(ThemeContext);
 
-  // Real-time listener + auto-create document if missing
+  const user = auth.currentUser;
+
+  // Real-time listener – syncs instantly with Navbar
   useEffect(() => {
-    if (!auth.currentUser) return;
+    if (!user) return;
 
-    const userRef = doc(db, 'users', auth.currentUser.uid);
+    const userRef = doc(db, 'users', user.uid);
 
-    const unsubscribe = onSnapshot(userRef, async (docSnap) => {
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setUserProfile(data);
-        setNewName(data.name || '');
+        setUserData({
+          fullName: data.fullName || user.displayName || 'User',
+          photoURL: data.photoURL || user.photoURL || ''
+        });
+        setNewFullName(data.fullName || user.displayName || '');
       } else {
-        // Auto-create user document on first visit
-        await setDoc(userRef, {
-          name: auth.currentUser.email.split('@')[0],
-          email: auth.currentUser.email,
-          country: '',
-          language: '',
-          profilePicture: '',
-          createdAt: new Date().toISOString()
+        // Create document if it doesn't exist
+        setDoc(userRef, {
+          fullName: user.displayName || 'User',
+          photoURL: user.photoURL || '',
+          email: user.email,
+          createdAt: new Date()
         });
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
-  // Upload Profile Picture
-  const handleUploadPicture = async () => {
-    if (!profilePicFile || !auth.currentUser) return;
-    setLoading(true);
+// Update Full Name
+  const handleUpdateName = async () => {
+    if (!newFullName.trim() || !user) return;
+
     try {
-      const storageRef = ref(storage, `profile-pics/${auth.currentUser.uid}`);
-      await uploadBytes(storageRef, profilePicFile);
-      const url = await getDownloadURL(storageRef);
-
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), { profilePicture: url });
-      setMessage('Profile picture updated successfully!');
+      await updateDoc(doc(db, 'users', user.uid), {
+        fullName: newFullName.trim()
+      });
+      toast.success("Full name updated successfully!");
     } catch (err) {
-      setMessage('Upload failed: ' + err.message);
+      toast.error("Failed to update name.");
     }
-    setLoading(false);
   };
 
-  // Update Name
-  const handleUpdateProfile = async () => {
-    setLoading(true);
+// Upload New Profile Picture
+  const handleUploadPhoto = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !user) return;
+
+    setUploading(true);
     try {
-      await updateDoc(doc(db, 'users', auth.currentUser.uid), { name: newName });
-      setMessage('Profile updated in real-time!');
+      const photoRef = ref(storage, `profile-pics/${user.uid}`);
+      await uploadBytes(photoRef, file);
+      const downloadURL = await getDownloadURL(photoRef);
+
+      // Update Firestore
+      await updateDoc(doc(db, 'users', user.uid), {
+        photoURL: downloadURL
+      });
+
+      toast.success("Profile picture updated! Navbar will refresh automatically.");
     } catch (err) {
-      setMessage('Update failed: ' + err.message);
+      toast.error("Failed to upload photo.");
+    } finally {
+      setUploading(false);
     }
-    setLoading(false);
   };
 
-  // Change Password (same as before)
-  const handleChangePassword = async () => {
-    if (!currentPassword || !newPassword) return;
-    setLoading(true);
-    try {
-      const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
-      await reauthenticateWithCredential(auth.currentUser, credential);
-      await updatePassword(auth.currentUser, newPassword);
-      setMessage('Password changed successfully!');
-      setNewPassword('');
-      setCurrentPassword('');
-    } catch (err) {
-      setMessage('Password change failed: ' + err.message);
-    }
-    setLoading(false);
-  };
-
-  const handleLogout = () => {
+  const handleLogout = async () => {
     auth.signOut().then(() => {
       window.location.href = '/'; // Redirect to home + close profile
     });
+    await signOut(auth);
+    toast.success("Logged out successfully");
   };
 
+  const handleResendVerification = async () => {
+    if (user) {
+      await sendEmailVerification(user);
+      toast.success("Verification email resent! Check your inbox.");
+    }
+  };
 
   return (
-    <Container fluid className="profile-container">
-      <Card className="profile-card">
-        <Row className="g-0">
-          <Col md={5} className="text-center p-4">
-            <div className="profile-pic-container">
-              <Image 
-                src={userProfile.profilePicture || 'https://via.placeholder.com/150'} 
-                roundedCircle 
-                className="profile-pic" 
+    <Container className="py-5">
+      <Card className={`shadow-lg ${isDark ? 'bg-dark text-white' : 'bg-white'}`}>
+        <Card.Body className="text-center">
+          {/* Profile Picture */}
+          <div className="position-relative d-inline-block mb-4">
+            <Image
+              src={userData.photoURL || 'https://via.placeholder.com/150'}
+              alt="Profile"
+              roundedCircle
+              width="150"
+              height="150"
+              className="border border-3 border-warning shadow"
+            />
+            <label className="position-absolute bottom-0 end-0 bg-warning text-dark rounded-circle p-2 cursor-pointer">
+              📸
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleUploadPhoto}
+                style={{ display: 'none' }}
               />
-            </div>
-            <Form.Control type="file" accept="image/*" onChange={e => setProfilePicFile(e.target.files[0])} className="mt-3" />
-            <Button variant="primary" onClick={handleUploadPicture} disabled={!profilePicFile || loading} className="mt-3 w-100">
-              {loading ? 'Uploading...' : 'Upload Picture'}
+            </label>
+          </div>
+
+          {uploading && <Spinner animation="border" size="sm" className="ms-2" />}
+
+          {/* Full Name Edit */}
+          <h3 className="mb-3">{userData.fullName}</h3>
+          <div className="d-flex gap-2 justify-content-center mb-4">
+            <Form.Control
+              type="text"
+              value={newFullName}
+              onChange={(e) => setNewFullName(e.target.value)}
+              placeholder="Edit Full Name"
+              className="w-50"
+            />
+            <Button variant="primary" onClick={handleUpdateName}>
+              <FaUserEdit className="me-2" />Save Name
             </Button>
-          </Col>
+          </div>
 
-          <Col md={7} className="p-4">
-            <h2 className="text-center mb-4">Welcome, {userProfile.name || auth.currentUser?.email?.split('@')[0]}</h2>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Display Name</Form.Label>
-              <Form.Control value={newName} onChange={e => setNewName(e.target.value)} />
-            </Form.Group>
-
-            <div className="password-section">
-              <h5>Change Password</h5>
-              <Form.Group className="mb-3">
-                <Form.Label>Current Password</Form.Label>
-                <Form.Control type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>New Password</Form.Label>
-                <Form.Control type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
-              </Form.Group>
-              <Button variant="primary" onClick={handleChangePassword} className="w-100">Update Password</Button>
-            </div>
-
-            <Button variant="success" onClick={handleUpdateProfile} disabled={loading} className="w-100 mt-4 mb-3">
-              {loading ? 'Saving...' : 'Update Profile'}
+          {/* Email & Verification */}
+          <p className="text-muted">{user?.email}</p>
+          {!user?.emailVerified && (
+            <Button variant="outline-warning" onClick={handleResendVerification} className="mb-3">
+              <FaEnvelope className="me-2" /> Resend Verification Email
             </Button>
+          )}
 
-            {message && <Alert variant="info" className="mt-3">{message}</Alert>}
+          {/* Logout */}
+          <Button variant="danger" onClick={handleLogout} className="w-100 mt-3">
+            <FaSignOutAlt className="me-2" /> Logout
+          </Button>
 
-            <Button variant="danger" className="w-100" onClick={handleLogout}>Log Out</Button>
-          </Col>
-        </Row>
+        </Card.Body>
       </Card>
     </Container>
+   
   );
 };
 

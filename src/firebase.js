@@ -1,9 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, OAuthProvider, } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
+import { sendEmailVerification as SendEmailVerification } from "firebase/auth";
+
+
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,6 +31,9 @@ export const analytics = getAnalytics(app);
 export const db = getFirestore(app, "bestcoach-db");
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+export const sendEmailVerification = SendEmailVerification;
+
+
 
 // Providers for OAuth
 export const googleProvider = new GoogleAuthProvider();
