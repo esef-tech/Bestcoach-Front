@@ -6,14 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GoogleReCaptchaProvider reCaptchaKey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}>
       <App />
-    
     <ToastContainer position="top-right"
   autoClose={4000}
   hideProgressBar={false}
@@ -24,7 +21,6 @@ root.render(
   draggable
   pauseOnHover
   theme="colored"/>
-  </GoogleReCaptchaProvider>
   </React.StrictMode>
   
 );

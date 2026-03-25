@@ -35,3 +35,65 @@ img { max-height: 300px; object-fit: cover; }
   img { max-height: 200px; }
   .list-group-item { font-size: 0.9rem; }
 }
+
+.forums-header{
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 1.5s ease;
+  background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+/* src/COMPONENTS/PAGES/COMMUNITY/CommunityForums.css */
+.community-forums {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  
+}
+
+.dark .community-forums {
+  background: linear-gradient(135deg, #121212, #1e1e1e);
+}
+
+.thread-card {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.thread-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(23, 162, 184, 0.25);
+}
+
+.reply-card {
+  animation: replyPop 0.4s ease forwards;
+}
+
+@keyframes replyPop {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.online-dot {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.media-preview {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.media-preview:hover {
+  transform: scale(1.05);
+}

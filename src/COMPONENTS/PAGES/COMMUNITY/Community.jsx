@@ -1,116 +1,151 @@
 // src/pages/CommunityForumsPage.jsx - Dynamic, responsive, animated replication of freeCodeCamp forum
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Card, ListGroup, Badge, Nav, Image } from 'react-bootstrap';
-import { FaSearch, FaUsers, FaClock } from 'react-icons/fa';
-import './Community.css'; // Custom styles
+import React, { useState, useEffect } from 'react'; // ✅ Added useEffect
+import { Container, Row, Col, Form, Button, Card, Image, Modal } from 'react-bootstrap';
+import { FaClock } from 'react-icons/fa'; // ✅ Removed unused: FaSearch, FaUsers, FaReply, FaEye, FaImage, FaVideo
+import { FaPlus } from 'react-icons/fa';
+import './Community.css';
+import { toast } from 'react-toastify';
+import { auth, db, storage } from '../../../firebase';
+import { collection, onSnapshot, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// ✅ Removed unused: Link
+
 
 const Community = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [user, setUser] = useState(null);
+  const [threads, setThreads] = useState([]);
+  const [onlineCount, setOnlineCount] = useState(0);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [newThread, setNewThread] = useState({ title: '', content: '' });
+  const [mediaFile, setMediaFile] = useState(null);
+  //const [loading, setLoading] = useState(true);
 
-  // Dynamic data arrays (easy to update/fetch from backend)
-  const categories = [
-    { name: 'Announcements', description: 'Official updates and news', topics: 37, link: '/c/announcements' },
-    { name: 'General', description: 'General discussions', topics: 39400, link: '/c/general' },
-    { name: 'The Singers Sanctuary', description: 'JavaScript help and discussions', topics: 60700, link: '/c/javascript' },
-    { name: 'The Music Mentorship Experience', description: 'Web design questions', topics: 45000, link: '/c/html-css' },
-    // Add more categories, multilingual, etc.
-  ];
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged(setUser);
 
-  const latestTopics = [
-    { title: 'Spring 2026 Cohort Retrospective', category: 'Announcements', replies: 5, time: '1h', link: '/t/spring-cohort' },
-    { title: 'Python Curriculum Survey', category: 'Announcements', replies: 10, time: '2h', link: '/t/python-survey' },
-    { title: 'Debug a Pet Adoption Page', category: 'HTML/CSS', replies: 3, time: '1m', link: '/t/pet-adoption' },
-    // Add more dynamic topics
-  ];
+    const q = query(collection(db, 'threads'), orderBy('createdAt', 'desc'));
+    const unsubscribeThreads = onSnapshot(q, (snapshot) => {
+      setThreads(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
 
-  // Filter categories/topics based on search
-  const filteredCategories = categories.filter(cat => cat.name.toLowerCase().includes(searchQuery.toLowerCase()));
-  const filteredTopics = latestTopics.filter(topic => topic.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const onlineQuery = collection(db, 'onlineUsers');
+    const unsubscribeOnline = onSnapshot(onlineQuery, (snap) => {
+      setOnlineCount(snap.size);
+    });
+
+  
+
+    return () => {
+      unsubscribeAuth();
+      unsubscribeThreads();
+      unsubscribeOnline();
+    };
+  }, []);
+
+  const createThread = async () => {
+    if (!user) {
+      toast.warning("You must be logged in to create a thread.");
+      return;
+    }
+
+    let mediaUrl = '';
+    if (mediaFile) {
+      const mediaRef = ref(storage, `thread-attachments/${Date.now()}_${mediaFile.name}`);
+      await uploadBytes(mediaRef, mediaFile);
+      mediaUrl = await getDownloadURL(mediaRef);
+    }
+
+    await addDoc(collection(db, 'threads'), {
+      title: newThread.title,
+      content: newThread.content,
+      authorId: user.uid,
+      authorName: user.displayName || 'Anonymous',
+      authorPhoto: user.photoURL || '',
+      mediaUrl,
+      mediaType: mediaFile ? mediaFile.type : null,
+      createdAt: serverTimestamp(),
+      replyCount: 0
+    });
+
+    toast.success("Thread created successfully!");
+    setShowCreateModal(false);
+    setNewThread({ title: '', content: '' });
+    setMediaFile(null);
+  };
 
   return (
-    <Container fluid className="py-5 bg-light">
-      {/* Header Illustration/Banner */}
-      <Row className="justify-content-center mb-5 animate-fade-in">
-        <Col md={8} className="text-center">
-          <h1 className="display-4 fw-bold text-primary">Bestcoach Music Forum</h1>
-          <p className="lead text-muted">Join the community and learn music for free!</p>
-          <Image src="https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg" alt="Forum Banner" fluid className="rounded shadow mb-4 animate-zoom-in" />
-          <Button variant="primary" className="animate-bounce-in">Visit Curriculum</Button>
-        </Col>
-      </Row>
+    <div className="community-forums">
+      {/* Header */}
+      <div className="forums-header bg-teal text-white py-5 text-center">
+        <Container>
+          <h1 className="display-4 fw-bold">Community Forums</h1>
+          <p className="lead mb-0">Real-time discussions • {onlineCount} musicians online</p>
+        </Container>
+      </div>
 
-      {/* Navigation Bar */}
-      <Row className="mb-4 animate-slide-up">
-        <Col>
-          <Nav className="justify-content-center">
-            <Nav.Link href="/categories">Subforums</Nav.Link>
-            <Nav.Link href="/latest">Latest</Nav.Link>
-            <Nav.Link href="/top">Top</Nav.Link>
-            <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
-          </Nav>
-        </Col>
-      </Row>
+      <Container className="py-5">
+        <Row>
+          <Col className="text-end mb-4">
+            <Button variant="primary" size="lg" onClick={() => setShowCreateModal(true)}>
+              <FaPlus className="me-2" /> Start New Thread
+            </Button>
+          </Col>
+        </Row>
 
-      {/* Search Bar */}
-      <Row className="justify-content-center mb-5 animate-fade-in">
-        <Col md={6}>
-          <Form className="d-flex">
-            <Form.Control type="search" placeholder="Search forums..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="me-2" />
-            <Button variant="primary"><FaSearch /></Button>
-          </Form>
-        </Col>
-      </Row>
-
-      {/* Main Content: Categories (Left) + Latest Topics (Right) */}
-      <Row>
-        <Col md={6} className="mb-4 animate-slide-left">
-          <h2 className="mb-4 text-primary">All Categories</h2>
-          <ListGroup>
-            {filteredCategories.map((cat, idx) => (
-              <ListGroup.Item key={idx} className="d-flex justify-content-between align-items-center animate-fade-in" style={{ animationDelay: `${0.1 * idx}s` }}>
-                <div>
-                  <a href={cat.link} className="fw-bold text-primary">{cat.name}</a>
-                  <p className="text-muted mb-0">{cat.description}</p>
-                </div>
-                <Badge bg="primary">{cat.topics} Topics</Badge>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        </Col>
-        <Col md={6} className="mb-4 animate-slide-right">
-          <h2 className="mb-4 text-primary">Latest Topics</h2>
-          <ListGroup>
-            {filteredTopics.map((topic, idx) => (
-              <ListGroup.Item key={idx} className="d-flex justify-content-between align-items-center animate-fade-in" style={{ animationDelay: `${0.1 * idx}s` }}>
-                <div>
-                  <a href={topic.link} className="fw-bold text-primary">{topic.title}</a>
-                  <p className="text-muted mb-0">{topic.category}</p>
-                </div>
-                <div className="text-end">
-                  <Badge bg="secondary" className="me-2">{topic.replies} Replies</Badge>
-                  <small className="text-muted"><FaClock className="me-1" /> {topic.time}</small>
-                </div>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-          <Button variant="link" className="mt-3">More...</Button>
-        </Col>
-      </Row>
-
-      {/* Sidebar/User Stats */}
-      <Row className="justify-content-center mt-5 animate-fade-in">
-        <Col md={4}>
-          <Card className="shadow">
-            <Card.Body className="text-center">
-              <FaUsers size={40} className="text-primary mb-3" />
-              <h4>Online Users</h4>
-              <Badge bg="success">23</Badge>
+        {threads.map((thread) => (
+          <Card key={thread.id} className="mb-4 thread-card shadow-sm">
+            <Card.Body>
+              <Row>
+                <Col md={1} className="text-center">
+                  <img src={thread.authorPhoto || '/default-avatar.png'} alt="" className="rounded-circle" width="50" />
+                </Col>
+                <Col md={11}>
+                  <h5>{thread.title}</h5>
+                  <p className="text-muted small">
+                    by {thread.authorName} • <FaClock className="me-1" />
+                    {thread.createdAt?.toDate ? thread.createdAt.toDate().toLocaleString() : 'Just now'}
+                  </p>
+                  <p>{thread.content}</p>
+                  {thread.mediaUrl && (
+                    thread.mediaType?.startsWith('image') ?
+                      <Image src={thread.mediaUrl} fluid className="media-preview" /> :
+                      <video src={thread.mediaUrl} controls className="media-preview w-100" />
+                  )}
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
-        </Col>
-      </Row>
-    </Container>
+        ))}
+      </Container>
+
+      {/* Create Thread Modal */}
+      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>New Thread</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control value={newThread.title} onChange={(e) => setNewThread({ ...newThread, title: e.target.value })} required />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Content</Form.Label>
+              <Form.Control as="textarea" rows={5} value={newThread.content} onChange={(e) => setNewThread({ ...newThread, content: e.target.value })} required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Attach Image or Video (optional)</Form.Label>
+              <Form.Control type="file" accept="image/*,video/*" onChange={(e) => setMediaFile(e.target.files[0])} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>Cancel</Button>
+          <Button variant="primary" onClick={createThread}>Post Thread</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 
-export default Community;
+export default Community; // ✅ Added missing export
