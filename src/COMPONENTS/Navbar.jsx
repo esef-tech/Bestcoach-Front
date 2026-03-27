@@ -10,7 +10,7 @@ import { BsPeopleFill } from "react-icons/bs";
 import Select from 'react-select';
 import {Spinner} from 'react-bootstrap';
 import './Navbar.css'; // Updated with OAuth styling + strength indicator
-import { auth, db, sendEmailVerification } from '../firebase'; //add later appleProvider, microsoftProvider
+import { auth, db, sendEmailVerification, } from '../firebase'; //add later appleProvider, microsoftProvider
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -20,7 +20,7 @@ import {
   updatePassword,
   GoogleAuthProvider
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { FcAbout } from "react-icons/fc";
 import TopHeader from './TOPHEADER/TopHeader';
 import { ThemeContext } from '../context/ThemeContext';
@@ -244,10 +244,6 @@ useEffect(() => {
    };
 
 
-     
-
-
-
   // 2. Forgot Password
   const handleForgotSubmit = async (e) => {
     e.preventDefault();
@@ -304,7 +300,16 @@ useEffect(() => {
 
 // OAuth auto-close
 
-
+// Inside your Navbar useEffect
+useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+    if (!currentUser && auth.currentUser) {
+      // Remove from onlineUsers when logged out
+      deleteDoc(doc(db, 'onlineUsers', auth.currentUser.uid));
+    }
+  });
+  return () => unsubscribe();
+}, []);
 
 
   return (

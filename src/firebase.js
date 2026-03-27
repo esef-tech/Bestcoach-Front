@@ -5,6 +5,9 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
 import { sendEmailVerification as SendEmailVerification } from "firebase/auth";
+import { deleteDoc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 
 
 
@@ -32,6 +35,9 @@ export const db = getFirestore(app, "bestcoach-db");
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const sendEmailVerification = SendEmailVerification;
+export const deleteDocument = deleteDoc;
+export const getDocument = getDoc;
+export const addDocument = addDoc;
 
 
 

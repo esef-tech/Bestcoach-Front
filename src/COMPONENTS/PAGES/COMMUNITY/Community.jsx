@@ -6,8 +6,10 @@ import { FaPlus } from 'react-icons/fa';
 import './Community.css';
 import { toast } from 'react-toastify';
 import { auth, db, storage } from '../../../firebase';
-import { collection, onSnapshot, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, serverTimestamp, query, orderBy, deleteDoc, arrayUnion, doc, updateDoc, setDoc} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {  FaReply, FaUsers,  FaEye, FaHeart, FaShareAlt, FaTrash, FaImage, FaVideo } from 'react-icons/fa';
+
 // ✅ Removed unused: Link
 
 
@@ -18,6 +20,10 @@ const Community = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newThread, setNewThread] = useState({ title: '', content: '' });
   const [mediaFile, setMediaFile] = useState(null);
+  const [selectedThreadId, setSelectedThreadId] = useState(null); // for reply modal
+  const [replyContent, setReplyContent] = useState('');
+  const [showReplyModal, setShowReplyModal] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   //const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,7 +39,6 @@ const Community = () => {
       setOnlineCount(snap.size);
     });
 
-  
 
     return () => {
       unsubscribeAuth();
@@ -42,6 +47,7 @@ const Community = () => {
     };
   }, []);
 
+// Create new thread
   const createThread = async () => {
     if (!user) {
       toast.warning("You must be logged in to create a thread.");
@@ -59,27 +65,162 @@ const Community = () => {
       title: newThread.title,
       content: newThread.content,
       authorId: user.uid,
-      authorName: user.displayName || 'Anonymous',
+      authorName: user.displayName?.split(' ')[0] || 'User',
       authorPhoto: user.photoURL || '',
       mediaUrl,
       mediaType: mediaFile ? mediaFile.type : null,
       createdAt: serverTimestamp(),
+      likes: 0,
+      likedBy: [],
       replyCount: 0
     });
 
-    toast.success("Thread created successfully!");
+    toast.success("Thread posted successfully!");
     setShowCreateModal(false);
     setNewThread({ title: '', content: '' });
     setMediaFile(null);
   };
 
+  // Delete own thread
+  const deleteThread = async (threadId, authorId) => {
+    if (authorId !== user?.uid) return;
+    if (!window.confirm("Delete this thread permanently?")) return;
+
+    await deleteDoc(doc(db, 'threads', threadId));
+    toast.success("Thread deleted");
+  };
+
+
+  // Like a thread
+  // Like thread - protected
+  const toggleLike = async (threadId, likedBy) => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    const threadRef = doc(db, 'threads', threadId);
+    const alreadyLiked = likedBy?.includes(user.uid) || false;
+
+    await updateDoc(threadRef, {
+      likes: alreadyLiked ? -1 : 1,
+      likedBy: alreadyLiked 
+        ? likedBy.filter(id => id !== user.uid) 
+        : arrayUnion(user.uid)
+    });
+  };
+
+  // Post reply (real-time)
+ // Post reply - protected
+  const postReply = async () => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    if (!selectedThreadId || !replyContent.trim()) return;
+
+    const replyRef = collection(db, 'threads', selectedThreadId, 'replies');
+    await addDoc(replyRef, {
+      content: replyContent,
+      authorId: user.uid,
+      authorName: user.displayName?.split(' ')[0] || 'User',
+      authorPhoto: user.photoURL || '',
+      createdAt: serverTimestamp()
+    });
+
+    const threadRef = doc(db, 'threads', selectedThreadId);
+    await updateDoc(threadRef, { replyCount: (threads.find(t => t.id === selectedThreadId)?.replyCount || 0) + 1 });
+
+    toast.success("Reply posted successfully!");
+    setReplyContent('');
+    setShowReplyModal(false);
+  };
+
+  useEffect(() => {
+    // Auth listener
+    const unsubscribeAuth = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+
+      if (currentUser) {
+        // Add user to onlineUsers when logged in
+        setDoc(doc(db, 'onlineUsers', currentUser.uid), {
+          onlineAt: serverTimestamp(),
+          displayName: currentUser.displayName || 'User'
+        });
+      }
+    });
+
+    // Real-time threads
+    const q = query(collection(db, 'threads'), orderBy('createdAt', 'desc'));
+    const unsubscribeThreads = onSnapshot(q, (snapshot) => {
+      setThreads(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    // Real-time online count
+    const onlineQuery = collection(db, 'onlineUsers');
+    const unsubscribeOnline = onSnapshot(onlineQuery, (snap) => {
+      setOnlineCount(snap.size);
+    });
+
+    // Cleanup when user leaves the page
+    return () => {
+      unsubscribeAuth();
+      unsubscribeThreads();
+      unsubscribeOnline();
+
+      // Remove user from online when leaving the page
+      if (auth.currentUser) {
+        deleteDoc(doc(db, 'onlineUsers', auth.currentUser.uid));
+      }
+    };
+  }, []);
+
+// Real-time listeners
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged(setUser);
+
+    const q = query(collection(db, 'threads'), orderBy('createdAt', 'desc'));
+    const unsubscribeThreads = onSnapshot(q, (snapshot) => {
+      setThreads(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    });
+
+    const onlineQuery = collection(db, 'onlineUsers');
+    const unsubscribeOnline = onSnapshot(onlineQuery, (snap) => setOnlineCount(snap.size));
+
+    return () => {
+      unsubscribeAuth();
+      unsubscribeThreads();
+      unsubscribeOnline();
+    };
+  }, []);
+
+  // Share thread - protected
+  const shareThread = (threadId) => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    const link = `${window.location.origin}/community#thread-${threadId}`;
+    navigator.clipboard.writeText(link).then(() => {
+      toast.success("Link copied to clipboard! Share it anywhere.");
+    });
+  };
+
+
+  
+
+
+
   return (
     <div className="community-forums">
       {/* Header */}
-      <div className="forums-header bg-teal text-white py-5 text-center">
+      <div className="forums-header  text-white py-5 text-center">
         <Container>
           <h1 className="display-4 fw-bold">Community Forums</h1>
-          <p className="lead mb-0">Real-time discussions • {onlineCount} musicians online</p>
+          <p className="lead mb-0">
+            <FaUsers className="me-2" /> 
+            {onlineCount} musicians online
+            <span className="online-dot ms-2"></span>
+          </p>
         </Container>
       </div>
 
@@ -92,7 +233,7 @@ const Community = () => {
           </Col>
         </Row>
 
-        {threads.map((thread) => (
+{threads.map((thread) => (
           <Card key={thread.id} className="mb-4 thread-card shadow-sm">
             <Card.Body>
               <Row>
@@ -100,17 +241,73 @@ const Community = () => {
                   <img src={thread.authorPhoto || '/default-avatar.png'} alt="" className="rounded-circle" width="50" />
                 </Col>
                 <Col md={11}>
-                  <h5>{thread.title}</h5>
+                  <div className="d-flex justify-content-between align-items-start">
+                    <h5>{thread.title}</h5>
+                    {thread.authorId === user?.uid && (
+                      <Button variant="link" className="text-danger p-0" onClick={() => deleteThread(thread.id, thread.authorId)}>
+                        <FaTrash />
+                      </Button>
+                    )}
+                  </div>
                   <p className="text-muted small">
-                    by {thread.authorName} • <FaClock className="me-1" />
+                    by <strong>{thread.authorName}</strong> • <FaClock className="me-1" />
                     {thread.createdAt?.toDate ? thread.createdAt.toDate().toLocaleString() : 'Just now'}
                   </p>
                   <p>{thread.content}</p>
+
+
+               {/* Media Preview with Icons */}
                   {thread.mediaUrl && (
-                    thread.mediaType?.startsWith('image') ?
-                      <Image src={thread.mediaUrl} fluid className="media-preview" /> :
-                      <video src={thread.mediaUrl} controls className="media-preview w-100" />
+                    <div className="mb-3">
+                      {thread.mediaType?.startsWith('image') ? (
+                        <>
+                          <FaImage className="text-primary me-2" />
+                          <Image src={thread.mediaUrl} fluid className="media-preview" />
+                        </>
+                      ) : (
+                        <>
+                          <FaVideo className="text-danger me-2" />
+                          <video src={thread.mediaUrl} controls className="media-preview w-100" />
+                        </>
+                      )}
+                    </div>
                   )}
+                  {/* Actions */}
+                  {/* Action Bar */}
+                  <div className="d-flex justify-content-between align-items-center mt-3">
+                    <div className="d-flex gap-4">
+                      <Button 
+                        variant="link" 
+                        className={`like-btn ${thread.likedBy?.includes(user?.uid) ? 'liked' : ''}`}
+                        onClick={() => toggleLike(thread.id, thread.likedBy || [])}
+                      >
+                        <FaHeart className="me-1" /> {thread.likes || 0}
+                      </Button>
+
+                      <Button 
+                        variant="link" 
+                        onClick={() => {
+                          setSelectedThreadId(thread.id);
+                          setShowReplyModal(true);
+                        }}
+                      >
+                        <FaReply className="me-1" /> {thread.replyCount || 0}
+                      </Button>
+
+                      <Button variant="link" onClick={() => {
+                        navigator.clipboard.writeText(window.location.href + `#thread-${thread.id}`);
+                        toast.success("Link copied to clipboard!");
+                      }}>
+                        <Button variant="link" onClick={() => shareThread(thread.id)}></Button>
+                        <FaShareAlt className="me-1" /> Share
+                      </Button>
+                    </div>
+
+                    <div className="text-muted small">
+                      <FaEye className="me-1" /> {thread.views || 0} views
+                    </div>
+                  </div>
+
                 </Col>
               </Row>
             </Card.Body>
@@ -118,6 +315,7 @@ const Community = () => {
         ))}
       </Container>
 
+      {/* Create Thread Modal */}
       {/* Create Thread Modal */}
       <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
         <Modal.Header closeButton>
@@ -127,11 +325,11 @@ const Community = () => {
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control value={newThread.title} onChange={(e) => setNewThread({ ...newThread, title: e.target.value })} required />
+              <Form.Control value={newThread.title} onChange={(e) => setNewThread({...newThread, title: e.target.value})} required />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Content</Form.Label>
-              <Form.Control as="textarea" rows={5} value={newThread.content} onChange={(e) => setNewThread({ ...newThread, content: e.target.value })} required />
+              <Form.Control as="textarea" rows={5} value={newThread.content} onChange={(e) => setNewThread({...newThread, content: e.target.value})} required />
             </Form.Group>
             <Form.Group>
               <Form.Label>Attach Image or Video (optional)</Form.Label>
@@ -144,6 +342,56 @@ const Community = () => {
           <Button variant="primary" onClick={createThread}>Post Thread</Button>
         </Modal.Footer>
       </Modal>
+      {/* Reply Modal */}
+      <Modal show={showReplyModal} onHide={() => setShowReplyModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Reply to Thread</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Your Comment</Form.Label>
+              <Form.Control 
+                as="textarea" 
+                rows={4} 
+                value={replyContent} 
+                onChange={(e) => setReplyContent(e.target.value)} 
+                placeholder="Write your reply..."
+                required 
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowReplyModal(false)}>Cancel</Button>
+          <Button variant="primary" onClick={postReply}>Post Reply</Button>
+        </Modal.Footer>
+      </Modal>
+
+{/* Login Prompt Modal */}
+      <Modal show={showLoginPrompt} onHide={() => setShowLoginPrompt(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Login Required</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center py-4">
+          <p>You must be logged in to like, comment, or share threads.</p>
+          <Button 
+            variant="primary" 
+            onClick={() => {
+              setShowLoginPrompt(false);
+              // Trigger your existing login modal here
+              // Example: document.dispatchEvent(new Event('openLoginModal'));
+              toast.info("Opening login modal...");
+            }}
+          >
+            Login or Sign Up Now
+          </Button>
+        </Modal.Body>
+      </Modal>
+
+
+
+
     </div>
   );
 };
