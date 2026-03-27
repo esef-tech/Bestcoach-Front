@@ -1,9 +1,9 @@
 // src/pages/ShopPage.jsx - Updated with video tutorials (YouTube embeds), wishlist feature (add/view/manage), enhanced zoom with slider
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal, Form, Alert, InputGroup, Carousel, ListGroup, Image } from 'react-bootstrap';
-import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaVideo, FaSearch, FaTimes, FaStar } from 'react-icons/fa';
+import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaSearch, FaTimes, FaStar } from 'react-icons/fa'; //ADD FaVideo-LATER
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'; // For zoom/pan
-import ReactPlayer from 'react-player'; // Install: npm i react-player (for video embeds)
+//import ReactPlayer from 'react-player'; // Install: npm i react-player (for video embeds)
 import { Elements, CardElement } from '@stripe/react-stripe-js'; // Import Elements and CardElement from Stripe
 import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import './Shop.css'; // Custom styles
@@ -27,7 +27,7 @@ const Shop = () => {
   const [wishlist, setWishlist] = useState([]); // Dynamic wishlist state
   const [showCheckout, setShowCheckout] = useState(false); // Checkout modal
   const [showViewer, setShowViewer] = useState(false); // Image viewer modal
-  const [showVideo, setShowVideo] = useState(false); // Video tutorial modal
+  //const [showVideo, setShowVideo] = useState(false); // Video tutorial modal
   const [selectedProduct, setSelectedProduct] = useState(null); // Selected product for viewer/video
   //const [videoPlaying, setVideoPlaying] = useState(false); // Video player state
   //const videoPlayerRef = React.useRef(null); // Ref for video player
@@ -170,13 +170,13 @@ const Shop = () => {
     setShowViewer(true);
   };
 
-  const openVideo = (product) => {
-    setSelectedProduct(product);
+  //const openVideo = (product) => {
+    //setSelectedProduct(product);
     //setVideoPlaying(false); // Reset first
-    setShowVideo(true);
+   // setShowVideo(true);
     // Delay to allow modal to render first
     //setTimeout(() => setVideoPlaying(true), 300);
-  };
+  //};
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -256,7 +256,7 @@ const Shop = () => {
                 <Button variant={prod.soldOut || prod.stock <= 0 ? "secondary" : "primary"} disabled={prod.soldOut || prod.stock <= 0} onClick={() => addToCart(prod)} className="animate-bounce-in">
                   {prod.soldOut || prod.stock <= 0 ? 'Sold Out' : 'Add to Cart'}
                 </Button>
-                <Button variant="outline-secondary" className="ms-2" onClick={() => openVideo(prod)}><FaVideo /> Tutorial</Button>
+                {/*<Button variant="outline-secondary" className="ms-2" onClick={() => openVideo(prod)}><FaVideo /> Tutorial</Button>*/}
                 <Button variant="outline-danger" className="ms-2" onClick={() => addToWishlist(prod)}><FaHeart /></Button>
                 {/* Reviews Section */}
                 <div className="mt-3">
@@ -381,7 +381,7 @@ const Shop = () => {
       </Modal>
 
 {/* Video Tutorial Modal */}
-      <Modal show={showVideo} onHide={() => setShowVideo(false)} size="lg" centered>
+   {/*   <Modal show={showVideo} onHide={() => setShowVideo(false)} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>{selectedProduct?.name} - Tutorial Video</Modal.Title>
         </Modal.Header>
@@ -390,7 +390,7 @@ const Shop = () => {
             <ReactPlayer url={selectedProduct.video} width="100%" height="400px" controls className="animate-fade-in" />
           )}
         </Modal.Body>
-      </Modal>
+      </Modal>*/}
 
       {/* Checkout Modal */}
       <Modal show={showCheckout} onHide={() => setShowCheckout(false)} size="lg" centered>
