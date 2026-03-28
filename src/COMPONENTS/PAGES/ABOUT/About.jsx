@@ -10,6 +10,7 @@ import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
+import Seo from '../../Seo'
 
 
 const About = () => {
@@ -101,6 +102,12 @@ const About = () => {
 
   return (
     <React.Fragment>
+      <Seo 
+  title="About Bestcoach Music | Empowering Singers Worldwide"
+  description="Learn how Bestcoach Music was founded to create the ultimate online singing community. Our mission: make world-class vocal coaching accessible to every singer."
+  keywords="about bestcoach music, singing community story, vocal coaching mission, music education platform"
+  image="http://localhost:3000/static/media/24.cb44feb0337b0e1f0b46.jpg"
+/>
 
       <section className="about-page">
       {/* Hero */}

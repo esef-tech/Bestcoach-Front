@@ -3,6 +3,7 @@ import './Help.css'
 import { Container, Row, Col, Card, Form, Button, Image } from 'react-bootstrap';
 import { FaSearch, FaBookOpen, FaUserGraduate, FaUserTie } from 'react-icons/fa'; // Icons
 import { Link } from 'react-router-dom';
+import Seo from '../../Seo'
 
 
 const Help = () => {
@@ -40,6 +41,16 @@ const Help = () => {
 
   return (
     <React.Fragment>
+      
+
+      <Seo 
+  title="Help Centre | Bestcoach Music Support & FAQs"
+  description="Find answers to all your questions. Tutorials, troubleshooting, account help, and guides to make the most of your Bestcoach Music experience."
+  keywords="bestcoach help centre, singing platform support, vocal coaching FAQs, bestcoach help"
+  image="https://www.tonara.com/helpcenter/wp-content/uploads/2020/03/connect_illustration@2x-392x246.png"
+/>
+
+
       <section className="help-page">
       {/* Header with logo */}
       <div className="header-help bg-teal text-center py-4 animate-fade-in">

@@ -1,4 +1,7 @@
 import React from "react";
+import { HelmetProvider } from 'react-helmet-async';   // ← NEW
+import AnalyticsTracker from "./COMPONENTS/AnalyticsTracker";
+import Seo from "./COMPONENTS/Seo";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./COMPONENTS/Navbar";
@@ -41,7 +44,10 @@ function App() {
 
     <React.Fragment> 
     <>
+      <HelmetProvider>
       <Router>
+          <AnalyticsTracker />
+          <Seo />
         <div className="App">
           <ThemeProvider>
           <Navbar />
@@ -81,6 +87,7 @@ function App() {
           </ThemeProvider>
         </div>
       </Router>
+      </HelmetProvider>
     </>
     </React.Fragment>
   );

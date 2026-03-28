@@ -30,7 +30,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize services
-export const analytics = getAnalytics(app);
+
 export const db = getFirestore(app, "bestcoach-db");
 export const auth = getAuth(app);
 export const storage = getStorage(app);
@@ -38,6 +38,7 @@ export const sendEmailVerification = SendEmailVerification;
 export const deleteDocument = deleteDoc;
 export const getDocument = getDoc;
 export const addDocument = addDoc;
+export const analytics = getAnalytics(app);
 
 
 

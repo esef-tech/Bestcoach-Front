@@ -14,6 +14,7 @@ import  B from '../../Images/bestcoach-pictures/190.jpeg'
 import  C from '../../Images/bestcoach-pictures/270.jpeg'
 import  D from '../../Images/bestcoach-pictures/280.jpeg'
 import  E from '../../Images/bestcoach-pictures/360.jpeg'
+import Seo from '../../Seo'
 
 
 
@@ -215,6 +216,16 @@ const Shop = () => {
   return (
 
     <React.Fragment>
+
+      <Seo 
+  title="Bestcoach Music Shop | Vocal Tools, Merch & Digital Resources"
+  description="Shop vocal warm-up tools, sheet music, exclusive courses, merch, and digital downloads created by our coaches to support your singing journey."
+  keywords="bestcoach shop, vocal training tools, singing merch, music education store, tss T Shirts, tmme T shirts"
+  image="https://bestcoach-front.vercel.app/static/media/IMG_2906.94d4a6a8e4bd6805860f.png"
+/>
+
+
+
     <Container fluid className="py-5">
       {/* Search Bar */}
       <Row className="mb-4 animate-slide-up">

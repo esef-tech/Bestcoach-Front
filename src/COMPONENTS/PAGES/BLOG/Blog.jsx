@@ -7,6 +7,7 @@ import { db } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
+import Seo from '../../Seo'
 
 
 const Blog = () => {
@@ -186,6 +187,12 @@ const Blog = () => {
 
   return (
    <React.Fragment>
+    <Seo 
+  title="Bestcoach Music Blog | Singing Tips, Vocal Techniques & Industry News"
+  description="Read the latest singing tips, vocal exercises, music industry insights, and success stories from our community of singers and coaches."
+  keywords="singing blog, vocal tips, music industry news, singing techniques, vocal exercises, bestcoach blog"
+  image="https://www.tonara.com/wp-content/uploads/2021/06/Copy-of-Blog-Cover-Photo-600_350-24.png"
+/>
     <section className="blog-page">
       {/* Header */}
       <div className="header-blog  text-white text-center py-5 animate-fade-in">

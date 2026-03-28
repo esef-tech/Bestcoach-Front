@@ -5,6 +5,7 @@ import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTicketAlt, FaUsers,   FaCar, 
 import './TSS.css'
 //import TssLogo from '../../Images/bestcoach-pictures/App.test.png'
 import TssLogo from '../../Images/bestcoach-pictures/TSS_NEW.jpeg'
+import Seo from '../../Seo'
 
 const TSS = () => {
     
@@ -78,6 +79,12 @@ const TSS = () => {
 
   return (
 <React.Fragment>
+  <Seo 
+  title="Singers Sanctuary | Safe Space for Vocal Growth & Community"
+  description="Enter the Singers Sanctuary – a welcoming online space for singers of all levels. Share your voice, get feedback, join live sessions, and grow with a supportive music community."
+  keywords="singers sanctuary, singing community, vocal safe space, singer support group, online singing community, bestcoach sanctuary"
+  image="http://localhost:3000/static/media/TSS_NEW.57626190a76227486fd9.jpeg"
+/>
   
 <section className="events-tss-page">
       {/* Header */}

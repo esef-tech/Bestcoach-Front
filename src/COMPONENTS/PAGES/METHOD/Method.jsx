@@ -3,6 +3,7 @@ import "./Method.css"
 import { Container, Row, Col, Accordion, Button, Form, Image} from 'react-bootstrap';
 import {  FaMusic,FaSearch } from 'react-icons/fa';
 import BestMethod from  "../.../../../Images/team/bc-main-flier.jpeg"
+import Seo from '../../Seo'
 
 const Method = () => {
 
@@ -146,6 +147,14 @@ const Method = () => {
   return (
   
     <React.Fragment>
+
+
+      <Seo 
+  title="Our Proven Methods | Science-Backed Vocal Training at Bestcoach"
+  description="Discover the unique Bestcoach Music methods – combining vocal science, community feedback, and real-time mentorship for faster singing progress."
+  keywords="bestcoach methods, vocal training techniques, singing methodology, proven vocal methods"
+  image="https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg"
+/>
 
       <section className="method-page">
       {/* Hero Header */}

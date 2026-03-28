@@ -8,6 +8,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
+import Seo from '../../Seo'
 
 const Contact = () => {
   
@@ -115,6 +116,13 @@ const Contact = () => {
 
   return (
     <React.Fragment>
+
+      <Seo 
+  title="Contact Bestcoach Music | Get Help, Feedback & Partnership"
+  description="Reach out to the Bestcoach Music team. Questions about coaching, community, or partnerships? We’re here to help you grow as a singer."
+  keywords="contact bestcoach music, singing support, vocal coaching help, music community contact"
+  image="https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg"
+/>
       
 
 <section className="contact-page">

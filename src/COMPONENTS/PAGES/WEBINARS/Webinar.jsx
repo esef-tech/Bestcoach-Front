@@ -2,6 +2,7 @@ import React from 'react'
 import './Webinar.css'
 import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
 import { FaCalendarAlt, FaPlayCircle } from 'react-icons/fa'; // Icons for date and play
+import Seo from '../../Seo'
 
 const Webinar = () => {
 
@@ -45,6 +46,13 @@ const Webinar = () => {
 
   return (
     <React.Fragment>
+
+      <Seo 
+  title="Live Webinars | Bestcoach Music Vocal Masterclasses"
+  description="Join live webinars and masterclasses with top vocal coaches. Learn breath control, performance skills, audition prep, and more – all in real time."
+  keywords="bestcoach webinars, vocal masterclasses, live singing webinars, online vocal workshops"
+  image="https://tonara.com/wp-content/themes/tonara/img/press/company_tonara_press.jpg"
+/>
 
       <section className="webinars-page">
       {/* Header */}

@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import './StudioTutorials.css'
 import { Container, Row, Col, Card, Button, Image, Form} from 'react-bootstrap';
 import { FaPlayCircle, FaSearch } from 'react-icons/fa'; // Icons for play and search
+import Seo from '../../Seo'
 
 
 
@@ -57,6 +58,15 @@ const StudioTutorials = () => {
 
   return (
     <React.Fragment>
+
+      <Seo 
+  title="Studio Tutorials | Pro Recording & Home Studio Setup Guides"
+  description="Step-by-step studio tutorials: home recording setup, microphone techniques, mixing vocals, and pro studio tips from Bestcoach Music experts."
+  keywords="studio tutorials, home recording guide, vocal recording tips, bestcoach studio tutorials"
+  image="https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg"
+/>
+
+
        <section className="studio-tutorial-page">
       {/* Header background image (no text) */}
       <div className="header-studio  animate-fade-in"></div>

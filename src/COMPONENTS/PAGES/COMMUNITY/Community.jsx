@@ -27,6 +27,7 @@ import {
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth } from '../../../context/AuthContext'
+import Seo from '../../Seo';
 
 const CommunityForumsPage = () => {
   const { isAuthenticated, currentUser } = useAuth();
@@ -244,6 +245,15 @@ const CommunityForumsPage = () => {
 
   // ====================== RENDER ======================
   return (
+    
+<React.Fragment>
+    <Seo 
+      title="Community Forums | Bestcoach Music"
+      description="Real-time music community. Share threads, like posts, comment, and see who's online right now."
+      keywords="music forum, bestcoach community, musician threads, real-time chat, music discussion"
+    />
+    
+
     <div className="community-forums">
       {/* Header */}
       <div className="forums-header text-white py-5 text-center">
@@ -493,6 +503,7 @@ const CommunityForumsPage = () => {
         .media-preview { max-height: 400px; border-radius: 8px; }
       `}</style>
     </div>
+    </React.Fragment>
   );
 };
 

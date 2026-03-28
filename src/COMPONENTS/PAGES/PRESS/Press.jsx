@@ -2,6 +2,7 @@ import React from 'react'
 import './Press.css'
 import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
 import { FaCalendarAlt } from 'react-icons/fa';
+import Seo from  '../../Seo'
 
 
 const Press = () => {
@@ -96,6 +97,12 @@ const Press = () => {
 
   return (
     <React.Fragment>
+      <Seo 
+  title="Press & Media | Bestcoach Music in the News"
+  description="See where Bestcoach Music has been featured. Press coverage, interviews, and media mentions about our singing community and mentorship programs."
+  keywords="bestcoach music press, music education news, singing platform media, vocal coaching in the press"
+  image="https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg"
+/>
       <section className="press-page">
       {/* Header with image background */}
       <div className="header-press text-white text-center py-5 animate-fade-in">

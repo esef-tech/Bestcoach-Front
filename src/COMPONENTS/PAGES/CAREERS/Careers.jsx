@@ -7,6 +7,7 @@ import about from './../../Images/team/20.jpg'
 import { auth, db, storage } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Seo from '../../Seo'
 
 
 const Careers = () => {
@@ -77,6 +78,13 @@ const Careers = () => {
 
   return (
     <React.Fragment>
+
+      <Seo 
+  title="Careers at Bestcoach Music | Join Our Singing Revolution"
+  description="Join the Bestcoach Music team! Exciting careers for vocal coaches, developers, content creators, and music lovers who want to empower singers worldwide."
+  keywords="careers bestcoach music, music jobs, vocal coach jobs, singing platform careers"
+  image="http://localhost:3000/static/media/20.886e1c18f8913f201b8a.jpg"
+/>
   <section className="careers-page">
       {/* Header with image background */}
       <div className="header-1 text-white text-center py-5 animate-fade-in">

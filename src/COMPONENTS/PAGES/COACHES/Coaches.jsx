@@ -3,6 +3,7 @@ import "./Coaches.css"
 import { Container, Row, Col, Card, Form, Button, Image, Badge } from 'react-bootstrap';
 import { FaSearch, FaMusic, FaMicrophoneAlt, FaGuitar, FaDrum, FaKeyboard,FaWind } from 'react-icons/fa';
 import CoachMan from "../../Images/team/WhatsApp Image 2024-12-27 at 5.44.48 PM (1).jpeg";
+import Seo from '../../Seo'
 
 
 
@@ -119,6 +120,13 @@ const Coaches = () => {
   return (
     
 <React.Fragment>
+
+  <Seo 
+  title="Meet Our Coaches | Expert Vocal Coaches at Bestcoach Music"
+  description="Browse hand-picked vocal coaches and mentors. Book 1-on-1 sessions with industry professionals who will help you unlock your true singing potential."
+  keywords="bestcoach coaches, vocal coaches online, singing mentors, music coaches, book vocal coach"
+  image="https://bestcoach-front.vercel.app/static/media/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).3a10d3acc028bfdf4ebc.jpeg"
+/>
 
 <section className="coaches-page">
       {/* Header */}
