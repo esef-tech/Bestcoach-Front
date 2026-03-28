@@ -7,7 +7,7 @@ import { db } from '../../firebase'; // ← Import Firebase
 import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
-//import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 
 
 const Footer = () => {
@@ -15,7 +15,7 @@ const Footer = () => {
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const currentYear = new Date().getFullYear();
-  //const { executeRecaptcha } = useGoogleReCaptcha();
+
 
  
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
