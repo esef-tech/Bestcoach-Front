@@ -22,7 +22,7 @@ const Footer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //const token = await executeRecaptcha('newsletter_footer');
+    
     if (!formData.email) return;
 
     setStatus({ loading: true, success: false, error: '' });
@@ -36,10 +36,6 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
 
     try {
 
-      /*if (!executeRecaptcha) {
-        toast.error("reCAPTCHA not loaded. Please refresh.");
-        return;
-      }*/
       
       // Duplicate check
       const q = query(collection(db, 'newsletter'), where('email', '==', formData.email));
@@ -55,7 +51,6 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
       await addDoc(collection(db, 'newsletter'), {
         name: formData.name || 'Anonymous',
         email: formData.email,
-        //recaptchaToken: token,
         timestamp: serverTimestamp(),
         subscribedAt: new Date().toISOString()
       });
