@@ -243,3 +243,61 @@ img { max-height: 300px; object-fit: cover; }
 .dark .thread-card:hover {
   box-shadow: 0 20px 40px rgba(23, 162, 184, 0.3) !important;
 }
+
+
+
+  /* Mobile-first responsive fixes */
+  .mobile-title {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .online-badge {
+    font-size: 1.1rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .post-thread-btn {
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 14px 28px;
+    box-shadow: 0 6px 16px rgba(40, 167, 69, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .post-thread-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(40, 167, 69, 0.4);
+  }
+
+  /* Extra small phones (≤ 576px) */
+  @media (max-width: 576px) {
+    .mobile-title {
+      font-size: 1.5rem;
+    }
+    .online-badge {
+      width: 100%;
+      justify-content: center;
+    }
+    .post-thread-btn {
+      width: 100%;
+      padding: 16px;
+    }
+  }
+
+  /* Small tablets & landscape phones */
+  @media (max-width: 768px) {
+    .online-badge {
+      font-size: 1rem;
+    }
+  }
+
+  /* Hover animation for desktop only */
+  @media (min-width: 769px) {
+    .online-badge:hover {
+      transform: scale(1.05);
+    }
+  }

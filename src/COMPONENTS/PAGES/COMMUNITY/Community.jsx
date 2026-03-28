@@ -257,27 +257,42 @@ const CommunityForumsPage = () => {
     <div className="community-forums">
       {/* Header */}
       <div className="forums-header text-white py-5 text-center">
-        <Container>
+        <Container className="py-4">
           <h1 className="display-4 fw-bold">Welcome to Bestcoach Music Community Forums</h1>
         </Container>
       </div>
 
       <Container className="py-4">
-        <Row className="mb-4 align-items-center">
-          <Col>
-            <h1 className="display-5 fw-bold text-center">Share threads, like and comment</h1>
-          </Col>
-          <Col xs="auto">
-            <Badge bg="success" className="fs-5 px-3 py-2">
-              <FaUsers className="me-2" /> {onlineCount} users online now
-            </Badge>
-          </Col>
-          <Col xs="auto">
-            <Button variant="success" size="lg" onClick={openCreateModal}>
-              <FaPlus className="me-2" /> Post a Thread
-            </Button>
-          </Col>
-        </Row>
+  <Row className="mb-4 align-items-center justify-content-center g-3">
+    {/* Title - centered on all screens, smaller on mobile */}
+    <Col xs={12} md={6} className="text-center text-md-start">
+      <h1 className="display-5 fw-bold mb-0 mobile-title">
+        Share threads, like and comment
+      </h1>
+    </Col>
+
+    {/* Online Badge + Post Button - stacked on mobile, side-by-side on larger screens */}
+    <Col xs={12} md="auto" className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
+      {/* Online Users Badge */}
+      <Badge 
+        bg="success" 
+        className="online-badge fs-6 px-4 py-2 d-flex align-items-center gap-2"
+      >
+        <FaUsers className="me-1" /> 
+        <span className="fw-semibold">{onlineCount} users online now</span>
+      </Badge>
+
+      {/* Post a Thread Button - full width on mobile */}
+      <Button 
+        variant="success" 
+        size="lg" 
+        className="post-thread-btn w-100 w-md-auto d-flex align-items-center justify-content-center gap-2"
+        onClick={openCreateModal}
+      >
+        <FaPlus /> Post a Thread
+      </Button>
+    </Col>
+  </Row>
 
         {/* THREADS */}
         {threads.map((thread) => {
