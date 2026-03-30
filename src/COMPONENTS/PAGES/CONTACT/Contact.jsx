@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './Contact.css'
 import { Container, Row, Col, Form, Button, Accordion,Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,9 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
+
+
 
 const Contact = () => {
   
@@ -23,6 +26,7 @@ const Contact = () => {
   const [attachment, setAttachment] = useState(null);
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const [searchQuery, setSearchQuery] = useState('');
+  const { session, savePreferences, getPreferences } = useSession();
   
 
   const handleChange = (e) => {
@@ -110,6 +114,12 @@ const Contact = () => {
     { icon: <FaGlobe />, label: 'Direct/International:', value: '+233-593-088-047' },
     { icon: <FaClock />, label: 'Office Hours:', value: 'Monday - Friday, 8AM - 5PM ' },
   ];
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/contact' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
 
 

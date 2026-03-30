@@ -28,6 +28,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth } from '../../../context/AuthContext'
 import Seo from '../../Seo';
+import {useSession} from '../../../context/SessionContext'
 
 const CommunityForumsPage = () => {
   const { isAuthenticated, currentUser } = useAuth();
@@ -41,6 +42,7 @@ const CommunityForumsPage = () => {
   const [commentsByThread, setCommentsByThread] = useState({});
   const [newCommentText, setNewCommentText] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const { session, csrfToken, validateCSRF, savePreferences, getPreferences } = useSession();
 
   const viewedThreadsRef = useRef(new Set());
 
@@ -134,6 +136,7 @@ const CommunityForumsPage = () => {
 
   // ====================== ACTIONS ======================
   const handleLike = async (threadId) => {
+    if (!validateCSRF(csrfToken)) return;
     requireAuth(async () => {
       const threadRef = doc(db, 'threads', threadId);
       const threadSnap = await getDoc(threadRef);
@@ -157,6 +160,7 @@ const CommunityForumsPage = () => {
   };
 
   const handleCommentClick = async (threadId) => {
+    if (!validateCSRF(csrfToken)) return;
     requireAuth(async () => {
       setExpandedThreadId(prev => (prev === threadId ? null : threadId));
       // Increment view when comments are opened
@@ -166,6 +170,7 @@ const CommunityForumsPage = () => {
   };
 
   const handlePostComment = async (threadId) => {
+    if (!validateCSRF(csrfToken)) return;
     if (!newCommentText.trim()) return;
     requireAuth(async () => {
       const commentsRef = collection(db, 'threads', threadId, 'comments');
@@ -181,6 +186,7 @@ const CommunityForumsPage = () => {
   };
 
   const handleDeleteComment = async (threadId, commentId) => {
+    if (!validateCSRF(csrfToken)) return;
     requireAuth(async () => {
       await deleteDoc(doc(db, 'threads', threadId, 'comments', commentId));
       toast.success("Comment deleted");
@@ -188,6 +194,7 @@ const CommunityForumsPage = () => {
   };
 
   const handleCopyLink = (threadId) => {
+    if (!validateCSRF(csrfToken)) return;
     requireAuth(() => {
       const link = `${window.location.origin}/community/thread/${threadId}`;
       navigator.clipboard.writeText(link).then(() => {
@@ -242,6 +249,18 @@ const CommunityForumsPage = () => {
     await deleteDoc(doc(db, 'threads', threadId));
     toast.success("Thread deleted");
   };
+
+//Cookies && Sessions Here
+// Track last visited page
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/community' });
+    }
+  }, [session, savePreferences, getPreferences]);
+
+  
+
+
 
   // ====================== RENDER ======================
   return (

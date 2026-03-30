@@ -1,10 +1,22 @@
-import React from 'react'
+import React, {useEffect}from 'react'
 import './Webinar.css'
 import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
 import { FaCalendarAlt, FaPlayCircle } from 'react-icons/fa'; // Icons for date and play
 import Seo from '../../Seo'
+import {useSession} from '../../../context/SessionContext'
 
 const Webinar = () => {
+
+
+  const { session, savePreferences, getPreferences } = useSession();
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/webinars' });
+    }
+  }, [session, savePreferences, getPreferences]);
+
+
+
 
   // Dynamic webinars array (from analyzed Tonara data - easy to update/add)
   const webinars = [

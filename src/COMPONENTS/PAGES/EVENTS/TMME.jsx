@@ -1,8 +1,22 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Land from '../../Landing/Land'
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext'
+
+
 
 const TMME = () => {
+
+  const { session, savePreferences, getPreferences } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/mentorship' });
+    }
+  }, [session, savePreferences, getPreferences]);
+
+
+
   return (
     <React.Fragment>
 

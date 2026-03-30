@@ -1,13 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './Help.css'
 import { Container, Row, Col, Card, Form, Button, Image } from 'react-bootstrap';
 import { FaSearch, FaBookOpen, FaUserGraduate, FaUserTie } from 'react-icons/fa'; // Icons
 import { Link } from 'react-router-dom';
 import Seo from '../../Seo'
+import {useSession} from '../../../context/SessionContext'
+
 
 
 const Help = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const { session, savePreferences, getPreferences } = useSession();
+
+    useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/help' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
     // Dynamic categories array (easy to update)
   const categories = [

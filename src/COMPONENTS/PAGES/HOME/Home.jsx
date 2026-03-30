@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useEffect }from 'react'
 import { Container } from 'react-bootstrap'
 import Header from '../../HEADER/Header'
 import Programs from '../../PROGRAMS/Programs'
 import Register from '../../REGISTER/Register'
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext'
 
 
 
 
 const Home = () => {
+  const { session, savePreferences, getPreferences } = useSession();
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/' });
+    }
+  }, [session, savePreferences, getPreferences]);
+
+
+
   return (
 
    <React.Fragment>

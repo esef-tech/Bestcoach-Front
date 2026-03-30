@@ -1,9 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './Team.css'
 import Team from '../../TEAM/Team'
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext'
 
 const Teams = () => {
+
+
+  const { session, savePreferences, getPreferences } = useSession();
+
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/team' });
+    }
+  }, [session, savePreferences, getPreferences]);
   return (
 
     <React.Fragment>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button,  ListGroup, Image, Accordion, Modal} from 'react-bootstrap';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTicketAlt, FaUsers,   FaCar, FaBus, FaBicycle, FaWalking } from 'react-icons/fa';
 
@@ -6,6 +6,7 @@ import './TSS.css'
 //import TssLogo from '../../Images/bestcoach-pictures/App.test.png'
 import TssLogo from '../../Images/bestcoach-pictures/TSS_NEW.jpeg'
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
 
 const TSS = () => {
     
@@ -15,6 +16,7 @@ const TSS = () => {
   const [selectedMode, setSelectedMode] = useState('driving'); // Default mode
   const [origin, setOrigin] = useState('');
   const [directionsUrl, setDirectionsUrl] = useState('');
+  const { session, savePreferences, getPreferences } = useSession();
 
 
   const lineup = [
@@ -74,6 +76,12 @@ const TSS = () => {
     const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${destination}&travelmode=${directionsMode}`;
     setDirectionsUrl(url);
   };
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/sanctuary' });
+    }
+  }, [session, savePreferences, getPreferences]);
     
   
 

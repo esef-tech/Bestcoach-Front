@@ -38,6 +38,9 @@ import Shop from "./COMPONENTS/PAGES/SHOP/Shop";
 import Community from "./COMPONENTS/PAGES/COMMUNITY/Community";
 import Profile from "./COMPONENTS/Profile";
 import { ThemeProvider } from './context/ThemeContext';
+import { SessionProvider } from "./context/SessionContext";
+import { AuthProvider } from "./context/AuthContext";
+
 
 function App() {
   return (
@@ -47,9 +50,12 @@ function App() {
       <HelmetProvider>
       <Router>
           <AnalyticsTracker />
+          <SessionProvider>
+          <AuthProvider>
           <Seo />
         <div className="App">
           <ThemeProvider>
+            
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -84,8 +90,10 @@ function App() {
           </Routes>
           <Footer />
           <AIAgent />
-          </ThemeProvider>
+          </ThemeProvider> 
         </div>
+        </AuthProvider>
+          </SessionProvider>
       </Router>
       </HelmetProvider>
     </>

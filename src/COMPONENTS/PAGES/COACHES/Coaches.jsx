@@ -1,15 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import "./Coaches.css"
 import { Container, Row, Col, Card, Form, Button, Image, Badge } from 'react-bootstrap';
 import { FaSearch, FaMusic, FaMicrophoneAlt, FaGuitar, FaDrum, FaKeyboard,FaWind } from 'react-icons/fa';
 import CoachMan from "../../Images/team/WhatsApp Image 2024-12-27 at 5.44.48 PM (1).jpeg";
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
+
+
+
 
 
 
 const Coaches = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedInstrument, setSelectedInstrument] = useState('all');
+  const { session, savePreferences, getPreferences } = useSession();
+
   
   // Dynamic coaches array (expandable, based on  - name, photo, specialty, bio, featured)
   const coaches = [
@@ -113,6 +119,14 @@ const Coaches = () => {
     { name: 'drums', icon: <FaDrum className="me-2 text-orange" /> },
     { name: 'trumpets', icon: <FaWind className="me-2 text-orange" /> }, // FaWind for brass/wind instruments
   ];
+
+
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/coaches' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
 
 

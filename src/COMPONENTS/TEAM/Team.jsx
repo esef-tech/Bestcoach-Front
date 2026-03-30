@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import "./Team.css"
 import { Container, Row, Col, Card, Form, Button, Image, Badge,} from 'react-bootstrap';
 import { FaSearch, FaMusic } from 'react-icons/fa';
@@ -12,6 +12,7 @@ import {FcBusinesswoman} from 'react-icons/fc';
 import {TbBrandReactNative} from 'react-icons/tb';
 import  {SiGoogleanalytics, SiTechcrunch} from 'react-icons/si';
 import { Link } from 'react-router-dom';
+import { useSession } from '../../context/SessionContext';
 
 
 
@@ -20,6 +21,7 @@ const Team = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const { session, savePreferences, getPreferences } = useSession();
     
     // Dynamic coaches array (expandable, based on  - name, photo, specialty, bio, featured)
     const coaches = [
@@ -114,6 +116,11 @@ const Team = () => {
       { name: 'tech lead', icon: <SiTechcrunch className="me-2 text-orange" /> }, // SiTechcrunch for tech lead
     ];
   
+    useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/team' });
+    }
+  }, [session, savePreferences, getPreferences]);
   
 
   return (

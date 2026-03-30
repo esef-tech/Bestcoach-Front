@@ -1,13 +1,16 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './StudioTutorials.css'
 import { Container, Row, Col, Card, Button, Image, Form} from 'react-bootstrap';
 import { FaPlayCircle, FaSearch } from 'react-icons/fa'; // Icons for play and search
 import Seo from '../../Seo'
+import {useSession} from '../../../context/SessionContext'
+
 
 
 
 const StudioTutorials = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const { session, savePreferences, getPreferences } = useSession();
 
     // Dynamic tutorials array (from Tonara analysis - thumbnails/links/desc as placeholders; update with real)
   const tutorials = [
@@ -54,6 +57,16 @@ const StudioTutorials = () => {
     tut.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     tut.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/studio-tutorials' });
+    }
+  }, [session, savePreferences, getPreferences]);
+
+  // ... rest of your component
+
+
 
 
   return (

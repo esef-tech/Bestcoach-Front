@@ -1,11 +1,14 @@
-import React from 'react'
+import React, {useEffect }from 'react'
 import './Press.css'
 import { Container, Row, Col, Card, Button, Image } from 'react-bootstrap';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Seo from  '../../Seo'
+import { useSession } from '../../../context/SessionContext'
 
 
 const Press = () => {
+
+    const { session, savePreferences, getPreferences } = useSession();
 
     const pressEntries = [
     {
@@ -93,6 +96,13 @@ const Press = () => {
       link: 'https://www.musicedmentor.com/blog/favorite-apps-for-student-practice',
     },
   ];
+
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/press' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
 
   return (

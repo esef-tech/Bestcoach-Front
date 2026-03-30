@@ -1,13 +1,15 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import "./Method.css"
 import { Container, Row, Col, Accordion, Button, Form, Image} from 'react-bootstrap';
 import {  FaMusic,FaSearch } from 'react-icons/fa';
 import BestMethod from  "../.../../../Images/team/bc-main-flier.jpeg"
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
 
 const Method = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
+  const { session, savePreferences, getPreferences } = useSession();
 
   // Dynamic levels array (expanded with icons/images - placeholders; customize)
   const levels = [
@@ -142,6 +144,11 @@ const Method = () => {
     level.subCourses.some(sub => sub.name.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/methods' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Modal, Alert , Image} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaBriefcase, FaUsers, FaHeart, FaUpload } from 'react-icons/fa';
@@ -8,6 +8,8 @@ import { auth, db, storage } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
+
 
 
 const Careers = () => {
@@ -17,6 +19,8 @@ const Careers = () => {
   const [formData, setFormData] = useState({ name: '', email: '', job: '', resumeFile: null, resumeUrl: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
   const [showLoginPrompt, setShowLoginPrompt] = useState(false); // New prompt
+  const { session, savePreferences, getPreferences } = useSession();
+
 
   // Dynamic job listings (expandable array)
   const jobs = [
@@ -75,6 +79,12 @@ const Careers = () => {
       setStatus({ loading: false, success: false, error: 'Application failed. Try again.' });
     }
   };
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/careers' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
   return (
     <React.Fragment>

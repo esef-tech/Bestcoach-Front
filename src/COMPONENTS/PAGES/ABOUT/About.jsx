@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Container, Row, Col, Card, Form, Button, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For breadcrumb or links
 import './About.css';
@@ -11,11 +11,13 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
 
 
 const About = () => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState({ loading: false, success: false, error: '' });
+  const { session, savePreferences, getPreferences } = useSession();
   
 
   // Dynamic data arrays
@@ -98,7 +100,11 @@ const About = () => {
     }
   };
 
-  
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/about' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
   return (
     <React.Fragment>

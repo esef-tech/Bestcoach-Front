@@ -1,8 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './Package.css'
 import Programs from '../../PROGRAMS/Programs'
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
+
 const Package = () => {
+
+const { session, savePreferences, getPreferences } = useSession();
+useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/packages' });
+    }
+  }, [session, savePreferences, getPreferences]);
+
   return (
     <React.Fragment>
 <Seo 

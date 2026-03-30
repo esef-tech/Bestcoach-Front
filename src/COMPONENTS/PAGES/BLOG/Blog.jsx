@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Container, Row, Col, Card, Form, Button, Image, } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // For Read More routing
 import { FaSearch, FaCalendarAlt, FaUser, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -8,6 +8,9 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
+
+
 
 
 const Blog = () => {
@@ -16,6 +19,7 @@ const Blog = () => {
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribeStatus, setSubscribeStatus] = useState({ loading: false, success: false, error: '' });
   const postsPerPage = 3;
+  const { session, savePreferences, getPreferences } = useSession();
 
   // Dynamic posts from analysis (array for easy expansion; can fetch from backend/API)
    const posts = [
@@ -183,6 +187,13 @@ const Blog = () => {
       });
     }
   };
+
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/blog' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
 
   return (

@@ -1,5 +1,5 @@
 // src/pages/ShopPage.jsx - Updated with video tutorials (YouTube embeds), wishlist feature (add/view/manage), enhanced zoom with slider
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Container, Row, Col, Card, Button, Badge, Modal, Form, Alert, InputGroup, Carousel, ListGroup, Image } from 'react-bootstrap';
 import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaSearch, FaTimes, FaStar } from 'react-icons/fa'; //ADD FaVideo-LATER
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'; // For zoom/pan
@@ -15,12 +15,15 @@ import  C from '../../Images/bestcoach-pictures/270.jpeg'
 import  D from '../../Images/bestcoach-pictures/280.jpeg'
 import  E from '../../Images/bestcoach-pictures/360.jpeg'
 import Seo from '../../Seo'
+import { useSession } from '../../../context/SessionContext';
 
 
 
 
 // Initialize Stripe - Replace with your actual publishable key
 const stripePromise = loadStripe('pk_test_YOUR_PUBLISHABLE_KEY');
+
+
 
 const Shop = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,6 +40,7 @@ const Shop = () => {
   const [quantities, setQuantities] = useState({}); // Quantity per product (before add)
   const [reviewForm, setReviewForm] = useState({ rating: 0, comment: '' }); // Review form state
   const [reviews, setReviews] = useState({}); // Dynamic reviews per product ID
+  const { session, savePreferences, getPreferences } = useSession();
 
   const products = [
     { 
@@ -111,6 +115,12 @@ const Shop = () => {
     },
     // Add more products with angles/video
   ];
+
+  useEffect(() => {
+    if (session) {
+      savePreferences({ ...getPreferences(), lastPage: '/shop' });
+    }
+  }, [session, savePreferences, getPreferences]);
 
   const updateQuantity = (id, value) => {
     const prod = products.find(p => p.id === id);
