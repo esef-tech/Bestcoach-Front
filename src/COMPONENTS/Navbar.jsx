@@ -11,6 +11,7 @@ import Select from 'react-select';
 import {Spinner} from 'react-bootstrap';
 import './Navbar.css'; // Updated with OAuth styling + strength indicator
 import { auth, db, sendEmailVerification, } from '../firebase'; //add later appleProvider, microsoftProvider
+import MFAVerificationModal from '../COMPONENTS/MFA/MFAVerificationModal'
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -18,7 +19,8 @@ import {
   signInWithPopup, signOut,
   onAuthStateChanged, 
   updatePassword,
-  GoogleAuthProvider
+  GoogleAuthProvider, 
+  
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { FcAbout } from "react-icons/fc";
@@ -47,6 +49,10 @@ const AppNavbar = () => {
   const [userProfile, setUserProfile] = useState({});
   const [user, setUser] = useState(null);
   const [passwordStrength, setPasswordStrength] = useState({ level: 'weak', color: 'red', width: '25%' });
+  const [email, ] = useState('');
+  //const [password,] = useState('');
+  const [showMfaModal, setShowMfaModal] = useState(false);
+  const [mfaResolver,] = useState(null);
   
 
   useEffect(() => {
@@ -312,6 +318,16 @@ useEffect(() => {
 }, []);
 
 
+
+//2MFA
+
+
+
+  const handleMfaSuccess = () => {
+    toast.success('✅ Welcome back to Bestcoach Music!');
+    // Redirect to /community or dashboard
+  };
+
   return (
     <React.Fragment>
       
@@ -543,6 +559,20 @@ useEffect(() => {
           </p>
         </Modal.Body>
       </Modal>
+
+
+
+     
+    
+      {/* 2MFA Modal with Email Fallback */}
+      <MFAVerificationModal
+        show={showMfaModal}
+        onHide={() => setShowMfaModal(false)}
+        mfaResolver={mfaResolver}
+        email={email}                    // ← Passed for email fallback
+        onSuccess={handleMfaSuccess}
+      />
+
     </React.Fragment>
   );
 };
