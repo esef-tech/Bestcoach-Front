@@ -412,7 +412,7 @@ useEffect(() => {
             ) : (
               /* Login / Signup Button (unchanged) */
               <Button variant="outline-primary" onClick={() => setShowLogin(true)}>
-                <FaUserCircle className="me-2" /> Login / Signup
+                <FaUserCircle className="me-2" /> Login 
               </Button>
             )}
           </Nav>

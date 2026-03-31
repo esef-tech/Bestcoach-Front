@@ -44,60 +44,54 @@ import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-
-    <React.Fragment> 
-    <>
-      <HelmetProvider>
+    <HelmetProvider>
       <Router>
-          <AnalyticsTracker />
-          <SessionProvider>
+        <AnalyticsTracker />
+        <SessionProvider>
           <AuthProvider>
-          <Seo />
-        <div className="App">
-          <ThemeProvider>
-            
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/package" element={<Package />} />
-            <Route path="/quick-links" element={<Links />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/team" element={<Teams />} />
-            <Route path="/schools" element={<SchoolServices />} />
-            <Route path="/churches" element={<ChurchServices />} />
-            <Route path="/individuals" element={<IndividualServices />} />
-            <Route path="/groups" element={<GroupServices />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/tss" element={<TSS />} />
-            <Route path="/tmme" element={<TMME />} />
-            <Route path="/press" element={<Press />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/help/teacher-support" element={<TeacherSupport />} />
-            <Route path="/help/student-support" element={<StudentSupport />} />
-            <Route path="/help/parent-support" element={<ParentSupport />} />
-            <Route path="/webinars" element={<Webinar />} />
-            <Route path="/studio-tutorials" element={<StudioTutorials />} />
-            <Route path="/faq" element={<Faq />} />
-            <Route path="/method" element={<Method />} />
-            <Route path="/coach" element={<Coaches />} />
-            <Route path="/loyal" element={<Loyal />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-          <Footer />
-          <AIAgent />
-          </ThemeProvider> 
-        </div>
-        </AuthProvider>
-          </SessionProvider>
+            <Seo />
+            <div className="App">
+              <ThemeProvider>
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/package" element={<Package />} />
+                  <Route path="/quick-links" element={<Links />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/team" element={<Teams />} />
+                  <Route path="/schools" element={<SchoolServices />} />
+                  <Route path="/churches" element={<ChurchServices />} />
+                  <Route path="/individuals" element={<IndividualServices />} />
+                  <Route path="/groups" element={<GroupServices />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/careers" element={<Careers />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/tss" element={<TSS />} />
+                  <Route path="/tmme" element={<TMME />} />
+                  <Route path="/press" element={<Press />} />
+                  <Route path="/help" element={<Help />} />
+                  <Route path="/help/teacher-support" element={<TeacherSupport />} />
+                  <Route path="/help/student-support" element={<StudentSupport />} />
+                  <Route path="/help/parent-support" element={<ParentSupport />} />
+                  <Route path="/webinars" element={<Webinar />} />
+                  <Route path="/studio-tutorials" element={<StudioTutorials />} />
+                  <Route path="/faq" element={<Faq />} />
+                  <Route path="/method" element={<Method />} />
+                  <Route path="/coach" element={<Coaches />} />
+                  <Route path="/loyal" element={<Loyal />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/community" element={<Community />} />
+                  <Route path="/profile" element={<Profile />} />
+                </Routes>
+                <Footer />
+                <AIAgent />
+              </ThemeProvider>
+            </div>
+          </AuthProvider>
+        </SessionProvider>
       </Router>
-      </HelmetProvider>
-    </>
-    </React.Fragment>
+    </HelmetProvider>
   );
 }
 
