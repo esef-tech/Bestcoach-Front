@@ -362,6 +362,9 @@
     width: 100%;
     margin-top: 15px;
   }
+  .nav-item {
+    white-space: normal;   /* Allow wrapping only on mobile */
+  }
 }
 
 .nav-links {
