@@ -352,7 +352,7 @@ useEffect(() => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/" className="mx-2">Home</Nav.Link>
-              <Nav.Link as={Link} to="/community" className="mx-2"><BsPeopleFill className="me-2 text-orange" />Community & Forums</Nav.Link>
+              <Nav.Link as={Link} to="/community" className="mx-2"><BsPeopleFill className="me-2 text-orange" />Community</Nav.Link>
               <NavDropdown title="Events" id="services-dropdown" className="mx-2">
                 <NavDropdown.Item as={Link} to="/tss"><FaMicrophoneAlt className="me-2 text-orange" />The Singers Sanctuary</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/tmme"><FaMusic className="me-2 text-orange" />The Music Mentorship Experience</NavDropdown.Item>
@@ -411,8 +411,8 @@ useEffect(() => {
               </div>
             ) : (
               /* Login / Signup Button (unchanged) */
-              <Button variant="outline-primary" onClick={() => setShowLogin(true)}>
-                <FaUserCircle className="me-2" /> Login 
+              <Button variant="outline-primary"   className='login-btn'   onClick={() => setShowLogin(true)}>
+                <FaUserCircle className="me-2 " /> Login  
               </Button>
             )}
           </Nav>

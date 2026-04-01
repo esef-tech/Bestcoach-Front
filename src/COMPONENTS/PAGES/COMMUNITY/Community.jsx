@@ -277,7 +277,7 @@ const CommunityForumsPage = () => {
       {/* Header */}
       <div className="forums-header text-white py-5 text-center">
         <Container className="py-4">
-          <h1 className="display-4 fw-bold">Welcome to Bestcoach Music Community Forums</h1>
+          <h1 className="display-4 fw-bold">Welcome to the Bestcoach Music Community </h1>
         </Container>
       </div>
 

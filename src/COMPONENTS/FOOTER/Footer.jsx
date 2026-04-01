@@ -138,7 +138,9 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
               <RouterLink to="/services" className="footer-link-footer mb-2"><FaAngleRight className="me-2" />Our Services</RouterLink>
               <RouterLink to="/contact" className="footer-link-footer mb-2"><FaAngleRight className="me-2" />Contact Us</RouterLink>
               <RouterLink to="/faq" className="footer-link-footer"><FaAngleRight className="me-2" />FAQ's</RouterLink> {/* Assume /faqs page exists or add it */}
-              <RouterLink to="/help" className='footer-link-footer'><FaAngleRight className='me-2'/>Help!</RouterLink>         
+              <RouterLink to="/help" className='footer-link-footer'><FaAngleRight className='me-2'/>Help!</RouterLink> 
+              <RouterLink to="/terms" className='footer-link-footer'><FaAngleRight className='me-2'/>Terms of Use</RouterLink> 
+              <RouterLink to="/privacy" className='footer-link-footer'><FaAngleRight className='me-2'/>Privacy Policy</RouterLink>         
             </div>
           </Col>
 
