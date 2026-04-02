@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect }from "react";
 import { HelmetProvider } from 'react-helmet-async';   // ← NEW
 import AnalyticsTracker from "./COMPONENTS/AnalyticsTracker";
 import Seo from "./COMPONENTS/Seo";
@@ -40,11 +40,24 @@ import Profile from "./COMPONENTS/Profile";
 import { ThemeProvider } from './context/ThemeContext';
 import { SessionProvider } from "./context/SessionContext";
 import { AuthProvider } from "./context/AuthContext";
+import AOS from 'aos';
+import 'aos/dist/aos.css';   // ← Important: Import AOS styles
 
 
 function App() {
+
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,      // Animation duration
+      once: true,          // Animate only once
+      easing: 'ease-in-out',
+      offset: 100,         // Start animation 100px before element enters viewport
+    });
+  }, []);
   return (
-    <HelmetProvider>
+    <React.Fragment>
+          <HelmetProvider>
       <Router>
         <AnalyticsTracker />
         <SessionProvider>
@@ -92,6 +105,8 @@ function App() {
         </SessionProvider>
       </Router>
     </HelmetProvider>
+    </React.Fragment>
+
   );
 }
 
