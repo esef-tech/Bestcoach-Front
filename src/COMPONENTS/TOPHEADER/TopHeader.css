@@ -2,18 +2,19 @@
 .top-header {
   background-color: #17a2b8; /* Exact teal you requested */
   color: #fff;
-  padding: 8px 0;
+  padding: 12px 0;
   position: sticky;
   top: 0;
-  z-index: 1050;
+  z-index: 999;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border-top: 3px solid #17a2b8;    /* Red top border from image */
   border-bottom: 3px solid #17a2b8;  /* Blue bottom border from image */
   animation: slideDown 0.6s ease-out forwards;
+  font-size: 0.95rem;
 }
 
 .top-header-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -53,7 +54,7 @@
 .social-section-top-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
 }
 
 .brand-initial {
@@ -125,4 +126,35 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* CENTER - Handwritten Animation */
+.handwriting-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 300px;
+}
+
+.handwritten-text {
+  font-family: 'Dancing Script', cursive;   /* Beautiful handwriting font */
+  font-size: 1.35rem;
+  font-weight: 5000;
+  color: #fd7e14;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #fff;
+  animation: typing 4.5s steps(38, end) infinite alternate,
+             erase 4.5s steps(38, end) infinite alternate;
+}
+
+/* Animation Keyframes */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes erase {
+  from { width: 100% }
+  to { width: 0 }
 }

@@ -19,7 +19,7 @@ const TopHeader = () => {
     <div className="top-header">
       <div className="top-header-container">
         {/* Left: Contact Info */}
-        <div className="contact-info-top-header">
+        <div className="contact-info-top-header" data-aos="fade-right"      data-aos-duration="800">
           <div className="info-item-top-header">
             <FaMapMarkerAlt className="icon" />
             <span>GPWG+9RG, Accra, Greater Accra Region 0023 Ghana</span>
@@ -30,8 +30,17 @@ const TopHeader = () => {
           </div>
         </div>
 
+        {/* CENTER: Animated Handwritten Text */}
+        <div className="handwriting-center" data-aos="fade-down" deta-os-duration="1000"
+         data-aos-delay="400">
+          <span className="handwritten-text">
+            transforming lives one beat at a time 🔥
+          </span>
+        </div>
+
         {/* Right: Social Icons */}
-        <div className="social-section-top-header">
+        <div className="social-section-top-header" data-aos="fade-left" data-aos-duration="8000"
+         data-aos-delay="500">
           <div className="brand-initial"> <a href="https://wa.me/message/CJZ4XQCNRWWTB1" 
              target="_blank" 
              rel="noopener noreferrer" 
