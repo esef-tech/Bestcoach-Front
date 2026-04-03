@@ -22,7 +22,7 @@ const TopHeader = () => {
         <div className="contact-info-top-header" data-aos="fade-right"      data-aos-duration="800">
           <div className="info-item-top-header">
             <FaMapMarkerAlt className="icon" />
-            <span>GPWG+9RG, Accra, Greater Accra Region 0023 Ghana</span>
+            <span>Greater Accra Region 0023 Ghana</span>
           </div>
           <div className="info-item-top-header">
             <FaEnvelope className="icon" />
@@ -34,7 +34,7 @@ const TopHeader = () => {
         <div className="handwriting-center" data-aos="fade-down" deta-os-duration="1000"
          data-aos-delay="400">
           <span className="handwritten-text">
-            ♫ Bestcoach Music:  Transforming lives one beat at a time ♪
+            ♫ Bestcoach Music: " Transforming lives one beat at a time.♪ "
           </span>
         </div>
 
