@@ -34,7 +34,7 @@ const TopHeader = () => {
         <div className="handwriting-center" data-aos="fade-down" deta-os-duration="1000"
          data-aos-delay="400">
           <span className="handwritten-text">
-            transforming lives one beat at a time 🔥
+            ♫ Bestcoach Music:  Transforming lives one beat at a time ♪
           </span>
         </div>
 

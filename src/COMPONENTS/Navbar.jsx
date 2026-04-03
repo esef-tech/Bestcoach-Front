@@ -332,7 +332,7 @@ useEffect(() => {
     <React.Fragment>
       
       <TopHeader />
-      <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm position-relative modern-navbar" fixed="top"  data-aos="fade-down"  data-aos-duration="800">
+      <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm position-sticky modern-navbar" fixed="top"  data-aos="fade-down"  data-aos-duration="800">
         <div className="animation-container">
           <span className="music-symbol">♪</span>
           <span className="music-symbol">♫</span>
