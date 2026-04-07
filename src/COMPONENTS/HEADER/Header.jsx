@@ -2,10 +2,13 @@ import React from 'react'
 import './Header.css'
 import { Container, Row, Col, Carousel, Button } from 'react-bootstrap';
 //import Song from '../Images/team/bc-piano-lesson.jpeg'
-import Lessons from '../Images/team/EDDDITED.jpeg'
+import Lessons from '../Images/webp/EDDDITED.webp'
 //import TSS from '../../COMPONENTS/Images/bestcoach-pictures/TSS_NEW.jpeg'
-import TSS from '../../COMPONENTS/Images/bestcoach-pictures/App.test.png'
-
+import TSS from '../../COMPONENTS/Images/webp/TSS_NEW.webp'
+import  COACH from  '../../COMPONENTS/Images/webp/Coach.webp'
+import TSSSMAIN from '../../COMPONENTS/Images/webp/App.test.webp'
+import  PLAY from '../../COMPONENTS/Images/webp/9345.webp'
+import  STRINGS from '../../COMPONENTS/Images/webp/playing.webp'
 
 
 
@@ -13,10 +16,10 @@ const Header = () => {
 
 // 5 vibrant music education images from search
   const images = [
-        'https://bestcoach-front.vercel.app/static/media/TSS_NEW.57626190a76227486fd9.jpeg',
-        'https://bestcoachmusic.netlify.app/IMAGES/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).jpeg',
-        'https://bestcoachmusic.netlify.app/IMAGES/bestcoach-pictures/9345.jpg',
-        'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+      `${TSSSMAIN}`, 
+        `${COACH}`,
+        `${STRINGS}`, 
+        `${PLAY}`,
         `${Lessons}`,
         `${TSS}`,
     
@@ -74,7 +77,12 @@ const Header = () => {
                   <img
                     className="d-block w-100 img-fluid carousel-image"
                     src={img}
-                    alt={`Music education slide ${idx + 1}`}
+                    alt={`Bestcoach Music - Slide ${idx + 1}`}
+                    width="1200"          
+                    height="520"  
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    fetchPriority={idx === 0 ? "high" : "auto"}
+
                   />
                 </Carousel.Item>
               ))}

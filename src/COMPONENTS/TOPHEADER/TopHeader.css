@@ -1,8 +1,9 @@
 /* src/COMPONENTS/TopHeader.css */
 .top-header {
-  background-color: #17a2b8; /* Exact teal you requested */
+  background-color: #17a2b8; /* teal  */
   color: #fff;
   padding: 12px 0;
+  position: -webkit-sticky; /* Safari on iOS 7+ */
   position: sticky;
   top: 0;
   z-index: 999;
@@ -135,17 +136,18 @@
   justify-content: center;
   min-width: 300px;
 }
-
 .handwritten-text {
-  font-family: 'Dancing Script', cursive;   /* Beautiful handwriting font */
+  font-family: 'Dancing Script', cursive;
   font-size: 1.35rem;
-  font-weight: 5000;
-  color: #fd7e14;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 3px solid #fff;
-  animation: typing 4.5s steps(38, end) infinite alternate,
-             erase 4.5s steps(38, end) infinite alternate;
+  animation: handwriting 6s linear infinite;
+}
+
+@keyframes handwriting {
+  0%   { width: 0; }
+  50%  { width: 100%; }
+  100% { width: 100%; }
 }
 
 /* Animation Keyframes */

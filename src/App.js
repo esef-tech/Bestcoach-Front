@@ -1,4 +1,4 @@
-import React,{useEffect }from "react";
+import React,         {lazy , Suspense, useEffect }from "react";
 import { HelmetProvider } from 'react-helmet-async';   // ← NEW
 import AnalyticsTracker from "./COMPONENTS/AnalyticsTracker";
 import Seo from "./COMPONENTS/Seo";
@@ -10,7 +10,6 @@ import Links from "./COMPONENTS/PAGES/QUICK-LINKS/Links";
 import News from "./COMPONENTS/PAGES/NEWS/News";
 import Teams from "./COMPONENTS/PAGES/TEAMS/Teams";
 import Footer from "./COMPONENTS/FOOTER/Footer";
-import AIAgent from "./COMPONENTS/AIAgent";
 import Home from "./COMPONENTS/PAGES/HOME/Home";
 import ChurchServices from "./COMPONENTS/PAGES/SERVICES/Church-Services";
 import SchoolServices from "./COMPONENTS/PAGES/SERVICES/School-Service";
@@ -45,6 +44,10 @@ import 'aos/dist/aos.css';   // ← Important: Import AOS styles
 
 
 function App() {
+
+
+  // Lazy load chat widget, etc.
+const AIAgent = lazy(() => import('./COMPONENTS/AIAgent'));
 
 
   useEffect(() => {
@@ -98,7 +101,10 @@ function App() {
                   <Route path="/profile" element={<Profile />} />
                 </Routes>
                 <Footer />
-                <AIAgent />
+                <Suspense fallback={null}>
+                   <AIAgent />
+                </Suspense>
+               
               </ThemeProvider>
             </div>
           </AuthProvider>

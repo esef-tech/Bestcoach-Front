@@ -199,6 +199,10 @@ body, #root {
   object-fit: contain !important;     /* ← This ensures entire image is visible */
   background-color: #f8f9fa;
   padding: 10px;
+  width: 100% !important;
+  height: 520px !important;
+  border-radius: 20px;
+
 }
 
 /* Responsive */
