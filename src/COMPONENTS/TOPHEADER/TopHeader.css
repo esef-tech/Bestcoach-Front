@@ -140,8 +140,13 @@
   font-family: 'Dancing Script', cursive;
   font-size: 1.35rem;
   white-space: nowrap;
-  overflow: hidden;
-  animation: handwriting 6s linear infinite;
+  display: inline-block;
+  animation: handwriting 5.5s steps(42, end) infinite alternate;
+  will-change: width;           /* Helps GPU acceleration */
+}
+@keyframes handwriting {
+  from { width: 0%; }
+  to   { width: 100%; }
 }
 
 @keyframes handwriting {
@@ -159,4 +164,8 @@
 @keyframes erase {
   from { width: 100% }
   to { width: 0 }
+}
+
+.handwritten-text {
+  color: #ffd700; /* Gold for perfect contrast */
 }

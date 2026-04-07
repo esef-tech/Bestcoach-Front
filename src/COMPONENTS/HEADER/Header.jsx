@@ -16,15 +16,53 @@ const Header = () => {
 
 // 5 vibrant music education images from search
   const images = [
-      `${TSSSMAIN}`, 
-        `${COACH}`,
-        `${STRINGS}`, 
-        `${PLAY}`,
-        `${Lessons}`,
-        `${TSS}`,
-    
 
+    {
+      webp: `${TSS}`,
+      jpg: 'https://bestcoachmusic.netlify.app/IMAGES/bestcoach-pictures/9345.jpg',
+      alt: 'Bestcoach Music - Live Performance'
+    },
+
+    {
+      webp: `${COACH}`,
+      jpg: 'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+      alt: 'Bestcoach Music - Studio Session'
+    },
+
+     {
+      webp: `${TSSSMAIN}`, 
+      jpg: 'https://bestcoachmusic.netlify.app/IMAGES/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).jpeg',
+      alt: 'Bestcoach Music - Singers Sanctuary'
+    },
     
+    {
+      webp: `${PLAY}`,
+      jpg: 'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+      alt: 'Bestcoach Music - Studio Session'
+    },
+
+    {
+      webp: `${Lessons}`,
+      jpg: 'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+      alt: 'Bestcoach Music - Lesson Session'
+    },
+
+
+    {
+      webp: `${STRINGS}`,
+      jpg: 'https://mcmusicschool.org/wp-content/uploads/2024/07/PGH51821-1536x1024.jpeg',
+      alt: 'Bestcoach Music - String  Lessons  Session'
+    },
+
+
+    { webp: Lessons.replace('.jpeg', '.webp'), jpg: Lessons, alt: 'Bestcoach Music - Piano Lesson' },
+    { webp: TSS.replace('.png', '.webp'), jpg: TSS, alt: 'Bestcoach Music - TSS Event' },
+
+
+
+
+
+      
     
   ];
 
@@ -64,12 +102,13 @@ const Header = () => {
               variant="light" 
               className="cta-btn"
               data-aos="zoom-in" data-aos-delay="900"
+              name='LearMore'
             >
               Learn more
             </Button>
           </Col>
           
-          {/* Right: Slider */}
+          {/* Right: Slider1 
           <Col md={6} data-aos="fade-left" data-aos-delay="400">
             <Carousel fade={true} interval={5000} controls={false} indicators={true} className="hero-carousel" >
               {images.map((img, idx) => (
@@ -88,6 +127,29 @@ const Header = () => {
               ))}
             </Carousel>
           </Col>
+          */}
+          
+      {/* Right Carousel */}
+            <Col md={6}>
+              <Carousel fade interval={5000} controls={false} indicators={true}>
+                {images.map((img, idx) => (
+                  <Carousel.Item key={idx}>
+                    <picture>
+                      <source srcSet={img.webp} type="image/webp" />
+                      <img
+                        className="d-block w-100 carousel-image"
+                        src={img.jpg}
+                        alt={img.alt}
+                        width="1200"
+                        height="520"
+                        loading={idx === 0 ? "eager" : "lazy"}
+                        fetchPriority={idx === 0 ? "high" : "auto"}
+                      />
+                    </picture>
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </Col>
           
         </Row>
       </Container>

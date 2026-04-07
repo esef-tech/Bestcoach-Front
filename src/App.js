@@ -1,4 +1,4 @@
-import React,         {lazy , Suspense, useEffect }from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { HelmetProvider } from 'react-helmet-async';   // ← NEW
 import AnalyticsTracker from "./COMPONENTS/AnalyticsTracker";
 import Seo from "./COMPONENTS/Seo";
@@ -41,13 +41,39 @@ import { SessionProvider } from "./context/SessionContext";
 import { AuthProvider } from "./context/AuthContext";
 import AOS from 'aos';
 import 'aos/dist/aos.css';   // ← Important: Import AOS styles
+import AIAgent from "./COMPONENTS/AIAgent";
 
 
 function App() {
 
 
   // Lazy load chat widget, etc.
-const AIAgent = lazy(() => import('./COMPONENTS/AIAgent'));
+// Lazy load heavy third-party scripts
+const LazyStripeAndChat = lazy(() => import("./COMPONENTS/LazyStripeAndChat"));
+
+// Simple ErrorBoundary (add this component inside App.js or as separate file)
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("App ErrorBoundary caught:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return <div style={{ padding: "40px", textAlign: "center", color: "#ff4444" }}>
+        <h2>Something went wrong.</h2>
+        <p>Check console (F12) for details. Refresh the page.</p>
+      </div>;
+    }
+    return this.props.children;
+  }
+}
+
 
 
   useEffect(() => {
@@ -59,13 +85,14 @@ const AIAgent = lazy(() => import('./COMPONENTS/AIAgent'));
     });
   }, []);
   return (
-    <React.Fragment>
+    <>
           <HelmetProvider>
       <Router>
         <AnalyticsTracker />
         <SessionProvider>
           <AuthProvider>
             <Seo />
+            <ErrorBoundary>
             <div className="App">
               <ThemeProvider>
                 <Navbar />
@@ -101,17 +128,18 @@ const AIAgent = lazy(() => import('./COMPONENTS/AIAgent'));
                   <Route path="/profile" element={<Profile />} />
                 </Routes>
                 <Footer />
-                <Suspense fallback={null}>
-                   <AIAgent />
-                </Suspense>
-               
+                 <AIAgent />
+               <Suspense fallback={null}>
+                  <LazyStripeAndChat/> 
+                </Suspense> 
               </ThemeProvider>
             </div>
+            </ErrorBoundary>
           </AuthProvider>
         </SessionProvider>
       </Router>
     </HelmetProvider>
-    </React.Fragment>
+    </>
 
   );
 }
