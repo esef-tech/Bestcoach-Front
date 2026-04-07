@@ -97,8 +97,6 @@ const Header = () => {
             <Button 
               as="a" 
               href='https://linktr.ee/bestcoach_music'
-              smooth={true} 
-              duration={500} 
               variant="light" 
               className="cta-btn"
               data-aos="zoom-in" data-aos-delay="900"

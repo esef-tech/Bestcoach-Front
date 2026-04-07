@@ -31,18 +31,24 @@ export const deleteDocument = deleteDoc;
 export const getDocument = getDoc;
 export const addDocument = addDoc;
 export let analytics = null;
+let analyticsInitPromise = Promise.resolve(null);
 
 if (typeof window !== "undefined") {
-  isSupported()
+  analyticsInitPromise = isSupported()
     .then((supported) => {
-      if (supported) {
+      if (supported && firebaseConfig.measurementId) {
         analytics = getAnalytics(app);
+        return analytics;
       }
+      return null;
     })
-    .catch((error) => {
-      console.warn("Firebase Analytics unavailable:", error);
+    .catch(() => {
+      // Analytics can be unavailable in some environments (privacy mode, extensions, etc.).
+      return null;
     });
 }
+
+export const getAnalyticsInstance = () => analyticsInitPromise;
 
 export const googleProvider = new GoogleAuthProvider();
 export const appleProvider = new OAuthProvider("apple.com");

@@ -61,8 +61,6 @@ const LOYAL_HEADER = ({
                 everyone. Get started today and let the music flow! 🎸🎤
               </p>/*/}
               <Button
-                smooth={true}
-                duration={500}
                 variant={variant}
                 className={`d-flex align-items-center gap-2 ${className}`}
                 onClick={handleShow}

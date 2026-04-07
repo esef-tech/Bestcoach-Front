@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { HelmetProvider } from 'react-helmet-async';   // ← NEW
 import AnalyticsTracker from "./COMPONENTS/AnalyticsTracker";
 import Seo from "./COMPONENTS/Seo";
@@ -46,10 +46,6 @@ import AIAgent from "./COMPONENTS/AIAgent";
 
 function App() {
 
-
-  // Lazy load chat widget, etc.
-// Lazy load heavy third-party scripts
-const LazyStripeAndChat = lazy(() => import("./COMPONENTS/LazyStripeAndChat"));
 
 // Simple ErrorBoundary (add this component inside App.js or as separate file)
 class ErrorBoundary extends React.Component {
@@ -129,9 +125,6 @@ class ErrorBoundary extends React.Component {
                 </Routes>
                 <Footer />
                  <AIAgent />
-               <Suspense fallback={null}>
-                  <LazyStripeAndChat/> 
-                </Suspense> 
               </ThemeProvider>
             </div>
             </ErrorBoundary>
