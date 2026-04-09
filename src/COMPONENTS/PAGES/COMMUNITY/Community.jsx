@@ -1,34 +1,50 @@
-// src/pages/CommunityForumsPage.jsx - FINAL CLEAN VERSION (Firebase + All Requested Features)
-// Copy and paste this entire file to replace your current CommunityForumsPage.jsx
-
-import React, { useState, useEffect, useRef } from 'react';
+// src/COMPONENTS/PAGES/COMMUNITY/CommunityForumsPage.jsx - FINAL CLEAN VERSION (All Updates Applied)
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container, Row, Col, Form, Button, Card, Image, Modal, Badge, InputGroup } from 'react-bootstrap';
-import { FaClock, FaPlus, FaReply, FaUsers, FaEye, FaHeart, FaShareAlt, FaTrash, FaImage, FaVideo } from 'react-icons/fa';
+import { 
+  FaClock, FaPlus, FaReply, FaUsers, FaEye, FaHeart, 
+  FaShareAlt, FaTrash, FaImage, FaVideo, FaEdit 
+} from 'react-icons/fa';
 import './Community.css';
 import { toast } from 'react-toastify';
 import { auth, db, storage } from '../../../firebase';
-import { 
-  collection, 
-  onSnapshot, 
-  addDoc, 
-  serverTimestamp, 
-  query, 
-  orderBy, 
-  deleteDoc, 
-  arrayUnion, 
-  doc, 
-  updateDoc, 
-  setDoc, 
-  where, 
-  increment, 
-  arrayRemove, 
-  limit, 
-  getDoc 
+import {
+  collection, onSnapshot, addDoc, serverTimestamp, query, orderBy, deleteDoc,
+  arrayUnion, doc, updateDoc, setDoc, where, increment, arrayRemove, limit, getDoc
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { useAuth } from '../../../context/AuthContext'
+import { useAuth } from '../../../context/AuthContext';
 import Seo from '../../Seo';
-import {useSession} from '../../../context/SessionContext'
+
+const MAX_MEDIA_SIZE_BYTES = 50 * 1024 * 1024;
+
+const CONTENT_TYPE_BY_EXTENSION = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  bmp: 'image/bmp',
+  svg: 'image/svg+xml',
+  mp4: 'video/mp4',
+  mov: 'video/quicktime',
+  webm: 'video/webm',
+  mkv: 'video/x-matroska',
+  m4v: 'video/x-m4v',
+  avi: 'video/x-msvideo',
+};
+
+const sanitizeFileName = (fileName = 'upload') => fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+const getResolvedMediaType = (file) => {
+  const browserDetectedType = (file?.type || '').toLowerCase();
+  if (browserDetectedType.startsWith('image/') || browserDetectedType.startsWith('video/')) {
+    return browserDetectedType;
+  }
+
+  const extension = (file?.name?.split('.').pop() || '').toLowerCase();
+  return CONTENT_TYPE_BY_EXTENSION[extension] || '';
+};
 
 const CommunityForumsPage = () => {
   const { isAuthenticated, currentUser } = useAuth();
@@ -42,502 +58,519 @@ const CommunityForumsPage = () => {
   const [commentsByThread, setCommentsByThread] = useState({});
   const [newCommentText, setNewCommentText] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { session, csrfToken, validateCSRF, savePreferences, getPreferences } = useSession();
+  const [showLikersModal, setShowLikersModal] = useState(false);
+  const [selectedLikers, setSelectedLikers] = useState([]);
+  const [editingThreadId, setEditingThreadId] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editText, setEditText] = useState('');
+  const [posting, setPosting] = useState(false);
 
   const viewedThreadsRef = useRef(new Set());
+  const abortControllerRef = useRef(null);
 
-  // ====================== CLEAN FIREBASE REAL-TIME LISTENERS ======================
-  useEffect(() => {
-    // Auth listener
-    const unsubscribeAuth = auth.onAuthStateChanged((firebaseUser) => {
-      setUser(firebaseUser);
+  const getFreshFirebaseUser = useCallback(async () => {
+    const existingUser = auth.currentUser;
+    if (existingUser) {
+      return existingUser;
+    }
+
+    const resolvedUser = await new Promise((resolve) => {
+      const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+        unsubscribe();
+        resolve(firebaseUser || null);
+      });
     });
 
-    // Real-time Threads (with LIMIT as requested)
-    const threadsQuery = query(
-      collection(db, 'threads'), 
-      orderBy('createdAt', 'desc'), 
-      limit(50)
-    );
-    const unsubscribeThreads = onSnapshot(threadsQuery, (snapshot) => {
-      setThreads(snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })));
-    });
-
-    // Real-time Online Users (presence with lastSeen filter)
-    const presenceRef = collection(db, 'onlineUsers');
-    const onlineQuery = query(
-      presenceRef,
-      where('lastSeen', '>', new Date(Date.now() - 60000))
-    );
-    const unsubscribeOnline = onSnapshot(onlineQuery, (snapshot) => {
-      setOnlineCount(snapshot.docs.length);
-    });
-
-    return () => {
-      unsubscribeAuth();
-      unsubscribeThreads();
-      unsubscribeOnline();
-    };
+    if (!resolvedUser) return null;
+    return resolvedUser;
   }, []);
 
-  // Join/Leave presence when authenticated
+  // ====================== REAL-TIME LISTENERS ======================
   useEffect(() => {
-    if (!isAuthenticated || !currentUser) return;
+    const unsubscribeAuth = auth.onAuthStateChanged(setUser);
 
-    const userPresenceDoc = doc(db, 'onlineUsers', currentUser.uid);
-    setDoc(userPresenceDoc, {
-      uid: currentUser.uid,
-      username: user?.displayName || currentUser.email || 'User',
-      lastSeen: serverTimestamp()
-    }, { merge: true });
-
-    return () => {
-      deleteDoc(userPresenceDoc).catch(() => {});
-    };
-  }, [isAuthenticated, currentUser, user]);
-
-  // Real-time comments listener (only for currently expanded thread)
-  useEffect(() => {
-    if (!expandedThreadId || !isAuthenticated) return;
-
-    const commentsRef = collection(db, 'threads', expandedThreadId, 'comments');
-    const commentsQuery = query(commentsRef, orderBy('createdAt', 'asc'));
-    const unsubscribeComments = onSnapshot(commentsQuery, (snap) => {
-      setCommentsByThread(prev => ({
-        ...prev,
-        [expandedThreadId]: snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      }));
+    const threadsQuery = query(collection(db, 'threads'), orderBy('createdAt', 'desc'), limit(50));
+    const unsubscribeThreads = onSnapshot(threadsQuery, (snap) => {
+      setThreads(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     });
 
-    return unsubscribeComments;
-  }, [expandedThreadId, isAuthenticated]);
+    const onlineQuery = query(collection(db, 'onlineUsers'), where('lastSeen', '>', new Date(Date.now() - 60000)));
+    const unsubscribeOnline = onSnapshot(onlineQuery, (snap) => setOnlineCount(snap.docs.length));
 
-  // Safe real-time Views increment (prevents infinite loop)
+    return () => { unsubscribeAuth(); unsubscribeThreads(); unsubscribeOnline(); };
+  }, []);
+
+  // Presence heartbeat
   useEffect(() => {
-    threads.forEach((thread) => {
+    if (!isAuthenticated || !currentUser) return;
+    const presenceDoc = doc(db, 'onlineUsers', currentUser.uid);
+    const heartbeat = () => {
+      setDoc(presenceDoc, {
+        uid: currentUser.uid,
+        username: user?.displayName || currentUser.email?.split('@')[0] || 'User',
+        lastSeen: serverTimestamp()
+      }, { merge: true });
+    };
+    heartbeat();
+    const interval = setInterval(heartbeat, 30000);
+    return () => { clearInterval(interval); deleteDoc(presenceDoc).catch(() => {}); };
+  }, [isAuthenticated, currentUser, user]);
+
+  // Real-time comments
+  useEffect(() => {
+    if (!expandedThreadId) return;
+    const q = query(collection(db, 'threads', expandedThreadId, 'comments'), orderBy('createdAt', 'asc'));
+    const unsub = onSnapshot(q, (snap) => {
+      setCommentsByThread(prev => ({ ...prev, [expandedThreadId]: snap.docs.map(d => ({ id: d.id, ...d.data() })) }));
+    });
+    return unsub;
+  }, [expandedThreadId]);
+
+  // Safe views
+  useEffect(() => {
+    threads.forEach(thread => {
       if (!viewedThreadsRef.current.has(thread.id)) {
         viewedThreadsRef.current.add(thread.id);
-        const threadRef = doc(db, 'threads', thread.id);
-        updateDoc(threadRef, { views: increment(1) }).catch(() => {});
+        updateDoc(doc(db, 'threads', thread.id), { views: increment(1) }).catch(() => {});
       }
     });
   }, [threads]);
 
-  // ====================== AUTH GUARD ======================
-  const requireAuth = (callback) => {
-    if (!isAuthenticated || !currentUser) {
+  // ====================== ACTIONS ======================
+  const requireAuth = useCallback((callback) => {
+    if (!isAuthenticated || !currentUser || !auth.currentUser) {
       setShowAuthModal(true);
-      toast.warning("You must be logged in to perform this action.");
+      toast.warning('You must be logged in');
       return false;
     }
     callback();
     return true;
+  }, [isAuthenticated, currentUser]);
+
+  const createThread = async () => {
+    if (!newThread.title.trim() || !newThread.content.trim()) {
+      return toast.error('Title and content are required');
+    }
+
+    setPosting(true);
+    abortControllerRef.current = new AbortController();
+
+    try {
+      const firebaseUser = await getFreshFirebaseUser();
+      if (!firebaseUser) {
+        setShowAuthModal(true);
+        toast.error('Your login session expired. Please sign in again.');
+        return;
+      }
+
+      let mediaUrl = '';
+      let mediaType = null;
+      if (mediaFile) {
+        const resolvedMediaType = getResolvedMediaType(mediaFile);
+        if (!resolvedMediaType) {
+          toast.error('Only image and video files are supported.');
+          return;
+        }
+
+        if (mediaFile.size > MAX_MEDIA_SIZE_BYTES) {
+          toast.error('File is too large. Maximum allowed size is 50MB.');
+          return;
+        }
+
+        const safeFileName = sanitizeFileName(mediaFile.name);
+        const uploadPath = `thread-attachments/${firebaseUser.uid}/${Date.now()}_${safeFileName}`;
+        const mediaRef = ref(storage, uploadPath);
+
+        console.log('📤 Uploading file:', safeFileName, resolvedMediaType, mediaFile.size, uploadPath);
+        await uploadBytes(mediaRef, mediaFile, {
+          contentType: resolvedMediaType,
+        });
+        mediaUrl = await getDownloadURL(mediaRef);
+        mediaType = resolvedMediaType;
+        console.log('✅ Upload successful:', mediaUrl);
+      }
+
+      const newThreadData = {
+        title: newThread.title.trim(),
+        content: newThread.content.trim(),
+        authorId: firebaseUser.uid,
+        authorName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
+        authorPhoto: firebaseUser.photoURL || '',
+        mediaUrl,
+        mediaType,
+        createdAt: serverTimestamp(),
+        likes: 0,
+        views: 0,
+        likedBy: [],
+        replyCount: 0
+      };
+
+      await addDoc(collection(db, 'threads'), newThreadData);
+      console.log('✅ Thread saved to Firestore');
+
+      toast.success('Thread posted successfully! 🎉');
+      setShowCreateModal(false);
+      setNewThread({ title: '', content: '' });
+      setMediaFile(null);
+    } catch (error) {
+      console.error('🔥 FULL POST ERROR:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      console.error('Server response:', error.serverResponse);  // ← This shows the exact 412 reason
+
+      let storageDetails = '';
+      if (typeof error?.serverResponse === 'string' && error.serverResponse.trim()) {
+        try {
+          const parsedResponse = JSON.parse(error.serverResponse);
+          storageDetails = parsedResponse?.error?.message || error.serverResponse;
+        } catch {
+          storageDetails = error.serverResponse;
+        }
+      }
+
+      if (error.name === 'AbortError') {
+        toast.info('Posting cancelled');
+      } else if (error?.code === 'storage/unauthenticated') {
+        if (auth.currentUser) {
+          toast.error('Upload authorization failed. Refresh the page and verify Firebase App Check setup.');
+        } else {
+          setShowAuthModal(true);
+          toast.error('Session expired for uploads. Please log in again and retry.');
+        }
+      } else if (error?.code === 'storage/unknown' && !storageDetails) {
+        toast.error('Upload blocked by App Check. Verify your Firebase App Check site key/domain config.');
+      } else {
+        toast.error(storageDetails ? `Upload failed: ${storageDetails}` : 'Upload failed. Check console (F12) for details.');
+      }
+    } finally {
+      setPosting(false);
+      abortControllerRef.current = null;
+    }
   };
 
-  // ====================== ACTIONS ======================
+  const cancelPosting = () => {
+    if (abortControllerRef.current) abortControllerRef.current.abort();
+    setPosting(false);
+    setShowCreateModal(false);
+    setEditingThreadId(null);
+  };
+
   const handleLike = async (threadId) => {
-    if (!validateCSRF(csrfToken)) return;
     requireAuth(async () => {
       const threadRef = doc(db, 'threads', threadId);
-      const threadSnap = await getDoc(threadRef);
-      if (!threadSnap.exists()) return;
+      const snap = await getDoc(threadRef);
+      if (!snap.exists()) return;
+      const data = snap.data();
+      const likedBy = data.likedBy || [];
+      const alreadyLiked = likedBy.some(l => l.uid === currentUser.uid);
 
-      const likedBy = threadSnap.data().likedBy || [];
-      if (likedBy.includes(currentUser.uid)) {
+      if (alreadyLiked) {
         await updateDoc(threadRef, {
           likes: increment(-1),
-          likedBy: arrayRemove(currentUser.uid)
+          likedBy: arrayRemove(likedBy.find(l => l.uid === currentUser.uid))
         });
-        toast.info("Like removed");
+        toast.info('Like removed');
       } else {
         await updateDoc(threadRef, {
           likes: increment(1),
-          likedBy: arrayUnion(currentUser.uid)
+          likedBy: arrayUnion({ uid: currentUser.uid, name: user?.displayName || currentUser.email?.split('@')[0] || 'User' })
         });
-        toast.success("Thread liked ❤️");
+        toast.success('❤️ Liked!');
       }
     });
   };
 
-  const handleCommentClick = async (threadId) => {
-    if (!validateCSRF(csrfToken)) return;
-    requireAuth(async () => {
-      setExpandedThreadId(prev => (prev === threadId ? null : threadId));
-      // Increment view when comments are opened
-      const threadRef = doc(db, 'threads', threadId);
-      await updateDoc(threadRef, { views: increment(1) }).catch(() => {});
-    });
+  const showLikers = (thread) => {
+    setSelectedLikers(thread.likedBy || []);
+    setShowLikersModal(true);
+  };
+
+  const handleCommentClick = (threadId) => {
+    requireAuth(() => setExpandedThreadId(prev => prev === threadId ? null : threadId));
   };
 
   const handlePostComment = async (threadId) => {
-    if (!validateCSRF(csrfToken)) return;
     if (!newCommentText.trim()) return;
     requireAuth(async () => {
-      const commentsRef = collection(db, 'threads', threadId, 'comments');
-      await addDoc(commentsRef, {
+      await addDoc(collection(db, 'threads', threadId, 'comments'), {
         userId: currentUser.uid,
-        username: user?.displayName?.split(' ')[0] || currentUser.email,
+        username: user?.displayName || currentUser.email?.split('@')[0] || 'User',
         text: newCommentText.trim(),
         createdAt: serverTimestamp()
       });
       setNewCommentText('');
-      toast.success("Comment posted!");
+      toast.success('Comment posted!');
     });
   };
 
-  const handleDeleteComment = async (threadId, commentId) => {
-    if (!validateCSRF(csrfToken)) return;
-    requireAuth(async () => {
+  const handleEditComment = (threadId, comment) => {
+    setEditingCommentId(comment.id);
+    setEditText(comment.text);
+  };
+
+  const saveEditedComment = async (threadId) => {
+    if (!editText.trim()) return;
+    await updateDoc(doc(db, 'threads', threadId, 'comments', editingCommentId), { text: editText });
+    setEditingCommentId(null);
+    setEditText('');
+    toast.success('Comment updated');
+  };
+
+  const deleteComment = async (threadId, commentId) => {
+    if (window.confirm('Delete this comment?')) {
       await deleteDoc(doc(db, 'threads', threadId, 'comments', commentId));
-      toast.success("Comment deleted");
-    });
+      toast.success('Comment deleted');
+    }
   };
 
   const handleCopyLink = (threadId) => {
-    if (!validateCSRF(csrfToken)) return;
     requireAuth(() => {
       const link = `${window.location.origin}/community/thread/${threadId}`;
-      navigator.clipboard.writeText(link).then(() => {
-        toast.success("✅ Thread link copied to clipboard!");
-      });
+      navigator.clipboard.writeText(link).then(() => toast.success('✅ Link copied!'));
     });
   };
 
-  const openCreateModal = () => {
-    requireAuth(() => setShowCreateModal(true));
+  const startEditThread = (thread) => {
+    const created = thread.createdAt?.toDate ? thread.createdAt.toDate() : new Date();
+    if (Date.now() - created.getTime() > 86400000) return toast.warning('Editing window closed (24h)');
+    setEditingThreadId(thread.id);
+    setNewThread({ title: thread.title, content: thread.content });
+    setShowCreateModal(true);
   };
 
-  // Create new thread (with media support)
-  const createThread = async () => {
-    if (!newThread.title.trim() || !newThread.content.trim()) {
-      toast.error("Title and content are required");
-      return;
-    }
-
-    let mediaUrl = '';
-    if (mediaFile) {
-      const mediaRef = ref(storage, `thread-attachments/${Date.now()}_${mediaFile.name}`);
-      await uploadBytes(mediaRef, mediaFile);
-      mediaUrl = await getDownloadURL(mediaRef);
-    }
-
-    await addDoc(collection(db, 'threads'), {
-      title: newThread.title.trim(),
-      content: newThread.content.trim(),
-      authorId: currentUser.uid,
-      authorName: user?.displayName?.split(' ')[0] || 'User',
-      authorPhoto: user?.photoURL || '',
-      mediaUrl,
-      mediaType: mediaFile ? mediaFile.type : null,
-      createdAt: serverTimestamp(),
-      likes: 0,
-      views: 0,
-      likedBy: [],
-      replyCount: 0
+  const saveEditedThread = async () => {
+    if (!editingThreadId) return;
+    await updateDoc(doc(db, 'threads', editingThreadId), {
+      title: newThread.title,
+      content: newThread.content
     });
-
-    toast.success("Thread posted successfully!");
+    setEditingThreadId(null);
     setShowCreateModal(false);
-    setNewThread({ title: '', content: '' });
-    setMediaFile(null);
+    toast.success('Thread updated in real-time');
   };
 
-  // Delete own thread
   const deleteThread = async (threadId, authorId) => {
     if (authorId !== currentUser?.uid) return;
-    if (!window.confirm("Delete this thread permanently?")) return;
-    await deleteDoc(doc(db, 'threads', threadId));
-    toast.success("Thread deleted");
+    if (window.confirm('Delete this thread permanently?')) {
+      await deleteDoc(doc(db, 'threads', threadId));
+      toast.success('Thread deleted');
+    }
   };
 
-//Cookies && Sessions Here
-// Track last visited page
-  useEffect(() => {
-    if (session) {
-      savePreferences({ ...getPreferences(), lastPage: '/community' });
-    }
-  }, [session, savePreferences, getPreferences]);
+  const handleSubmitThread = () => {
+    requireAuth(() => {
+      if (editingThreadId) {
+        saveEditedThread();
+      } else {
+        createThread();
+      }
+    });
+  };
 
-  
-
-
+  const openNavbarAuthModal = (mode) => {
+    setShowAuthModal(false);
+    window.dispatchEvent(new CustomEvent('open-auth-modal', { detail: { mode } }));
+  };
 
   // ====================== RENDER ======================
   return (
-    
-<React.Fragment>
-    <Seo 
-      title="Community Forums | Bestcoach Music"
-      description="Real-time music community. Share threads, like posts, comment, and see who's online right now."
-      keywords="music forum, bestcoach community, musician threads, real-time chat, music discussion"
-    />
-    
+    <>
+      <Seo title="Community Forums | Bestcoach Music" description="Real-time music community. Post threads, like, comment, and see who's online." />
+      <div className="community-forums">
+        <div className="forums-header text-white py-5 text-center">
+          <Container className="py-4">
+            <h1 className="display-4 fw-bold">Welcome to the Bestcoach Music Community</h1>
+          </Container>
+        </div>
 
-    <div className="community-forums">
-      {/* Header */}
-      <div className="forums-header text-white py-5 text-center">
         <Container className="py-4">
-          <h1 className="display-4 fw-bold">Welcome to the Bestcoach Music Community </h1>
-        </Container>
-      </div>
+          <Row className="mb-4 align-items-center justify-content-center g-3">
+            <Col xs={12} md={6} className="text-center text-md-start">
+              <h1 className="display-5 fw-bold mb-0">Share threads, like and comment</h1>
+            </Col>
+            <Col xs={12} md="auto" className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
+              <Badge bg="success" className="online-badge fs-6 px-4 py-2 d-flex align-items-center gap-2">
+                <FaUsers /> <span>{onlineCount} users online now</span>
+              </Badge>
+              <Button variant="success" size="lg" className="post-thread-btn" onClick={() => requireAuth(() => setShowCreateModal(true))}>
+                <FaPlus /> Post a Thread
+              </Button>
+            </Col>
+          </Row>
 
-      <Container className="py-4">
-  <Row className="mb-4 align-items-center justify-content-center g-3">
-    {/* Title - centered on all screens, smaller on mobile */}
-    <Col xs={12} md={6} className="text-center text-md-start">
-      <h1 className="display-5 fw-bold mb-0 mobile-title">
-        Share threads, like and comment
-      </h1>
-    </Col>
+          {/* THREADS LIST */}
+          {threads.map((thread) => {
+            const threadComments = commentsByThread[thread.id] || [];
+            const isOwner = thread.authorId === currentUser?.uid;
+            const createdDate = thread.createdAt?.toDate ? thread.createdAt.toDate() : new Date();
+            const canEdit = isOwner && (Date.now() - createdDate.getTime() < 86400000);
 
-    {/* Online Badge + Post Button - stacked on mobile, side-by-side on larger screens */}
-    <Col xs={12} md="auto" className="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
-      {/* Online Users Badge */}
-      <Badge 
-        bg="success" 
-        className="online-badge fs-6 px-4 py-2 d-flex align-items-center gap-2"
-      >
-        <FaUsers className="me-1" /> 
-        <span className="fw-semibold">{onlineCount} users online now</span>
-      </Badge>
+            return (
+              <Card key={thread.id} className="mb-4 shadow thread-card">
+                <Card.Body>
+                  <Row>
+                    <Col md={1} className="text-center">
+                      <Image src={thread.authorPhoto || '/default-avatar.png'} roundedCircle width="50" />
+                    </Col>
+                    <Col md={11}>
+                      <div className="d-flex justify-content-between align-items-start">
+                        <h5>{thread.title}</h5>
+                        {isOwner && (
+                          <div>
+                            {canEdit && <Button variant="link" size="sm" onClick={() => startEditThread(thread)}><FaEdit /></Button>}
+                            <Button variant="link" className="text-danger" onClick={() => deleteThread(thread.id, thread.authorId)}><FaTrash /></Button>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-muted small">
+                        by <strong>{thread.authorName}</strong> • <FaClock className="me-1" />
+                        {createdDate.toLocaleString()}
+                      </p>
+                      <Card.Text>{thread.content}</Card.Text>
 
-      {/* Post a Thread Button - full width on mobile */}
-      <Button 
-        variant="success" 
-        size="lg" 
-        className="post-thread-btn w-100 w-md-auto d-flex align-items-center justify-content-center gap-2"
-        onClick={openCreateModal}
-      >
-        <FaPlus /> Post a Thread
-      </Button>
-    </Col>
-  </Row>
-
-        {/* THREADS */}
-        {threads.map((thread) => {
-          const threadComments = commentsByThread[thread.id] || [];
-          return (
-            <Card key={thread.id} className="mb-4 shadow" style={{ borderRadius: '15px', overflow: 'hidden' }}>
-              <Card.Body>
-                <Row>
-                  <Col md={1} className="text-center">
-                    <img 
-                      src={thread.authorPhoto || '/default-avatar.png'} 
-                      alt="avatar" 
-                      className="rounded-circle" 
-                      width="50" 
-                    />
-                  </Col>
-                  <Col md={11}>
-                    <div className="d-flex justify-content-between align-items-start">
-                      <h5>{thread.title}</h5>
-                      {thread.authorId === currentUser?.uid && (
-                        <Button 
-                          variant="link" 
-                          className="text-danger p-0" 
-                          onClick={() => deleteThread(thread.id, thread.authorId)}
-                        >
-                          <FaTrash />
-                        </Button>
+                      {thread.mediaUrl && (
+                        <div className="mb-3">
+                          {thread.mediaType?.startsWith('image') ? (
+                            <>
+                              <FaImage className="text-primary me-2" style={{ fontSize: '1.3rem' }} />
+                              <Image src={thread.mediaUrl} fluid className="media-preview" />
+                            </>
+                          ) : (
+                            <>
+                              <FaVideo className="text-danger me-2" style={{ fontSize: '1.3rem' }} />
+                              <video src={thread.mediaUrl} controls className="media-preview w-100" />
+                            </>
+                          )}
+                        </div>
                       )}
-                    </div>
-                    <p className="text-muted small">
-                      by <strong>{thread.authorName}</strong> • <FaClock className="me-1" />
-                      {thread.createdAt?.toDate ? thread.createdAt.toDate().toLocaleString() : 'Just now'}
-                    </p>
-                    <Card.Text className="lead">{thread.content}</Card.Text>
 
-                    {/* Media Preview */}
-                    {thread.mediaUrl && (
-                      <div className="mb-3">
-                        {thread.mediaType?.startsWith('image') ? (
-                          <>
-                            <FaImage className="text-primary me-2" />
-                            <Image src={thread.mediaUrl} fluid className="media-preview" />
-                          </>
-                        ) : (
-                          <>
-                            <FaVideo className="text-danger me-2" />
-                            <video src={thread.mediaUrl} controls className="media-preview w-100" />
-                          </>
-                        )}
+                      <div className="d-flex align-items-center text-muted mb-3" onClick={() => showLikers(thread)} style={{ cursor: 'pointer' }}>
+                        <FaEye className="me-1" style={{ color: '#fd7e14' }} />
+                        <span className="fw-bold" style={{ color: '#fd7e14' }}>{thread.views || 0} views</span>
                       </div>
-                    )}
-
-                    {/* Real-time Views */}
-                    <div className="d-flex align-items-center text-muted mb-3">
-                      <FaEye className="me-1" style={{ color: '#fd7e14', fontSize: '1.4rem' }} />
-                      <span className="ms-2 fw-bold" style={{ color: '#fd7e14' }}>
-                        {thread.views || 0}
-                      </span>
-                      <span className="ms-1">views</span>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Body>
-
-              {/* Action Bar - RED / TEAL / ORANGE + Animation */}
-              <Card.Footer className="bg-light py-3">
-                <Row className="text-center">
-                  {/* Like - RED */}
-                  <Col xs={4} className="border-end">
-                    <div
-                      onClick={() => handleLike(thread.id)}
-                      style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-                      className="d-flex align-items-center justify-content-center gap-2 hover-scale"
-                    >
-                      <span style={{ color: 'red', fontSize: '1.9rem' }}>
-                        <FaHeart />
-                      </span>
-                      <span className="fw-bold fs-5" style={{ color: '#fd7e14' }}>
-                        {thread.likes || 0}
-                      </span>
-                    </div>
-                  </Col>
-
-                  {/* Reply - TEAL */}
-                  <Col xs={4} className="border-end">
-                    <div
-                      onClick={() => handleCommentClick(thread.id)}
-                      style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-                      className="d-flex align-items-center justify-content-center gap-2 hover-scale"
-                    >
-                      <span style={{ color: 'teal', fontSize: '1.9rem' }}>
-                        <FaReply />
-                      </span>
-                      <span className="fw-bold fs-5" style={{ color: '#fd7e14' }}>
-                        {threadComments.length}
-                      </span>
-                    </div>
-                  </Col>
-
-                  {/* Share - ORANGE */}
-                  <Col xs={4}>
-                    <div
-                      onClick={() => handleCopyLink(thread.id)}
-                      style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-                      className="d-flex align-items-center justify-content-center gap-2 hover-scale"
-                    >
-                      <span style={{ color: 'orange', fontSize: '1.9rem' }}>
-                        <FaShareAlt />
-                      </span>
-                      <span className="fw-bold fs-5" style={{ color: '#fd7e14' }}>
-                        Share
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
-              </Card.Footer>
-
-              {/* Expanded Real-time Comments */}
-              {expandedThreadId === thread.id && (
-                <Card.Body className="bg-white border-top">
-                  <h6 className="mb-3">Comments ({threadComments.length})</h6>
-                  {threadComments.map((c) => (
-                    <div key={c.id} className="mb-3 p-3 border rounded bg-light">
-                      <div className="d-flex justify-content-between">
-                        <strong>{c.username}</strong>
-                        {c.userId === currentUser.uid && (
-                          <Button
-                            variant="link"
-                            size="sm"
-                            className="text-danger p-0"
-                            onClick={() => handleDeleteComment(thread.id, c.id)}
-                          >
-                            Delete
-                          </Button>
-                        )}
-                      </div>
-                      <p className="mb-1">{c.text}</p>
-                      <small className="text-muted">
-                        {c.createdAt ? new Date(c.createdAt.seconds * 1000).toLocaleString() : ''}
-                      </small>
-                    </div>
-                  ))}
-
-                  <InputGroup className="mt-3">
-                    <Form.Control
-                      placeholder="Write a comment..."
-                      value={newCommentText}
-                      onChange={(e) => setNewCommentText(e.target.value)}
-                    />
-                    <Button 
-                      variant="teal" 
-                      onClick={() => handlePostComment(thread.id)}
-                      style={{ backgroundColor: 'teal', color: 'white' }}
-                    >
-                      Post
-                    </Button>
-                  </InputGroup>
+                    </Col>
+                  </Row>
                 </Card.Body>
-              )}
-            </Card>
-          );
-        })}
 
-        {/* AUTH MODAL */}
-        <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>🔒 Login or Sign Up Required</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="text-center py-4">
-            <p className="lead">You must be logged in to like, comment, share threads, or post new threads.</p>
-            <div className="d-grid gap-2 mt-4">
-              <Button variant="primary" size="lg" href="/login">Log In</Button>
-              <Button variant="outline-primary" size="lg" href="/signup">Create Free Account</Button>
-            </div>
-          </Modal.Body>
-        </Modal>
+                <Card.Footer className="bg-light py-3">
+                  <Row className="text-center">
+                    <Col xs={4} className="border-end">
+                      <div onClick={() => handleLike(thread.id)} className="d-flex align-items-center justify-content-center gap-2 hover-scale" style={{ cursor: 'pointer' }}>
+                        <span style={{ color: 'red', fontSize: '1.9rem' }}><FaHeart /></span>
+                        <span className="fw-bold fs-5" style={{ color: '#fd7e14' }}>{thread.likes || 0}</span>
+                      </div>
+                    </Col>
+                    <Col xs={4} className="border-end">
+                      <div onClick={() => handleCommentClick(thread.id)} className="d-flex align-items-center justify-content-center gap-2 hover-scale" style={{ cursor: 'pointer' }}>
+                        <span style={{ color: 'teal', fontSize: '1.9rem' }}><FaReply /></span>
+                        <span className="fw-bold fs-5" style={{ color: '#fd7e14' }}>{threadComments.length}</span>
+                      </div>
+                    </Col>
+                    <Col xs={4}>
+                      <div onClick={() => handleCopyLink(thread.id)} className="d-flex align-items-center justify-content-center gap-2 hover-scale" style={{ cursor: 'pointer' }}>
+                        <span style={{ color: 'orange', fontSize: '1.9rem' }}><FaShareAlt /></span>
+                        <span className="fw-bold fs-5" style={{ color: '#fd7e14' }}>Share</span>
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Footer>
 
-        {/* CREATE THREAD MODAL (kept from your original - improved) */}
-        <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)} centered>
+                {expandedThreadId === thread.id && (
+                  <Card.Body className="bg-white border-top">
+                    <h6>Comments ({threadComments.length})</h6>
+                    {threadComments.map(c => (
+                      <div key={c.id} className="mb-3 p-3 border rounded">
+                        <div className="d-flex justify-content-between">
+                          <strong>{c.username}</strong>
+                          {c.userId === currentUser?.uid && (
+                            <div>
+                              <Button variant="link" size="sm" onClick={() => handleEditComment(thread.id, c)}><FaEdit /></Button>
+                              <Button variant="link" size="sm" className="text-danger" onClick={() => deleteComment(thread.id, c.id)}>Delete</Button>
+                            </div>
+                          )}
+                        </div>
+                        {editingCommentId === c.id ? (
+                          <>
+                            <Form.Control as="textarea" value={editText} onChange={e => setEditText(e.target.value)} />
+                            <Button size="sm" onClick={() => saveEditedComment(thread.id)}>Save</Button>
+                            <Button size="sm" variant="secondary" onClick={() => setEditingCommentId(null)}>Cancel</Button>
+                          </>
+                        ) : <p>{c.text}</p>}
+                      </div>
+                    ))}
+                    <InputGroup className="mt-3">
+                      <Form.Control placeholder="Write a comment..." value={newCommentText} onChange={e => setNewCommentText(e.target.value)} />
+                      <Button variant="teal" onClick={() => handlePostComment(thread.id)}>Post</Button>
+                    </InputGroup>
+                  </Card.Body>
+                )}
+              </Card>
+            );
+          })}
+        </Container>
+
+      {/* Create Thread Modal */}
+        <Modal show={showCreateModal} onHide={cancelPosting} centered>
           <Modal.Header closeButton>
-            <Modal.Title>New Thread</Modal.Title>
+            <Modal.Title>{editingThreadId ? 'Edit Thread' : 'New Thread'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>
-                <Form.Control 
-                  value={newThread.title} 
-                  onChange={(e) => setNewThread({ ...newThread, title: e.target.value })} 
-                  required 
-                />
+                <Form.Control value={newThread.title} onChange={e => setNewThread({ ...newThread, title: e.target.value })} />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Content</Form.Label>
-                <Form.Control 
-                  as="textarea" 
-                  rows={5} 
-                  value={newThread.content} 
-                  onChange={(e) => setNewThread({ ...newThread, content: e.target.value })} 
-                  required 
-                />
+                <Form.Control as="textarea" rows={5} value={newThread.content} onChange={e => setNewThread({ ...newThread, content: e.target.value })} />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Attach Image or Video (optional)</Form.Label>
-                <Form.Control 
-                  type="file" 
-                  accept="image/*,video/*" 
-                  onChange={(e) => setMediaFile(e.target.files[0])} 
-                />
+                <Form.Label>Attach Image/Video (optional)</Form.Label>
+                <Form.Control type="file" accept="image/*,video/*" onChange={e => setMediaFile(e.target.files[0])} />
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowCreateModal(false)}>Cancel</Button>
-            <Button variant="primary" onClick={createThread}>Post Thread</Button>
+            <Button variant="secondary" onClick={cancelPosting} disabled={posting}>Cancel</Button>
+            <Button
+              variant="primary"
+              disabled={posting}
+              onClick={handleSubmitThread}
+            >
+              {editingThreadId ? 'Save Changes' : posting ? 'Posting...' : 'Post Thread'}
+            </Button>
           </Modal.Footer>
         </Modal>
-      </Container>
 
-      <style>{`
-        .hover-scale:hover { transform: scale(1.15); }
-        .btn-teal { background-color: teal; color: white; }
-        .media-preview { max-height: 400px; border-radius: 8px; }
-      `}</style>
-    </div>
-    </React.Fragment>
+        {/* Likers Modal */}
+        <Modal show={showLikersModal} onHide={() => setShowLikersModal(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>People Who Liked This ({selectedLikers.length})</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {selectedLikers.length === 0 ? (
+              <p className="mb-0 text-muted">No likes yet.</p>
+            ) : (
+              selectedLikers.map((liker, index) => (
+                <div key={liker.uid || `${liker.name || 'user'}-${index}`} className="py-2 border-bottom">
+                  <strong>{liker.name || 'User'}</strong>
+                </div>
+              ))
+            )}
+          </Modal.Body>
+        </Modal>
+
+        {/* Auth Modal */}
+        <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} centered>
+          <Modal.Header closeButton><Modal.Title>Login Required</Modal.Title></Modal.Header>
+          <Modal.Body className="text-center">
+            <p>You must be logged in to post, like, or comment.</p>
+            <Button className="me-2" onClick={() => openNavbarAuthModal('login')}>Log In</Button>
+            <Button variant="outline-primary" onClick={() => openNavbarAuthModal('signup')}>Sign Up</Button>
+          </Modal.Body>
+        </Modal>
+      </div>
+    </>
   );
 };
 
