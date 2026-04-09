@@ -182,12 +182,36 @@ const CommunityForumsPage = () => {
         const mediaRef = ref(storage, uploadPath);
 
         console.log('📤 Uploading file:', safeFileName, resolvedMediaType, mediaFile.size, uploadPath);
-        await uploadBytes(mediaRef, mediaFile, {
-          contentType: resolvedMediaType,
-        });
-        mediaUrl = await getDownloadURL(mediaRef);
-        mediaType = resolvedMediaType;
-        console.log('✅ Upload successful:', mediaUrl);
+        try {
+          await uploadBytes(mediaRef, mediaFile, {
+            contentType: resolvedMediaType,
+          });
+          mediaUrl = await getDownloadURL(mediaRef);
+          mediaType = resolvedMediaType;
+          console.log('✅ Upload successful:', mediaUrl);
+        } catch (uploadError) {
+          console.error('🔥 MEDIA UPLOAD ERROR:', uploadError);
+          console.error('Upload error code:', uploadError?.code);
+          console.error('Upload error message:', uploadError?.message);
+          console.error('Upload server response:', uploadError?.serverResponse || '<empty string>');
+
+          if (uploadError?.code === 'storage/unauthenticated') {
+            setShowAuthModal(true);
+            toast.error('Session expired for uploads. Please log in again and retry.');
+            return;
+          }
+
+          const continueWithoutMedia = window.confirm(
+            'Media upload failed. Do you want to post this thread without the attachment?'
+          );
+          if (!continueWithoutMedia) {
+            toast.info('Upload cancelled. You can retry with another file.');
+            return;
+          }
+
+          toast.warning('Attachment skipped. Posting thread without media.');
+          setMediaFile(null);
+        }
       }
 
       const newThreadData = {
@@ -234,7 +258,7 @@ const CommunityForumsPage = () => {
         setShowAuthModal(true);
         toast.error('Session expired for uploads. Please log in again and retry.');
       } else if (error?.code === 'storage/unknown' && !storageDetails) {
-        toast.error('Upload failed due to a storage error. Please retry.');
+        toast.error('Storage upload failed. Open Firebase Storage console to verify bucket/service-account setup, then retry.');
       } else {
         toast.error(storageDetails ? `Upload failed: ${storageDetails}` : 'Upload failed. Check console (F12) for details.');
       }
