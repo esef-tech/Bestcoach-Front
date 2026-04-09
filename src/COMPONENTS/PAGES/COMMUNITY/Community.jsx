@@ -216,7 +216,7 @@ const CommunityForumsPage = () => {
       console.error('🔥 FULL POST ERROR:', error);
       console.error('Error code:', error.code);
       console.error('Error message:', error.message);
-      console.error('Server response:', error.serverResponse);  // ← This shows the exact 412 reason
+      console.error('Server response:', error.serverResponse);
 
       let storageDetails = '';
       if (typeof error?.serverResponse === 'string' && error.serverResponse.trim()) {
@@ -231,14 +231,10 @@ const CommunityForumsPage = () => {
       if (error.name === 'AbortError') {
         toast.info('Posting cancelled');
       } else if (error?.code === 'storage/unauthenticated') {
-        if (auth.currentUser) {
-          toast.error('Upload authorization failed. Refresh the page and verify Firebase App Check setup.');
-        } else {
-          setShowAuthModal(true);
-          toast.error('Session expired for uploads. Please log in again and retry.');
-        }
+        setShowAuthModal(true);
+        toast.error('Session expired for uploads. Please log in again and retry.');
       } else if (error?.code === 'storage/unknown' && !storageDetails) {
-        toast.error('Upload blocked by App Check. Verify your Firebase App Check site key/domain config.');
+        toast.error('Upload failed due to a storage error. Please retry.');
       } else {
         toast.error(storageDetails ? `Upload failed: ${storageDetails}` : 'Upload failed. Check console (F12) for details.');
       }
@@ -564,7 +560,7 @@ const CommunityForumsPage = () => {
         <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} centered>
           <Modal.Header closeButton><Modal.Title>Login Required</Modal.Title></Modal.Header>
           <Modal.Body className="text-center">
-            <p>You must be logged in to post, like, or comment.</p>
+            <p>You must be logged in to post, comment, like, or share.</p>
             <Button className="me-2" onClick={() => openNavbarAuthModal('login')}>Log In</Button>
             <Button variant="outline-primary" onClick={() => openNavbarAuthModal('signup')}>Sign Up</Button>
           </Modal.Body>
