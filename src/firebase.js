@@ -14,14 +14,15 @@ import { getAnalytics, isSupported } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBriog3DLN6Ofocx6dIMBp2IOKeqC5pXsE",
-  authDomain: "besctcoach-app.firebaseapp.com",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: "besctcoach-app",
   storageBucket: "besctcoach-app.firebasestorage.app",
   messagingSenderId: "408678623618",
   appId: "1:408678623618:web:a83abab3c6e804d093c79b",
-  measurementId: "G-1PCHN98LJ5",
+  measurementId: "G-1PCHN98LJ5"
 };
+
 
 const app = initializeApp(firebaseConfig);
 

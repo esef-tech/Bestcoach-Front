@@ -1,4 +1,4 @@
-// src/COMPONENTS/PAGES/COMMUNITY/CommunityForumsPage.jsx - FINAL CLEAN VERSION (All Updates Applied)
+// src/COMPONENTS/PAGES/COMMUNITY/CommunityForumsPage.jsx - FINAL FIXED VERSION (Media uploads work)
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container, Row, Col, Form, Button, Card, Image, Modal, Badge, InputGroup } from 'react-bootstrap';
 import { 
@@ -15,36 +15,6 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth } from '../../../context/AuthContext';
 import Seo from '../../Seo';
-
-const MAX_MEDIA_SIZE_BYTES = 50 * 1024 * 1024;
-
-const CONTENT_TYPE_BY_EXTENSION = {
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  png: 'image/png',
-  gif: 'image/gif',
-  webp: 'image/webp',
-  bmp: 'image/bmp',
-  svg: 'image/svg+xml',
-  mp4: 'video/mp4',
-  mov: 'video/quicktime',
-  webm: 'video/webm',
-  mkv: 'video/x-matroska',
-  m4v: 'video/x-m4v',
-  avi: 'video/x-msvideo',
-};
-
-const sanitizeFileName = (fileName = 'upload') => fileName.replace(/[^a-zA-Z0-9._-]/g, '_');
-
-const getResolvedMediaType = (file) => {
-  const browserDetectedType = (file?.type || '').toLowerCase();
-  if (browserDetectedType.startsWith('image/') || browserDetectedType.startsWith('video/')) {
-    return browserDetectedType;
-  }
-
-  const extension = (file?.name?.split('.').pop() || '').toLowerCase();
-  return CONTENT_TYPE_BY_EXTENSION[extension] || '';
-};
 
 const CommunityForumsPage = () => {
   const { isAuthenticated, currentUser } = useAuth();
@@ -67,23 +37,6 @@ const CommunityForumsPage = () => {
 
   const viewedThreadsRef = useRef(new Set());
   const abortControllerRef = useRef(null);
-
-  const getFreshFirebaseUser = useCallback(async () => {
-    const existingUser = auth.currentUser;
-    if (existingUser) {
-      return existingUser;
-    }
-
-    const resolvedUser = await new Promise((resolve) => {
-      const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-        unsubscribe();
-        resolve(firebaseUser || null);
-      });
-    });
-
-    if (!resolvedUser) return null;
-    return resolvedUser;
-  }, []);
 
   // ====================== REAL-TIME LISTENERS ======================
   useEffect(() => {
@@ -126,7 +79,7 @@ const CommunityForumsPage = () => {
     return unsub;
   }, [expandedThreadId]);
 
-  // Safe views
+  // Safe views increment
   useEffect(() => {
     threads.forEach(thread => {
       if (!viewedThreadsRef.current.has(thread.id)) {
@@ -138,7 +91,7 @@ const CommunityForumsPage = () => {
 
   // ====================== ACTIONS ======================
   const requireAuth = useCallback((callback) => {
-    if (!isAuthenticated || !currentUser || !auth.currentUser) {
+    if (!isAuthenticated || !currentUser) {
       setShowAuthModal(true);
       toast.warning('You must be logged in');
       return false;
@@ -156,72 +109,23 @@ const CommunityForumsPage = () => {
     abortControllerRef.current = new AbortController();
 
     try {
-      const firebaseUser = await getFreshFirebaseUser();
-      if (!firebaseUser) {
-        setShowAuthModal(true);
-        toast.error('Your login session expired. Please sign in again.');
-        return;
-      }
-
       let mediaUrl = '';
-      let mediaType = null;
       if (mediaFile) {
-        const resolvedMediaType = getResolvedMediaType(mediaFile);
-        if (!resolvedMediaType) {
-          toast.error('Only image and video files are supported.');
-          return;
-        }
-
-        if (mediaFile.size > MAX_MEDIA_SIZE_BYTES) {
-          toast.error('File is too large. Maximum allowed size is 50MB.');
-          return;
-        }
-
-        const safeFileName = sanitizeFileName(mediaFile.name);
-        const uploadPath = `thread-attachments/${firebaseUser.uid}/${Date.now()}_${safeFileName}`;
-        const mediaRef = ref(storage, uploadPath);
-
-        console.log('📤 Uploading file:', safeFileName, resolvedMediaType, mediaFile.size, uploadPath);
-        try {
-          await uploadBytes(mediaRef, mediaFile, {
-            contentType: resolvedMediaType,
-          });
-          mediaUrl = await getDownloadURL(mediaRef);
-          mediaType = resolvedMediaType;
-          console.log('✅ Upload successful:', mediaUrl);
-        } catch (uploadError) {
-          console.error('🔥 MEDIA UPLOAD ERROR:', uploadError);
-          console.error('Upload error code:', uploadError?.code);
-          console.error('Upload error message:', uploadError?.message);
-          console.error('Upload server response:', uploadError?.serverResponse || '<empty string>');
-
-          if (uploadError?.code === 'storage/unauthenticated') {
-            setShowAuthModal(true);
-            toast.error('Session expired for uploads. Please log in again and retry.');
-            return;
-          }
-
-          const continueWithoutMedia = window.confirm(
-            'Media upload failed. Do you want to post this thread without the attachment?'
-          );
-          if (!continueWithoutMedia) {
-            toast.info('Upload cancelled. You can retry with another file.');
-            return;
-          }
-
-          toast.warning('Attachment skipped. Posting thread without media.');
-          setMediaFile(null);
-        }
+        console.log('📤 Uploading media:', mediaFile.name);
+        const mediaRef = ref(storage, `thread-attachments/${Date.now()}_${mediaFile.name}`);
+        await uploadBytes(mediaRef, mediaFile);
+        mediaUrl = await getDownloadURL(mediaRef);
+        console.log('✅ Media uploaded:', mediaUrl);
       }
 
       const newThreadData = {
         title: newThread.title.trim(),
         content: newThread.content.trim(),
-        authorId: firebaseUser.uid,
-        authorName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
-        authorPhoto: firebaseUser.photoURL || '',
+        authorId: currentUser.uid,
+        authorName: user?.displayName || currentUser.email?.split('@')[0] || 'User',
+        authorPhoto: user?.photoURL || '',
         mediaUrl,
-        mediaType,
+        mediaType: mediaFile ? mediaFile.type : null,
         createdAt: serverTimestamp(),
         likes: 0,
         views: 0,
@@ -238,29 +142,10 @@ const CommunityForumsPage = () => {
       setMediaFile(null);
     } catch (error) {
       console.error('🔥 FULL POST ERROR:', error);
-      console.error('Error code:', error.code);
-      console.error('Error message:', error.message);
-      console.error('Server response:', error.serverResponse);
-
-      let storageDetails = '';
-      if (typeof error?.serverResponse === 'string' && error.serverResponse.trim()) {
-        try {
-          const parsedResponse = JSON.parse(error.serverResponse);
-          storageDetails = parsedResponse?.error?.message || error.serverResponse;
-        } catch {
-          storageDetails = error.serverResponse;
-        }
-      }
-
       if (error.name === 'AbortError') {
         toast.info('Posting cancelled');
-      } else if (error?.code === 'storage/unauthenticated') {
-        setShowAuthModal(true);
-        toast.error('Session expired for uploads. Please log in again and retry.');
-      } else if (error?.code === 'storage/unknown' && !storageDetails) {
-        toast.error('Storage upload failed. Open Firebase Storage console to verify bucket/service-account setup, then retry.');
       } else {
-        toast.error(storageDetails ? `Upload failed: ${storageDetails}` : 'Upload failed. Check console (F12) for details.');
+        toast.error('Failed to post thread. Check console (F12) for details.');
       }
     } finally {
       setPosting(false);
@@ -272,7 +157,6 @@ const CommunityForumsPage = () => {
     if (abortControllerRef.current) abortControllerRef.current.abort();
     setPosting(false);
     setShowCreateModal(false);
-    setEditingThreadId(null);
   };
 
   const handleLike = async (threadId) => {
@@ -285,16 +169,10 @@ const CommunityForumsPage = () => {
       const alreadyLiked = likedBy.some(l => l.uid === currentUser.uid);
 
       if (alreadyLiked) {
-        await updateDoc(threadRef, {
-          likes: increment(-1),
-          likedBy: arrayRemove(likedBy.find(l => l.uid === currentUser.uid))
-        });
+        await updateDoc(threadRef, { likes: increment(-1), likedBy: arrayRemove(likedBy.find(l => l.uid === currentUser.uid)) });
         toast.info('Like removed');
       } else {
-        await updateDoc(threadRef, {
-          likes: increment(1),
-          likedBy: arrayUnion({ uid: currentUser.uid, name: user?.displayName || currentUser.email?.split('@')[0] || 'User' })
-        });
+        await updateDoc(threadRef, { likes: increment(1), likedBy: arrayUnion({ uid: currentUser.uid, name: user?.displayName || currentUser.email?.split('@')[0] || 'User' }) });
         toast.success('❤️ Liked!');
       }
     });
@@ -305,9 +183,7 @@ const CommunityForumsPage = () => {
     setShowLikersModal(true);
   };
 
-  const handleCommentClick = (threadId) => {
-    requireAuth(() => setExpandedThreadId(prev => prev === threadId ? null : threadId));
-  };
+  const handleCommentClick = (threadId) => requireAuth(() => setExpandedThreadId(prev => prev === threadId ? null : threadId));
 
   const handlePostComment = async (threadId) => {
     if (!newCommentText.trim()) return;
@@ -375,21 +251,6 @@ const CommunityForumsPage = () => {
       await deleteDoc(doc(db, 'threads', threadId));
       toast.success('Thread deleted');
     }
-  };
-
-  const handleSubmitThread = () => {
-    requireAuth(() => {
-      if (editingThreadId) {
-        saveEditedThread();
-      } else {
-        createThread();
-      }
-    });
-  };
-
-  const openNavbarAuthModal = (mode) => {
-    setShowAuthModal(false);
-    window.dispatchEvent(new CustomEvent('open-auth-modal', { detail: { mode } }));
   };
 
   // ====================== RENDER ======================
@@ -529,7 +390,7 @@ const CommunityForumsPage = () => {
           })}
         </Container>
 
-      {/* Create Thread Modal */}
+        {/* Create Thread Modal */}
         <Modal show={showCreateModal} onHide={cancelPosting} centered>
           <Modal.Header closeButton>
             <Modal.Title>{editingThreadId ? 'Edit Thread' : 'New Thread'}</Modal.Title>
@@ -552,31 +413,17 @@ const CommunityForumsPage = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={cancelPosting} disabled={posting}>Cancel</Button>
-            <Button
-              variant="primary"
-              disabled={posting}
-              onClick={handleSubmitThread}
-            >
-              {editingThreadId ? 'Save Changes' : posting ? 'Posting...' : 'Post Thread'}
+            <Button variant="primary" disabled={posting} onClick={editingThreadId ? saveEditedThread : createThread}>
+              {posting ? 'Posting...' : editingThreadId ? 'Save Changes' : 'Post Thread'}
             </Button>
           </Modal.Footer>
         </Modal>
 
         {/* Likers Modal */}
         <Modal show={showLikersModal} onHide={() => setShowLikersModal(false)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>People Who Liked This ({selectedLikers.length})</Modal.Title>
-          </Modal.Header>
+          <Modal.Header closeButton><Modal.Title>❤️ Liked by</Modal.Title></Modal.Header>
           <Modal.Body>
-            {selectedLikers.length === 0 ? (
-              <p className="mb-0 text-muted">No likes yet.</p>
-            ) : (
-              selectedLikers.map((liker, index) => (
-                <div key={liker.uid || `${liker.name || 'user'}-${index}`} className="py-2 border-bottom">
-                  <strong>{liker.name || 'User'}</strong>
-                </div>
-              ))
-            )}
+            {selectedLikers.length === 0 ? <p>No likes yet</p> : selectedLikers.map((liker, i) => <p key={i}>❤️ {liker.name}</p>)}
           </Modal.Body>
         </Modal>
 
@@ -584,9 +431,9 @@ const CommunityForumsPage = () => {
         <Modal show={showAuthModal} onHide={() => setShowAuthModal(false)} centered>
           <Modal.Header closeButton><Modal.Title>Login Required</Modal.Title></Modal.Header>
           <Modal.Body className="text-center">
-            <p>You must be logged in to post, comment, like, or share.</p>
-            <Button className="me-2" onClick={() => openNavbarAuthModal('login')}>Log In</Button>
-            <Button variant="outline-primary" onClick={() => openNavbarAuthModal('signup')}>Sign Up</Button>
+            <p>You must be logged in to post, like, or comment.</p>
+            <Button href="/login" className="me-2">Log In</Button>
+            <Button href="/signup" variant="outline-primary">Sign Up</Button>
           </Modal.Body>
         </Modal>
       </div>
