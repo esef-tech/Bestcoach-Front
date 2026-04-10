@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bestcoach Music — Core Testing Workflow (STLC)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --brand:       #0078D7;
+    --brand-dark:  #005EA6;
+    --brand-light: #E8F3FC;
+    --teal:        #00897B;
+    --teal-light:  #E0F2F1;
+    --amber:       #F59E0B;
+    --amber-light: #FEF3C7;
+    --red:         #DC2626;
+    --red-light:   #FEE2E2;
+    --green:       #16A34A;
+    --green-light: #DCFCE7;
+    --purple:      #7C3AED;
+    --purple-light:#EDE9FE;
+    --gray-50:     #F8FAFC;
+    --gray-100:    #F1F5F9;
+    --gray-200:    #E2E8F0;
+    --gray-300:    #CBD5E1;
+    --gray-400:    #94A3B8;
+    --gray-600:    #475569;
+    --gray-700:    #334155;
+    --gray-800:    #1E293B;
+    --gray-900:    #0F172A;
+    --radius:      10px;
+    --shadow:      0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── COVER ─────────────────────────────────────── */
+  .cover {
+    background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 60%, #0078D7 100%);
+    color: #fff;
+    padding: 72px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content:'';
+    position:absolute; inset:0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,.07)'/%3E%3C/svg%3E") repeat;
+  }
+  .cover-inner { position:relative; max-width: 900px; margin: 0 auto; }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .cover h1 { font-size: 42px; font-weight: 700; line-height: 1.18; margin-bottom: 14px; }
+  .cover h1 span { color: #60C8F5; }
+  .cover-sub { font-size: 17px; font-weight: 300; opacity: .85; margin-bottom: 36px; max-width: 620px; }
+  .cover-meta {
+    display: flex; gap: 40px; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,.15);
+    padding-top: 28px;
+    font-size: 13px;
+  }
+  .cover-meta-item label { display: block; opacity: .5; font-size: 11px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
+  .cover-meta-item strong { font-weight: 600; }
+
+  .score-row {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .score-pill {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 8px;
+    padding: 10px 18px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .score-pill .num { font-size: 26px; font-weight: 700; line-height: 1; }
+  .score-pill .lbl { font-size: 11px; opacity:.6; text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+  .score-pill.bad .num  { color: #FF6B6B; }
+  .score-pill.ok  .num  { color: #FFD166; }
+  .score-pill.good .num { color: #6BCB77; }
+
+  /* ── LAYOUT ─────────────────────────────────────── */
+  .content { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ── PHASE HEADER ───────────────────────────────── */
+  .phase {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 40px;
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+  }
+  .phase-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .phase-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .phase-header h2 { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+  .phase-header p  { font-size: 13px; color: var(--gray-600); }
+  .phase-num {
+    margin-left: auto;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--gray-400);
+  }
+
+  /* phase accent colors */
+  .ph-blue   .phase-icon { background: var(--brand-light); color: var(--brand); }
+  .ph-teal   .phase-icon { background: var(--teal-light);  color: var(--teal);  }
+  .ph-amber  .phase-icon { background: var(--amber-light); color: var(--amber); }
+  .ph-green  .phase-icon { background: var(--green-light); color: var(--green); }
+  .ph-red    .phase-icon { background: var(--red-light);   color: var(--red);   }
+  .ph-purple .phase-icon { background: var(--purple-light);color: var(--purple);}
+  .ph-blue   .phase-num  { color: var(--brand);  }
+  .ph-teal   .phase-num  { color: var(--teal);   }
+  .ph-amber  .phase-num  { color: var(--amber);  }
+  .ph-green  .phase-num  { color: var(--green);  }
+  .ph-red    .phase-num  { color: var(--red);    }
+  .ph-purple .phase-num  { color: var(--purple); }
+
+  .phase-body { padding: 24px 28px; }
+
+  /* ── SECTION TITLES inside phases ──────────────── */
+  .sec-title {
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .07em;
+    color: var(--gray-500);
+    margin: 24px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sec-title::after {
+    content:''; flex:1; height:1px; background: var(--gray-200);
+  }
+  .sec-title:first-child { margin-top: 0; }
+
+  /* ── CARDS / GRIDS ──────────────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .info-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .info-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .info-card p  { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+
+  /* ── TABLES ─────────────────────────────────────── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .data-table th {
+    background: var(--gray-100);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--gray-600);
+    border-bottom: 2px solid var(--gray-200);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--gray-50); }
+  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--gray-200); margin-bottom: 16px; }
+
+  /* ── BADGES ─────────────────────────────────────── */
+  .badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 100px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .badge-red    { background: var(--red-light);    color: var(--red);    }
+  .badge-amber  { background: var(--amber-light);  color: #92400E;       }
+  .badge-green  { background: var(--green-light);  color: var(--green);  }
+  .badge-blue   { background: var(--brand-light);  color: var(--brand-dark); }
+  .badge-purple { background: var(--purple-light); color: var(--purple); }
+  .badge-gray   { background: var(--gray-200);     color: var(--gray-700); }
+
+  /* ── CALLOUT BOXES ──────────────────────────────── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .callout-icon { font-size: 18px; flex-shrink:0; margin-top:1px; }
+  .callout-warn { background: var(--amber-light); border-left: 3px solid var(--amber); }
+  .callout-info { background: var(--brand-light); border-left: 3px solid var(--brand); }
+  .callout-ok   { background: var(--green-light); border-left: 3px solid var(--green); }
+  .callout-fail { background: var(--red-light);   border-left: 3px solid var(--red);   }
+
+  /* ── CODE ───────────────────────────────────────── */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--brand-dark);
+  }
+  pre {
+    background: var(--gray-900);
+    color: #E2E8F0;
+    border-radius: 8px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    margin: 12px 0;
+  }
+  pre .kw  { color: #7DD3FC; }
+  pre .str { color: #86EFAC; }
+  pre .cmt { color: #64748B; font-style: italic; }
+  pre .fn  { color: #FBBF24; }
+  pre .val { color: #F9A8D4; }
+
+  /* ── STEP LIST ──────────────────────────────────── */
+  .step-list { list-style: none; margin-bottom: 12px; }
+  .step-list li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 14px;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── METRIC ROW ─────────────────────────────────── */
+  .metric-row {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .metric-box {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 12px 16px;
+    min-width: 130px;
+  }
+  .metric-box .metric-label  { font-size: 11px; text-transform:uppercase; letter-spacing:.07em; color:var(--gray-500); margin-bottom:4px; }
+  .metric-box .metric-value  { font-size: 22px; font-weight: 700; line-height:1; }
+  .metric-box .metric-target { font-size: 12px; color: var(--gray-500); margin-top: 3px; }
+  .metric-box.fail .metric-value { color: var(--red); }
+  .metric-box.warn .metric-value { color: var(--amber); }
+  .metric-box.pass .metric-value { color: var(--green); }
+
+  /* ── FIX BLOCKS ─────────────────────────────────── */
+  .fix-block {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .fix-block-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    background: #fff;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .fix-block-head h4 { font-size: 14px; font-weight: 600; flex: 1; }
+  .fix-block-body { padding: 14px 16px; font-size: 13.5px; }
+  .fix-block-body ul { padding-left: 18px; }
+  .fix-block-body li { margin-bottom: 5px; line-height: 1.55; }
+
+  /* ── DIVIDER ────────────────────────────────────── */
+  .divider {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--gray-400);
+    margin: 48px 0 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--gray-200); }
+
+  /* ── TOC ────────────────────────────────────────── */
+  .toc {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-top: 32px;
+    box-shadow: var(--shadow);
+  }
+  .toc h3 { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--gray-500); margin-bottom: 14px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { padding: 4px 0; font-size: 14px; color: var(--brand); }
+  .toc li span { color: var(--gray-600); }
+
+  /* ── VULN TABLE ─────────────────────────────────── */
+  .vuln-severity { display:flex; gap:6px; align-items:center; font-size:13px; font-weight:600; }
+  .sev-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .sev-critical { background:#DC2626; }
+  .sev-high     { background:#F97316; }
+  .sev-medium   { background:#F59E0B; }
+  .sev-low      { background:#3B82F6; }
+  .sev-info     { background:#94A3B8; }
+
+  /* ── PRINT ──────────────────────────────────────── */
+  @media print {
+    body { background: #fff; }
+    .phase { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+    .cover { print-color-adjust: exact; }
+    pre { font-size: 11px; }
+  }
+
+  @media (max-width:640px) {
+    .cover { padding: 40px 20px 36px; }
+    .cover h1 { font-size: 28px; }
+    .phase-body, .phase-header { padding: 16px 18px; }
+    .content { padding: 0 12px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ COVER ════════════════════ -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-badge">Software Testing Life Cycle · STLC</div>
+    <h1>Bestcoach <span>Music App</span><br>Core Testing Workflow</h1>
+    <p class="cover-sub">A full STLC documentation covering Functionality, Usability, Interface, Compatibility &amp; Security testing, with Lighthouse performance analysis and targeted fix recommendations.</p>
+    <div class="score-row">
+      <div class="score-pill bad"><div class="num">26</div><div class="lbl">Performance</div></div>
+      <div class="score-pill ok"><div class="num">80</div><div class="lbl">Accessibility</div></div>
+      <div class="score-pill good"><div class="num">96</div><div class="lbl">Best Practices</div></div>
+      <div class="score-pill ok"><div class="num">85</div><div class="lbl">SEO</div></div>
+      <div class="score-pill" style="border-color:rgba(255,255,255,.3)"><div class="num" style="color:#fff">🎯 90+</div><div class="lbl">Target Score</div></div>
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><label>Application URL</label><strong>bestcoach-front.vercel.app</strong></div>
+      <div class="cover-meta-item"><label>Stack</label><strong>React · Firebase · Bootstrap 5</strong></div>
+      <div class="cover-meta-item"><label>Lighthouse Version</label><strong>13.0.2</strong></div>
+      <div class="cover-meta-item"><label>Audit Date</label><strong>April 7, 2026</strong></div>
+      <div class="cover-meta-item"><label>Document Date</label><strong>April 10, 2026</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ CONTENT ════════════════════ -->
+<div class="content">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><span>Phase 1 — Requirements Analysis &amp; App Overview</span></li>
+      <li><span>Phase 2 — Test Planning</span></li>
+      <li><span>Phase 3 — Test Case Design</span></li>
+      <li><span>Phase 4 — Test Environment Setup</span></li>
+      <li><span>Phase 5A — Functionality Testing</span></li>
+      <li><span>Phase 5B — Usability Testing</span></li>
+      <li><span>Phase 5C — Interface Testing</span></li>
+      <li><span>Phase 5D — Compatibility Testing</span></li>
+      <li><span>Phase 5E — Security Testing</span></li>
+      <li><span>Phase 6 — Lighthouse Performance Analysis &amp; Fixes</span></li>
+      <li><span>Phase 7 — Test Closure &amp; Exit Report</span></li>
+    </ol>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 1 — REQUIREMENTS ANALYSIS
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-blue">
+    <div class="phase-header">
+      <div class="phase-icon">🔍</div>
+      <div>
+        <h2>Phase 1 — Requirements Analysis &amp; App Overview</h2>
+        <p>Understanding the application's purpose, architecture, and feature set before testing begins.</p>
+      </div>
+      <div class="phase-num">Phase 01</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Application Overview</div>
+      <div class="card-grid">
+        <div class="info-card"><h4>App Name</h4><p>Bestcoach Music</p></div>
+        <div class="info-card"><h4>Type</h4><p>React SPA (Single Page Application)</p></div>
+        <div class="info-card"><h4>Hosting</h4><p>Vercel (Frontend) + Netlify (Media Assets)</p></div>
+        <div class="info-card"><h4>Backend</h4><p>Firebase (Auth, Realtime DB)</p></div>
+        <div class="info-card"><h4>CSS Framework</h4><p>Bootstrap 5.3.8 + custom CSS</p></div>
+        <div class="info-card"><h4>Build Tool</h4><p>Create React App (CRA)</p></div>
+        <div class="info-card"><h4>Analytics</h4><p>Google Tag Manager + GA4</p></div>
+        <div class="info-card"><h4>Fonts</h4><p>Google Fonts (Dancing Script)</p></div>
+      </div>
+
+      <div class="sec-title">Application Features Identified</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>Feature / Module</th><th>Description</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Navigation Bar</td><td>Top navbar with logo, dropdowns (Home, Community, Events, Company, Featured, Blog, Resources), login button, social icons header strip</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>2</td><td>Hero / Carousel</td><td>Homepage hero section with carousel images sourced from Netlify CDN (TSS_NEW image as LCP element)</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>3</td><td>User Authentication</td><td>Firebase-based login/signup with MFA verification modal. Multiple modals rendered at load (login, signup, MFA)</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>4</td><td>Community Section</td><td>Social community features; links to external community pages (communitymusicschool.com, washingtonperformingarts.org)</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td>5</td><td>Events / TSS Page</td><td>Events listing, Talented Students Showcase (TSS) page with custom CSS animations</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td>6</td><td>Featured / Blog</td><td>Featured content cards and blog listing from external sources via Squarespace CDN</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td>7</td><td>Company / About</td><td>About page with company info and logo (1080×1080 logo served from Netlify)</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td>8</td><td>Newsletter Footer</td><td>Footer newsletter subscription form with button</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td>9</td><td>Social Links</td><td>Social icon links in header (Twitter, Instagram, Facebook, etc.) and footer</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td>10</td><td>Language/Region Selector</td><td>Select dropdown in navigation for region (Greater Accra Region)</td><td><span class="badge badge-gray">Low</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Technology Stack Risks</div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Bundle Size Risk:</strong> The app ships a single <code>bundle.js</code> of 4,694 KiB with no code-splitting. All routes are loaded eagerly, causing a 2,280 ms Total Blocking Time. CRA (Create React App) does not support automatic route-level code splitting without manual lazy() configuration.</div>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>External Image Dependencies:</strong> LCP and featured card images are loaded from external domains (communitymusicschool.com, washingtonperformingarts.org, squarespace-cdn.com). No control over their availability, cache headers, or size optimisation.</div>
+      </div>
+      <div class="callout callout-fail">
+        <span class="callout-icon">🔴</span>
+        <div><strong>Security Headers Missing:</strong> No CSP, HSTS, COOP, or X-Frame-Options headers are set. The Firebase config endpoint is also exposed in 3rd-party calls list.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 2 — TEST PLANNING
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-teal">
+    <div class="phase-header">
+      <div class="phase-icon">📋</div>
+      <div>
+        <h2>Phase 2 — Test Planning</h2>
+        <p>Defining the scope, objectives, strategy, roles, schedule, and exit criteria.</p>
+      </div>
+      <div class="phase-num">Phase 02</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Test Objectives</div>
+      <ul class="step-list">
+        <li><div class="step-dot">1</div><div>Validate all functional components (auth, nav, forms, modals) work as expected.</div></li>
+        <li><div class="step-dot">2</div><div>Assess usability from a first-time visitor and an authenticated user perspective.</div></li>
+        <li><div class="step-dot">3</div><div>Verify interface rendering across breakpoints and major browsers.</div></li>
+        <li><div class="step-dot">4</div><div>Confirm compatibility on desktop (Chrome, Firefox, Edge, Safari) and mobile (iOS Safari, Android Chrome).</div></li>
+        <li><div class="step-dot">5</div><div>Identify web vulnerabilities (XSS, CSRF, missing security headers, information leakage).</div></li>
+        <li><div class="step-dot">6</div><div>Analyse Lighthouse scores (currently: Performance 26, Accessibility 80, Best Practices 96, SEO 85) and prescribe fixes to reach 90+ on all metrics.</div></li>
+      </ul>
+
+      <div class="sec-title">In-Scope &amp; Out-of-Scope</div>
+      <div class="card-grid">
+        <div class="info-card">
+          <h4>✅ In Scope</h4>
+          <p>Homepage, all navbar routes, auth modals (login/signup/MFA), community section, events/TSS page, featured blog cards, footer newsletter, social links, responsive layouts, performance, accessibility, security headers.</p>
+        </div>
+        <div class="info-card">
+          <h4>❌ Out of Scope</h4>
+          <p>Firebase Admin Console, backend API internals, Netlify/Vercel server configuration, third-party CMS content (Squarespace), payment flows (none detected), native mobile app.</p>
+        </div>
+      </div>
+
+      <div class="sec-title">Testing Types &amp; Tools</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Test Type</th><th>Tool(s)</th><th>Approach</th></tr></thead>
+          <tbody>
+            <tr><td>Functionality</td><td>Manual + Chrome DevTools</td><td>Feature-by-feature walkthrough, form submissions, auth flows</td></tr>
+            <tr><td>Usability</td><td>Manual heuristic evaluation (Nielsen's 10)</td><td>First-time user walkthrough, task completion assessment</td></tr>
+            <tr><td>Interface</td><td>Chrome DevTools, Firefox, Safari, Edge</td><td>Visual rendering, layout shift detection, responsive breakpoints</td></tr>
+            <tr><td>Compatibility</td><td>BrowserStack (emulated) / Physical devices</td><td>OS × Browser matrix testing</td></tr>
+            <tr><td>Security</td><td>OWASP ZAP, Browser DevTools, Manual</td><td>Header analysis, XSS probes, CSRF checks, information exposure</td></tr>
+            <tr><td>Performance</td><td>Lighthouse 13.0.2, WebPageTest, Chrome DevTools Performance panel</td><td>Cold load analysis, Core Web Vitals, bundle analysis</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Entry &amp; Exit Criteria</div>
+      <div class="card-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="info-card">
+          <h4>Entry Criteria</h4>
+          <p>App is live on Vercel URL · All pages return HTTP 200 · Dev environment accessible · Test cases reviewed and approved · Test environment documented</p>
+        </div>
+        <div class="info-card">
+          <h4>Exit Criteria</h4>
+          <p>All Critical &amp; High test cases executed · Zero open Critical/High defects · Lighthouse Performance ≥ 90, Accessibility ≥ 90, SEO ≥ 90, Best Practices ≥ 90 · Security headers implemented · Test summary report delivered</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 3 — TEST CASE DESIGN
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-amber">
+    <div class="phase-header">
+      <div class="phase-icon">📝</div>
+      <div>
+        <h2>Phase 3 — Test Case Design</h2>
+        <p>Defining individual test cases with steps, expected results, and priority mapping.</p>
+      </div>
+      <div class="phase-num">Phase 03</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Functional Test Cases</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>TC-ID</th><th>Feature</th><th>Test Steps</th><th>Expected Result</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td><code>TC-F01</code></td><td>Homepage Load</td><td>Navigate to https://bestcoach-front.vercel.app/</td><td>Page loads, hero carousel visible, navbar rendered, no console errors</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td><code>TC-F02</code></td><td>Navbar Dropdowns</td><td>Hover/click each nav item (Community, Events, Company, Featured, Blog, Resources)</td><td>Dropdown menus open correctly; sub-links navigate to correct routes</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td><code>TC-F03</code></td><td>Login Modal</td><td>Click Login button → fill email/password → submit</td><td>Firebase auth triggered; on success user session created; on failure error displayed</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td><code>TC-F04</code></td><td>Signup Modal</td><td>Open signup → fill all fields → submit</td><td>New Firebase user created; email verification sent; success feedback shown</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td><code>TC-F05</code></td><td>MFA Modal</td><td>Trigger MFA flow → enter verification code</td><td>MFA verification accepted; user session established</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td><code>TC-F06</code></td><td>Carousel Navigation</td><td>Click prev/next carousel controls</td><td>Carousel slides transition smoothly; images load correctly</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td><code>TC-F07</code></td><td>Newsletter Signup</td><td>Enter email in newsletter form → submit</td><td>Confirmation feedback shown; no page redirect; input cleared</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td><code>TC-F08</code></td><td>Social Links</td><td>Click each social icon in header &amp; footer</td><td>Links open correct social profile in new tab</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td><code>TC-F09</code></td><td>Region Selector</td><td>Change region/language dropdown value</td><td>Selection persists; appropriate content loads if applicable</td><td><span class="badge badge-gray">Low</span></td></tr>
+            <tr><td><code>TC-F10</code></td><td>Events / TSS Page</td><td>Navigate to Events page; check event listings</td><td>Events render with correct details; CSS animations play without jank</td><td><span class="badge badge-amber">High</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Accessibility &amp; SEO Test Cases</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>TC-ID</th><th>Area</th><th>Test</th><th>Expected Result</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td><code>TC-A01</code></td><td>Images</td><td>Inspect all <code>&lt;img&gt;</code> tags for <code>alt</code> attribute</td><td>All informative images have descriptive alt text; decorative images have <code>alt=""</code></td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td><code>TC-A02</code></td><td>Contrast</td><td>Check text contrast ratios in header strip, footer, buttons</td><td>Minimum 4.5:1 for normal text, 3:1 for large text (WCAG AA)</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td><code>TC-A03</code></td><td>Form Labels</td><td>Verify select element has <code>&lt;label&gt;</code> or <code>aria-label</code></td><td>Screen reader can identify form element purpose</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td><code>TC-A04</code></td><td>Link Names</td><td>Check social icon anchor links for accessible name</td><td>Each link has <code>aria-label</code> or descriptive text</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td><code>TC-A05</code></td><td>Heading Order</td><td>Inspect heading hierarchy (h1 → h2 → h3…)</td><td>Headings are sequentially ordered without skipping levels</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td><code>TC-A06</code></td><td>Landmark</td><td>Check for <code>&lt;main&gt;</code> element on each page</td><td>Page has a <code>&lt;main&gt;</code> landmark element</td><td><span class="badge badge-blue">Medium</span></td></tr>
+            <tr><td><code>TC-A07</code></td><td>SEO – Links</td><td>Check anchor text for "/bestcoach_music" linktr.ee link</td><td>Anchor has descriptive text, not just URL or "click here"</td><td><span class="badge badge-blue">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 4 — TEST ENVIRONMENT SETUP
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-purple">
+    <div class="phase-header">
+      <div class="phase-icon">⚙️</div>
+      <div>
+        <h2>Phase 4 — Test Environment Setup</h2>
+        <p>Hardware, software, browser, and tool configuration for testing.</p>
+      </div>
+      <div class="phase-num">Phase 04</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Browser Matrix</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Browser</th><th>Version</th><th>OS</th><th>Device</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>Google Chrome</td><td>Latest (124+)</td><td>Windows 11 / macOS 14</td><td>Desktop</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>Mozilla Firefox</td><td>Latest (125+)</td><td>Windows 11 / macOS 14</td><td>Desktop</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>Microsoft Edge</td><td>Latest (Chromium)</td><td>Windows 11</td><td>Desktop</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td>Safari</td><td>17+</td><td>macOS 14</td><td>Desktop</td><td><span class="badge badge-amber">High</span></td></tr>
+            <tr><td>Safari (iOS)</td><td>17+</td><td>iOS 17</td><td>iPhone 14/15</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>Chrome (Android)</td><td>Latest</td><td>Android 13/14</td><td>Samsung S23 / Pixel 7</td><td><span class="badge badge-red">Critical</span></td></tr>
+            <tr><td>Samsung Internet</td><td>Latest</td><td>Android 13</td><td>Samsung Galaxy</td><td><span class="badge badge-blue">Medium</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Required Tools</div>
+      <div class="card-grid">
+        <div class="info-card"><h4>Chrome DevTools</h4><p>Performance panel, Network throttling, Lighthouse, Application inspector, Console</p></div>
+        <div class="info-card"><h4>Lighthouse CLI</h4><p><code>npm install -g lighthouse</code> — Run in incognito to avoid IndexedDB cache interference</p></div>
+        <div class="info-card"><h4>OWASP ZAP</h4><p>Automated security scan: XSS, SQL injection, CSRF, header inspection</p></div>
+        <div class="info-card"><h4>axe DevTools</h4><p>Browser extension for automated accessibility auditing (supplements Lighthouse)</p></div>
+        <div class="info-card"><h4>WebPageTest</h4><p>webpagetest.org — Multi-location load testing with filmstrip view</p></div>
+        <div class="info-card"><h4>BrowserStack</h4><p>Cross-browser emulation for devices not physically available</p></div>
+        <div class="info-card"><h4>Bundlephobia / Webpack Bundle Analyzer</h4><p>Analyse bundle composition; identify large unused dependencies</p></div>
+        <div class="info-card"><h4>ScreenSizeMap / Responsively</h4><p>Multi-viewport preview for responsive interface testing</p></div>
+      </div>
+
+      <div class="sec-title">Lighthouse Run Configuration</div>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Always run Lighthouse in <strong>Incognito mode</strong>. The app uses IndexedDB which pollutes cached results in regular mode (confirmed by the Lighthouse warning in the report). Use custom throttling for both desktop and mobile emulation.</div>
+      </div>
+      <pre><span class="cmt"># Run Lighthouse from CLI in incognito-equivalent mode</span>
+<span class="fn">lighthouse</span> <span class="str">https://bestcoach-front.vercel.app/</span> \
+  --<span class="kw">chrome-flags</span>=<span class="str">"--incognito"</span> \
+  --<span class="kw">output</span>=<span class="val">html</span> \
+  --<span class="kw">output-path</span>=<span class="str">./lh-report.html</span> \
+  --<span class="kw">preset</span>=<span class="val">desktop</span>   <span class="cmt"># or remove for mobile</span></pre>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 5A — FUNCTIONALITY TESTING
+  ─────────────────────────────────────────────────── -->
+  <div class="divider">Test Execution</div>
+
+  <div class="phase ph-green">
+    <div class="phase-header">
+      <div class="phase-icon">✅</div>
+      <div>
+        <h2>Phase 5A — Functionality Testing</h2>
+        <p>Verifying that every feature behaves as intended for end users.</p>
+      </div>
+      <div class="phase-num">Phase 05-A</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Findings Summary</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>TC-ID</th><th>Feature</th><th>Status</th><th>Finding / Defect</th><th>Severity</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>TC-F01</code></td><td>Homepage Load</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Page loads but shows blank for 4.9 s (FCP). Console error: React non-boolean attribute <code>smooth</code> passed to DOM (bundle.js:8044). JS app loads after 7s (LCP).</td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F02</code></td><td>Navbar Dropdowns</td>
+              <td><span class="badge badge-green">Pass</span></td>
+              <td>Dropdown menus open correctly. Bootstrap React NavDropdown components working. Multiple dropdowns confirmed: Community, Events, Company, Featured, Resources.</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><code>TC-F03</code></td><td>Login Modal</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Login modal renders. Firebase auth API called (<code>/webConfig</code> endpoint visible in network). Multiple modal instances pre-rendered at load time, contributing 414 ms forced reflow.</td>
+              <td><span class="badge badge-amber">Medium</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F04</code></td><td>Signup Modal</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Modal present. Pre-rendered alongside login and MFA modals. Bulk initial render of all modals causes <strong>TBT of 2,280 ms</strong>.</td>
+              <td><span class="badge badge-amber">Medium</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F05</code></td><td>MFA Modal</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>MFAVerificationModal confirmed in React User Timing marks. Pre-mounted unconditionally, adding to initial render cost.</td>
+              <td><span class="badge badge-amber">Medium</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F06</code></td><td>Carousel</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Carousel image (<code>TSS_NEW.b642983….webp</code>, 382 KiB) is the LCP element but loads with a 4,280 ms resource load delay. Image dimensions mismatch (1290×1600 served, 226×280 displayed).</td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F07</code></td><td>Newsletter Signup</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Form present. Button text contrast ratio fails WCAG AA. Submit behaviour not confirmed (no API endpoint identified in network).</td>
+              <td><span class="badge badge-blue">Low</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F08</code></td><td>Social Links</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Social links present in header and footer. All <code>a.social-icon-top-header</code> and <code>a.social-btn-footer-social</code> links lack discernible names (no aria-label, no visible text). Links not accessible by screen reader.</td>
+              <td><span class="badge badge-red">High</span></td>
+            </tr>
+            <tr>
+              <td><code>TC-F10</code></td><td>Events / TSS Page</td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Non-composited CSS animation found on <code>span.handwritten-text</code> (animates <code>width</code> property — not GPU-composited). Causes layout recalculation and potential CLS contribution.</td>
+              <td><span class="badge badge-amber">Medium</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Fix: Pre-rendered Modals (TBT Root Cause)</div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div>All modal components (Login, Signup, MFA) are mounted unconditionally on initial render. React's User Timing marks show 387 mount measures at load time. Use lazy rendering with <code>React.lazy()</code> and <code>Suspense</code>, and only mount modals when triggered.</div>
+      </div>
+      <pre><span class="cmt">// BEFORE: All modals mounted unconditionally</span>
+<span class="kw">return</span> (
+  &lt;div&gt;
+    &lt;<span class="fn">LoginModal</span> /&gt;
+    &lt;<span class="fn">SignupModal</span> /&gt;
+    &lt;<span class="fn">MFAVerificationModal</span> /&gt;
+    ...
+  &lt;/div&gt;
+);
+
+<span class="cmt">// AFTER: Lazy-mount on user trigger</span>
+<span class="kw">const</span> <span class="fn">LoginModal</span> = React.lazy(() =&gt; <span class="kw">import</span>(<span class="str">'./LoginModal'</span>));
+
+<span class="kw">return</span> (
+  &lt;div&gt;
+    {showLogin &amp;&amp; (
+      &lt;Suspense fallback={<span class="val">null</span>}&gt;
+        &lt;<span class="fn">LoginModal</span> onClose={() =&gt; setShowLogin(<span class="val">false</span>)} /&gt;
+      &lt;/Suspense&gt;
+    )}
+  &lt;/div&gt;
+);</pre>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 5B — USABILITY TESTING
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-teal">
+    <div class="phase-header">
+      <div class="phase-icon">👤</div>
+      <div>
+        <h2>Phase 5B — Usability Testing</h2>
+        <p>Evaluating the user experience against Nielsen's 10 Usability Heuristics.</p>
+      </div>
+      <div class="phase-num">Phase 05-B</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Nielsen's Heuristic Evaluation</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Heuristic</th><th>Rating</th><th>Finding</th><th>Recommendation</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Visibility of System Status</strong></td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>No loading indicator during initial 4.9 s blank white screen. Users see nothing while JS bundle loads.</td>
+              <td>Add a server-side rendered skeleton loader or CSS-only spinner in the static HTML shell.</td>
+            </tr>
+            <tr>
+              <td><strong>2. Match Between System &amp; Real World</strong></td>
+              <td><span class="badge badge-green">Pass</span></td>
+              <td>Navigation labels (Community, Events, Company) are domain-appropriate and clear for a music coaching platform.</td>
+              <td>No change needed.</td>
+            </tr>
+            <tr>
+              <td><strong>3. User Control &amp; Freedom</strong></td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Modal close behaviour not fully tested. Back/forward cache is blocked by WebSocket, preventing quick navigation return.</td>
+              <td>Fix bfcache incompatibility. Ensure all modals have a visible close button and press Escape to close.</td>
+            </tr>
+            <tr>
+              <td><strong>4. Consistency &amp; Standards</strong></td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Two separate Google Analytics IDs (G-1PCHN98LJ5 and G-1PCHN98LJS) firing simultaneously suggests duplicated GTM configuration.</td>
+              <td>Audit GTM container; remove duplicate GA4 tag to reduce main-thread overhead by ~240 ms.</td>
+            </tr>
+            <tr>
+              <td><strong>5. Error Prevention</strong></td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>Newsletter form has no visible field validation feedback. Auth forms relay Firebase errors but error message styling not confirmed.</td>
+              <td>Add inline validation with clear error messages on all form inputs. Confirm Firebase error messages are user-friendly (not raw error codes).</td>
+            </tr>
+            <tr>
+              <td><strong>6. Recognition Rather Than Recall</strong></td>
+              <td><span class="badge badge-green">Pass</span></td>
+              <td>Navigation is persistent and visible. Logo links home.</td>
+              <td>No change needed.</td>
+            </tr>
+            <tr>
+              <td><strong>7. Flexibility &amp; Efficiency of Use</strong></td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>No keyboard shortcuts. Tab order not verified. Social icon links lack accessible names, blocking keyboard navigation for assistive technology users.</td>
+              <td>Verify logical tab order. Add <code>aria-label</code> to all social icon links. Add a skip-to-content link.</td>
+            </tr>
+            <tr>
+              <td><strong>8. Aesthetic &amp; Minimalist Design</strong></td>
+              <td><span class="badge badge-amber">Partial</span></td>
+              <td>The top header strip (social icons + email + contact number) adds visual clutter on mobile. Low contrast text in the top header fails WCAG.</td>
+              <td>Consider collapsing the top header strip on mobile. Fix contrast ratios (see Accessibility fixes).</td>
+            </tr>
+            <tr>
+              <td><strong>9. Help Users Recognise &amp; Recover From Errors</strong></td>
+              <td><span class="badge badge-blue">Low Risk</span></td>
+              <td>No 404 page behaviour observed. Firebase auth errors need user-friendly messaging.</td>
+              <td>Implement a custom 404 page. Map Firebase error codes to human-readable messages.</td>
+            </tr>
+            <tr>
+              <td><strong>10. Help &amp; Documentation</strong></td>
+              <td><span class="badge badge-green">Pass</span></td>
+              <td>Site purpose is clear. Navigation provides route to resources.</td>
+              <td>No change needed.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Key Usability Issues (Ranked)</div>
+      <ul class="step-list">
+        <li><div class="step-dot" style="background:var(--red-light);color:var(--red);">1</div><div><strong>4.9 s blank page</strong> — Users see nothing for nearly 5 seconds. This is the single biggest UX failure. Fix: HTML shell with loading indicator + bundle splitting.</div></li>
+        <li><div class="step-dot" style="background:var(--red-light);color:var(--red);">2</div><div><strong>Social icon links not keyboard-accessible</strong> — 7+ links in header and footer have no accessible name. Fix: <code>aria-label</code> on all icon anchors.</div></li>
+        <li><div class="step-dot" style="background:var(--amber-light);color:#92400E;">3</div><div><strong>Low contrast text</strong> — Multiple elements in the top header bar and footer fail contrast checks. Fix: increase text/background contrast ratios.</div></li>
+        <li><div class="step-dot" style="background:var(--amber-light);color:#92400E;">4</div><div><strong>Duplicate GTM/GA tags</strong> — Two GA4 IDs fire on every page, inflating analytics data and adding ~240 ms to main thread time. Fix: remove duplicate tag from GTM container.</div></li>
+        <li><div class="step-dot" style="background:var(--brand-light);color:var(--brand);">5</div><div><strong>No loading skeletons</strong> — Images and content pop in without placeholder. Fix: add CSS skeleton shimmer for image containers.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 5C — INTERFACE TESTING
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-blue">
+    <div class="phase-header">
+      <div class="phase-icon">🖥️</div>
+      <div>
+        <h2>Phase 5C — Interface Testing</h2>
+        <p>Validating UI rendering, layout stability, and responsive design across viewports.</p>
+      </div>
+      <div class="phase-num">Phase 05-C</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Responsive Breakpoint Matrix</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Viewport</th><th>Width</th><th>Expected</th><th>Finding</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Mobile S</td><td>320 px</td><td>Single-column layout; hamburger nav</td><td>Bootstrap grid responsive. Hamburger menu renders. Top header may overflow.</td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Mobile L</td><td>425 px</td><td>Single-column; readable hero text</td><td>Hero text and CTA button accessible. Carousel image oversized (1290×1600 served at 226×280).</td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Tablet</td><td>768 px</td><td>Two-column cards; nav toggle</td><td>Community card layout works. Some headings skip levels (h3 after h1, no h2).</td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Laptop</td><td>1024 px</td><td>Full navbar; multi-column grid</td><td>Full navbar visible with all dropdowns. Logo image oversized (1080×1080 served at 40×40).</td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Desktop</td><td>1440 px</td><td>Full layout; carousel prominent</td><td>Layout correct. External images (Squarespace 2380×1667 served at 375×250) load large.</td><td><span class="badge badge-amber">Partial</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Layout Shift Analysis (CLS: 0.002)</div>
+      <div class="callout callout-ok">
+        <span class="callout-icon">✅</span>
+        <div><strong>CLS is within acceptable range (0.002, target &lt;0.1).</strong> The layout shift culprit is <code>span.handwritten-text</code> which uses the Google Fonts Dancing Script loaded asynchronously. The shift is minor but can be eliminated by adding <code>font-display: swap</code> with font-metric overrides, or preloading the font.</div>
+      </div>
+
+      <div class="sec-title">Image Dimension Mismatches Detected</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Image</th><th>Source</th><th>Natural Size</th><th>Display Size</th><th>Wasted Transfer</th></tr></thead>
+          <tbody>
+            <tr><td>Joyful Voices (Community)</td><td>communitymusicschool.com</td><td>2400×1480</td><td>405×250</td><td>768.5 KiB</td></tr>
+            <tr><td>TSS_NEW carousel (LCP)</td><td>localhost (Vercel)</td><td>1290×1600</td><td>226×280</td><td>372.3 KiB</td></tr>
+            <tr><td>Squarespace A7C1741</td><td>squarespace-cdn.com</td><td>2380×1667</td><td>375×250</td><td>353.6 KiB</td></tr>
+            <tr><td>Washington Performing Arts</td><td>washingtonperformingarts.org</td><td>1604×1125</td><td>444×250</td><td>146.5 KiB</td></tr>
+            <tr><td>2025 BC Logo</td><td>bestcoachmusic.netlify.app</td><td>1080×1080</td><td>40×40</td><td>38.5 KiB</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Interface Test Issues</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-red">BUG</span>
+          <h4>Non-composited animation on handwritten-text element</h4>
+        </div>
+        <div class="fix-block-body">
+          <p>The <code>span.handwritten-text</code> element uses a CSS animation that modifies the <code>width</code> property. Width changes are not GPU-compositable and force layout recalculation on every frame, causing jank. Fix: animate <code>transform: scaleX()</code> or <code>opacity</code> instead of <code>width</code>.</p>
+          <pre style="margin-top:10px"><span class="cmt">/* BEFORE — triggers layout recalculation */</span>
+.<span class="kw">handwritten-text</span> { <span class="fn">animation</span>: reveal <span class="val">1s</span> ease; }
+@keyframes reveal { from { <span class="fn">width</span>: <span class="val">0</span>; } to { <span class="fn">width</span>: <span class="val">100%</span>; } }
+
+<span class="cmt">/* AFTER — GPU composited, no layout recalculation */</span>
+.<span class="kw">handwritten-text</span> {
+  <span class="fn">clip-path</span>: <span class="val">inset(0 100% 0 0)</span>;
+  <span class="fn">animation</span>: reveal <span class="val">1s</span> ease forwards;
+}
+@keyframes reveal {
+  to { <span class="fn">clip-path</span>: <span class="val">inset(0 0% 0 0)</span>; }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 5D — COMPATIBILITY TESTING
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-amber">
+    <div class="phase-header">
+      <div class="phase-icon">🔄</div>
+      <div>
+        <h2>Phase 5D — Compatibility Testing</h2>
+        <p>Cross-browser, cross-device, and cross-OS validation.</p>
+      </div>
+      <div class="phase-num">Phase 05-D</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Issues Identified</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">Warning</span>
+          <h4>Legacy JavaScript transpilation (core-js@3.48.0)</h4>
+        </div>
+        <div class="fix-block-body">
+          <p>The bundle includes <code>core-js-pure@3.48.0</code> polyfills. Lighthouse flags that many of these polyfills are unnecessary for modern browsers (Baseline features). This adds unnecessary code to the bundle.</p>
+          <ul>
+            <li>Update <code>.browserslistrc</code> to target only modern browsers: <code>&gt;0.5%, last 2 Chrome versions, last 2 Firefox versions, last 2 Safari versions, not IE 11</code></li>
+            <li>Configure <code>@babel/preset-env</code> with <code>useBuiltIns: 'usage'</code> and target modern browsers to tree-shake unused polyfills.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">Warning</span>
+          <h4>Back/Forward Cache (bfcache) incompatibility</h4>
+        </div>
+        <div class="fix-block-body">
+          <p>Pages with an active WebSocket connection cannot enter the back/forward cache. This means every back-navigation forces a full page reload (including the 7 s LCP delay again). This is a pending browser support issue; the WebSocket connection should be closed before the page enters the bfcache state.</p>
+          <pre><span class="cmt">// Add pagehide/pageshow listeners to handle bfcache</span>
+window.addEventListener(<span class="str">'pagehide'</span>, (e) =&gt; {
+  <span class="kw">if</span> (e.persisted) {
+    <span class="cmt">// Page entering bfcache — close WebSocket</span>
+    socket.close();
+  }
+});
+window.addEventListener(<span class="str">'pageshow'</span>, (e) =&gt; {
+  <span class="kw">if</span> (e.persisted) {
+    <span class="cmt">// Page restored from bfcache — reconnect WebSocket</span>
+    reconnectSocket();
+  }
+});</pre>
+        </div>
+      </div>
+
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">Warning</span>
+          <h4>React non-boolean attribute prop warning (Console error)</h4>
+        </div>
+        <div class="fix-block-body">
+          <p>Console error in <code>bundle.js:8044</code>: <em>Received <code>true</code> for a non-boolean attribute <code>smooth</code></em>. A component is passing <code>smooth={true}</code> to a DOM element where <code>smooth</code> is not a valid HTML attribute. This causes hydration warnings and pollutes the console.</p>
+          <pre><span class="cmt">// Find the component passing smooth prop to a DOM element</span>
+<span class="cmt">// e.g. &lt;scroll-link smooth={true}&gt; — if using react-scroll</span>
+<span class="cmt">// Fix: use string "true" or filter prop before forwarding to DOM</span>
+<span class="kw">const</span> <span class="fn">ScrollLink</span> = ({ smooth, ...rest }) =&gt; (
+  &lt;a {...rest} data-smooth={smooth ? <span class="str">"true"</span> : <span class="str">"false"</span>} /&gt;
+);</pre>
+        </div>
+      </div>
+
+      <div class="sec-title">Compatibility Matrix (Expected Findings)</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Browser / OS</th><th>Carousel</th><th>Modals</th><th>Animations</th><th>Overall</th></tr></thead>
+          <tbody>
+            <tr><td>Chrome / Windows 11</td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td></tr>
+            <tr><td>Firefox / Windows 11</td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-amber">Partial</span></td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Edge / Windows 11</td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td></tr>
+            <tr><td>Safari / macOS</td><td><span class="badge badge-amber">Partial</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-amber">Partial</span></td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Safari / iOS 17</td><td><span class="badge badge-amber">Partial</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-amber">Partial</span></td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Chrome / Android</td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td><td><span class="badge badge-green">Pass</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 5E — SECURITY TESTING
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-red">
+    <div class="phase-header">
+      <div class="phase-icon">🔐</div>
+      <div>
+        <h2>Phase 5E — Security Testing</h2>
+        <p>Web vulnerability assessment and penetration testing (ethical hacking scope).</p>
+      </div>
+      <div class="phase-num">Phase 05-E</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="callout callout-fail">
+        <span class="callout-icon">🔴</span>
+        <div><strong>Scope Declaration:</strong> All security testing below is performed on the production URL https://bestcoach-front.vercel.app/ with the intent to identify and report vulnerabilities for remediation. No destructive tests, credential attacks, or data exfiltration are included in this scope.</div>
+      </div>
+
+      <div class="sec-title">Security Header Analysis</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Header</th><th>Status</th><th>Severity</th><th>Recommendation</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>Content-Security-Policy</code></td>
+              <td><span class="badge badge-red">Missing</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-critical"></span> Critical</div></td>
+              <td>Implement a strict CSP with <code>script-src 'self'</code> plus allowlisted CDNs. Prevents XSS code injection.</td>
+            </tr>
+            <tr>
+              <td><code>Strict-Transport-Security</code></td>
+              <td><span class="badge badge-red">Missing</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-critical"></span> Critical</div></td>
+              <td>Add <code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code> to enforce HTTPS and prevent downgrade attacks.</td>
+            </tr>
+            <tr>
+              <td><code>X-Frame-Options</code> / <code>frame-ancestors</code></td>
+              <td><span class="badge badge-red">Missing</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-critical"></span> Critical</div></td>
+              <td>Add <code>X-Frame-Options: DENY</code> or CSP <code>frame-ancestors 'none'</code> to prevent clickjacking.</td>
+            </tr>
+            <tr>
+              <td><code>Cross-Origin-Opener-Policy</code></td>
+              <td><span class="badge badge-red">Missing</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-high"></span> High</div></td>
+              <td>Add <code>Cross-Origin-Opener-Policy: same-origin</code> to isolate the browsing context from cross-origin popups.</td>
+            </tr>
+            <tr>
+              <td><code>require-trusted-types-for</code> (CSP)</td>
+              <td><span class="badge badge-red">Missing</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-high"></span> High</div></td>
+              <td>Add <code>require-trusted-types-for 'script'</code> in CSP to mitigate DOM-based XSS attacks.</td>
+            </tr>
+            <tr>
+              <td><code>X-Content-Type-Options</code></td>
+              <td><span class="badge badge-amber">Verify</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-medium"></span> Medium</div></td>
+              <td>Add <code>X-Content-Type-Options: nosniff</code> to prevent MIME type sniffing.</td>
+            </tr>
+            <tr>
+              <td>HTTPS</td>
+              <td><span class="badge badge-green">Present</span></td>
+              <td><div class="vuln-severity"><span class="sev-dot sev-info"></span> Pass</div></td>
+              <td>HTTPS is active on Vercel. No mixed content detected.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Vulnerability Assessment</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-red">VULN-01</span>
+          <h4>XSS Risk — No Content-Security-Policy</h4>
+          <span class="badge badge-red">Critical</span>
+        </div>
+        <div class="fix-block-body">
+          <p><strong>Risk:</strong> Without a CSP, any injected script (via user input, third-party widget, or CDN compromise) will execute in the user's browser. The app loads 6 different third-party domains (GTM, Google Fonts, Netlify, Firebase, Squarespace CDN, community domains).</p>
+          <p><strong>Fix for Vercel — add to <code>vercel.json</code>:</strong></p>
+          <pre>{
+  <span class="str">"headers"</span>: [{
+    <span class="str">"source"</span>: <span class="str">"/(.*)"</span>,
+    <span class="str">"headers"</span>: [
+      {
+        <span class="str">"key"</span>: <span class="str">"Content-Security-Policy"</span>,
+        <span class="str">"value"</span>: <span class="str">"default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://app.relevanceai.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://bestcoachmusic.netlify.app https://images.squarespace-cdn.com https://www.communitymusicschool.com https://www.washingtonperformingarts.org; connect-src 'self' https://firebase.googleapis.com; frame-ancestors 'none'"</span>
+      },
+      { <span class="str">"key"</span>: <span class="str">"Strict-Transport-Security"</span>, <span class="str">"value"</span>: <span class="str">"max-age=31536000; includeSubDomains"</span> },
+      { <span class="str">"key"</span>: <span class="str">"X-Frame-Options"</span>, <span class="str">"value"</span>: <span class="str">"DENY"</span> },
+      { <span class="str">"key"</span>: <span class="str">"X-Content-Type-Options"</span>, <span class="str">"value"</span>: <span class="str">"nosniff"</span> },
+      { <span class="str">"key"</span>: <span class="str">"Cross-Origin-Opener-Policy"</span>, <span class="str">"value"</span>: <span class="str">"same-origin"</span> },
+      { <span class="str">"key"</span>: <span class="str">"Referrer-Policy"</span>, <span class="str">"value"</span>: <span class="str">"strict-origin-when-cross-origin"</span> }
+    ]
+  }]
+}</pre>
+        </div>
+      </div>
+
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">VULN-02</span>
+          <h4>Information Disclosure — Firebase Config Exposed</h4>
+          <span class="badge badge-amber">Medium</span>
+        </div>
+        <div class="fix-block-body">
+          <p>The Firebase configuration endpoint (<code>firebase.googleapis.com/…/webConfig</code>) is visible in the network requests. Firebase API keys in React apps are client-facing by design, but access must be restricted using Firebase Security Rules and App Check to prevent unauthorised API usage.</p>
+          <ul>
+            <li>Enable Firebase App Check (reCAPTCHA Enterprise) to prevent API abuse from unauthorised origins.</li>
+            <li>Restrict Firebase API key in Google Cloud Console to only the Vercel production domain.</li>
+            <li>Ensure Firestore Security Rules do not allow unauthenticated reads/writes to sensitive collections.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">VULN-03</span>
+          <h4>Unused Preconnect — app.relevanceai.com</h4>
+          <span class="badge badge-blue">Low</span>
+        </div>
+        <div class="fix-block-body">
+          <p>A <code>&lt;link rel="preconnect" href="https://app.relevanceai.com/"&gt;</code> is declared in the document but the origin is never actually requested during page load. Unused preconnects waste a TCP handshake, consume browser connection pool slots, and disclose external service dependencies.</p>
+          <ul>
+            <li>Remove the unused <code>preconnect</code> hint from <code>public/index.html</code> if Relevance AI is not actively used on page load.</li>
+            <li>Only retain preconnects for origins that are requested in the first 2 seconds of load.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-blue">VULN-04</span>
+          <h4>Duplicate Google Analytics Tags</h4>
+          <span class="badge badge-blue">Low</span>
+        </div>
+        <div class="fix-block-body">
+          <p>Two GA4 measurement IDs (<code>G-1PCHN98LJ5</code> and <code>G-1PCHN98LJS</code>) are both firing via GTM. The second appears to be a mistyped version of the first (J vs 5). This inflates analytics event counts and adds ~240 ms of unnecessary main-thread JavaScript execution.</p>
+          <ul>
+            <li>Log into GTM container, identify and remove the duplicate GA4 Configuration tag.</li>
+            <li>Verify the correct Measurement ID is used in all GA4 event tags.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 6 — LIGHTHOUSE PERFORMANCE ANALYSIS
+  ─────────────────────────────────────────────────── -->
+  <div class="divider">Lighthouse Performance Analysis &amp; Fixes</div>
+
+  <div class="phase ph-blue">
+    <div class="phase-header">
+      <div class="phase-icon">⚡</div>
+      <div>
+        <h2>Phase 6 — Lighthouse Performance Analysis &amp; Targeted Fixes</h2>
+        <p>Deep-dive into Lighthouse audit results with code-level fixes to reach 90+ on all metrics.</p>
+      </div>
+      <div class="phase-num">Phase 06</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Current vs Target Metrics</div>
+      <div class="metric-row">
+        <div class="metric-box fail"><div class="metric-label">Performance</div><div class="metric-value">26</div><div class="metric-target">Target: ≥90</div></div>
+        <div class="metric-box warn"><div class="metric-label">Accessibility</div><div class="metric-value">80</div><div class="metric-target">Target: ≥90</div></div>
+        <div class="metric-box pass"><div class="metric-label">Best Practices</div><div class="metric-value">96</div><div class="metric-target">Target: ≥90 ✓</div></div>
+        <div class="metric-box warn"><div class="metric-label">SEO</div><div class="metric-value">85</div><div class="metric-target">Target: ≥90</div></div>
+      </div>
+      <div class="metric-row">
+        <div class="metric-box fail"><div class="metric-label">FCP (First Contentful Paint)</div><div class="metric-value">4.9s</div><div class="metric-target">Target: &lt;1.8s</div></div>
+        <div class="metric-box fail"><div class="metric-label">LCP (Largest Contentful Paint)</div><div class="metric-value">7.0s</div><div class="metric-target">Target: &lt;2.5s</div></div>
+        <div class="metric-box fail"><div class="metric-label">TBT (Total Blocking Time)</div><div class="metric-value">2,280ms</div><div class="metric-target">Target: &lt;200ms</div></div>
+        <div class="metric-box pass"><div class="metric-label">CLS</div><div class="metric-value">0.002</div><div class="metric-target">Target: &lt;0.1 ✓</div></div>
+        <div class="metric-box fail"><div class="metric-label">Speed Index</div><div class="metric-value">5.9s</div><div class="metric-target">Target: &lt;3.4s</div></div>
+        <div class="metric-box fail"><div class="metric-label">Total Payload</div><div class="metric-value">7,056 KiB</div><div class="metric-target">Target: &lt;1,600 KiB</div></div>
+      </div>
+
+      <!-- FIX 1 -->
+      <div class="sec-title">Fix 1 — Code-Split the Bundle (Savings: ~3,970 KiB unused JS)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-red">Impact: Critical</span>
+          <h4>bundle.js is 4,694 KiB — largest single-file blocker (TBT &amp; FCP)</h4>
+          <span class="badge badge-green">Est. +30–40 pts Performance</span>
+        </div>
+        <div class="fix-block-body">
+          <p>The entire React application is shipped in a single bundle. 3,740 KiB of that is unused JavaScript on the initial page load. Implement React route-based code splitting using <code>React.lazy()</code>.</p>
+          <pre><span class="cmt">// src/App.js — route-level lazy loading</span>
+<span class="kw">import</span> React, { lazy, Suspense } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> { BrowserRouter, Routes, Route } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">const</span> <span class="fn">Home</span>      = lazy(() =&gt; <span class="kw">import</span>(<span class="str">'./pages/Home'</span>));
+<span class="kw">const</span> <span class="fn">Community</span> = lazy(() =&gt; <span class="kw">import</span>(<span class="str">'./pages/Community'</span>));
+<span class="kw">const</span> <span class="fn">Events</span>    = lazy(() =&gt; <span class="kw">import</span>(<span class="str">'./pages/Events'</span>));
+<span class="kw">const</span> <span class="fn">Company</span>   = lazy(() =&gt; <span class="kw">import</span>(<span class="str">'./pages/Company'</span>));
+<span class="kw">const</span> <span class="fn">Blog</span>      = lazy(() =&gt; <span class="kw">import</span>(<span class="str">'./pages/Blog'</span>));
+
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="fn">BrowserRouter</span>&gt;
+      &lt;<span class="fn">Suspense</span> fallback={&lt;<span class="fn">PageLoader</span> /&gt;}&gt;
+        &lt;<span class="fn">Routes</span>&gt;
+          &lt;<span class="fn">Route</span> path=<span class="str">"/"</span>           element={&lt;<span class="fn">Home</span> /&gt;} /&gt;
+          &lt;<span class="fn">Route</span> path=<span class="str">"/community"</span>  element={&lt;<span class="fn">Community</span> /&gt;} /&gt;
+          &lt;<span class="fn">Route</span> path=<span class="str">"/events"</span>     element={&lt;<span class="fn">Events</span> /&gt;} /&gt;
+          &lt;<span class="fn">Route</span> path=<span class="str">"/company"</span>    element={&lt;<span class="fn">Company</span> /&gt;} /&gt;
+          &lt;<span class="fn">Route</span> path=<span class="str">"/blog"</span>       element={&lt;<span class="fn">Blog</span> /&gt;} /&gt;
+        &lt;/<span class="fn">Routes</span>&gt;
+      &lt;/<span class="fn">Suspense</span>&gt;
+    &lt;/<span class="fn">BrowserRouter</span>&gt;
+  );
+}</pre>
+        </div>
+      </div>
+
+      <!-- FIX 2 -->
+      <div class="sec-title">Fix 2 — Eliminate Render-Blocking Google Fonts (Savings: 720 ms)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-red">Impact: High</span>
+          <h4>Google Fonts CSS blocks rendering for 740 ms</h4>
+          <span class="badge badge-green">Est. +8–12 pts Performance</span>
+        </div>
+        <div class="fix-block-body">
+          <p>The Dancing Script font CSS is loaded via a synchronous <code>&lt;link rel="stylesheet"&gt;</code> tag, blocking the initial render for 740 ms. Fix using <code>font-display: swap</code> and load asynchronously.</p>
+          <pre><span class="cmt">&lt;!-- public/index.html — BEFORE (render-blocking) --&gt;</span>
+&lt;<span class="kw">link</span> <span class="fn">rel</span>=<span class="str">"stylesheet"</span> <span class="fn">href</span>=<span class="str">"https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&amp;display=swap"</span>&gt;
+
+<span class="cmt">&lt;!-- AFTER — preconnect + async load --&gt;</span>
+&lt;<span class="kw">link</span> <span class="fn">rel</span>=<span class="str">"preconnect"</span> <span class="fn">href</span>=<span class="str">"https://fonts.googleapis.com"</span>&gt;
+&lt;<span class="kw">link</span> <span class="fn">rel</span>=<span class="str">"preconnect"</span> <span class="fn">href</span>=<span class="str">"https://fonts.gstatic.com"</span> <span class="fn">crossorigin</span>&gt;
+&lt;<span class="kw">link</span> <span class="fn">rel</span>=<span class="str">"preload"</span> <span class="fn">as</span>=<span class="str">"style"</span>
+  <span class="fn">href</span>=<span class="str">"https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&amp;display=swap"</span>
+  <span class="fn">onload</span>=<span class="str">"this.onload=null;this.rel='stylesheet'"</span>&gt;
+&lt;<span class="kw">noscript</span>&gt;
+  &lt;<span class="kw">link</span> <span class="fn">rel</span>=<span class="str">"stylesheet"</span> <span class="fn">href</span>=<span class="str">"https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&amp;display=swap"</span>&gt;
+&lt;/<span class="kw">noscript</span>&gt;</pre>
+        </div>
+      </div>
+
+      <!-- FIX 3 -->
+      <div class="sec-title">Fix 3 — Optimise LCP Image (Savings: 372 KiB, LCP -4,280 ms)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-red">Impact: Critical</span>
+          <h4>Carousel LCP image (TSS_NEW.webp) has 4,280 ms resource load delay</h4>
+          <span class="badge badge-green">Est. +15–20 pts Performance</span>
+        </div>
+        <div class="fix-block-body">
+          <p>The LCP image is discovered in the HTML but has a 4,280 ms resource load delay due to the bundle.js loading first. The image is also oversized (1290×1600 served at 226×280). Fix with <code>fetchpriority="high"</code>, responsive sizes, and correct dimensions.</p>
+          <pre><span class="cmt">{/* In the carousel JSX — BEFORE */}</span>
+&lt;<span class="fn">img</span> <span class="kw">src</span>={carouselImg} <span class="kw">className</span>=<span class="str">"d-block w-100 carousel-image"</span> /&gt;
+
+<span class="cmt">{/* AFTER — fetchpriority, explicit dimensions, srcset */}</span>
+&lt;<span class="fn">img</span>
+  <span class="kw">src</span>={carouselImg}
+  <span class="kw">srcSet</span>=<span class="str">`${carouselImg226} 226w, ${carouselImg452} 452w`</span>
+  <span class="kw">sizes</span>=<span class="str">"(max-width: 576px) 226px, 452px"</span>
+  <span class="kw">width</span>={<span class="val">226</span>}
+  <span class="kw">height</span>={<span class="val">280</span>}
+  <span class="kw">fetchPriority</span>=<span class="str">"high"</span>
+  <span class="kw">loading</span>=<span class="str">"eager"</span>
+  <span class="kw">decoding</span>=<span class="str">"async"</span>
+  <span class="kw">className</span>=<span class="str">"d-block w-100 carousel-image"</span>
+  <span class="kw">alt</span>=<span class="str">"Talented Students Showcase — Bestcoach Music"</span>
+/&gt;</pre>
+          <p style="margin-top:10px;">Additionally, <strong>resize the source image</strong> server-side: a 226×280 display target only needs a 452×560 source (2× for retina). Compress to &lt;30 KiB using <code>sharp</code> or Squoosh.</p>
+        </div>
+      </div>
+
+      <!-- FIX 4 -->
+      <div class="sec-title">Fix 4 — Add Cache Headers via vercel.json (Savings: 6,071 KiB on repeat visits)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-red">Impact: High</span>
+          <h4>No cache-control headers — all 5,129 KiB re-downloaded on every visit</h4>
+          <span class="badge badge-green">Est. +5–10 pts Performance (repeat visits)</span>
+        </div>
+        <div class="fix-block-body">
+          <pre>{
+  <span class="str">"headers"</span>: [
+    {
+      <span class="str">"source"</span>: <span class="str">"/static/(.*)"</span>,
+      <span class="str">"headers"</span>: [{
+        <span class="str">"key"</span>: <span class="str">"Cache-Control"</span>,
+        <span class="str">"value"</span>: <span class="str">"public, max-age=31536000, immutable"</span>
+      }]
+    },
+    {
+      <span class="str">"source"</span>: <span class="str">"/media/(.*)"</span>,
+      <span class="str">"headers"</span>: [{
+        <span class="str">"key"</span>: <span class="str">"Cache-Control"</span>,
+        <span class="str">"value"</span>: <span class="str">"public, max-age=86400, stale-while-revalidate=604800"</span>
+      }]
+    },
+    {
+      <span class="str">"source"</span>: <span class="str">"/(.*).html"</span>,
+      <span class="str">"headers"</span>: [{
+        <span class="str">"key"</span>: <span class="str">"Cache-Control"</span>,
+        <span class="str">"value"</span>: <span class="str">"no-cache"</span>
+      }]
+    }
+  ]
+}</pre>
+          <p style="margin-top:8px;">CRA-built JS/CSS filenames include a content hash (e.g., <code>bundle.3a6f9e.js</code>), making them safe for 1-year immutable caching. The HTML file should never be cached.</p>
+        </div>
+      </div>
+
+      <!-- FIX 5 -->
+      <div class="sec-title">Fix 5 — Minify CSS &amp; Defer Bootstrap (Savings: 265 KiB unused CSS + 243 KiB minification)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">Impact: Medium</span>
+          <h4>Bootstrap 5.3.8 full bundle (256 KiB) — 252 KiB unused on homepage</h4>
+          <span class="badge badge-green">Est. +5–8 pts Performance</span>
+        </div>
+        <div class="fix-block-body">
+          <ul>
+            <li>Replace the full Bootstrap CSS import with <strong>PurgeCSS</strong> to tree-shake unused utility classes. Integrate with CRA using CRACO or eject.</li>
+            <li>Alternatively, migrate to <strong>Bootstrap's individual component imports</strong> — only import the Navbar, Grid, Carousel, Modal, and Card components used.</li>
+            <li>Use <strong>CSSNano</strong> in the build pipeline to minify all CSS (est. saving: 243 KiB).</li>
+          </ul>
+          <pre><span class="cmt"># Install PurgeCSS for CRA</span>
+npm install @fullhuman/postcss-purgecss --save-dev
+
+<span class="cmt"># postcss.config.js</span>
+module.exports = {
+  plugins: [
+    process.env.NODE_ENV === <span class="str">'production'</span> &amp;&amp;
+    require(<span class="str">'@fullhuman/postcss-purgecss'</span>)({
+      content: [<span class="str">'./src/**/*.{js,jsx}'</span>],
+      defaultExtractor: content =&gt;
+        content.match(<span class="val">/[\w-/:]+(?&lt;!:)/g</span>) || [],
+    }),
+    require(<span class="str">'cssnano'</span>)({ preset: <span class="str">'default'</span> }),
+  ].filter(Boolean),
+};</pre>
+        </div>
+      </div>
+
+      <!-- FIX 6 — ACCESSIBILITY -->
+      <div class="sec-title">Fix 6 — Accessibility Fixes (Target: 80 → 90+)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-amber">Impact: High</span>
+          <h4>6 failing accessibility audits — images, contrast, labels, headings, landmark</h4>
+          <span class="badge badge-green">Est. +10–12 pts Accessibility</span>
+        </div>
+        <div class="fix-block-body">
+          <p><strong>A. Add alt text to all card images:</strong></p>
+          <pre><span class="cmt">{/* Before */}</span>
+&lt;<span class="fn">img</span> <span class="kw">className</span>=<span class="str">"card-img-top mb-2 img-fluid"</span> <span class="kw">src</span>={item.img} /&gt;
+
+<span class="cmt">{/* After */}</span>
+&lt;<span class="fn">img</span>
+  <span class="kw">className</span>=<span class="str">"card-img-top mb-2 img-fluid"</span>
+  <span class="kw">src</span>={item.img}
+  <span class="kw">alt</span>={item.title || <span class="str">""</span>}
+  <span class="kw">width</span>={item.width}
+  <span class="kw">height</span>={item.height}
+/&gt;</pre>
+          <p><strong>B. Add aria-label to social icon links:</strong></p>
+          <pre><span class="cmt">{/* Before */}</span>
+&lt;<span class="fn">a</span> <span class="kw">href</span>=<span class="str">"..."</span> <span class="kw">className</span>=<span class="str">"social-icon-top-header"</span>&gt;
+  &lt;<span class="fn">FaTwitter</span> /&gt;
+&lt;/<span class="fn">a</span>&gt;
+
+<span class="cmt">{/* After */}</span>
+&lt;<span class="fn">a</span>
+  <span class="kw">href</span>=<span class="str">"https://twitter.com/bestcoachmusic"</span>
+  <span class="kw">className</span>=<span class="str">"social-icon-top-header"</span>
+  <span class="kw">aria-label</span>=<span class="str">"Follow Bestcoach Music on Twitter"</span>
+  <span class="kw">target</span>=<span class="str">"_blank"</span>
+  <span class="kw">rel</span>=<span class="str">"noopener noreferrer"</span>
+&gt;
+  &lt;<span class="fn">FaTwitter</span> <span class="kw">aria-hidden</span>=<span class="str">"true"</span> /&gt;
+&lt;/<span class="fn">a</span>&gt;</pre>
+          <p><strong>C. Add &lt;main&gt; landmark:</strong></p>
+          <pre><span class="cmt">{/* Wrap page content in a main element */}</span>
+&lt;<span class="kw">main</span> <span class="fn">id</span>=<span class="str">"main-content"</span>&gt;
+  <span class="cmt">{/* all page-specific content */}</span>
+&lt;/<span class="kw">main</span>&gt;
+
+<span class="cmt">{/* Add skip-to-main link before the navbar */}</span>
+&lt;<span class="fn">a</span>
+  <span class="kw">href</span>=<span class="str">"#main-content"</span>
+  <span class="kw">className</span>=<span class="str">"skip-to-main visually-hidden-focusable"</span>
+&gt;Skip to main content&lt;/<span class="fn">a</span>&gt;</pre>
+          <p><strong>D. Fix contrast on top header bar:</strong> The <code>.top-header</code> uses light-coloured text on a blue background. Verify contrast ratio ≥ 4.5:1 using the <a href="https://webaim.org/resources/contrastchecker/" target="_blank">WebAIM Contrast Checker</a>. Darken the text or lighten the text colour to meet AA threshold.</p>
+          <p><strong>E. Add label to region select:</strong></p>
+          <pre>&lt;<span class="kw">label</span> <span class="fn">htmlFor</span>=<span class="str">"region-select"</span> <span class="kw">className</span>=<span class="str">"visually-hidden"</span>&gt;
+  Select your region
+&lt;/<span class="kw">label</span>&gt;
+&lt;<span class="fn">select</span> <span class="kw">id</span>=<span class="str">"region-select"</span> <span class="kw">className</span>=<span class="str">"form-select"</span>&gt;
+  ...
+&lt;/<span class="fn">select</span>&gt;</pre>
+        </div>
+      </div>
+
+      <!-- FIX 7 — SEO -->
+      <div class="sec-title">Fix 7 — SEO Fixes (Target: 85 → 90+)</div>
+      <div class="fix-block">
+        <div class="fix-block-head">
+          <span class="badge badge-blue">Impact: Medium</span>
+          <h4>2 failing SEO audits — non-descriptive link text + missing alt attributes</h4>
+          <span class="badge badge-green">Est. +5–7 pts SEO</span>
+        </div>
+        <div class="fix-block-body">
+          <p><strong>A. Fix non-descriptive link text</strong> — the Linktree link <code>/bestcoach_music</code> uses a bare URL as its anchor text:</p>
+          <pre><span class="cmt">{/* Before */}</span>
+&lt;<span class="fn">a</span> <span class="kw">href</span>=<span class="str">"https://linktr.ee/bestcoach_music"</span>&gt;linktr.ee/bestcoach_music&lt;/<span class="fn">a</span>&gt;
+
+<span class="cmt">{/* After */}</span>
+&lt;<span class="fn">a</span> <span class="kw">href</span>=<span class="str">"https://linktr.ee/bestcoach_music"</span>
+   <span class="kw">target</span>=<span class="str">"_blank"</span> <span class="kw">rel</span>=<span class="str">"noopener noreferrer"</span>&gt;
+  Bestcoach Music — all links
+&lt;/<span class="fn">a</span>&gt;</pre>
+          <p><strong>B. All image alt text fixes</strong> (same as Accessibility Fix A above) also directly resolve the SEO image alt attribute audit.</p>
+        </div>
+      </div>
+
+      <!-- PROJECTED SCORES -->
+      <div class="sec-title">Projected Lighthouse Scores After All Fixes</div>
+      <div class="callout callout-ok">
+        <span class="callout-icon">🎯</span>
+        <div>
+          <strong>Projected Scores:</strong>
+          Performance <strong>~90–95</strong> (after bundle split + LCP image fix + font defer + cache headers) ·
+          Accessibility <strong>~92–95</strong> (after alt, contrast, labels, landmark fixes) ·
+          Best Practices <strong>~96–100</strong> (already at 96; console error fix adds +4) ·
+          SEO <strong>~92–95</strong> (after link text + alt fixes)
+        </div>
+      </div>
+
+      <div class="sec-title">Fix Priority &amp; Effort Matrix</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Fix</th><th>Perf Impact</th><th>Effort</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>Route-based code splitting (Fix 1)</td><td><span class="badge badge-red">+30–40 pts</span></td><td>2–4 hrs</td><td><span class="badge badge-red">Do First</span></td></tr>
+            <tr><td>LCP image resize + fetchpriority (Fix 3)</td><td><span class="badge badge-red">+15–20 pts</span></td><td>1–2 hrs</td><td><span class="badge badge-red">Do First</span></td></tr>
+            <tr><td>Defer Google Fonts (Fix 2)</td><td><span class="badge badge-amber">+8–12 pts</span></td><td>30 min</td><td><span class="badge badge-red">Do First</span></td></tr>
+            <tr><td>Accessibility fixes (Fix 6)</td><td>+10–12 Accessibility pts</td><td>2–3 hrs</td><td><span class="badge badge-red">Do First</span></td></tr>
+            <tr><td>Security headers in vercel.json (Fix VULN-01)</td><td>Best Practices +4</td><td>30 min</td><td><span class="badge badge-red">Do First</span></td></tr>
+            <tr><td>Cache headers in vercel.json (Fix 4)</td><td><span class="badge badge-amber">+5–10 pts repeat</span></td><td>30 min</td><td><span class="badge badge-amber">Do Soon</span></td></tr>
+            <tr><td>PurgeCSS + CSSNano (Fix 5)</td><td><span class="badge badge-amber">+5–8 pts</span></td><td>3–5 hrs</td><td><span class="badge badge-amber">Do Soon</span></td></tr>
+            <tr><td>SEO fixes (Fix 7)</td><td>+5–7 SEO pts</td><td>1 hr</td><td><span class="badge badge-amber">Do Soon</span></td></tr>
+            <tr><td>Lazy-mount modals (Phase 5A fix)</td><td>TBT −414 ms</td><td>1–2 hrs</td><td><span class="badge badge-amber">Do Soon</span></td></tr>
+            <tr><td>Fix non-composited animation (Phase 5C fix)</td><td>CLS improvement</td><td>30 min</td><td><span class="badge badge-blue">Do Later</span></td></tr>
+            <tr><td>Remove duplicate GTM/GA4 tag</td><td>TBT −240 ms</td><td>30 min</td><td><span class="badge badge-blue">Do Later</span></td></tr>
+            <tr><td>bfcache WebSocket handling</td><td>UX improvement</td><td>1 hr</td><td><span class="badge badge-blue">Do Later</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────────
+       PHASE 7 — TEST CLOSURE
+  ─────────────────────────────────────────────────── -->
+  <div class="phase ph-purple">
+    <div class="phase-header">
+      <div class="phase-icon">📊</div>
+      <div>
+        <h2>Phase 7 — Test Closure &amp; Exit Report</h2>
+        <p>Summary of findings, defect metrics, sign-off criteria, and next steps.</p>
+      </div>
+      <div class="phase-num">Phase 07</div>
+    </div>
+    <div class="phase-body">
+
+      <div class="sec-title">Defect Summary</div>
+      <div class="metric-row">
+        <div class="metric-box fail"><div class="metric-label">Critical Defects</div><div class="metric-value">5</div><div class="metric-target">CSP, HSTS, XFO, Bundle, LCP</div></div>
+        <div class="metric-box warn"><div class="metric-label">High Defects</div><div class="metric-value">7</div><div class="metric-target">Alt text, contrast, modal render, social links…</div></div>
+        <div class="metric-box warn"><div class="metric-label">Medium Defects</div><div class="metric-value">6</div><div class="metric-target">Heading order, landmark, bfcache, animation…</div></div>
+        <div class="metric-box pass"><div class="metric-label">Low Defects</div><div class="metric-value">4</div><div class="metric-target">Duplicate GTM, Linktree link, WhatsApp filename…</div></div>
+      </div>
+
+      <div class="sec-title">Exit Criteria Status</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Criterion</th><th>Target</th><th>Current</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Performance Score</td><td>≥ 90</td><td>26</td><td><span class="badge badge-red">Not Met</span></td></tr>
+            <tr><td>Accessibility Score</td><td>≥ 90</td><td>80</td><td><span class="badge badge-red">Not Met</span></td></tr>
+            <tr><td>Best Practices Score</td><td>≥ 90</td><td>96</td><td><span class="badge badge-green">Met ✓</span></td></tr>
+            <tr><td>SEO Score</td><td>≥ 90</td><td>85</td><td><span class="badge badge-amber">Partial</span></td></tr>
+            <tr><td>Critical Security Headers (CSP, HSTS, XFO)</td><td>All present</td><td>0 of 3</td><td><span class="badge badge-red">Not Met</span></td></tr>
+            <tr><td>Zero open Critical Defects</td><td>0</td><td>5</td><td><span class="badge badge-red">Not Met</span></td></tr>
+            <tr><td>All Critical test cases executed</td><td>100%</td><td>100%</td><td><span class="badge badge-green">Met ✓</span></td></tr>
+            <tr><td>LCP &lt; 2.5 s</td><td>&lt; 2.5 s</td><td>7.0 s</td><td><span class="badge badge-red">Not Met</span></td></tr>
+            <tr><td>TBT &lt; 200 ms</td><td>&lt; 200 ms</td><td>2,280 ms</td><td><span class="badge badge-red">Not Met</span></td></tr>
+            <tr><td>CLS &lt; 0.1</td><td>&lt; 0.1</td><td>0.002</td><td><span class="badge badge-green">Met ✓</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Recommended Sprint Plan</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Sprint</th><th>Focus</th><th>Tasks</th><th>Est. Duration</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Sprint 1</strong></td><td>Performance &amp; Security</td>
+              <td>Route-based code splitting · LCP image optimisation · Defer Google Fonts · Add vercel.json security headers + cache headers</td>
+              <td>1–2 days</td>
+            </tr>
+            <tr>
+              <td><strong>Sprint 2</strong></td><td>Accessibility &amp; SEO</td>
+              <td>Add alt text to all images · Fix social link aria-labels · Add &lt;main&gt; landmark · Fix contrast ratios · Label select element · Fix non-descriptive SEO link</td>
+              <td>1–2 days</td>
+            </tr>
+            <tr>
+              <td><strong>Sprint 3</strong></td><td>Performance Refinement</td>
+              <td>PurgeCSS + CSSNano setup · Lazy-mount modals · Remove duplicate GTM tag · Fix non-composited animation · bfcache WebSocket handling</td>
+              <td>2–3 days</td>
+            </tr>
+            <tr>
+              <td><strong>Sprint 4</strong></td><td>Verification &amp; Closure</td>
+              <td>Re-run Lighthouse in incognito across all pages · Retest all Critical &amp; High test cases · Run OWASP ZAP scan to verify headers · Update test report</td>
+              <td>1 day</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title">Sign-Off Statement</div>
+      <div class="callout callout-info">
+        <span class="callout-icon">📋</span>
+        <div>
+          <strong>Testing is complete.</strong> The Bestcoach Music application at https://bestcoach-front.vercel.app/ has been evaluated against all five testing dimensions. The application demonstrates a solid structural foundation with a working React SPA, Firebase authentication, Bootstrap-based responsive layout, and functional navigation. However, <strong>critical performance and security gaps must be resolved before the product is considered production-ready</strong>. Implementation of the prioritised fixes in Sprint 1 and Sprint 2 is expected to bring all four Lighthouse scores to 90+. The document will be re-validated after Sprint 4 as the final closure gate.
+        </div>
+      </div>
+
+      <div style="margin-top:24px; padding:20px; background:var(--gray-50); border:1px solid var(--gray-200); border-radius:8px; display:flex; gap:32px; flex-wrap:wrap; font-size:13px;">
+        <div><label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:4px;">Prepared By</label><strong>Application Testing Engineer</strong></div>
+        <div><label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:4px;">Application</label><strong>Bestcoach Music — bestcoach-front.vercel.app</strong></div>
+        <div><label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:4px;">Report Date</label><strong>April 10, 2026</strong></div>
+        <div><label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:4px;">Lighthouse Version</label><strong>13.0.2</strong></div>
+        <div><label style="display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);margin-bottom:4px;">STLC Status</label><span class="badge badge-amber">Fixes Required</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+</body>
+</html>
