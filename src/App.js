@@ -14,7 +14,7 @@ import { AuthProvider } from "./context/AuthContext";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-// ======================== LAZY LOADED PAGES (Code-Splitting) ========================
+// ======================== LAZY LOADED PAGES ========================
 const Home = lazy(() => import("./COMPONENTS/PAGES/HOME/Home"));
 const Package = lazy(() => import("./COMPONENTS/PAGES/PACKAGES/Package"));
 const Links = lazy(() => import("./COMPONENTS/PAGES/QUICK-LINKS/Links"));
@@ -45,25 +45,38 @@ const Shop = lazy(() => import("./COMPONENTS/PAGES/SHOP/Shop"));
 const Community = lazy(() => import("./COMPONENTS/PAGES/COMMUNITY/Community"));
 const Profile = lazy(() => import("./COMPONENTS/Profile"));
 
-// ======================== ERROR BOUNDARY ========================
+// ======================== IMPROVED ERROR BOUNDARY ========================
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
   }
   componentDidCatch(error, errorInfo) {
-    console.error("App ErrorBoundary caught:", error, errorInfo);
+    console.error("🚨 App ErrorBoundary caught:", error, errorInfo);
   }
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: "40px", textAlign: "center", color: "#ff4444" }}>
-          <h2>Something went wrong.</h2>
-          <p>Check console (F12) for details. Refresh the page.</p>
-          <button className="btn btn-primary mt-3" onClick={() => window.location.reload()}>
+        <div style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f8d7da",
+          color: "#721c24",
+          padding: "40px",
+          textAlign: "center"
+        }}>
+          <h2>⚠️ Something went wrong</h2>
+          <p>Check the browser console (F12) for details.</p>
+          <button 
+            className="btn btn-danger mt-3"
+            onClick={() => window.location.reload()}
+          >
             Reload Page
           </button>
         </div>
@@ -74,7 +87,6 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
-  // AOS Initialization
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -96,7 +108,6 @@ function App() {
                 <ThemeProvider>
                   <Navbar />
 
-                  {/* Suspense + Lazy Loading = No more 4.69 MB bundle */}
                   <Suspense
                     fallback={
                       <div style={{
@@ -104,11 +115,13 @@ function App() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        background: "#f8f9fa"
+                        background: "#f8f9fa",
+                        flexDirection: "column"
                       }}>
-                        <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
-                          <span className="visually-hidden">Loading...</span>
+                        <div className="spinner-border text-primary" style={{ width: "4rem", height: "4rem" }} role="status">
+                          <span className="visually-hidden">Loading Bestcoach Music...</span>
                         </div>
+                        <p className="mt-3 text-muted">Loading Bestcoach Music...</p>
                       </div>
                     }
                   >
