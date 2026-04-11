@@ -16,11 +16,11 @@ import { getAnalytics, isSupported } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: "besctcoach-app",
-  storageBucket: "besctcoach-app.firebasestorage.app",
-  messagingSenderId: "408678623618",
-  appId: "1:408678623618:web:a83abab3c6e804d093c79b",
-  measurementId: "G-1PCHN98LJ5"
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 
