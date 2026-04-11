@@ -127,26 +127,49 @@
   }
 }
 
-/* ======================== CHAT OVERLAY FIX (Relevance AI) ======================== */
-div[class*="relevance-chat"],
-div[data-relevanceai-chat],
-.relevance-chat-bubble,
-.relevance-chat-container,
-.relevance-chat-expanded {
-  z-index: 10000 !important;
-  position: fixed !important;
-}
 
-.header-section,
-.carousel,
-.carousel-item,
-.carousel-inner {
-  z-index: 0 !important;
-  position: relative;
-  overflow: visible !important;
-}
 
 /* Body/root safety */
 body, #root {
   overflow: visible !important;
+}
+
+/* ======================== AI CHAT BUBBLE (Relevance AI) ======================== */
+div[class*="relevance-chat"],
+div[data-relevanceai-chat],
+.relevance-chat-bubble,
+.relevance-chat-container,
+.relevance-chat-expanded,
+.relevance-chat-widget,
+#relevance-chat,
+.ai-chat-container {
+  z-index: 999999 !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+}
+
+/* Force the bubble to always stay on top */
+.relevance-chat-bubble {
+  z-index: 1000000 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Make sure nothing from the hero or navbar can cover it */
+.header-section,
+.hero-section,
+.carousel,
+.navbar,
+.modal,
+#root > div {
+  z-index: 1 !important;
+}
+
+/* Mobile safety */
+@media (max-width: 768px) {
+  div[class*="relevance-chat"],
+  .relevance-chat-bubble {
+    bottom: 15px !important;
+    right: 15px !important;
+  }
 }
