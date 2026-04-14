@@ -4,7 +4,7 @@ import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown, Alert, Image 
 import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { toast } from 'react-toastify';
-import { FaBriefcase, FaNewspaper, FaBlog, FaVideo, FaBookOpen, FaLifeRing, FaBoxOpen, FaRoad, FaUsers, FaUserCircle, FaPhone, FaMusic, FaMicrophoneAlt, FaShoppingCart } from 'react-icons/fa';
+import { FaBriefcase, FaUserCircle, FaPhone, FaMusic, FaMicrophoneAlt, } from 'react-icons/fa';
 import { FaPeopleGroup } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import Select from 'react-select';
@@ -358,23 +358,10 @@ useEffect(() => {
                 <NavDropdown.Item as={Link} to="/tmme"><FaMusic className="me-2 text-orange" />The Music Mentorship Experience</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Company" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/blog"><FaBlog className="me-2 text-orange" />Blog</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/about"><FcAbout className="me-2 text-orange" />About Us</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/press"><FaNewspaper className="me-2 text-orange" />Press</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/team"><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/contact"><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/careers"><FaBriefcase className="me-2 text-orange" />Careers At Bestcoach</NavDropdown.Item>
-              </NavDropdown>
-              <NavDropdown title="Features" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/package"><FaBoxOpen className="me-2 text-orange" />Packages</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/coach"><FaUsers className="me-2 text-orange" />Coaches</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/method"><FaRoad className="me-2 text-orange" />Methods</NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link as={Link} to="/shop" className="mx-2"><FaShoppingCart className="me-2 text-orange" />Shop</Nav.Link>
-              <NavDropdown title="Resources" id="services-dropdown" className="mx-2">
-                <NavDropdown.Item as={Link} to="/webinars"><FaVideo className="me-2 text-orange" />Webinars</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/help"><FaLifeRing className="me-2 text-orange" />Help Centre</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/studio-tutorials"><FaBookOpen className="me-2 text-orange" />Studio Tutorials</NavDropdown.Item>
               </NavDropdown>
             </Nav>
            {/* RIGHT SIDE - Logged-in State */}
