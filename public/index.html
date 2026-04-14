@@ -8,6 +8,12 @@
       name="description"
       content="Bestcoach Music offers music education, events, and community experiences."
     />
+
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="preload" as="image" href="https://bestcoachmusic.netlify.app/IMAGES/WhatsApp%20Image%202024-12-27%20at%205.44.48%20PM%20(1).jpeg">
+
+
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/2025-bc-logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
   
@@ -81,19 +87,23 @@
       const originalWarn = console.warn;
       const originalError = console.error;
     </script>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PKNXLLLQ');</script>
-<!-- End Google Tag Manager -->
-</head>
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PKNXLLLQ"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+   <!-- Deferred Google Tag Manager -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1PCHN98LJS');
+</script>
+
+<!-- Load GTM after page load -->
+<script>
+  window.addEventListener('load', function() {
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-1PCHN98LJS';
+    script.async = true;
+    document.head.appendChild(script);
+  });
+</script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

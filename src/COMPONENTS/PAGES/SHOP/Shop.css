@@ -56,7 +56,11 @@
 
 /* Video Modal - Responsive (aspect ratio 16:9) */
 .video-modal .modal-body { padding: 0; }
-.video-modal .react-player { aspect-ratio: 16/9; }
+.video-modal .react-player {
+  width: 100%;
+  max-width: 100%;
+  height: min(56.25vw, 400px); /* 16:9 fallback without aspect-ratio */
+}
 
 /* Reviews Section - Scrollable if many */
 .reviews-list { max-height: 150px; overflow-y: auto; }

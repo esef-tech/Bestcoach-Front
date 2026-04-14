@@ -1,11 +1,11 @@
 // src/pages/ShopPage.jsx - Updated with video tutorials (YouTube embeds), wishlist feature (add/view/manage), enhanced zoom with slider
 import React, { useState, useEffect} from 'react';
-import { Container, Row, Col, Card, Button, Badge, Modal, Form, Alert, InputGroup, Carousel, ListGroup, Image } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Badge, Modal, Form, Alert,  InputGroup, Carousel, ListGroup, Image } from 'react-bootstrap';
 import { FaShoppingCart, FaCreditCard, FaPlus, FaMinus, FaHeart, FaSearch, FaTimes, FaStar } from 'react-icons/fa'; //ADD FaVideo-LATER
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'; // For zoom/pan
 //import ReactPlayer from 'react-player'; // Install: npm i react-player (for video embeds)
 import { Elements, CardElement } from '@stripe/react-stripe-js'; // Import Elements and CardElement from Stripe
-import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
+//import { loadStripe } from '@stripe/stripe-js'; // Import Stripe loader
 import './Shop.css'; // Custom styles
 import JP from '../../Images/bestcoach-pictures/IMG_2906.png'
 import MV from '../../Images/bestcoach-pictures/edited/mov_bbb.mp4'
@@ -21,7 +21,7 @@ import { useSession } from '../../../context/SessionContext';
 
 
 // Initialize Stripe - Replace with your actual publishable key
-const stripePromise = loadStripe('pk_test_YOUR_PUBLISHABLE_KEY');
+//const stripePromise = loadStripe('pk_test_YOUR_PUBLISHABLE_KEY');
 
 
 
@@ -442,7 +442,7 @@ const Shop = () => {
                 ))}
               </ListGroup>
               <h5 className="text-end">Total: GH&#8373;{cartTotal}</h5>
-              <Elements stripe={stripePromise}>
+              <Elements > {/* stripe={stripePromise} */}
                 <Form onSubmit={handleCheckoutSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>

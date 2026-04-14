@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx - Updated with real-time Google/Microsoft/Apple OAuth, password strength indicator, enhanced OAuth styling, full countries/languages from backend
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Navbar, Nav, Container, Button, Modal, Form, NavDropdown, Alert, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
@@ -53,6 +53,18 @@ const AppNavbar = () => {
   //const [password,] = useState('');
   const [showMfaModal, setShowMfaModal] = useState(false);
   const [mfaResolver,] = useState(null);
+
+  const openAuthModal = useCallback((mode = 'login') => {
+    setShowForgot(false);
+    setShowChangePassword(false);
+    if (mode === 'signup') {
+      setShowLogin(false);
+      setShowSignup(true);
+      return;
+    }
+    setShowSignup(false);
+    setShowLogin(true);
+  }, []);
   
 
   useEffect(() => {
@@ -116,14 +128,28 @@ const AppNavbar = () => {
   };
 
 
-  // Auto-open Login modal when ?login=true is in URL (from Careers/Footer prompt)
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('login') === 'true') {
-    setShowLogin(true);
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-}, []);
+  // Auto-open auth modal from URL query and cross-component events.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('signup') === 'true') {
+      openAuthModal('signup');
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+    if (params.get('login') === 'true') {
+      openAuthModal('login');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [openAuthModal]);
+
+  useEffect(() => {
+    const handleOpenAuthModal = (event) => {
+      const mode = event?.detail?.mode === 'signup' ? 'signup' : 'login';
+      openAuthModal(mode);
+    };
+    window.addEventListener('open-auth-modal', handleOpenAuthModal);
+    return () => window.removeEventListener('open-auth-modal', handleOpenAuthModal);
+  }, [openAuthModal]);
 
   // Real-time password strength
   const calculateStrength = (password) => {

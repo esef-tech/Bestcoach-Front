@@ -199,6 +199,18 @@ body, #root {
   object-fit: contain !important;     /* ← This ensures entire image is visible */
   background-color: #f8f9fa;
   padding: 10px;
+  width: 100% !important;
+  height: 520px !important;
+  border-radius: 12px;
+
+}
+
+@media (max-width: 768px) { .carousel-image { height: 380px !important; } }
+@media (max-width: 576px) { .carousel-image { height: 320px !important; } }
+
+/* Fix contrast for handwritten text */
+.handwritten-text {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 /* Responsive */
@@ -217,5 +229,18 @@ body, #root {
   }
   .header-text h1 {
     font-size: 2.2rem;
+  }
+}
+
+/* Mobile-specific height */
+@media (max-width: 768px) {
+  .carousel-image {
+    height: 380px !important;      /* Smaller on mobile */
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-image {
+    height: 320px !important;
   }
 }

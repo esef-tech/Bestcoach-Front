@@ -1,26 +1,31 @@
 // src/components/AnalyticsTracker.jsx
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { logEvent } from 'firebase/analytics';
-import { analytics, auth } from '../firebase';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { logEvent } from "firebase/analytics";
+import { auth, getAnalyticsInstance } from "../firebase";
 
 const AnalyticsTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!analytics) {
-      console.warn('🔥 Firebase Analytics not initialized');
-      return;
-    }
+    let active = true;
 
-    console.log('📊 Analytics: page_view logged →', location.pathname); // ← debug line
+    getAnalyticsInstance().then((analyticsInstance) => {
+      if (!active || !analyticsInstance) {
+        return;
+      }
 
-    logEvent(analytics, 'page_view', {
-      page_path: location.pathname,
-      page_title: document.title,
-      page_location: window.location.href,
-      user_id: auth.currentUser?.uid || 'anonymous', // optional but helpful
+      logEvent(analyticsInstance, "page_view", {
+        page_path: location.pathname,
+        page_title: document.title,
+        page_location: window.location.href,
+        user_id: auth.currentUser?.uid || "anonymous",
+      });
     });
+
+    return () => {
+      active = false;
+    };
   }, [location]);
 
   return null;

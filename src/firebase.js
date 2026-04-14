@@ -3,6 +3,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   OAuthProvider,
+  browserLocalPersistence,
+  setPersistence,
   sendEmailVerification as sendEmailVerificationFn,
 } from "firebase/auth";
 import { addDoc, deleteDoc, getDoc, getFirestore } from "firebase/firestore";
@@ -12,14 +14,15 @@ import { getAnalytics, isSupported } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBriog3DLN6Ofocx6dIMBp2IOKeqC5pXsE",
-  authDomain: "besctcoach-app.firebaseapp.com",
-  projectId: "besctcoach-app",
-  storageBucket: "besctcoach-app.firebasestorage.app",
-  messagingSenderId: "408678623618",
-  appId: "1:408678623618:web:a83abab3c6e804d093c79b",
-  measurementId: "G-1PCHN98LJ5",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
+
 
 const app = initializeApp(firebaseConfig);
 
@@ -31,18 +34,28 @@ export const deleteDocument = deleteDoc;
 export const getDocument = getDoc;
 export const addDocument = addDoc;
 export let analytics = null;
+let analyticsInitPromise = Promise.resolve(null);
 
 if (typeof window !== "undefined") {
-  isSupported()
+  setPersistence(auth, browserLocalPersistence).catch(() => {
+    // Persistence can be unavailable in some restricted browser contexts.
+  });
+
+  analyticsInitPromise = isSupported()
     .then((supported) => {
-      if (supported) {
+      if (supported && firebaseConfig.measurementId) {
         analytics = getAnalytics(app);
+        return analytics;
       }
+      return null;
     })
-    .catch((error) => {
-      console.warn("Firebase Analytics unavailable:", error);
+    .catch(() => {
+      // Analytics can be unavailable in some environments (privacy mode, extensions, etc.).
+      return null;
     });
 }
+
+export const getAnalyticsInstance = () => analyticsInitPromise;
 
 export const googleProvider = new GoogleAuthProvider();
 export const appleProvider = new OAuthProvider("apple.com");
