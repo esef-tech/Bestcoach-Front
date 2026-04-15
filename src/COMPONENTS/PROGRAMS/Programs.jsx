@@ -13,7 +13,7 @@ const Programs = () => {
   const packages = [
     {
       title: 'Standard Package',
-      desc: 'At Bestcoach we give students creativity and expression. Enroll your school in our dynamic music program—unlock rhythm, melody, and confidence.',
+      desc: 'At BestCoach, we inspire creativity and self-expression. Enroll  in our vibrant music program to cultivate rhythm, musicality, and confidence . Sign up today and let the music begin!.',
       img: 'https://www.communitymusicschool.com/wp-content/uploads/2024/10/Joyful-Voices-2024-1-scaled-e1729108515794-2400x1480.jpg',
       age: 'For everyone',
       price: 'GH₵500.00 per month',
@@ -22,7 +22,7 @@ const Programs = () => {
     },
     {
       title: 'Exclusive Service Package',
-      desc: 'Transform your church with inspiring music. Empower your choir with expert training. Enroll in our music program today!',
+      desc: 'Enhance life with inspiring music. Unlock your potential through expert instruction. Enroll in our music program today!',
       img: 'https://www.washingtonperformingarts.org/wp-content/uploads/2023/12/about-the-choir-RS89401_2023LivingTheDream_FEB5_00758-lpr.webp',
       age: 'For everyone',
       price: 'GH₵1,200.00 per month',
