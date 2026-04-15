@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Contact.css';
 import { Container, Row, Col, Form, Button, Accordion, Card,  Spinner, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock, FaSearch, FaQuestionCircle, FaGlobe } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock, FaSearch, FaQuestionCircle, FaGlobe, FaWhatsapp } from 'react-icons/fa';
 import { db, storage } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -21,6 +21,7 @@ const Contact = () => {
   const [showCallModal, setShowCallModal] = useState(false);
   const [selectedPhone, setSelectedPhone] = useState('');
   const [showMapModal, setShowMapModal] = useState(false);
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.name === 'attachment') {
@@ -73,6 +74,7 @@ const Contact = () => {
     { icon: <FaPhoneAlt />, label: 'Toll Free:', value: '+233-208-502-816', type: 'call' },
     { icon: <FaGlobe />, label: 'Direct/International:', value: '+233-593-088-047', type: 'call' },
     { icon: <FaClock />, label: 'Office Hours:', value: 'Monday - Friday, 8AM - 5PM', type: 'map' },
+    { icon: <FaWhatsapp />, label: 'WhatsApp Chat:', value: '+233-208-502-816', type: 'whatsapp' },
   ];
 
   const filteredFAQs = faqs.filter(faq =>
@@ -86,16 +88,23 @@ const Contact = () => {
     }
   }, [session, savePreferences, getPreferences]);
 
-
-  const handleUrgentClick = (contact) => {
+const handleUrgentClick = (contact) => {
     if (contact.type === 'call') {
       setSelectedPhone(contact.value);
       setShowCallModal(true);
     } else if (contact.type === 'map') {
       setShowMapModal(true);
+    } else if (contact.type === 'whatsapp') {
+      setShowWhatsAppModal(true);
     }
   };
 
+  const openWhatsApp = () => {
+    const message = encodeURIComponent("Hello Bestcoach Music, I need help with...");
+    window.open(`https://wa.me/233208502816?text=${message}`, '_blank');
+    setShowWhatsAppModal(false);
+  };
+  
   return (
     <React.Fragment>
       <Seo
@@ -258,7 +267,25 @@ const Contact = () => {
           </Modal.Footer>
         </Modal>
 
-
+        {/* ==================== NEW WHATSAPP MODAL ==================== */}
+        <Modal show={showWhatsAppModal} onHide={() => setShowWhatsAppModal(false)} centered className="contact-modal">
+          <Modal.Body className="glass-modal p-5 text-center">
+            <h3 className="mb-4">Chat with Bestcoach Music on WhatsApp</h3>
+            <div className="phone-number-display mb-4">
+              <h2 className="fw-bold text-orange">+233-208-502-816</h2>
+            </div>
+            <Button
+              size="lg"
+              className="w-100 py-3 mb-3 whatsapp-btn"
+              onClick={openWhatsApp}
+            >
+              <FaWhatsapp className="me-2" /> Chat on WhatsApp
+            </Button>
+            <Button variant="outline-secondary" onClick={() => setShowWhatsAppModal(false)} className="w-100">
+              Cancel
+            </Button>
+          </Modal.Body>
+        </Modal>
 
 
       </section>
