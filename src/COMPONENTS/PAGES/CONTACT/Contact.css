@@ -144,3 +144,79 @@
   -webkit-backdrop-filter: blur(16px) !important;
   backdrop-filter: blur(16px);
 }
+
+/* WhatsApp Modal & Button */
+.whatsapp-btn {
+  background: linear-gradient(90deg, #25D366, #128C7E) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Ensure all modals have consistent glass look */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}
+/* Telegram Modal & Button */
+.telegram-btn {
+  background: linear-gradient(90deg, #229ED9, #1E96D3) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Consistent glass look for all modals */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}
+/* Email Modal & Button */
+.email-btn {
+  background: linear-gradient(90deg, #17a2b8, #fd7e14) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Consistent glass look for all modals */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Contact.css';
 import { Container, Row, Col, Form, Button, Accordion, Card,  Spinner, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock, FaSearch, FaQuestionCircle, FaGlobe, FaWhatsapp } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt, FaClock, FaSearch, FaQuestionCircle, FaGlobe, FaWhatsapp, FaTelegramPlane } from 'react-icons/fa';
 import { db, storage } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -22,6 +22,8 @@ const Contact = () => {
   const [selectedPhone, setSelectedPhone] = useState('');
   const [showMapModal, setShowMapModal] = useState(false);
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
+  const [showTelegramModal, setShowTelegramModal] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.name === 'attachment') {
@@ -75,8 +77,9 @@ const Contact = () => {
     { icon: <FaGlobe />, label: 'Direct/International:', value: '+233-593-088-047', type: 'call' },
     { icon: <FaClock />, label: 'Office Hours:', value: 'Monday - Friday, 8AM - 5PM', type: 'map' },
     { icon: <FaWhatsapp />, label: 'WhatsApp Chat:', value: '+233-208-502-816', type: 'whatsapp' },
+    { icon: <FaTelegramPlane />, label: 'Telegram Chat:', value: '@bestcoachmusic', type: 'telegram' },
+    { icon: <FaEnvelope />, label: 'Email Us:', value: 'bestcoachmusic@gmail.com', type: 'email' },
   ];
-
   const filteredFAQs = faqs.filter(faq =>
     faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
     faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
@@ -88,7 +91,8 @@ const Contact = () => {
     }
   }, [session, savePreferences, getPreferences]);
 
-const handleUrgentClick = (contact) => {
+
+ const handleUrgentClick = (contact) => {
     if (contact.type === 'call') {
       setSelectedPhone(contact.value);
       setShowCallModal(true);
@@ -96,6 +100,10 @@ const handleUrgentClick = (contact) => {
       setShowMapModal(true);
     } else if (contact.type === 'whatsapp') {
       setShowWhatsAppModal(true);
+    } else if (contact.type === 'telegram') {
+      setShowTelegramModal(true);
+    } else if (contact.type === 'email') {
+      setShowEmailModal(true);
     }
   };
 
@@ -104,7 +112,20 @@ const handleUrgentClick = (contact) => {
     window.open(`https://wa.me/233208502816?text=${message}`, '_blank');
     setShowWhatsAppModal(false);
   };
-  
+
+  const openTelegram = () => {
+    window.open('https://t.me/bestcoachmusic', '_blank');
+    setShowTelegramModal(false);
+  };
+
+  const openEmail = () => {
+    const subject = encodeURIComponent("Inquiry from Bestcoach Website");
+    const body = encodeURIComponent("Hello Bestcoach Music team,\n\nI need help with...");
+    window.location.href = `mailto:bestcoachmusic@gmail.com?subject=${subject}&body=${body}`;
+    setShowEmailModal(false);
+  };
+
+
   return (
     <React.Fragment>
       <Seo
@@ -287,6 +308,37 @@ const handleUrgentClick = (contact) => {
           </Modal.Body>
         </Modal>
 
+       {/* Telegram Modal - unchanged */}
+        <Modal show={showTelegramModal} onHide={() => setShowTelegramModal(false)} centered className="contact-modal">
+          <Modal.Body className="glass-modal p-5 text-center">
+            <h3 className="mb-4">Chat with Bestcoach Music on Telegram</h3>
+            <div className="phone-number-display mb-4">
+              <h2 className="fw-bold text-orange">@bestcoachmusic</h2>
+            </div>
+            <Button size="lg" className="w-100 py-3 mb-3 telegram-btn" onClick={openTelegram}>
+              <FaTelegramPlane className="me-2" /> Open in Telegram
+            </Button>
+            <Button variant="outline-secondary" onClick={() => setShowTelegramModal(false)} className="w-100">Cancel</Button>
+          </Modal.Body>
+        </Modal>
+
+        {/* ==================== NEW EMAIL MODAL ==================== */}
+        <Modal show={showEmailModal} onHide={() => setShowEmailModal(false)} centered className="contact-modal">
+          <Modal.Body className="glass-modal p-5 text-center">
+            <h3 className="mb-4">Email Bestcoach Music</h3>
+            <div className="phone-number-display mb-4">
+              <h2 className="fw-bold text-orange">bestcoachmusic@gmail.com</h2>
+            </div>
+            <Button
+              size="lg"
+              className="w-100 py-3 mb-3 email-btn"
+              onClick={openEmail}
+            >
+              ✉️ Open Email Client
+            </Button>
+            <Button variant="outline-secondary" onClick={() => setShowEmailModal(false)} className="w-100">Cancel</Button>
+          </Modal.Body>
+        </Modal>
 
       </section>
     </React.Fragment>
