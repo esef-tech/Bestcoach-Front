@@ -17,6 +17,40 @@ const TSS = () => {
   const [origin, setOrigin] = useState('');
   const [directionsUrl, setDirectionsUrl] = useState('');
   const { session, savePreferences, getPreferences } = useSession();
+  const [timeLeft, setTimeLeft] = useState({});
+
+
+
+
+  // Real-time countdown
+  useEffect(() => {
+    const targetDate = new Date('2026-04-18T08:00:00Z').getTime();
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        setTimeLeft({ expired: true });
+        clearInterval(timer);
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000),
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+
+
+
+
+  
 
 
   const lineup = [
@@ -83,7 +117,6 @@ const TSS = () => {
     }
   }, [session, savePreferences, getPreferences]);
     
-  
 
   return (
 <React.Fragment>
@@ -96,10 +129,56 @@ const TSS = () => {
   
 <section className="events-tss-page">
       {/* Header */}
-      <div className="header-tss text-white text-center py-5 animate-fade-in">
+      <div className="header-tss  text-center py-5 animate-fade-in" id=''>
         <h1 className="display-3 fw-bold">{event.title}</h1>
         <p className="lead-1-tss">A gathering for voices with purpose</p>
       </div>
+
+
+      {/* Real-Time Countdown + Celebration */}
+        <div className="countdown-section">
+          <Container className="text-center">
+            <div className="countdown-container">
+              {timeLeft.expired ? (
+                <h2 className="text-white">🎉 The Singers Sanctuary is LIVE!</h2>
+              ) : (
+                <>
+                  <h3 className="countdown-title">Event starts in</h3>
+                  <div className="countdown-timer">
+                    <div className="countdown-box">
+                      <span className="countdown-number">{timeLeft.days || 0}</span>
+                      <span className="countdown-label">Days</span>
+                    </div>
+                    <div className="countdown-box">
+                      <span className="countdown-number">{timeLeft.hours || 0}</span>
+                      <span className="countdown-label">Hours</span>
+                    </div>
+                    <div className="countdown-box">
+                      <span className="countdown-number">{timeLeft.minutes || 0}</span>
+                      <span className="countdown-label">Minutes</span>
+                    </div>
+                    <div className="countdown-box">
+                      <span className="countdown-number">{timeLeft.seconds || 0}</span>
+                      <span className="countdown-label">Seconds</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </Container>
+
+{/* Celebration Animations */}
+          <div className="celebration-overlay">
+            <div className="balloon">🎈</div>
+            <div className="balloon" style={{ animationDelay: '0.5s' }}>🎉</div>
+            <div className="balloon" style={{ animationDelay: '1.2s' }}>🌸</div>
+            <div className="balloon" style={{ animationDelay: '0.8s' }}>🎊</div>
+            <div className="firework"></div>
+            <div className="firework" style={{ left: '30%', animationDelay: '1s' }}></div>
+            <div className="firework" style={{ left: '70%', animationDelay: '2.3s' }}></div>
+          </div>
+        </div>
+
 
       {/* Main Content */}
       <Container className="py-5">
@@ -148,7 +227,6 @@ const TSS = () => {
             </ListGroup.Item>
           ))}
         </ListGroup>
-
       </Container>
     </section>
     <section className="events-tss-page">

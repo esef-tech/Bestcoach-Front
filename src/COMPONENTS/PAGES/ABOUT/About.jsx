@@ -108,156 +108,152 @@ const About = () => {
 
   return (
     <React.Fragment>
-      <Seo 
-  title="About Bestcoach Music | Empowering Singers Worldwide"
-  description="Learn how Bestcoach Music was founded to create the ultimate online singing community. Our mission: make world-class vocal coaching accessible to every singer."
-  keywords="about bestcoach music, singing community story, vocal coaching mission, music education platform"
-  image="http://localhost:3000/static/media/24.cb44feb0337b0e1f0b46.jpg"
-/>
+      <Seo
+        title="About Bestcoach Music | Empowering Singers Worldwide"
+        description="Learn how Bestcoach Music was founded to create the ultimate online singing community."
+        keywords="about bestcoach music, singing community story, vocal coaching mission"
+        image="http://localhost:3000/static/media/24.cb44feb0337b0e1f0b46.jpg"
+      />
 
       <section className="about-page">
-      {/* Hero */}
-      <div id="about-header-background" className="hero-about text-white text-center py-5 animate-fade-in">
-        {/*<h1 id="h-text-color" className="display-3 fw-bold mb-4">Life is better with music</h1>*/}
-        {/*<p className="lead mb-5">Learn how to play piano, whenever you want, wherever you want.</p>*/}
-        <Button variant="light" as={Link} to="/about" className="me-2 animate-bounce-in">About Us</Button>
-        {/*<Button variant="light" as={Link} to="/team" className="animate-bounce-in">Our Team</Button>*/}
+        {/* Hero Header - iPhone glassmorphic style */}
+        <div className="hero-about text-white text-center py-5 animate-fade-in">
+          <Container>
+            <h1 className="display-3 fw-bold mb-4">Life is better with music</h1>
+            <p className="lead mb-5">Learn how to play piano, whenever you want, wherever you want.</p>
+            <Button variant="light" as={Link} to="/about" className="me-2 animate-bounce-in">About Us</Button>
+          </Container>
+        </div>
 
-      </div>
+        {/* Mission */}
+        <Container className="py-5 text-center">
+          <h2 className="mb-4 text-orange animate-slide-up">Our Mission</h2>
+          <p className="lead mb-5 animate-slide-up">To spread music education widely and remove barriers of age or location for learning music.</p>
+        </Container>
 
-      {/* Mission */}
-      <Container className="py-5 text-center">
-        <h2 className="mb-4 text-orange animate-slide-up">Our Mission</h2>
-        <p className="lead mb-5 animate-slide-up">To spread music education widely and remove barriers of age or location for learning music.</p>
-      </Container>
+        {/* Timeline - Glassmorphic cards */}
+        <Container className="py-5">
+          <h2 className="text-center mb-5 text-orange animate-slide-up">Our History</h2>
+          <Row className="justify-content-center">
+            {timeline.map((item, idx) => (
+              <Col md={4} key={idx} className="mb-4 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
+                <Card className="glass-card text-center shadow border-0">
+                  <Card.Body>
+                    <h3 className="text-orange">{item.year}</h3>
+                    <p>{item.desc}</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
 
-      {/* Timeline */}
-      <Container className="py-5">
-        <h2 className="text-center mb-5 text-orange animate-slide-up">Our History</h2>
-        <Row className="justify-content-center">
-          {timeline.map((item, idx) => (
-            <Col md={4} key={idx} className="mb-4 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
-              <Card className="text-center shadow border-0">
-                <Card.Body>
-                  <h3 className="text-orange">{item.year}</h3>
-                  <p>{item.desc}</p>
-                </Card.Body>
-              </Card>
+        {/* Founder Story */}
+        <Container className="py-5 bg-light">
+          <Row className="align-items-center">
+            <Col lg={6} className="animate-slide-left">
+              <Image src={about} alt="Founder Jared Falk" fluid className="rounded shadow animate-zoom-in" />
             </Col>
-          ))}
-        </Row>
-      </Container>
-
-      {/* Founder Story */}
-      <Container className="py-5 bg-light">
-        <Row className="align-items-center">
-          <Col lg={6} className="animate-slide-left">
-            <Image src={about}  alt="Founder Jared Falk" fluid className="rounded shadow animate-zoom-in" />
-          </Col>
-          <Col lg={6} className="animate-slide-right">
-            <h2 className="mb-4 text-orange">It all started with a duck farmer...</h2>
-            <p className="lead">Jared Falk, a duck farmer turned drummer, founded Drumeo and expanded to piano education.</p>
-          </Col>
-        </Row>
-      </Container>
-
-      {/* Video Embed */}
-      <Container className="py-5 text-center">
-        <h2 className="mb-4 text-orange animate-slide-up">Our Viral Moment</h2>
-        <iframe width="560" height="315" src="https://d2vyvo0tyx8ig5.cloudfront.net/sales/about/create_emotion.mp4" title="Viral Lesson" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen className="mb-4 rounded shadow animate-zoom-in"></iframe>
-        <p className="lead">Our "Create Emotion With 3 Notes" lesson went viral with millions of views.</p>
-      </Container>
-
-      {/* Coaches */}
-      <Container className="py-5">
-        <h2 className="text-center mb-5 text-orange animate-slide-up">Our World-Class Coaches</h2>
-        <Row>
-          {coaches.map((coach, idx) => (
-            <Col md={4} key={idx} className="mb-4 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
-              <Card className="shadow border-0 text-center">
-                <Image src={coach.image} alt={coach.name} roundedCircle className="mx-auto d-block mt-3" style={{ width: '150px', height: '150px' }} />
-                <Card.Body>
-                  <h4>{coach.name}</h4>
-                  <p className="text-muted">{coach.bio}</p>
-                </Card.Body>
-              </Card>
+            <Col lg={6} className="animate-slide-right">
+              <h2 className="mb-4 text-orange">It all started with a duck farmer...</h2>
+              <p className="lead">Jared Falk, a duck farmer turned drummer, founded Drumeo and expanded to piano education.</p>
             </Col>
-          ))}
-        </Row>
-      </Container>
+          </Row>
+        </Container>
 
-      {/* Metrics */}
-      <Container className="py-5 bg-light text-center">
-        <h2 className="mb-5 text-orange animate-slide-up">Our Community</h2>
-        <Row>
-          {metrics.map((metric, idx) => (
-            <Col md={2} key={idx} className="mb-4 animate-fade-in" style={{ animationDelay: `${0.2 * idx}s` }}>
-              <h3 className="text-orange">{metric.value}</h3>
-              <p>{metric.label}</p>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+        {/* Video Embed */}
+        <Container className="py-5 text-center">
+          <h2 className="mb-4 text-orange animate-slide-up">Our Viral Moment</h2>
+          <iframe width="560" height="315" src="https://d2vyvo0tyx8ig5.cloudfront.net/sales/about/create_emotion.mp4" title="Viral Lesson" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="mb-4 rounded shadow animate-zoom-in"></iframe>
+          <p className="lead">Our "Create Emotion With 3 Notes" lesson went viral with millions of views.</p>
+        </Container>
 
-      {/* BTS Team */}
-      <Container className="py-5 text-center">
-        <h2 className="mb-4 text-orange animate-slide-up">Behind the Scenes Team</h2>
-        <p className="lead mb-4 animate-slide-up">Our team of music lovers scripts videos, creates posts, and writes blogs.</p>
-        <Button id="about-button-color" as={Link} to="/careers" className="animate-bounce-in">Join Our Team</Button>
-      </Container>
+        {/* Coaches - Glassmorphic grid */}
+        <Container className="py-5">
+          <h2 className="text-center mb-5 text-orange animate-slide-up">Our World-Class Coaches</h2>
+          <Row>
+            {coaches.map((coach, idx) => (
+              <Col md={4} key={idx} className="mb-4 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
+                <Card className="glass-card shadow border-0 text-center">
+                  <Image src={coach.image} alt={coach.name} roundedCircle className="mx-auto d-block mt-3" style={{ width: '150px', height: '150px' }} />
+                  <Card.Body>
+                    <h4>{coach.name}</h4>
+                    <p className="text-muted">{coach.bio}</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
 
-      {/* As Seen In */}
-      <Container className="py-5 bg-info text-center">
-        <h2 className="mb-5 text-orange animate-slide-up">As Seen In</h2>
-        <Row className="justify-content-center">
-          {seenInLogos.map((logo, idx) => (
-            <Col xs={4} md={2} key={idx} className="mb-3 animate-zoom-in" style={{ animationDelay: `${0.2 * idx}s` }}>
-              <Image src={logo} alt="Seen In Logo" fluid />
-            </Col>
-          ))}
-        </Row>
-      </Container>
+        {/* Metrics */}
+        <Container className="py-5 bg-light text-center">
+          <h2 className="mb-5 text-orange animate-slide-up">Our Community</h2>
+          <Row>
+            {metrics.map((metric, idx) => (
+              <Col md={2} key={idx} className="mb-4 animate-fade-in" style={{ animationDelay: `${0.2 * idx}s` }}>
+                <Card className="glass-card text-center">
+                  <Card.Body>
+                    <h3 className="text-orange">{metric.value}</h3>
+                    <p>{metric.label}</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
 
-      {/* Newsletter Signup */}
-      {/* Newsletter Signup - NOW FIREBASE CONNECTED */}
+        {/* BTS Team */}
+        <Container className="py-5 text-center">
+          <h2 className="mb-4 text-orange animate-slide-up">Behind the Scenes Team</h2>
+          <p className="lead mb-4 animate-slide-up">Our team of music lovers scripts videos, creates posts, and writes blogs.</p>
+          <Button id="about-button-color" as={Link} to="/careers" className="animate-bounce-in">Join Our Team</Button>
+        </Container>
+
+        {/* As Seen In */}
+        <Container className="py-5 bg-info text-center">
+          <h2 className="mb-5 text-orange animate-slide-up">As Seen In</h2>
+          <Row className="justify-content-center">
+            {seenInLogos.map((logo, idx) => (
+              <Col xs={4} md={2} key={idx} className="mb-3 animate-zoom-in" style={{ animationDelay: `${0.2 * idx}s` }}>
+                <Image src={logo} alt="Seen In Logo" fluid className="seen-in-logo" />
+              </Col>
+            ))}
+          </Row>
+        </Container>
+
+        {/* Newsletter Signup - Glassmorphic form */}
         <Container className="py-5 text-center">
           <h2 className="mb-4 text-orange animate-slide-up">Get Free Weekly Lessons</h2>
           <Form onSubmit={handleNewsletterSubmit} className="d-inline-flex mb-3 animate-fade-in">
-            <Form.Control 
-              type="email" 
-              placeholder="Your email" 
-              value={newsletterEmail} 
-              onChange={handleNewsletterChange} 
-              required 
-              className="me-2" 
+            <Form.Control
+              type="email"
+              placeholder="Your email"
+              value={newsletterEmail}
+              onChange={handleNewsletterChange}
+              required
+              className="me-2"
             />
-            <Button 
-              id="about-signup-button-color" 
-              type="submit" 
-              disabled={newsletterStatus.loading} 
-              className="animate-bounce-in w-100"
-            >
+            <Button id="about-signup-button-color" type="submit" disabled={newsletterStatus.loading} className="animate-bounce-in">
               {newsletterStatus.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
-               {newsletterStatus.loading ? 'Sending...' : 'Send Message'}
+              {newsletterStatus.loading ? 'Sending...' : 'Subscribe'}
             </Button>
           </Form>
-
-          {newsletterStatus.success && (
-            <p className="text-success mt-2">Subscribed successfully! 🎉</p>
-          )}
-          {newsletterStatus.error && (
-            <p className="text-danger mt-2">{newsletterStatus.error}</p>
-          )}
+          {newsletterStatus.success && <p className="text-success mt-2">Subscribed successfully! 🎉</p>}
+          {newsletterStatus.error && <p className="text-danger mt-2">{newsletterStatus.error}</p>}
         </Container>
 
-      {/* App Downloads */}
-      <Container className="py-5 text-center">
-        <h2 className="mb-4 text-orange animate-slide-up">Download Our App</h2>
-        <Button id="app-store-button-color" href="https://appstore-link" target="_blank" className="me-2 mb-2 animate-bounce-in"><FaAppStoreIos className="me-2 text-orange"/>App Store</Button>
-        <Button id="app-store-button-color" href="https://googleplay-link" target="_blank" className="mb-2 animate-bounce-in"><BiLogoPlayStore className="me-2 text-orange"/>Google Play</Button>
-      </Container>
-    </section>
-      
+        {/* App Downloads */}
+        <Container className="py-5 text-center">
+          <h2 className="mb-4 text-orange animate-slide-up">Download Our App</h2>
+          <Button id="app-store-button-color" href="https://appstore-link" target="_blank" className="me-2 mb-2 animate-bounce-in">
+            <FaAppStoreIos className="me-2 text-orange" />App Store
+          </Button>
+          <Button id="app-store-button-color" href="https://googleplay-link" target="_blank" className="mb-2 animate-bounce-in">
+            <BiLogoPlayStore className="me-2 text-orange" />Google Play
+          </Button>
+        </Container>
+      </section>
     </React.Fragment>
   )
 }

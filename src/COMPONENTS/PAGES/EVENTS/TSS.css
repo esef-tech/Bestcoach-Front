@@ -1,7 +1,18 @@
-/* src/pages/EventsTSSPage.css - Animations, dynamic, appealing */
+/* TSS.css - iPhone Polymorphic UI + Celebration Animations */
+.tss-page {
+  background: linear-gradient(180deg, #0f172a 0%, #1e2937 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
 
+/* Header */
 .header-tss {
- min-height: 70px;
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  padding: 4rem 0 3rem;
+  text-align: center;
+  position: relative;
+  min-height: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,182 +21,151 @@
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
-  color: white;
+  color: mediumorchid;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
 
-@keyframes slideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes zoomIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.9); }
-  60% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Card hover */
-.card:hover {
-  transform: scale(1.02);
-  transition: transform 0.3s;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .header h1 { font-size: 2.5rem; }
-  .lead { font-size: 1rem; }
-  .lead-p { font-size: 1rem; }
-  .timeline-item h4 { font-size: 1.2rem; }
-}
-
-/* src/pages/EventsTSSPage.css - Update for ListGroup timeline */
-
-.list-group-item {
-  border: none;
-  padding: 1rem 0;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.list-group-item:last-child {
-  border-bottom: none;
-}
-
-.list-group-item .text-orange {
-  min-width: 150px;
-}
-
-/* Keep previous animations/responsive styles */
-/* src/pages/EventsTSSPage.css - White background, purple accents, animations, responsive */
-
-/* General */
-.events-tss-page {
-  background-color: #fff;
-  color: #333;
-}
-
-/* Purple accents from screenshot */
-.text-purple { color: #6f42c1 !important; }
-
-/* Header - No header in screenshot, but keep minimal if needed */
-/*.header { display: none; } /* Remove if not in screenshot */
-
-/* Sections */
-h2, h3 { color: #333; }
-
-.lead { color: #333 !important; font-size: 1.1rem; font-weight: bold;}
-
-.lead-1-tss { color: black !important; font-size: 1.1rem; font-weight: bold;}
-
-.list-unstyled li { font-size: 1rem; margin-bottom: 0.5rem; }
-
-.accordion-button { background-color: #f8f9fa; color: #333; }
-
-.accordion-button:not(.collapsed) { background-color: #e9ecef; }
-
-/* Iframe styling */
-iframe { box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
-
-iframe:hover { transform: scale(1.02); }
-
-/* Organized by card */
-.card.bg-light { border: none; }
-
-/* Animations (same as before) */
-.animate-fade-in { animation: fadeIn 1s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.animate-slide-up { animation: slideUp 1s; }
-@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-.animate-zoom-in { animation: zoomIn 1s; }
-@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-.animate-bounce-in { animation: bounceIn 0.5s; }
-@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-/* Responsive */
-@media (max-width: 768px) {
-  h2, h3 { font-size: 1.5rem; }
-  .lead { font-size: 1rem; }
-  .lead-p { font-size: 1rem; }
-  iframe { height: 500px; } /* Adjust height on mobile */
-}
-/* src/pages/EventsTSSPage.css - Updated for screenshot layout (white bg, minimal, purple accents) */
-
-.events-tss-page {
-  background-color: #fff;
-  color: #333;
-  font-family: 'Arial', sans-serif;
-}
-
-/* Purple accents */
-.text-purple { color: #6f42c1 !important; }
-
-/* Sections */
-h2, h3 { font-weight: bold; color: #333; }
-
-.lead { font-size: 1.1rem; color: #666; }
-.lead-p { font-size: 1.1rem; color: #333; font-weight: bold; font-family: 'Arial', sans-serif;}
-
-.list-unstyled li { font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; }
-
-.cursor-pointer { cursor: pointer; transition: color 0.3s; }
-
-.cursor-pointer:hover { color: #6f42c1; }
-
-/* Accordion styling */
-.accordion-button { background-color: #f8f9fa; color: #333; font-weight: bold; }
-.accordion-button:not(.collapsed) { background-color: #e9ecef; }
-
-/* Button styling */
-.btn-light { background-color: #f1f3f5; border: none; color: #333; }
-
-/* Register button */
-.btn-register { background-color: #fd7e14 !important; color: white !important; font-size: 1.25rem; padding: 0.75rem 2rem; border-radius: 8px; }
-
-/* Organized by card */
-.card.bg-light { border: none; }
-
-/* Animations */
-.animate-fade-in { animation: fadeIn 1s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.animate-slide-up { animation: slideUp 1s; }
-@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-.animate-zoom-in { animation: zoomIn 1s; }
-@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-.animate-bounce-in { animation: bounceIn 0.5s; }
-@keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-/* Responsive */
-@media (max-width: 768px) {
-  h2, h3 { font-size: 1.5rem; }
-  .lead { font-size: 1rem; }
-  iframe { height: 500px; }
-  .accordion-button { font-size: 1rem; }
-}
-
-/* src/pages/EventsTSSPage.css - Update for map display */
-
-/* Map iframe styling */
-.map-iframe iframe {
+.tss-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  height: 450px;
-  border: 0;
-  border-radius: 8px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
 }
 
-/* Keep previous styles */
+/* Countdown Section */
+.countdown-section {
+  background: rgba(255,255,255,0.1);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  padding: 2.5rem 0;
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.countdown-container {
+  background: rgba(255,255,255,0.95);
+  color: #1e2937;
+  border-radius: 24px;
+  padding: 2rem 3rem;
+  max-width: 620px;
+  margin: 0 auto;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  text-align: center;
+}
+
+.countdown-title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #64748b;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.countdown-box {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 12px 20px;
+  min-width: 80px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.countdown-number {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #1e2937;
+}
+
+.countdown-label {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Celebration Animations */
+.celebration-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.balloon {
+  position: absolute;
+  font-size: 2.5rem;
+  animation: floatBalloon 12s linear infinite;
+  bottom: -50px;
+  opacity: 0.9;
+}
+
+@keyframes floatBalloon {
+  0% { transform: translateY(100vh) rotate(0deg); }
+  100% { transform: translateY(-100vh) rotate(360deg); }
+}
+
+.firework {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #f59e0b;
+  border-radius: 50%;
+  box-shadow: 0 0 20px 10px #f59e0b;
+  animation: fireworks 1.8s ease-in-out infinite;
+}
+
+@keyframes fireworks {
+  0% { opacity: 1; transform: scale(0.2); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(0.8); }
+}
+
+/* Glassmorphism Cards (iPhone Style) */
+.program-card, .card {
+  background: rgba(255,255,255,0.92) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.program-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.18);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .countdown-timer {
+    gap: 12px;
+  }
+  .countdown-box {
+    min-width: 60px;
+    padding: 10px;
+  }
+  .countdown-number {
+    font-size: 2.2rem;
+  }
+}
+.lead-1-tss{
+  color: #0f172a;
+  font-weight: bolder;
+  font-family:  'Open Sans', 'Helvetica Neue', Arial, sans-serif;;
+}
