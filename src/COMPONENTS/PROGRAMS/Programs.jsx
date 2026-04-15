@@ -1,23 +1,20 @@
-import React, {useState} from 'react'
-import './Programs.css'
-import { Container, Row, Col, Card, Button, Modal, Form, } from 'react-bootstrap';
+import React, { useState } from 'react';
+import './Programs.css';
+import { Container, Row, Col, Card, Button, Modal, Form, Spinner } from 'react-bootstrap';
 import { auth, db } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { Spinner } from 'react-bootstrap';
 
 const Programs = () => {
-
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', package: '', price: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
 
-
   const packages = [
     {
       title: 'Standard Package',
-      desc: 'At bestcoach we give students creativity and expression. Enroll your school in our dynamic music program—unlock rhythm, melody, and confidence. Join now!',
-      img: 'https://www.communitymusicschool.com/wp-content/uploads/2024/10/Joyful-Voices-2024-1-scaled-e1729108515794-2400x1480.jpg', // From search [image:0]
+      desc: 'At Bestcoach we give students creativity and expression. Enroll your school in our dynamic music program—unlock rhythm, melody, and confidence.',
+      img: 'https://www.communitymusicschool.com/wp-content/uploads/2024/10/Joyful-Voices-2024-1-scaled-e1729108515794-2400x1480.jpg',
       age: 'For everyone',
       price: 'GH₵500.00 per month',
       duration: '1 hour per session',
@@ -26,16 +23,16 @@ const Programs = () => {
     {
       title: 'Exclusive Service Package',
       desc: 'Transform your church with inspiring music. Empower your choir with expert training. Enroll in our music program today!',
-      img: 'https://www.washingtonperformingarts.org/wp-content/uploads/2023/12/about-the-choir-RS89401_2023LivingTheDream_FEB5_00758-lpr.webp', // From search [image:1]
+      img: 'https://www.washingtonperformingarts.org/wp-content/uploads/2023/12/about-the-choir-RS89401_2023LivingTheDream_FEB5_00758-lpr.webp',
       age: 'For everyone',
-      price: 'GH₵1200.00 per month',
+      price: 'GH₵1,200.00 per month',
       duration: '2 hours per session',
       schedule: 'On Demand',
     },
     {
       title: 'Flexi-Learn Package',
-      desc: 'Whether you\'re a beginner or looking to refine your skills, bestcoach is designed just for you! Learn to play, sing, and express yourself through the power of music.!',
-      img: 'https://images.squarespace-cdn.com/content/v1/6213f6b6150312039937363e/4bd42772-e43d-4891-97b2-2f7cc06d9e47/20231217__A7C1741.jpg', // From search [image:2]
+      desc: "Whether you're a beginner or looking to refine your skills, bestcoach is designed just for you! Learn to play, sing, and express yourself through music.",
+      img: 'https://images.squarespace-cdn.com/content/v1/6213f6b6150312039937363e/4bd42772-e43d-4891-97b2-2f7cc06d9e47/20231217__A7C1741.jpg',
       age: 'For everyone',
       price: 'GH₵200.00 per month',
       duration: '1 hour per session',
@@ -43,8 +40,8 @@ const Programs = () => {
     },
   ];
 
-  const handleShow = (pkgTitle) => {
-    setFormData({ ...formData, package: pkgTitle });
+  const handleShow = (pkgTitle, pkgPrice) => {
+    setFormData({ ...formData, package: pkgTitle, price: pkgPrice });
     setShowModal(true);
   };
 
@@ -55,13 +52,8 @@ const Programs = () => {
   };
 
   const handleSubmit = async (e) => {
-         e.preventDefault();
+    e.preventDefault();
     setStatus({ loading: true, success: false, error: '' });
-    
-    // In handleSubmit
-    toast.success("Request sent successfully! 🎉");
-    setFormData({ name: '', email: '', package: '' , price: ''}); // Clear form
-    
 
     try {
       await addDoc(collection(db, 'enrollments'), {
@@ -70,93 +62,100 @@ const Programs = () => {
         package: formData.package,
         price: formData.price,
         timestamp: serverTimestamp(),
-        userId: auth.currentUser?.uid || 'anonymous'
+        userId: auth.currentUser?.uid || 'anonymous',
       });
-
-      setStatus({ loading: false, success: true, error: '' });
-      setFormData({ name: '', email: '', package: '', price: '' }); // Clear form
-      setShowModal(false); // Close modal
+      toast.success("Enrollment request sent successfully! 🎉");
+      setFormData({ name: '', email: '', package: '', price: '' });
+      setShowModal(false);
     } catch (err) {
       console.error(err);
-      setStatus({ loading: false, success: false, error: 'Enrollment failed. Please try again.' });
+      toast.error('Enrollment failed. Please try again.');
+      setStatus({ loading: false, success: false, error: 'Enrollment failed.' });
+    } finally {
+      setStatus({ loading: false });
     }
   };
+
   return (
     <>
-      
+      <section id="programs" className="programs-section">
+        <Container>
+          <div className="text-center pb-5">
+            <p className="section-badge">Bestcoach Music</p>
+            <h1 className="programs-title">Bestcoach For Everyone</h1>
+          </div>
 
-<section id="programs" className="programs-section">
-      <Container>
-        <div className="text-center pb-2 programs-title">
-          <p className="px-5" id='section-p'><span className="px-2">Bestcoach Music</span></p>
-          <h1 className="mb-4">Bestcoach For Everyone</h1>
-        </div>
-       <Row>
+          <Row className="g-4">
             {packages.map((pkg, idx) => (
-              <Col lg={4} className="mb-5" key={idx}>
-                <Card className="program-card pb-2">
-                  <Card.Img variant="top" src={pkg.img} className="mb-2 img-fluid" />
-                  <Card.Body className="text-center">
-                    <Card.Title as="h4">{pkg.title}</Card.Title>
-                    <Card.Text>{pkg.desc}</Card.Text>
+              <Col lg={4} md={6} key={idx}>
+                <Card className="program-card h-100">
+                  <Card.Img variant="top" src={pkg.img} className="card-img" />
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title className="program-card-title">{pkg.title}</Card.Title>
+                    <Card.Text className="program-card-desc flex-grow-1">{pkg.desc}</Card.Text>
+
+                    <div className="program-details mt-auto">
+                      <div className="detail-row">
+                        <span className="detail-label">Age range</span>
+                        <span className="detail-value">{pkg.age}</span>
+                      </div>
+                      <div className="detail-row">
+                        <span className="detail-label">Price</span>
+                        <span className="detail-value">{pkg.price}</span>
+                      </div>
+                      <div className="detail-row">
+                        <span className="detail-label">Duration</span>
+                        <span className="detail-value">{pkg.duration}</span>
+                      </div>
+                      <div className="detail-row">
+                        <span className="detail-label">Schedule</span>
+                        <span className="detail-value">{pkg.schedule}</span>
+                      </div>
+                    </div>
                   </Card.Body>
-                  <Card.Footer className="bg-transparent py-4 px-5">
-                    <Row className="border-bottom">
-                      <Col xs={6} className="py-1 text-right border-right"><strong>Age range</strong></Col>
-                      <Col xs={6} className="py-1">{pkg.age}</Col>
-                    </Row>
-                    <Row className="border-bottom">
-                      <Col xs={6} className="py-1 text-right border-right"><strong>Price</strong></Col>
-                      <Col xs={6} className="py-1">{pkg.price}</Col>
-                    </Row>
-                    <Row className="border-bottom">
-                      <Col xs={6} className="py-1 text-right border-right"><strong>Duration</strong></Col>
-                      <Col xs={6} className="py-1">{pkg.duration}</Col>
-                    </Row>
-                    <Row>
-                      <Col xs={6} className="py-1 text-right border-right"><strong>Schedule</strong></Col>
-                      <Col xs={6} className="py-1">{pkg.schedule}</Col>
-                    </Row>
+
+                  <Card.Footer className="bg-transparent border-0 pt-0 pb-4 px-4">
+                    <Button
+                      className="join-btn w-100"
+                      onClick={() => handleShow(pkg.title, pkg.price)}
+                    >
+                      Join Now
+                    </Button>
                   </Card.Footer>
-                  <Button id="join-btn" className="px-4 mx-auto mb-4" onClick={() => handleShow(pkg.title)}>
-                    Join Now
-                  </Button>
                 </Card>
               </Col>
             ))}
           </Row>
-      </Container>
+        </Container>
+      </section>
 
-     {/* Enrollment Modal */}
-        <Modal show={showModal} onHide={handleClose} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Enroll in {formData.package}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control name="name" value={formData.name} onChange={handleChange} required />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
-              </Form.Group>
-               <Form.Group className="mb-3">
-                <Form.Label>Price</Form.Label>
-                <Form.Control name="price" type="number" value={formData.price} onChange={handleChange} required />
-              </Form.Group>
-              <Button type="submit" variant="primary" disabled={status.loading} className="w-100">
-                {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
-              {status.loading ? 'Sending...' : 'Send Message'}
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
-    </section>
-
+      {/* Enrollment Modal */}
+      <Modal show={showModal} onHide={handleClose} centered className="auth-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>Enroll in {formData.package}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control name="name" value={formData.name} onChange={handleChange} required />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Price (GH₵)</Form.Label>
+              <Form.Control name="price" type="text" value={formData.price} readOnly />
+            </Form.Group>
+            <Button type="submit" variant="primary" disabled={status.loading} className="w-100 py-3 rounded-4">
+              {status.loading ? <Spinner animation="border" size="sm" /> : 'Send Enrollment Request'}
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
-  )
-}
+  );
+};
 
-export default Programs
+export default Programs;
