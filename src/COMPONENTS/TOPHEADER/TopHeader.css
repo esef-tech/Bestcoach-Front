@@ -1,18 +1,17 @@
-/* src/COMPONENTS/TopHeader.css */
+/* TopHeader.css - Fully Responsive + Sticky */
 .top-header {
-  background-color: #17a2b8; /* teal  */
+  background-color: #17a2b8;
   color: #fff;
-  padding: 12px 0;
-  position: -webkit-sticky; /* Safari on iOS 7+ */
+  padding: 10px 0;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-top: 3px solid #17a2b8;    /* Red top border from image */
-  border-bottom: 3px solid #17a2b8;  /* Blue bottom border from image */
-  animation: slideDown 0.6s ease-out forwards;
+  border-bottom: 3px solid #17a2b8;
   font-size: 0.95rem;
 }
+
 
 .top-header-container {
   max-width: 1400px;
@@ -25,7 +24,7 @@
   gap: 15px;
 }
 
-/* Left Contact Info */
+/* Left Contact */
 .contact-info-top-header {
   display: flex;
   align-items: center;
@@ -37,135 +36,64 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
   font-weight: 500;
-  transition: transform 0.3s ease;
 }
 
-.info-item-top-header:hover {
-  transform: translateY(-2px);
+.icon { color: #fd7e14; font-size: 1.1rem; }
+
+/* Center Handwritten */
+.handwriting-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 280px;
 }
 
-.icon {
-  color: #fd7e14;
-  font-size: 1.1rem;
+.handwritten-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.35rem;
+  white-space: nowrap;
+  animation: handwriting 5.5s steps(42, end) infinite alternate;
+  color: #ffd700;
 }
 
-/* Right Social Section */
+/* Right Social */
 .social-section-top-header {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
-.brand-initial {
-  background-color: #fff;
-  color: #17a2b8;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.brand-initial:hover {
-  transform: scale(1.15) rotate(10deg);
-}
-
 .social-icon-top-header {
   width: 32px;
   height: 32px;
-  background-color: #fff;
+  background: #fff;
   color: #fd7e14;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
   transition: all 0.3s ease;
-  text-decoration: none;
 }
 
 .social-icon-top-header:hover {
-  background-color: #17a2b8;
-  color: #fd7e14;
-  transform: scale(1.2) rotate(8deg);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: #0d6efd;
+  color: #fff;
+  transform: scale(1.15);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .top-header-container {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-    padding: 6px 15px;
-  }
-  
-  .contact-info {
-    justify-content: center;
-    gap: 18px;
-  }
-  
-  .social-section-top-header {
-    justify-content: center;
-  }
+@media (max-width: 992px) {
+  .top-header-container { flex-direction: column; gap: 12px; text-align: center; }
+  .handwriting-center { min-width: auto; font-size: 1.1rem; }
 }
 
-/* Animation */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@media (max-width: 576px) {
+  .top-header { padding: 8px 0; }
+  .handwritten-text { font-size: 1rem; }
 }
 
-/* CENTER - Handwritten Animation */
-.handwriting-center {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  min-width: 300px;
-}
-.handwritten-text {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.35rem;
-  white-space: nowrap;
-  display: inline-block;
-  animation: handwriting 5.5s steps(42, end) infinite alternate;
-  will-change: width;           /* Helps GPU acceleration */
-}
 @keyframes handwriting {
   from { width: 0%; }
-  to   { width: 100%; }
-}
-
-@keyframes handwriting {
-  0%   { width: 0; }
-  50%  { width: 100%; }
-  100% { width: 100%; }
-}
-
-/* Animation Keyframes */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes erase {
-  from { width: 100% }
-  to { width: 0 }
-}
-
-.handwritten-text {
-  color: #ffd700; /* Gold for perfect contrast */
+  to { width: 100%; }
 }

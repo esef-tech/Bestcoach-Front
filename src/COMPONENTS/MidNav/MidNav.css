@@ -1,0 +1,84 @@
+/* src/components/MidNav.css - Twilio Top Bar Style - Fully Responsive */
+.mid-nav {
+  background: rgba(255, 255, 255, 0.98);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: -webkit-sticky;
+   position: sticky;
+  top: 50px;
+  z-index: 999;
+}
+
+.mid-nav .nav-link {
+  color: #222;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.mid-nav .nav-link:hover {
+  color: #fd7e14 !important;
+}
+
+.mid-nav .dropdown-toggle {
+  color: #222;
+}
+
+.mid-nav .dropdown-menu {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  border: none;
+  padding: 8px 0;
+}
+
+/* Mobile Collapse */
+@media (max-width: 992px) {
+  .mid-nav .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+  }
+  .mid-nav .dropdown-menu {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.nav-container-right {
+  margin-left: auto; /* Pushes the nav to the right-end */
+  display: flex;
+  align-items: center;
+}
+
+/* 2. Style the button group for even spacing */
+.button-group {
+  display: flex;
+  gap: 1.5rem; /* Ensures equal, fixed spacing between buttons */
+  align-items: center;
+}
+
+/* Evenly space the items */
+.custom-nav-gap {
+  gap: 2rem; /* Adjust this value for more/less space between dropdowns */
+}
+
+/* Ensure dropdown menus align properly on desktop vs mobile */
+@media (min-width: 992px) {
+  .custom-nav-gap .dropdown-menu {
+    border-radius: 8px;
+    margin-top: 10px;
+    /* Aligns the actual menu box to the right of the toggle text */
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Responsive fix: spacing for mobile toggle mode */
+@media (max-width: 991px) {
+  .custom-nav-gap {
+    gap: 1rem;
+    padding: 1rem 0;
+    align-items: flex-start !important; /* Stack items vertically on mobile */
+  }
+}

@@ -1,0 +1,54 @@
+.auth-modal .modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(20px);
+   backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: none;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  overflow: hidden;
+}
+
+.auth-modal .modal-header {
+  background: transparent;
+  border-bottom: none;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.auth-modal .modal-body {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.auth-modal .form-control {
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  padding: 1rem 1.25rem;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+}
+
+.auth-modal .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+}
+
+.auth-modal .btn-primary {
+  background: linear-gradient(90deg, #007bff, #00c4ff);
+  border: none;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.auth-modal .btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.auth-modal .btn-outline-dark {
+  border-radius: 16px;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+}
+
+.auth-modal .btn-outline-dark:hover {
+  background: #f8f9fa;
+  transform: translateY(-1px);
+}

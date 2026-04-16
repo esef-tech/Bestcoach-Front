@@ -44,6 +44,7 @@ import Loyal from "./COMPONENTS/PAGES/LOYAL/Loyal";
 import Shop from "./COMPONENTS/PAGES/SHOP/Shop";
 import Community from "./COMPONENTS/PAGES/COMMUNITY/Community";
 import Profile from "./COMPONENTS/Profile";
+import { LanguageProvider } from "./context/LanguageContext";
 
 class ErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -67,6 +68,7 @@ function App() {
 
   return (
     <HelmetProvider>
+      <LanguageProvider>
       <Router>
         <AnalyticsTracker />
         <SessionProvider>
@@ -115,6 +117,7 @@ function App() {
           </AuthProvider>
         </SessionProvider>
       </Router>
+      </LanguageProvider>
     </HelmetProvider>
   );
 }

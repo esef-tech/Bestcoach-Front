@@ -1,147 +1,81 @@
-// src/components/MFAVerificationModal.jsx
 import React, { useState } from 'react';
-import { Modal, Button, Form, Alert, Spinner, Row, Col } from 'react-bootstrap';
-import {  PhoneAuthProvider } from 'firebase/auth';
-import { auth, db } from '../../firebase';
-import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
+import { Modal, Form, Button, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { PhoneAuthProvider, PhoneMultiFactorGenerator } from 'firebase/auth';
+import './MFAVerification.css';
 
-const MFAVerificationModal = ({ show, onHide, mfaResolver, email, onSuccess }) => {
-  const [code, setCode] = useState('');
+const MFAVerificationModal = ({ show, onHide, mfaResolver, onSuccess }) => {
+  const [verificationCode, setVerificationCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [method, setMethod] = useState('sms'); // 'sms' or 'email'
 
-  // Send Email OTP
-  const sendEmailOTP = async () => {
-    setLoading(true);
-    setError('');
-
-    try {
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const otpRef = doc(db, 'emailOTPs', auth.currentUser?.uid || 'temp');
-
-      await setDoc(otpRef, {
-        otp,
-        email,
-        expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes
-      });
-
-      toast.success(`✅ 6-digit code sent to ${email}`);
-      setMethod('email');
-    } catch (err) {
-      setError('Failed to send email code. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Verify SMS or Email OTP
   const handleVerify = async () => {
-    if (code.length !== 6) return;
+    if (!verificationCode || verificationCode.length < 6) {
+      toast.error('Please enter the 6-digit code');
+      return;
+    }
+
     setLoading(true);
-    setError('');
-
     try {
-      if (method === 'sms' && mfaResolver) {
-        // SMS verification (Firebase MFA)
-        const credential = PhoneAuthProvider.credential(mfaResolver.session.phoneNumber, code);
-        await mfaResolver.resolveSignIn(credential);
-      } else {
-        // Email OTP verification
-        const otpRef = doc(db, 'emailOTPs', auth.currentUser?.uid || 'temp');
-        const otpSnap = await getDoc(otpRef);
+      const cred = PhoneAuthProvider.credential(mfaResolver.session, verificationCode);
+      const assertion = PhoneMultiFactorGenerator.assertion(cred);
+      await mfaResolver.resolveSignIn(assertion);
 
-        if (!otpSnap.exists() || otpSnap.data().otp !== code) {
-          throw new Error('Invalid code');
-        }
-        if (otpSnap.data().expiresAt < Date.now()) {
-          throw new Error('Code expired');
-        }
-
-        await deleteDoc(otpRef); // Clean up
-      }
-
-      toast.success('✅ 2FA verification successful');
+      toast.success('✅ Two-Factor Authentication Verified');
       onSuccess();
       onHide();
     } catch (err) {
-      setError(err.message || 'Invalid or expired code. Try again.');
-      toast.error('Invalid code');
+      toast.error('Invalid code. Please try again.');
+      setVerificationCode('');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered backdrop="static">
-      <Modal.Header closeButton>
-        <Modal.Title>Two-Factor Authentication (2MFA)</Modal.Title>
+    <Modal show={show} onHide={onHide} centered className="auth-modal" size="md">
+      <Modal.Header closeButton className="border-0">
+        <Modal.Title className="w-100 text-center fw-bold fs-3">Two-Factor Verification</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <p className="text-center mb-3">
-          Choose how to receive your verification code
+
+      <Modal.Body className="px-4 pb-4 text-center">
+        <p className="text-muted mb-4">
+          Enter the 6-digit code sent to your phone
         </p>
 
-        <Row className="mb-4">
-          <Col>
-            <Button
-              variant={method === 'sms' ? 'primary' : 'outline-primary'}
-              className="w-100"
-              onClick={() => setMethod('sms')}
-            >
-              📱 Send via SMS
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              variant={method === 'email' ? 'primary' : 'outline-primary'}
-              className="w-100"
-              onClick={sendEmailOTP}
-            >
-              ✉️ Send via Email
-            </Button>
-          </Col>
-        </Row>
+        <Form.Group className="mb-4">
+          <Form.Control
+            type="text"
+            placeholder="123456"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            className="text-center fs-1 fw-semibold rounded-4 py-4"
+            maxLength={6}
+            style={{ letterSpacing: '8px' }}
+          />
+        </Form.Group>
 
-        {error && <Alert variant="danger" className="text-center">{error}</Alert>}
-
-        <Form.Control
-          type="text"
-          placeholder="Enter 6-digit code"
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-          maxLength={6}
-          className="text-center fs-4 mb-3"
-          autoFocus
-        />
-
-        <small className="text-muted d-block text-center">
-          {method === 'sms'
-            ? 'Code sent to your registered phone number'
-            : `Code sent to ${email}`}
-        </small>
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide} disabled={loading}>
-          Cancel
-        </Button>
         <Button
-          variant="success"
+          variant="primary"
           onClick={handleVerify}
-          disabled={loading || code.length !== 6}
+          disabled={loading || verificationCode.length < 6}
+          className="w-100 py-3 rounded-4 fw-semibold shadow-sm"
         >
           {loading ? (
-            <>
-              <Spinner animation="border" size="sm" className="me-2" />
-              Verifying...
-            </>
+            <Spinner animation="border" size="sm" />
           ) : (
             'Verify Code'
           )}
         </Button>
-      </Modal.Footer>
+
+        <div className="mt-4">
+          <small className="text-muted">
+            Didn’t receive the code?{' '}
+            <span className="text-primary cursor-pointer" onClick={() => toast.info('Resend code feature coming soon')}>
+              Resend
+            </span>
+          </small>
+        </div>
+      </Modal.Body>
     </Modal>
   );
 };
