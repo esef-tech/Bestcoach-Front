@@ -1,8 +1,19 @@
-/* src/pages/ContactPage.css - Animations, dynamic, appealing */
+/* Contact.css - FULL iPhone Polymorphic Glassmorphism (scoped ONLY to .contact-page) */
+
+.contact-page {
+  background: linear-gradient(180deg, #0f172a 0%, #1e2937 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
 
 /* Header */
 .header-contact {
-   display: flex;
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  padding: 4rem 0 3rem;
+  text-align: center;
+  position: relative;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -10,126 +21,202 @@
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
-  color: white;
+  color: blueviolet;
+  min-height: 70px;
 }
-#contact-button-submit-color{
+.header-contact::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
+}
+
+/* Glassmorphic Cards & Accordion */
+.glass-card {
+  background: rgba(255,255,255,0.92) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.18);
+}
+
+/* Glassmorphic Urgent Buttons */
+.urgent-btn {
+  background: rgba(255,255,255,0.92) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px);
+  border-radius: 16px !important;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  color: #333;
+  transition: all 0.3s ease;
+}
+.urgent-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+.text-h1 {
+  color: blueviolet;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 18px;
+  font-weight: 700
+}
+
+/* Brand colors preserved */
+#contact-button-submit-color {
   background-color: #17a2b8 !important;
   border-color: #17a2b8 !important;
   color: #fff !important;
 }
+.text-orange { color: #fd7e14 !important; }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Slide animations for columns */
-.animate-slide-left {
-  animation: slideLeft 1s ease;
-}
-
-@keyframes slideLeft {
-  from { transform: translateX(-50px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.animate-slide-right {
-  animation: slideRight 1s ease;
-}
-
-@keyframes slideRight {
-  from { transform: translateX(50px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.animate-bounce-in {
-  animation: bounceIn 0.5s ease;
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.9); opacity: 0; }
-  60% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-/* Form styling for appeal */
-.contact-form {
-  border-radius: 15px;
-  animation: zoomIn 1s ease;
-}
-
-.form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-}
-
-/* Info icons */
-.d-flex {
-  transition: transform 0.3s;
-}
-
-.d-flex:hover {
-  transform: translateX(10px);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-  .header-contact {
-    min-height: 300px;
-  }
-  .header-contact h1 {
-    font-size: 2.5rem;
-  }
-}
-
-/* Accordion styling for FAQs */
-.accordion-button { background-color: #fff; color: #333; font-weight: bold; border-bottom: 1px solid #dee2e6; }
-.accordion-button:not(.collapsed) { background-color: #f8f9fa; }
-
-/* Form card */
-.card { border-radius: 10px; }
-
-/* Animations */
+/* Animations (preserved from original) */
 .animate-fade-in { animation: fadeIn 1s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
 .animate-slide-up { animation: slideUp 1s; }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
 .animate-bounce-in { animation: bounceIn 0.5s; }
 @keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
 .animate-slide-left { animation: slideLeft 1s; }
 @keyframes slideLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* Responsive */
 @media (max-width: 768px) {
   .header-contact h1 { font-size: 2.5rem; }
-  .w-50 { width: 100% !important; }
-  .accordion-button { font-size: 1rem; }
-}
-/* src/pages/ContactPage.css - Updated for urgent contact buttons */
-
-/* Urgent buttons styling - Light gray, rounded, black text/icons */
-.urgent-btn {
-  background-color: #f8f9fa !important;
-  border: 1px solid #dee2e6 !important;
-  color: #333 !important;
-  font-size: 1rem;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+  .glass-card { margin-bottom: 1.5rem; }
 }
 
-.urgent-btn:hover {
-  background-color: #e9ecef !important;
+/* Contact.css - Add these styles at the bottom */
+
+/* Glassmorphic Modals */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
 }
 
-/* Icons spacing */
-.urgent-btn svg { margin-right: 0.5rem; }
-
-/* Responsive - Stack buttons on mobile */
-@media (max-width: 768px) {
-  .urgent-btn { font-size: 0.9rem; padding: 0.75rem; }
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
 }
 
-/* Keep previous animations/responsive styles */
+/* Call Now Button */
+.call-now-btn {
+  background: linear-gradient(90deg, #17a2b8, #fd7e14) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Phone number display */
+.phone-number-display {
+  background: rgba(253, 126, 20, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 2px solid #fd7e14;
+}
+
+/* Map container */
+.map-container {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+/* Ensure urgent buttons keep glass look */
+.urgent-btn.glass-btn {
+  background: rgba(255,255,255,0.92) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px);
+}
+
+/* WhatsApp Modal & Button */
+.whatsapp-btn {
+  background: linear-gradient(90deg, #25D366, #128C7E) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Ensure all modals have consistent glass look */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}
+/* Telegram Modal & Button */
+.telegram-btn {
+  background: linear-gradient(90deg, #229ED9, #1E96D3) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Consistent glass look for all modals */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}
+/* Email Modal & Button */
+.email-btn {
+  background: linear-gradient(90deg, #17a2b8, #fd7e14) !important;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Consistent glass look for all modals */
+.contact-modal .modal-content {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+}
+
+.glass-modal {
+  background: rgba(255,255,255,0.95) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}

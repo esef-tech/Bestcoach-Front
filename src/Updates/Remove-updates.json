@@ -1,0 +1,41 @@
+[
+  {
+    "Feature": "Navbar-updates",
+    "Component": "{<NavDropdown.Item as={Link} to=\"/blog\"><FaBlog className=\"me-2 text-orange\" />Blog</NavDropdown.Item>}",
+    "Import": "FaBlog"
+  },
+  {
+    "Feature": "Navbar-Updates",
+    "Component": "{<NavDropdown.Item as={Link} to=\"/package\"><FaBoxOpen className=\"me-2 text-orange\" />Packages</NavDropdown.Item>}",
+    "Import": "FaBoxOpen"
+  },
+  {
+    "Feature": "Navbar-Updates",
+    "Component": "{<NavDropdown.Item as={Link} to=\"/coach\"><FaUsers className=\"me-2 text-orange\" />Coaches</NavDropdown.Item>}",
+    "Import": "FaUsers"
+  },
+  {
+    "Feature": "Navbar-updates",
+    "Component": "{<NavDropdown.Item as={Link} to=\"/press\"><FaNewspaper className=\"me-2 text-orange\" />Press</NavDropdown.Item>}",
+    "Import": "FaNewspaper"
+  },
+  {
+    "Feature": "Navbar-Updates",
+    "Component": "{}"
+  },
+  {
+    "Feature": "Navbar-updates",
+    "Component": "{<NavDropdown.Item as={Link} to=\"/method\"><FaRoad className=\"me-2 text-orange\" />Methods</NavDropdown.Item>}",
+    "Import": "FaRoad"
+  },
+  {
+    "Feature": "Navbar-updates",
+    "Component": "{<Nav.Link as={Link} to=\"/shop\" className=\"mx-2\"><FaShoppingCart className=\"me-2 text-orange\" />Shop</Nav.Link>}",
+    "Import": "FaShoppingCart"
+  },
+  {
+    "Feature": "Navbar-Updates",
+    "Component": "{<NavDropdown title=\"Resources\" id=\"services-dropdown\" className=\"mx-2\">\n                <NavDropdown.Item as={Link} to=\"/webinars\"><FaVideo className=\"me-2 text-orange\" />Webinars</NavDropdown.Item>\n                <NavDropdown.Item as={Link} to=\"/help\"><FaLifeRing className=\"me-2 text-orange\" />Help Centre</NavDropdown.Item>\n                <NavDropdown.Item as={Link} to=\"/studio-tutorials\"><FaBookOpen className=\"me-2 text-orange\" />Studio Tutorials</NavDropdown.Item>\n              </NavDropdown>}",
+    "Import": "FaVideo,FaBookOpen,FaLifeRing"
+  }
+]

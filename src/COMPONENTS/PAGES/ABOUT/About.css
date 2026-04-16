@@ -1,10 +1,9 @@
-/* src/pages/AboutPage.css */
-/* Colors */
-.bg-primary { background-color: #17a2b8 !important; }
-.text-orange { color: #fd7e14 !important; } /* Bright orange */
-.bg-light { background-color: #f8f9fa !important; }
 
 .hero-about {
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  padding: 4rem 0 3rem;
+  text-align: center;
+  position: relative;
   min-height: 70px;
   display: flex;
   flex-direction: column;
@@ -19,150 +18,72 @@
 
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* About.css - FULL iPhone Polymorphic Glassmorphism (scoped to .about-page only) */
 
-
-.animate-slide-left {
-  animation: slideLeft 1s ease;
-}
-
-@keyframes slideLeft {
-  from { transform: translateX(-50px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.animate-slide-right {
-  animation: slideRight 1s ease;
-}
-
-@keyframes slideRight {
-  from { transform: translateX(50px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.animate-zoom-in {
-  animation: zoomIn 1s ease;
-}
-
-@keyframes zoomIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fadeIn 1s ease;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.8s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.animate-bounce-in {
-  animation: bounceIn 0.5s ease;
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  60% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-.section-title {
+.about-page {
+  background: linear-gradient(180deg, #0f172a 0%, #1e2937 100%);
+  color: #fff;
   position: relative;
-  display: inline-block;
-  color: #17a2b8;
-  font-weight: bold;
-}
-
-.section-title span {
-  background: #17a2b8;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  overflow: hidden;
 }
 
 
-@media (max-width: 992px) {
-  .header-about {
-    min-height: 300px;
-  }
-  .header-about h1 {
-    font-size: 2.5rem;
-  }
-  .img-fluid.rounded.mb-5 {
-    margin-bottom: 2rem !important;
-  }
+.hero-about::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
 }
-  
-  /* src/pages/AboutPage.css - Updated for Pianote style (clean, bold, orange accents) */
 
-#h-text-color {
-  color: #00d6f7!important;
+/* Glassmorphic Cards (iPhone style) */
+.glass-card {
+  background: rgba(255,255,255,0.92) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px);
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
-#about-button-color {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-  color: white;
+.glass-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.18);
 }
-#about-signup-button-color {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-  color: white;
+
+/* Section titles */
+.text-orange {
+  color: #fd7e14 !important;
 }
-#app-store-button-color {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-  color: white;
-} 
-
-/* Timeline cards */
-.card { border-radius: 10px; }
-
-/* Coaches images */
-.card img { object-fit: cover; }
-
-/* Metrics */
-.metrics h3 { font-size: 3rem; }
 
 /* Seen In logos */
-.seen-in img { filter: grayscale(100%); transition: filter 0.3s; }
-.seen-in img:hover { filter: grayscale(0%); }
+.seen-in-logo {
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+.seen-in-logo:hover {
+  filter: grayscale(0%);
+}
 
-/* Newsletter form */
-.form-inline .form-control { width: 300px; }
-
-/* Animations (as before) */
+/* Animations (kept from your original) */
 .animate-fade-in { animation: fadeIn 1s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
 .animate-slide-up { animation: slideUp 1s; }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
 .animate-zoom-in { animation: zoomIn 1s; }
 @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
 .animate-bounce-in { animation: bounceIn 0.5s; }
 @keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
 .animate-slide-left { animation: slideLeft 1s; }
 @keyframes slideLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
 .animate-slide-right { animation: slideRight 1s; }
 @keyframes slideRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2.5rem; }
-  .lead { font-size: 1rem; }
-  .metrics h3 { font-size: 2rem; }
-  .form-inline .form-control { width: 100%; }
-  .form-inline button { width: 100%; margin-top: 1rem; }
+  .hero-about h1 { font-size: 2.5rem; }
+  .glass-card { margin-bottom: 1.5rem; }
 }

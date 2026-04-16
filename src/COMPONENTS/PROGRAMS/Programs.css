@@ -1,83 +1,131 @@
+/* Programs.css - iPhone Polymorphic Glassmorphism Cards */
 .programs-section {
-  background: linear-gradient(to bottom, #f8f9fa, #ffffff); /* Light gradient for appeal */
-  padding-top: 5rem;
-  padding-bottom: 3rem;
-  background-color: hsl(192, 89%, 45%)
+  background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+  padding: 6rem 0 4rem;
+  background-color: hsl(192, 89%, 45%);
 }
 
-#section-p{
-  background-color: hsl(192, 89%, 45%)  ;
-  color: white;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-size: 1rem;
-  margin-bottom: 0;
-  font-weight: bolder;
-
-}
-
-#join-btn {
+.section-badge {
   background-color: hsl(192, 89%, 45%);
   color: white;
-  font-weight: bolder;
-  border-color: hsl(192, 89%, 45%);
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.programs-title h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  
+.programs-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 3rem;
 }
 
+/* iPhone Glassmorphism Cards */
 .program-card {
-  border: none !important; /* Match original border-0 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: fadeIn 1s ease-in-out; /* Fade-in for appeal */
+  border: none;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .program-card:hover {
-  transform: translateY(-5px); /* Lift on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-12px);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.18);
 }
 
-.program-card img {
-  height: 250px; /* Consistent height */
-  object-fit: cover; /* Fill without distortion */
+.card-img {
+  height: 220px;
+  object-fit: cover;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
 }
 
-.card-footer {
-  background: transparent !important;
-  border-top: none !important;
+.program-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 12px;
 }
 
-.card-footer .row {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+.program-card-desc {
+  color: #555;
+  line-height: 1.5;
+  flex-grow: 1;
 }
 
-.card-footer strong {
-  text-align: right;
-  padding-right: 1rem;
+.program-details {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: auto;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.95rem;
 }
 
-@media (max-width: 768px) {
-  .programs-title h1 {
-    font-size: 2rem; /* Scale down */
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #222;
+}
+
+/* Join Button */
+.join-btn {
+  background: linear-gradient(90deg, #007bff, #00c4ff);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.join-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 123, 255, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .programs-title {
+    font-size: 2.4rem;
   }
-  
-  .program-card img {
-    height: 200px; /* Adjust for mobile */
+  .program-card {
+    margin-bottom: 2rem;
   }
-  
-  .card-footer {
-    padding: 1rem !important; /* Reduced padding */
+}
+
+@media (max-width: 576px) {
+  .programs-section {
+    padding: 4rem 0 3rem;
+  }
+  .program-card {
+    border-radius: 20px;
+  }
+  .card-img {
+    height: 200px;
   }
 }
