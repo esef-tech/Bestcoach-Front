@@ -33,15 +33,12 @@ const Team = () => {
     { name: 'Emmanuel Ameko', specialty: 'Founder', image: `${CoachMan}`, featured: true, category: 'founder' },
     { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: true, category: 'director' },
     { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: true, category: 'operations manager' },
-     { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
+    { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
     { name: 'Precious Nkrumah', specialty: 'Graphic Design Lead', image: `${MPR}`, featured: true, category: 'graphic design lead' },
     { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: true, category: 'data analyst' },
-   { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: true, category: 'administrator' },
+    { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: true, category: 'administrator' },
     { name: 'Nana Sarfo', specialty: 'Media Lead', image: `${NTTS}`, featured: true, category: 'media lead' },
     { name: 'Matthiahs', specialty: 'Assistant Media Lead', image: `${MTTS}`, featured: true, category: 'assistant media lead' },
-    
-
-   
   ];
 
   const filteredCoaches = coaches.filter(coach =>
@@ -53,7 +50,7 @@ const Team = () => {
   const categories = [
     { name: 'all', icon: <FaMusic className="me-2 text-orange" /> },
     { name: 'founder', icon: <BsAlexa className="me-2 text-orange" /> },
-     { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
+    { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
     { name: 'operations manager', icon: <TbBrandReactNative className="me-2 text-orange" /> },
     { name: 'tech lead', icon: <SiTechcrunch className="me-2 text-orange" /> },
     { name: 'graphic design lead', icon: <SiTaichigraphics className="me-2 text-orange" /> },
@@ -61,7 +58,6 @@ const Team = () => {
     { name: 'administrator', icon: <FcBusinesswoman className="me-2 text-orange" /> },
     { name: 'media lead', icon: <MdPermMedia className="me-2 text-orange" /> },
     { name: 'assistant media lead', icon: <GrMultimedia className="me-2 text-orange" /> },
-    
   ];
 
   const handleViewImage = (imageUrl) => {
@@ -83,7 +79,7 @@ const Team = () => {
           <h1 className="display-3 fw-bold mb-4">Meet Our Team</h1>
         </div>
 
-        {/* Filters */}
+        {/* Filters - Exact second image style */}
         <Container className="py-4">
           <Row className="justify-content-center align-items-center">
             <Col md={6} className="mb-3">
@@ -93,18 +89,18 @@ const Team = () => {
                   placeholder="Search team..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="me-2"
+                  className="me-2 search-input"
                 />
-                <Button className="search-btn" variant="orange"><FaSearch /></Button>
+                <Button id="search-btn" variant="orange"><FaSearch /></Button>
               </Form>
             </Col>
             <Col md={6} className="mb-3">
-              <div className="d-flex justify-content-center flex-wrap">
+              <div className="d-flex justify-content-center flex-wrap gap-2">
                 {categories.map((cat, idx) => (
                   <Button
-                    id="button-color"
+                    id="search-btn"
                     key={idx}
-                    variant={selectedCategory === cat.name ? 'primary' : 'outline-primary'}
+                    variant={selectedCategory === cat.name }
                     className="me-2 mb-2 animate-bounce-in"
                     onClick={() => setSelectedCategory(cat.name)}
                   >
@@ -116,7 +112,7 @@ const Team = () => {
           </Row>
         </Container>
 
-        {/* Coaches Grid - Exact image card style */}
+        {/* Coaches Grid - Exact first image card style */}
         <Container className="py-5">
           <Row>
             {filteredCoaches.map((coach, idx) => (
@@ -136,12 +132,15 @@ const Team = () => {
                   <Card.Body className="text-center p-4">
                     <h4 className="fw-bold text-orange mb-1">{coach.name}</h4>
                     <p className="text-muted mb-4">{coach.specialty}</p>
+                  </Card.Body>
+                  {/* Dark teal social pill - Exact match to first image */}
+                  <div className="social-pill">
                     <Button variant="orange" className="animate-bounce-in w-100" id="button-profile-color">
                       <FaWhatsapp className="me-2 text-orange" />
                       <FaFacebookF className="me-2 text-orange" />
                       <FaInstagram className="me-2 text-orange" />
                     </Button>
-                  </Card.Body>
+                  </div>
                 </Card>
               </Col>
             ))}
