@@ -6,6 +6,8 @@ import CoachMan from "../Images/team/3.jpg";
 import GObeng from "../Images/team/2.jpg";
 import TBonful from "../Images/team/6.jpg";
 import Emm from "../Images/team/7.jpg";
+import MJeff from "../Images/team/Executives/Mr.Jeffrey-1.webp"
+import MTTS from "../Images/team/Executives/Mathias-4.webp"
 import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { BsAlexa } from 'react-icons/bs';
 import { FcBusinesswoman } from 'react-icons/fc';
@@ -13,6 +15,8 @@ import { TbBrandReactNative } from 'react-icons/tb';
 import { SiGoogleanalytics, SiTechcrunch } from 'react-icons/si';
 import { Link } from 'react-router-dom';
 import { useSession } from '../../context/SessionContext';
+import { TbChairDirector } from "react-icons/tb";
+import { MdPermMedia } from "react-icons/md";
 
 const Team = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,9 +31,9 @@ const Team = () => {
     { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: false, category: 'administrator' },
     { name: 'Emmanuel Mamabah', specialty: 'Operations Manager', image: `${Emm}`, featured: false, category: 'operations manager' },
     { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: false, category: 'data analyst' },
-    { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://example.com/jesus-molina.jpg', featured: true, category: 'tech lead' },
-    { name: 'Sangah Noona', specialty: 'Piano', image: 'https://example.com/sangah-noona.jpg', featured: false, category: 'piano' },
-    { name: 'Erskine Hawkins', specialty: 'Piano', image: 'https://example.com/erskine-hawkins.jpg', featured: false, category: 'piano' },
+    { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
+    { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: false, category: 'director' },
+    { name: 'Matthiahs', specialty: 'Media Lead', image: `${MTTS}`, featured: false, category: 'media lead' },
     { name: 'Victoria Theodore', specialty: 'Piano', image: 'https://example.com/victoria-theodore.jpg', featured: false, category: 'piano' },
     { name: 'Summer Swee-singh', specialty: 'Guitar', image: 'https://example.com/summer-swee-singh.jpg', featured: false, category: 'guitar' },
     { name: 'Emmanuel Ameko', specialty: 'Trumpets', image: `${CoachMan}`, featured: false, category: 'trumpets' },
@@ -49,6 +53,9 @@ const Team = () => {
     { name: 'data analyst', icon: <SiGoogleanalytics className="me-2 text-orange" /> },
     { name: 'operations manager', icon: <TbBrandReactNative className="me-2 text-orange" /> },
     { name: 'tech lead', icon: <SiTechcrunch className="me-2 text-orange" /> },
+    { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
+    { name: 'media lead', icon: <MdPermMedia className="me-2 text-orange" /> },
+
   ];
 
   const handleViewImage = (imageUrl) => {
@@ -120,7 +127,7 @@ const Team = () => {
                     </Button>
                     {coach.featured && (
                       <Badge bg="warning" className="featured-badge position-absolute top-0 start-50 translate-middle-x">
-                        Featured Coach
+                        Featured 
                       </Badge>
                     )}
                   </div>
