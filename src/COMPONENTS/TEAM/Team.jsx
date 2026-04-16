@@ -6,19 +6,21 @@ import CoachMan from "../Images/team/3.jpg";
 import GObeng from "../Images/team/2.jpg";
 import TBonful from "../Images/team/6.jpg";
 import Emm from "../Images/team/7.jpg";
-import MJeff from "../Images/team/Executives/Mr.Jeffrey-1.webp"
-import MTTS from "../Images/team/Executives/Mathias-4.webp"
-import MPR from "../Images/team/Executives/Precious.webp"
+import MJeff from "../Images/team/Executives/Mr.Jeffrey-1.webp";
+import MTTS from "../Images/team/Executives/Mathias-4.webp";
+import MPR from "../Images/team/Executives/Precious.webp";
+import NTTS from "../Images/team/Executives/NANA-SARFO.webp";
 import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { BsAlexa } from 'react-icons/bs';
 import { FcBusinesswoman } from 'react-icons/fc';
 import { TbBrandReactNative } from 'react-icons/tb';
 import { SiGoogleanalytics, SiTechcrunch } from 'react-icons/si';
-import { Link } from 'react-router-dom';
-import { useSession } from '../../context/SessionContext';
 import { TbChairDirector } from "react-icons/tb";
 import { MdPermMedia } from "react-icons/md";
 import { SiTaichigraphics } from "react-icons/si";
+import { GrMultimedia } from "react-icons/gr";
+import { Link } from 'react-router-dom';
+import { useSession } from '../../context/SessionContext';
 
 const Team = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,24 +29,21 @@ const Team = () => {
   const [selectedImage, setSelectedImage] = useState('');
   const { session, savePreferences, getPreferences } = useSession();
 
-  // Dynamic coaches array
   const coaches = [
     { name: 'Emmanuel Ameko', specialty: 'Founder', image: `${CoachMan}`, featured: true, category: 'founder' },
-    { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: true, category: 'administrator' },
-    { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: true, category: 'operations manager' },
-    { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: true, category: 'data analyst' },
-    { name: 'Precious Nkrumah', specialty: 'Graphic Design Lead', image: `${MPR}`, featured: true, category: 'graphic design lead' },
-    { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
     { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: true, category: 'director' },
-    { name: 'Matthiahs', specialty: 'Media Lead', image: `${MTTS}`, featured: true, category: 'media lead' },
-    { name: 'Victoria Theodore', specialty: 'Piano', image: 'https://example.com/victoria-theodore.jpg', featured: false, category: 'piano' },
-    { name: 'Summer Swee-singh', specialty: 'Guitar', image: 'https://example.com/summer-swee-singh.jpg', featured: false, category: 'guitar' },
-    { name: 'Emmanuel Ameko', specialty: 'Trumpets', image: `${CoachMan}`, featured: false, category: 'trumpets' },
+    { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: true, category: 'operations manager' },
+     { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
+    { name: 'Precious Nkrumah', specialty: 'Graphic Design Lead', image: `${MPR}`, featured: true, category: 'graphic design lead' },
+    { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: true, category: 'data analyst' },
+   { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: true, category: 'administrator' },
+    { name: 'Nana Sarfo', specialty: 'Media Lead', image: `${NTTS}`, featured: true, category: 'media lead' },
+    { name: 'Matthiahs', specialty: 'Assistant Media Lead', image: `${MTTS}`, featured: true, category: 'assistant media lead' },
     
 
+   
   ];
 
-  // Filter coaches
   const filteredCoaches = coaches.filter(coach =>
     (selectedCategory === 'all' || coach.category === selectedCategory) &&
     (coach.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -60,8 +59,8 @@ const Team = () => {
     { name: 'tech lead', icon: <SiTechcrunch className="me-2 text-orange" /> },
     { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
     { name: 'media lead', icon: <MdPermMedia className="me-2 text-orange" /> },
+    { name: 'assistant media lead', icon: <GrMultimedia className="me-2 text-orange" /> },
     { name: 'graphic design lead', icon: <SiTaichigraphics className="me-2 text-orange" /> },
-
   ];
 
   const handleViewImage = (imageUrl) => {
@@ -95,7 +94,7 @@ const Team = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="me-2"
                 />
-                <Button variant="orange"><FaSearch /></Button>
+                <Button className="search-btn" variant="orange"><FaSearch /></Button>
               </Form>
             </Col>
             <Col md={6} className="mb-3">
@@ -116,31 +115,27 @@ const Team = () => {
           </Row>
         </Container>
 
-        {/* Coaches Grid - Glassmorphic cards with + overlay */}
+        {/* Coaches Grid - Exact image card style */}
         <Container className="py-5">
           <Row>
             {filteredCoaches.map((coach, idx) => (
               <Col md={4} key={idx} className="mb-5 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
-                <Card className="glass-card shadow border-0 h-100 coach-card">
+                <Card className="team-card glass-card shadow border-0 h-100">
                   <div className="position-relative">
                     <Image src={coach.image} alt={coach.name} fluid className="card-img-top rounded-top coach-image" />
-                    {/* Plus overlay */}
-                    <Button
-                      className="plus-overlay"
-                      onClick={() => handleViewImage(coach.image)}
-                    >
+                    <Button className="plus-overlay" onClick={() => handleViewImage(coach.image)}>
                       <FaPlus />
                     </Button>
                     {coach.featured && (
                       <Badge bg="warning" className="featured-badge position-absolute top-0 start-50 translate-middle-x">
-                        Featured 
+                        Featured
                       </Badge>
                     )}
                   </div>
-                  <Card.Body className="text-center">
-                    <h4 className="fw-bold text-orange">{coach.name}</h4>
-                    <p className="text-muted mb-3">{coach.specialty}</p>
-                    <Button variant="orange" className="animate-bounce-in" id="button-profile-color">
+                  <Card.Body className="text-center p-4">
+                    <h4 className="fw-bold text-orange mb-1">{coach.name}</h4>
+                    <p className="text-muted mb-4">{coach.specialty}</p>
+                    <Button variant="orange" className="animate-bounce-in w-100" id="button-profile-color">
                       <FaWhatsapp className="me-2 text-orange" />
                       <FaFacebookF className="me-2 text-orange" />
                       <FaInstagram className="me-2 text-orange" />
@@ -161,21 +156,11 @@ const Team = () => {
         </Container>
 
         {/* Full Image Modal */}
-        <Modal
-          show={showImageModal}
-          onHide={() => setShowImageModal(false)}
-          centered
-          size="lg"
-          className="image-modal"
-        >
+        <Modal show={showImageModal} onHide={() => setShowImageModal(false)} centered size="lg" className="image-modal">
           <Modal.Body className="p-0 text-center bg-transparent">
             <Image src={selectedImage} fluid className="full-view-image" />
           </Modal.Body>
-          <Button
-            variant="light"
-            className="position-absolute top-0 end-0 m-3"
-            onClick={() => setShowImageModal(false)}
-          >
+          <Button variant="light" className="position-absolute top-0 end-0 m-3" onClick={() => setShowImageModal(false)}>
             ✕
           </Button>
         </Modal>

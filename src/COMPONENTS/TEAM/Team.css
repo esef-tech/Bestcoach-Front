@@ -1,7 +1,7 @@
-/* Team.css - Full iPhone Polymorphic Glassmorphism (scoped ONLY to .team-page) */
+/* Team.css - Images fully visible + even alignment + Featured button spacing (scoped ONLY to .team-page) */
 
 .team-page {
-  background: linear-gradient(180deg, #0f172a 0%, #1e2937 100%);
+  background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
   color: #fff;
   position: relative;
   overflow: hidden;
@@ -9,11 +9,11 @@
 
 /* Header */
 #header-color {
-  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  background: linear-gradient(90deg, #00394f, #001f2e);
   padding: 4rem 0 3rem;
   text-align: center;
   position: relative;
-   display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -32,59 +32,100 @@
   background: linear-gradient(90deg, transparent, #fd7e14, transparent);
 }
 
-/* Glassmorphic Cards (iPhone style) */
-.glass-card {
-  background: rgba(255,255,255,0.92) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  backdrop-filter: blur(16px);
-  border-radius: 24px !important;
-  border: none;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-.glass-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 30px 50px rgba(0,0,0,0.18);
+/* Grid - Even spacing between ALL cards */
+.team-page .container .row {
+  --bs-gutter-x: 2.5rem;
+  --bs-gutter-y: 3rem;
 }
 
-/* Coach Image with + Overlay */
+/* Team Card - Exact match to screenshot */
+.team-card {
+  background: #ffffff !important;
+  border-radius: 24px !important;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.team-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 50px rgba(0,0,0,0.25);
+}
+
+/* Images - FULLY VISIBLE + even fit */
 .coach-image {
   object-fit: contain;
-  height: 250px;
+  height: 280px;
   width: 100%;
+  background-color: #f8f9fa;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 12px; /* subtle padding so full image is perfectly framed */
 }
+
+/* Plus overlay - Bottom-right like screenshot */
 .plus-overlay {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: rgba(253, 126, 20, 0.9);
+  bottom: 20px;
+  right: 20px;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: #00394f;
   color: white;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  box-shadow: 0 4px 15px rgba(253, 126, 20, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 57, 79, 0.4);
   z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .plus-overlay:hover {
   transform: scale(1.15);
   background: #fd7e14;
 }
 
-/* Featured badge */
+/* Featured badge - Perfect even spacing */
 .featured-badge {
   background-color: #fd7e14;
   color: white;
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
   border-radius: 20px;
-  top: -15px;
+  top: 16px;
+  right: 16px;
+  z-index: 20;
+}
+
+/* Name & Specialty - Exact screenshot style */
+.team-card h4 {
+  color: #fd7e14 !important;
+  font-weight: 700;
+}
+.team-card p.text-muted {
+  color: #555 !important;
+  font-size: 1.05rem;
+}
+
+/* Buttons - Exact dark teal from screenshot */
+#button-color,
+.search-btn,
+#button-profile-color,
+#button-join-color {
+  background-color: #00394f !important;
+  border-color: #00394f !important;
+  color: white !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#button-color:hover,
+.search-btn:hover,
+#button-profile-color:hover,
+#button-join-color:hover {
+  transform: translateY(-3px) scale(1.06);
+  background-color: #00394f !important;
+  box-shadow: 0 10px 25px rgba(253, 126, 20, 0.5);
 }
 
 /* Full Image Modal */
@@ -94,27 +135,9 @@
 }
 .full-view-image {
   max-height: 90vh;
-  border-radius: 20px;
+  border-radius: 24px;
   box-shadow: 0 25px 50px rgba(0,0,0,0.3);
 }
-
-/* Original brand colors preserved */
-#button-color {
-  background-color: #17a2b8;
-  color: white;
-  border-color: #17a2b8;
-}
-#button-profile-color {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-}
-#button-join-color {
-  background-color: #17a2b8;
-  border-color: #17a2b8;
-  font-weight: bolder;
-}
-.text-orange { color: #fd7e14 !important; }
-.text-animate { color: #17a2b8; font-weight: bolder; font-family: "Handlee", cursive; }
 
 /* Animations (preserved) */
 .animate-fade-in { animation: fadeIn 1s; }
@@ -127,5 +150,6 @@
 /* Responsive */
 @media (max-width: 768px) {
   .header h1 { font-size: 2.5rem; }
-  .glass-card { margin-bottom: 2rem; }
+  .team-card { margin-bottom: 2rem; }
+  .coach-image { height: 240px; }
 }
