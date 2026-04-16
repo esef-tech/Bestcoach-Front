@@ -29,7 +29,7 @@ const Team = () => {
   const coaches = [
     { name: 'Emmanuel Ameko', specialty: 'Founder', image: `${CoachMan}`, featured: true, category: 'founder' },
     { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: false, category: 'administrator' },
-    { name: 'Emmanuel Mamabah', specialty: 'Operations Manager', image: `${Emm}`, featured: false, category: 'operations manager' },
+    { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: false, category: 'operations manager' },
     { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: false, category: 'data analyst' },
     { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
     { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: false, category: 'director' },
