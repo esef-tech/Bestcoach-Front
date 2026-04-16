@@ -53,14 +53,15 @@ const Team = () => {
   const categories = [
     { name: 'all', icon: <FaMusic className="me-2 text-orange" /> },
     { name: 'founder', icon: <BsAlexa className="me-2 text-orange" /> },
-    { name: 'administrator', icon: <FcBusinesswoman className="me-2 text-orange" /> },
-    { name: 'data analyst', icon: <SiGoogleanalytics className="me-2 text-orange" /> },
+     { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
     { name: 'operations manager', icon: <TbBrandReactNative className="me-2 text-orange" /> },
     { name: 'tech lead', icon: <SiTechcrunch className="me-2 text-orange" /> },
-    { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
+    { name: 'graphic design lead', icon: <SiTaichigraphics className="me-2 text-orange" /> },
+    { name: 'data analyst', icon: <SiGoogleanalytics className="me-2 text-orange" /> },
+    { name: 'administrator', icon: <FcBusinesswoman className="me-2 text-orange" /> },
     { name: 'media lead', icon: <MdPermMedia className="me-2 text-orange" /> },
     { name: 'assistant media lead', icon: <GrMultimedia className="me-2 text-orange" /> },
-    { name: 'graphic design lead', icon: <SiTaichigraphics className="me-2 text-orange" /> },
+    
   ];
 
   const handleViewImage = (imageUrl) => {
