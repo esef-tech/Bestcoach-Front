@@ -8,6 +8,7 @@ import TBonful from "../Images/team/6.jpg";
 import Emm from "../Images/team/7.jpg";
 import MJeff from "../Images/team/Executives/Mr.Jeffrey-1.webp"
 import MTTS from "../Images/team/Executives/Mathias-4.webp"
+import MPR from "../Images/team/Executives/Precious.webp"
 import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { BsAlexa } from 'react-icons/bs';
 import { FcBusinesswoman } from 'react-icons/fc';
@@ -17,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { useSession } from '../../context/SessionContext';
 import { TbChairDirector } from "react-icons/tb";
 import { MdPermMedia } from "react-icons/md";
+import { SiTaichigraphics } from "react-icons/si";
 
 const Team = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,15 +30,18 @@ const Team = () => {
   // Dynamic coaches array
   const coaches = [
     { name: 'Emmanuel Ameko', specialty: 'Founder', image: `${CoachMan}`, featured: true, category: 'founder' },
-    { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: false, category: 'administrator' },
-    { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: false, category: 'operations manager' },
-    { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: false, category: 'data analyst' },
+    { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: true, category: 'administrator' },
+    { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: true, category: 'operations manager' },
+    { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: true, category: 'data analyst' },
+    { name: 'Precious Nkrumah', specialty: 'Graphic Design Lead', image: `${MPR}`, featured: true, category: 'graphic design lead' },
     { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
-    { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: false, category: 'director' },
-    { name: 'Matthiahs', specialty: 'Media Lead', image: `${MTTS}`, featured: false, category: 'media lead' },
+    { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: true, category: 'director' },
+    { name: 'Matthiahs', specialty: 'Media Lead', image: `${MTTS}`, featured: true, category: 'media lead' },
     { name: 'Victoria Theodore', specialty: 'Piano', image: 'https://example.com/victoria-theodore.jpg', featured: false, category: 'piano' },
     { name: 'Summer Swee-singh', specialty: 'Guitar', image: 'https://example.com/summer-swee-singh.jpg', featured: false, category: 'guitar' },
     { name: 'Emmanuel Ameko', specialty: 'Trumpets', image: `${CoachMan}`, featured: false, category: 'trumpets' },
+    
+
   ];
 
   // Filter coaches
@@ -55,6 +60,7 @@ const Team = () => {
     { name: 'tech lead', icon: <SiTechcrunch className="me-2 text-orange" /> },
     { name: 'director', icon: <TbChairDirector className="me-2 text-orange" /> },
     { name: 'media lead', icon: <MdPermMedia className="me-2 text-orange" /> },
+    { name: 'graphic design lead', icon: <SiTaichigraphics className="me-2 text-orange" /> },
 
   ];
 
