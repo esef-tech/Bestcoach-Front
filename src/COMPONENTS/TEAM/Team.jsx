@@ -149,7 +149,7 @@ const Team = () => {
 
         {/* CTA */}
         <Container className="py-5 text-center bg-light">
-          <h2 className="mb-4 text-animate animate-slide-up">Ready to Learn from the Best?</h2>
+          <h2 className="mb-4 text-animate animate-slide-up text-text">Ready to Learn from the Best?</h2>
           <Button id="button-join-color" size="lg" className="animate-bounce-in">
             <Link to="/careers" className="text-white text-decoration-none">Join Our Team</Link>
           </Button>
