@@ -30,13 +30,7 @@ const TopHeader = () => {
           </div>
         </div>
 
-        {/* CENTER: Animated Handwritten Text */}
-        <div className="handwriting-center" data-aos="fade-down" deta-os-duration="1000"
-         data-aos-delay="400">
-          <span className="handwritten-text">
-            ♫ Transforming lives one beat at a time.♪ 
-          </span>
-        </div>
+        
 
         {/* Right: Social Icons */}
         <div className="social-section-top-header" data-aos="fade-left" data-aos-duration="8000"
