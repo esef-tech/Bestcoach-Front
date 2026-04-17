@@ -231,7 +231,7 @@ const Contact = () => {
             {urgentContacts.map((contact, idx) => (
               <Col xs={12} md={4} key={idx} className="mb-3 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
                 <Button
-                  className="w-100 py-3 urgent-btn glass-btn contact-btn"
+                  className="w-100 py-3 urgent-button glass-button contact-button-n"
                   onClick={() => handleUrgentClick(contact)}
                 >
                   {contact.icon} {contact.label} {contact.value}

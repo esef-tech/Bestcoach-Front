@@ -55,7 +55,7 @@
 }
 
 /* Glassmorphic Urgent Buttons */
-.urgent-btn {
+.urgent-button {
   background: rgba(255,255,255,0.92) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   backdrop-filter: blur(16px);
@@ -65,7 +65,7 @@
   color: #333;
   transition: all 0.3s ease;
 }
-.urgent-btn:hover {
+.urgent-button:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
@@ -143,7 +143,7 @@
 }
 
 /* Ensure urgent buttons keep glass look */
-.urgent-btn.glass-btn {
+.urgent-btn.glass-button {
   background: #00394f !important;
   -webkit-backdrop-filter: blur(16px) !important;
   backdrop-filter: blur(16px);

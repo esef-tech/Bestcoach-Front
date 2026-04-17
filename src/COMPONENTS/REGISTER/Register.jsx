@@ -82,8 +82,8 @@ const Register = () => {
             <p className="section-title pr-5">
               <span className="pr-2">Bestcoach music</span>
             </p>
-            <h1 className="mb-4 register-title">Register Now</h1>
-            <p className="lead mb-4">
+            <h1 className="mb-4 register-title register-h1-text">Register Now</h1>
+            <p className="lead mb-4 register-p">
               Ready to take your musical journey to the next level? Register now and become a part of our vibrant community! 
               Fill out the form and let's make some beautiful music together. 🎸🎤
             </p>

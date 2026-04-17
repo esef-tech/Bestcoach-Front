@@ -154,7 +154,7 @@ setTimeout(() => setStatus(prev => ({ ...prev, success: false })), 3000);
                 <Form.Group className="mb-3">
                   <Form.Control type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
                 </Form.Group>
-                <Button type="submit"  id='btn-news' className="newsletter-footer btn-block w-100" disabled={status.loading}>
+                <Button type="submit"  id='btn-news' className="newsletter-footer btn-block w-100 text-white" disabled={status.loading} style={{ backgroundColor: '#17a2b8' }}>
                   {status.success ? <Spinner animation="border" size="sm" className="me-2" /> : null}
                   {status.loading ? 'Submitting ...' : 'Submit Now'}
                   
