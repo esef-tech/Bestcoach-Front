@@ -98,10 +98,10 @@ const Team = () => {
               <div className="d-flex justify-content-center flex-wrap gap-2">
                 {categories.map((cat, idx) => (
                   <Button
-                    id="search-btn"
+                    id="button-btn"
                     key={idx}
                     variant={selectedCategory === cat.name }
-                    className="me-2 mb-2 animate-bounce-in"
+                    className="me-2 mb-2 animate-bounce-in search-btn"
                     onClick={() => setSelectedCategory(cat.name)}
                   >
                     {cat.icon} {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
