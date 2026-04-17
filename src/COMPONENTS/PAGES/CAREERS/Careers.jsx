@@ -94,10 +94,10 @@ const Careers = () => {
       <section className="careers-page">
         {/* Glassmorphic Header */}
         <div className="header-1 text-white text-center py-5 animate-fade-in">
-          <h1 className="display-3 fw-bold">Careers at Bestcoach Music</h1>
-          <p className="primary-text">Join our team and inspire the next generation of musicians.</p>
+          <h1 className="display-3 fw-bold h4-text">Careers at Bestcoach Music</h1>
+          <p className="primary-text p-text">Join our team and inspire the next generation of musicians.</p>
           <div className="breadcrumb">
-            <Link to="/" className="text-white">Home</Link> / Careers
+            <Link to="/" className="text-white link-text">Home</Link> / Careers
           </div>
         </div>
 
@@ -108,22 +108,22 @@ const Careers = () => {
               <Image src={about} alt="Bestcoach team" fluid className="rounded shadow animate-zoom-in" />
             </Col>
             <Col lg={6}>
-              <h2 className="mb-4 text-orange">About Bestcoach Music</h2>
-              <p className="lead text-white">Bestcoach Music is a leading music education platform dedicated to nurturing talent and fostering creativity. Join us to make a difference in music education!</p>
+              <h2 className="mb-4 text-orange h2-text">About Bestcoach Music</h2>
+              <p className="lead text-white p-text">Bestcoach Music is a leading music education platform dedicated to nurturing talent and fostering creativity. Join us to make a difference in music education!</p>
             </Col>
           </Row>
         </Container>
 
         {/* Why Join Us? - Glassmorphic Benefits */}
         <Container className="py-5">
-          <h2 className="text-center mb-5 text-orange">Why Join Us?</h2>
+          <h2 className="text-center mb-5 text-orange h2-text">Why Join Us?</h2>
           <Row>
             <Col md={4} className="mb-4 animate-fade-in" style={{ animationDelay: '0s' }}>
               <Card className="glass-card text-center shadow border-0 h-100">
                 <Card.Body>
                   <FaBriefcase className="text-orange mb-3" size={50} />
-                  <h4 className="mb-3">Innovative Work</h4>
-                  <p>Work on cutting-edge music education tools and programs.</p>
+                  <h4 className="mb-3 h4-text">Innovative Work</h4>
+                  <p className='p-text'>Work on cutting-edge music education tools and programs.</p>
                 </Card.Body>
               </Card>
             </Col>
@@ -131,8 +131,8 @@ const Careers = () => {
               <Card className="glass-card text-center shadow border-0 h-100">
                 <Card.Body>
                   <FaUsers className="text-orange mb-3" size={50} />
-                  <h4 className="mb-3">Collaborative Team</h4>
-                  <p>Join a passionate team dedicated to creativity and growth.</p>
+                  <h4 className="mb-3 h4-text">Collaborative Team</h4>
+                  <p className='p-text'>Join a passionate team dedicated to creativity and growth.</p>
                 </Card.Body>
               </Card>
             </Col>
@@ -140,8 +140,8 @@ const Careers = () => {
               <Card className="glass-card text-center shadow border-0 h-100">
                 <Card.Body>
                   <FaHeart className="text-orange mb-3" size={50} />
-                  <h4 className="mb-3">Impactful Mission</h4>
-                  <p>Help transform lives through the power of music.</p>
+                  <h4 className="mb-3 h4-text">Impactful Mission</h4>
+                  <p className='p-text'>Help transform lives through the power of music.</p>
                 </Card.Body>
               </Card>
             </Col>
@@ -150,7 +150,7 @@ const Careers = () => {
 
         {/* Job Listings */}
         <Container className="py-5">
-          <h2 className="text-center mb-4 text-orange">Open Positions</h2>
+          <h2 className="text-center mb-4 text-orange h2-text">Open Positions</h2>
           <Form className="mb-4 d-flex justify-content-center animate-slide-up">
             <Form.Control
               type="text"
@@ -166,16 +166,16 @@ const Careers = () => {
               <Col md={6} key={idx} className="mb-4 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
                 <Card className="glass-card shadow border-0 h-100">
                   <Card.Body>
-                    <h4 className="text-orange">{job.title}</h4>
+                    <h4 className="text-orange h4-text">{job.title}</h4>
                     <p className="text-muted">{job.location} - {job.type}</p>
-                    <p>{job.desc}</p>
+                    <p className="p-text">{job.desc}</p>
                     <Button variant="primary" onClick={() => handleApply(job.title)} className="animate-bounce-in">Apply Now</Button>
                   </Card.Body>
                 </Card>
               </Col>
             )) : (
               <Col className="text-center">
-                <p className="lead">No openings currently. Send your resume to careers@bestcoachmusic.com</p>
+                <p className="lead p-text">No openings currently. Send your resume to careers@bestcoachmusic.com</p>
               </Col>
             )}
           </Row>
@@ -223,8 +223,8 @@ const Careers = () => {
             <Modal.Title>Login Required</Modal.Title>
           </Modal.Header>
           <Modal.Body className="glass-modal text-center">
-            <h5>You must be logged in to apply for jobs.</h5>
-            <p>Please sign in or create an account first.</p>
+            <h5 className='h5-text'>You must be logged in to apply for jobs.</h5>
+            <p className='p-text'>Please sign in or create an account first.</p>
             <Button variant="primary" onClick={() => {
               setShowLoginPrompt(false);
               window.location.href = '/?login=true';

@@ -138,33 +138,33 @@ const Contact = () => {
       <section className="contact-page">
         {/* Header - Glassmorphic hero */}
         <div className="header-contact text-white text-center py-5 animate-fade-in">
-          <h1 className="display-3  text-h1 fw-bold">Contact Us</h1>
+          <h1 className="display-3  text-h1-c fw-bold">Contact Us</h1>
         </div>
 
         {/* Intro */}
         <Container className="py-5 text-center">
-          <h3 className="mb-4 text-orange animate-slide-up">Advice and answers from the Bestcoach team</h3>
-          <p className="lead mb-5 text-white animate-slide-up">Find an answer on your own or get in touch with our support team.</p>
+          <h3 className="mb-4 text-orange animate-slide-up h3-contact">Advice and answers from the Bestcoach team</h3>
+          <p className="lead mb-5 text-white animate-slide-up p-contact">Find an answer on your own or get in touch with our support team.</p>
         </Container>
 
         {/* FAQs - Glassmorphic Accordion */}
         <Container className="py-5">
-          <h3 className="mb-4 text-orange animate-slide-up">Frequently Asked Questions <FaQuestionCircle className="me-2" /></h3>
+          <h3 className="mb-4 text-orange animate-slide-up h3-contact-c">Frequently Asked Questions <FaQuestionCircle className="me-2" /></h3>
           <Form className="mb-4 d-flex justify-content-center animate-fade-in">
             <Form.Control
               type="text"
               placeholder="Search FAQs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-50 me-2"
+              className="w-50 me-2 form-text-contact"
             />
             <Button variant="orange"><FaSearch /></Button>
           </Form>
-          <Accordion defaultActiveKey="0">
+          <Accordion defaultActiveKey="0" >
             {filteredFAQs.map((faq, idx) => (
               <Accordion.Item eventKey={idx.toString()} key={idx} className="glass-card animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
                 <Accordion.Header>{faq.question}</Accordion.Header>
-                <Accordion.Body>{faq.answer}</Accordion.Body>
+                <Accordion.Body >{faq.answer}</Accordion.Body>
               </Accordion.Item>
             ))}
           </Accordion>
@@ -172,8 +172,8 @@ const Contact = () => {
 
         {/* Contact Form - Glassmorphic Card */}
         <Container className="py-5">
-          <h3 className="mb-4 text-orange text-center animate-slide-up">Reach Out Directly <FaEnvelope className="me-2" /></h3>
-          <p className="text-center mb-5 animate-slide-up">Get in touch with our support team!</p>
+          <h3 className="mb-4 text-orange text-center animate-slide-up h3-contact-c">Reach Out Directly <FaEnvelope className="me-2" /></h3>
+          <p className="text-center mb-5 animate-slide-up p-contact">Get in touch with our support team!</p>
           <Row className="justify-content-center">
             <Col lg={7} className="animate-slide-left">
               <Card className="glass-card shadow p-4">
@@ -226,13 +226,12 @@ const Contact = () => {
         {/* Urgent Contact - Glassmorphic buttons */}
         {/* Urgent Contact - NOW WITH MODALS */}
         <Container className="py-5 text-center animate-fade-in">
-          <h3 className="mb-4 text-dark">Have A More Urgent Request? Give Us A Shout. <FaMapMarkerAlt className="me-2" /></h3>
+          <h3 className="mb-4 text-orange h3-contact-c">Have A More Urgent Request? Give Us A Shout. <FaMapMarkerAlt className="me-2" /></h3>
           <Row className="justify-content-center">
             {urgentContacts.map((contact, idx) => (
               <Col xs={12} md={4} key={idx} className="mb-3 animate-slide-up" style={{ animationDelay: `${0.2 * idx}s` }}>
                 <Button
-                  variant="light"
-                  className="w-100 py-3 urgent-btn glass-btn"
+                  className="w-100 py-3 urgent-btn glass-btn contact-btn"
                   onClick={() => handleUrgentClick(contact)}
                 >
                   {contact.icon} {contact.label} {contact.value}
@@ -244,7 +243,7 @@ const Contact = () => {
 
         {/* Back Link */}
         <div className="text-center mb-5">
-          <Link to="/" className="text-orange">← Back to Home</Link>
+          <Link to="/" className="text-orange link-text-contact">← Back to Home</Link>
         </div>
 
         {/* ==================== CALL MODAL ==================== */}
