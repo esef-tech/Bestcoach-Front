@@ -1,4 +1,4 @@
-/* SignIn.css - iPhone Glassmorphism + Responsive */
+/* SignUp.css - iPhone Glassmorphism + Password Strength Bar */
 
 .auth-page {
   background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
@@ -7,22 +7,28 @@
   align-items: center;
 }
 
-.signin-page .glass-card {
+.signup-page .glass-card {
   background: rgba(255,255,255,0.92) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   backdrop-filter: blur(20px);
   border-radius: 24px !important;
   border: none;
   box-shadow: 0 25px 50px rgba(0,0,0,0.18);
-  overflow: hidden;
 }
 
-.signin-page .glass-card:hover {
+.signup-page .glass-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 35px 60px rgba(0,0,0,0.22);
 }
 
-.signin-page button {
+.strength-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+  transition: all 0.3s ease;
+}
+
+.signup-page button {
   background-color: #00394f !important;
   border: none;
   border-radius: 50px;
@@ -31,14 +37,17 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.signin-page button:hover {
+.signup-page button:hover {
   transform: translateY(-3px) scale(1.06);
-  background-color: #fd7e14 !important;
+  background-color: #00394f !important;
   box-shadow: 0 12px 30px rgba(253, 126, 20, 0.5);
 }
 
 @media (max-width: 768px) {
-  .signin-page .glass-card {
+  .signup-page .glass-card {
     margin: 0 15px;
   }
+}
+.p-mouse{
+  cursor: pointer;
 }

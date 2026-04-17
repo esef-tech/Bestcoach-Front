@@ -1,0 +1,41 @@
+/* Terms.css - iPhone Glassmorphism + Animations */
+
+.terms-page {
+  background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
+  min-height: 100vh;
+  color: #fff;
+}
+
+.hero-terms {
+  background: linear-gradient(90deg, #00394f, #001f2e);
+  padding: 5rem 0 3rem;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.92) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.18);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 35px 60px rgba(0,0,0,0.22);
+}
+
+.prbs {
+    color: #000000 !important;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 700;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+  .glass-card { margin: 0 15px; padding: 2rem !important; }
+}
+
+
+.brps{
+ background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
+}

@@ -45,6 +45,12 @@ import Shop from "./COMPONENTS/PAGES/SHOP/Shop";
 import Community from "./COMPONENTS/PAGES/COMMUNITY/Community";
 import Profile from "./COMPONENTS/Profile";
 import { LanguageProvider } from "./context/LanguageContext";
+import SignIn from "./COMPONENTS/AUTH/LOGIN/SignIn";
+import SignUp from "./COMPONENTS/AUTH/SIGNUP/SignUp";
+import MFAVerification from "./COMPONENTS/AUTH/MFA/MFAVerificationPage";
+import FPASS from "./COMPONENTS/AUTH/FPASS/ForgotPassword"
+import Terms from "./COMPONENTS/DocxPages/Terms";
+import Privacy from "./COMPONENTS/DocxPages/Privacy";
 
 class ErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -79,6 +85,14 @@ function App() {
                 <ThemeProvider>
                   <Navbar />
                   <Routes>
+                    <Route path="/signin" element={<SignIn />} />
+  <Route path="/signup" element={<SignUp />} />
+  <Route path="/mfa-verification" element={<MFAVerification />} />
+  <Route path="/forgot-password" element={<FPASS/>} />
+  <Route path="/terms" element={<Terms />} />
+<Route path="/privacy" element={<Privacy />} />
+
+A
                     <Route path="/" element={<Home />} />
                     <Route path="/package" element={<Package />} />
                     <Route path="/quick-links" element={<Links />} />
