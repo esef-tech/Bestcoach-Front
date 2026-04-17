@@ -34,7 +34,7 @@
 .signin-page button:hover {
   transform: translateY(-3px) scale(1.06);
   background-color: #00394f !important;
-  box-shadow: 0 12px 30px rgba(253, 126, 20, 0.5);
+  box-shadow: #00394f;
 }
 
 @media (max-width: 768px) {
