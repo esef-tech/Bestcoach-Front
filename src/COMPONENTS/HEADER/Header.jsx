@@ -47,7 +47,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="container-fluid px-0 px-md-5 mb-5 hero-section" data-aos="fade-down" data-aos-duration="1200">
+      <div className="container-fluid px-0 px-md-5 mb-5 hero-section-header" data-aos="fade-down" data-aos-duration="1200">
         {/* Subtle music animation background */}
         <div className="animation-container">
           <span className="music-symbol">♪</span>
@@ -60,7 +60,7 @@ const Header = () => {
           <span className="music-symbol">♫</span>
         </div>
 
-        <section className="header-section">
+        <section className="header-section-header">
           <Container>
             <Row className="align-items-center">
               {/* Left: Text Content */}

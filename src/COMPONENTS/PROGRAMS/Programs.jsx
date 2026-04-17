@@ -116,7 +116,7 @@ const Programs = () => {
 
                   <Card.Footer className="bg-transparent border-0 pt-0 pb-4 px-4">
                     <Button
-                      className="join-btn w-100"
+                      className="join-btn-prog w-100 text-orange"
                       onClick={() => handleShow(pkg.title, pkg.price)}
                     >
                       Join Now

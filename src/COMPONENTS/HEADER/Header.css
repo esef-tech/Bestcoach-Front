@@ -1,7 +1,7 @@
-.header-section {
+.header-section-header {
   padding: 4rem 0; /* Top/bottom padding for spacing */
   color: white; /* White text on primary blue bg */
-  background-color: hsl(192, 89%, 45%);
+  background-color: #00394f;
   padding: 100px 0 80px;
   position: relative;
   overflow: hidden;
@@ -48,10 +48,10 @@
     font-size: 2rem; /* Scale down headings */
   }
 }
-.hero-section {
+.hero-section-header {
   position: relative; /* For absolute animation container */
   overflow: hidden; /* Prevent overflow */
-    background-color: hsl(192, 89%, 45%);
+    background-color: #00394f;
 
 }
 

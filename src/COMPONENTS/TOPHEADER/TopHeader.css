@@ -1,6 +1,6 @@
 /* TopHeader.css - Fully Responsive + Sticky */
 .top-header {
-  background-color: #17a2b8;
+  background-color: #00394f;
   color: #fff;
   padding: 10px 0;
   position: -webkit-sticky;
@@ -8,7 +8,7 @@
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-bottom: 3px solid #17a2b8;
+  border-bottom: 3px solid #00394f;
   font-size: 0.95rem;
 }
 
@@ -50,11 +50,11 @@
 }
 
 .handwritten-text {
-  font-family: 'Dancing Script', cursive;
+  font-family:  system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 1.35rem;
   white-space: nowrap;
   animation: handwriting 5.5s steps(42, end) infinite alternate;
-  color: #ffd700;
+  color: #fd7e14;
 }
 
 /* Right Social */

@@ -119,7 +119,7 @@ const Register = () => {
           <Col lg={5}>
             <Card className="form-card fade-in">
               <Card.Header className="form-header">
-                <h1 className="text-orange m-0">Special Request</h1>
+                <h1 className="text-orange-register m-0">Special Request</h1>
               </Card.Header>
               <Card.Body className="form-body">
                 <Form onSubmit={handleSubmit}>

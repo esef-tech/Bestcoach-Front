@@ -2,11 +2,11 @@
 .programs-section {
   background: linear-gradient(to bottom, #f8f9fa, #ffffff);
   padding: 6rem 0 4rem;
-  background-color: hsl(192, 89%, 45%);
+  background-color: #00394f;
 }
 
 .section-badge {
-  background-color: hsl(192, 89%, 45%);
+  background-color: #00394f;
   color: white;
   display: inline-block;
   padding: 6px 18px;
@@ -93,17 +93,19 @@
 }
 
 /* Join Button */
-.join-btn {
-  background: linear-gradient(90deg, #007bff, #00c4ff);
+.join-btn-prog {
+  background: linear-gradient(90deg, #007bff, #00394f);
   border: none;
   color: white;
   font-weight: 600;
   padding: 14px;
   border-radius: 50px;
   transition: all 0.3s ease;
+  font-family: sans-serif;
+  font-size: 16px;
 }
 
-.join-btn:hover {
+.join-btn-prog:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 25px rgba(0, 123, 255, 0.4);
 }
