@@ -65,8 +65,8 @@ const Header = () => {
             <Row className="align-items-center">
               {/* Left: Text Content */}
               <Col md={6} className="header-text mb-4 mb-md-0" data-aos="fade-right" data-aos-delay="300">
-                <h1>Welcome to Bestcoach Music 🎶</h1>
-                <p data-aos="fade-up" data-aos-delay="600">
+                <h1 className='header-h1-header'>Welcome to Bestcoach Music 🎶</h1>
+                <p data-aos="fade-up" data-aos-delay="600" className='header-p-header'>
                   Unlock your musical potential with us! Join our vibrant community and take your skills to the next level. 
                   Whether you're a beginner or a seasoned musician, we have something for everyone. Get started today and let the music flow! 🎸🎤
                 </p>

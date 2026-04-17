@@ -106,7 +106,7 @@ const Register = () => {
             <Button 
               id="primary-v" 
               size="lg" 
-              className="mt-4 py-3 px-5"
+              className="mt-4 py-3 px-5 register-btn-text"
               href="https://form.jotform.com/252515722619559" 
               target="_blank"
               rel="noopener noreferrer"
@@ -166,7 +166,7 @@ const Register = () => {
                     type="submit"
                     variant="dark"
                     size="lg"
-                    className="btn-submit w-100"
+                    className="btn-submit-register w-100"
                     disabled={status.loading}
                   >
                     {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}

@@ -21,6 +21,7 @@
   font-weight: 700;
   color: #222;
   margin-bottom: 3rem;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 /* iPhone Glassmorphism Cards */
@@ -94,7 +95,7 @@
 
 /* Join Button */
 .join-btn-prog {
-  background: linear-gradient(90deg, #007bff, #00394f);
+  background:  #00394f;
   border: none;
   color: white;
   font-weight: 600;

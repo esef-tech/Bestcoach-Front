@@ -90,10 +90,10 @@ const AppNavbar = () => {
                 </div>
               ) : (
                 <>
-                  <Button variant="outline-primary" className="me-2 login-btn" as={Link} to="/signin"> <FaUserCircle className="me-1" />
+                  <Button  className="me-2 login-btn" as={Link} to="/signin"> <FaUserCircle className="me-1" />
                     Sign In
                   </Button>
-                  <Button variant="primary" as={Link} to="/signup"> <FaUserCircle className="me-1" />
+                  <Button className="me-2 login-btn"  as={Link} to="/signup"> <FaUserCircle className="me-1" />
                     Sign Up
                   </Button>
                 </>

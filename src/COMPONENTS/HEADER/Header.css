@@ -244,3 +244,14 @@ body, #root {
     height: 320px !important;
   }
 }
+.header-h1-header{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 700;
+  color: aliceblue;
+}
+.header-p-header{
+  font-family: sans-serif;
+  font-weight: 500;
+  color: azure;
+  font-style: justify;
+}
