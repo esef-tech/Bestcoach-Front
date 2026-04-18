@@ -83,12 +83,12 @@ const SignUp = () => {
                     {loading ? <Spinner animation="border" size="sm" /> : 'Create Account'}
                   </Button>
                 </Form>
-                <p className="text-center mt-4">
+                <p className="text-center mt-4 p-text-sign-p">
                   Already have an account?{' '}
-                  <Link to="/signin" className="text-orange fw-bold">Sign in</Link>
+                  <Link to="/signin" className="text-orange fw-bold span-text-span">Sign in</Link>
                 </p>
-                <p className="text-center text-muted p-mouse">
-            By continuing you agree to Bestcoach Music's <span className="text-orange cursor-pointer" onClick={() => window.location.href = '/terms'}>Terms of use</span> and <span className="text-orange cursor-pointer" onClick={() => window.location.href = '/privacy'}>Privacy Policy</span>
+                <p className="text-center text-muted p-mouse p-sigin-text">
+            By continuing you agree to Bestcoach Music's <span className="text-orange cursor-pointer span-text-span" onClick={() => window.location.href = '/terms'}>Terms of use</span> and <span className="text-orange cursor-pointer span-text-span" onClick={() => window.location.href = '/privacy'}>Privacy Policy</span>
           </p>
               </Card.Body>
             </Card>
