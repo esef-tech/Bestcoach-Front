@@ -17,14 +17,14 @@
         { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://js.stripe.com https://firebasestorage.googleapis.com https://www.gstatic.com https://www.googletagmanager.com https://app.relevanceai.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://firebasestorage.googleapis.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://firebase.googleapis.com https://app.relevanceai.com https://api-d7b62b.stack.tryrelevance.com; frame-src 'self' https://app.relevanceai.com https://*.relevanceai.com;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google-analytics.com https://js.stripe.com https://firebasestorage.googleapis.com https://www.gstatic.com https://www.googletagmanager.com https://app.relevanceai.com https://apis.google.com https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://firebasestorage.googleapis.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://firebase.googleapis.com https://app.relevanceai.com https://api-d7b62b.stack.tryrelevance.com https://*.googleapis.com; frame-src 'self' https://*.firebaseapp.com https://accounts.google.com https://app.relevanceai.com https://*.relevanceai.com; media-src 'self' https://firebasestorage.googleapis.com https://*.firebaseapp.com;"
         }
       ]
     }
   ],
   "images": {
     "sizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    "domains": ["bestcoachmusic.netlify.app", "mcmusicschool.org", "communitymusicschool.com", "squarespace-cdn.com", "washingtonperformingarts.org"],
+    "domains": ["bestcoachmusic.netlify.app", "mcmusicschool.org", "communitymusicschool.com", "squarespace-cdn.com", "washingtonperformingarts.org", "firebasestorage.googleapis.com"],
     "formats": ["image/webp", "image/avif"],
     "minimumCacheTTL": 60,
     "dangerouslyAllowSVG": false
