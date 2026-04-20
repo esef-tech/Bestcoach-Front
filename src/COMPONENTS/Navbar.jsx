@@ -96,7 +96,7 @@ const AppNavbar = () => {
                   </Button>
                   <Button className="me-2 login-btn" as={Link} to="/signup">
                     <FaUserCircle className="me-1" />
-                    Sign Up
+                    Sign Up 5
                   </Button>
                 </>
               )}
