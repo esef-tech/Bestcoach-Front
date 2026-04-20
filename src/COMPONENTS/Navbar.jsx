@@ -90,7 +90,8 @@ const AppNavbar = () => {
                 </div>
               ) : (
                 <>
-                  <Button variant="outline-primary" className="me-2" as={Link} to="/signin" style={{ backgroundColor: '#17a2b8' }}>
+                  <Button  className="me-2 text-light login-btn" as={Link} to="/signin" >
+              
                     <FaUserCircle className="me-1" />
                     Sign In
                   </Button>
