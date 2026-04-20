@@ -177,7 +177,7 @@
 }
 
 /* Buttons */
-.btn-primary { background-color: #007bff; border-color: #007bff; }
+.btn-primary { background-color: #00349f; }
 .btn-primary:hover { background-color: #0062cc; }
 
 .btn-outline-dark { border-color: #ced4da; color: #333; }
@@ -325,16 +325,17 @@
   font-weight: bolder;
   padding: 8px 24px;
   border-radius: 50px;
-  border: 2px solid #0d6efd;
-  color: #0d6efd;
+  border: 2px solid #00349f;
+  background-color: #00349f;
+  color: white;
   transition: all 0.3s ease;
 }
 
 .login-btn:hover {
-  background-color: #0d6efd;
+  background-color: #00349f;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(13, 110, 253, 0.3);
+  box-shadow: 0 8px 15px #00349f
 }
 
 /* Perfect alignment on large screens (17-inch+) */
