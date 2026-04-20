@@ -1,44 +1,393 @@
-/* SignIn.css - iPhone Glassmorphism + Responsive */
+/* Navbar.css */
 
-.auth-page {
-  background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+/* Hover effect for links (unchanged) */
+.nav-link:hover {
+  color: #fa7000 !important; /* Orange on hover */
+  transition: color 0.3s ease;
 }
 
-.signin-page .glass-card {
-  background: rgba(255,255,255,0.92) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  backdrop-filter: blur(20px);
-  border-radius: 24px !important;
-  border: none;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.18);
+/* Animation container - absolute positioned behind navbar content */
+.animation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none; /* Doesn't block clicks */
+  z-index: 0; /* Behind content */
+}
+
+/* Musical symbols - bolder with orange color */
+.music-symbol {
+  position: absolute;
+  font-size: 2rem; /* Bolder size */
+  font-weight: bold; /* Bolder weight */
+  color: rgba(253, 126, 20, 0.5); /* Orange semi-transparent */
+  animation: float 10s linear infinite;
+}
+
+/* Different delays and positions for full coverage */
+.music-symbol:nth-child(1) {
+  left: 5%;
+  animation-delay: 0s;
+}
+.music-symbol:nth-child(2) {
+  left: 15%;
+  animation-delay: 1.5s;
+}
+.music-symbol:nth-child(3) {
+  left: 30%;
+  animation-delay: 3s;
+}
+.music-symbol:nth-child(4) {
+  left: 45%;
+  animation-delay: 4.5s;
+}
+.music-symbol:nth-child(5) {
+  left: 55%;
+  animation-delay: 6s;
+}
+.music-symbol:nth-child(6) {
+  left: 70%;
+  animation-delay: 7.5s;
+}
+.music-symbol:nth-child(7) {
+  left: 85%;
+  animation-delay: 9s;
+}
+.music-symbol:nth-child(8) {
+  left: 95%;
+  animation-delay: 0.5s; /* Overlap for continuity */
+}
+
+/* Keyframe animation: Float up and fade (unchanged) */
+@keyframes float {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .music-symbol {
+    font-size: 1.2rem; /* Slightly bolder but scaled down for mobile */
+  }
+  .music-symbol:nth-child(n+5) {
+    display: none; /* Fewer symbols on small screens for performance */
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(50%); /* Shorter path */
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-50%);
+      opacity: 0;
+    }
+  }
+}
+/* src/components/Navbar.css - Updated for orange icons, dynamic hovers/animations, responsive */
+
+/* Orange color for icons */
+.text-orange { color: #fd7e14 !important; }
+
+/* Navbar links styling */
+.nav-link-custom {
+  color: #333 !important;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.nav-link-custom:hover {
+  color: #fd7e14 !important;
+  transform: translateY(-2px);
+}
+
+
+
+/* Dropdown items styling - Orange icons, hover effects */
+.dropdown-item {
+  transition: background-color 0.3s, color 0.3s;
+}
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #fd7e14 !important;
+}
+
+/* Animations */
+.animate-fade-in { animation: fadeIn 1s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Responsive - Icons scale, dropdowns full width on mobile */
+@media (max-width: 768px) {
+  .nav-link-custom svg { font-size: 1.2rem; } /* Larger icons on mobile */
+  .navbar-brand { font-size: 1.2rem; }
+  .dropdown-menu { width: 100%; text-align: center; } /* Full width dropdowns */
+}
+/* src/components/Navbar.css - Updated with modal styles: orange accents, cursor pointers, animations, responsive */
+
+/* Base Navbar Styles (keep your existing) */
+.text-orange { color: #fd7e14 !important; }
+.cursor-pointer { cursor: pointer; }
+
+/* Modal General Styles */
+.modal-content {
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  background-color: #fff;
+}
+
+/* Logo in Modal */
+.modal-body img {
+  max-width: 150px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.modal-body img:hover {
+  transform: scale(1.05);
+}
+
+/* Headers and Text */
+.modal-title { color: #000; font-weight: bold; }
+.lead { color: #000; font-size: 1rem; }
+
+/* Forms */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #fd7e14;
+  box-shadow: 0 0 0 0.2rem rgba(253,126,20,0.25);
+}
+
+/* Buttons */
+.btn-primary { background-color: #00349f; }
+.btn-primary:hover { background-color: #0062cc; }
+
+.btn-outline-dark { border-color: #ced4da; color: #333; }
+.btn-outline-dark:hover { background-color: #f8f9fa; }
+
+/* OAuth Buttons Icons */
+.btn-outline-dark svg { margin-right: 0.5rem; }
+
+/* Forgot Password Link */
+.text-end { font-size: 0.9rem; }
+
+/* Footer Text */
+.text-muted { font-size: 0.85rem; }
+
+/* Animations - Fade-in for modal, bounce for buttons */
+.modal.fade .modal-dialog { transition: transform 0.3s ease-out; transform: translateY(-50px); opacity: 0; }
+.modal.show .modal-dialog { transform: translateY(0); opacity: 1; }
+
+.animate-bounce-in {
+  animation: bounceIn 0.5s ease;
+}
+@keyframes bounceIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* Responsive - Adjust padding/sizes on mobile */
+@media (max-width: 576px) {
+  .modal-body { padding: 1.25rem; }
+  .modal-title { font-size: 1.5rem; }
+  .lead { font-size: 0.9rem; }
+  .form-control { font-size: 0.95rem; }
+  .btn { font-size: 0.95rem; padding: 0.5rem 1rem; }
+  .modal-content { border-radius: 10px; }
+}
+
+/* Existing animation container/music symbols (keep your styles) */
+/* ... */ 
+
+.oauth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.oauth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+/* === ANIMATED LOGGED-IN SECTION === */
+.logged-in-group {
+  animation: fadeInRight 0.6s ease-out forwards;
+  color:  #fd7e14;
+  font-style: Sans-serif;
+  font-weight: bolder;
+}
+
+.profile-group {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.profile-pic {
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.profile-pic:hover {
+  transform: scale(1.15) rotate(8deg);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+}
+
+.username-text {
+  position: -webkit-sticky;
+  position: sticky;
+  transition: all 0.4s ease;
+  color: #17a2b8;
+  font-weight: bolder;
+  font-style: Sans-serif;
+}
+
+.username-text:hover {
+  letter-spacing: 1px;
+  color: #ffd700;
+  font-style: Sans-serif;
+  font-weight: bolder;
+
+}
+
+/* Dark Mode Toggle Animation */
+.dark-toggle-btn {
+  transition: all 0.5s ease;
+}
+
+.dark-toggle-btn:hover {
+  transform: scale(1.2) rotate(20deg);
+  background-color: rgba(255,255,255,0.15) !important;
+}
+
+/* Logout Button Bounce */
+.logout-btn {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  position: relative;
   overflow: hidden;
 }
 
-.signin-page .glass-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 35px 60px rgba(0,0,0,0.22);
+.logout-btn:hover {
+  transform: scale(1.08);
+  color: #fff;
+  background-color: #dc3545;
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
 }
 
-.signin-page button {
-  background-color: #00394f !important;
-  border: none;
-  border-radius: 50px;
-  padding: 14px 40px;
-  font-weight: 700;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.signin-page button:hover {
-  transform: translateY(-3px) scale(1.06);
-  background-color: #fd7e14 !important;
-  box-shadow: 0 12px 30px rgba(253, 126, 20, 0.5);
-}
-
-@media (max-width: 768px) {
-  .signin-page .glass-card {
-    margin: 0 15px;
+/* Entrance Animation */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 992px) {
+  .logged-in-group {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+}
+
+
+.login-btn {
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: Sans-serif;
+  font-weight: bolder;
+  padding: 8px 24px;
+  border-radius: 50px;
+  border: 2px solid #00349f;
+  background-color: #00349f;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #00349f;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px #00349f
+}
+
+/* Perfect alignment on large screens (17-inch+) */
+@media (min-width: 1200px) {
+  .nav-links {
+    gap: 48px !important;
+  }
+  .nav-item {
+    font-size: 1.08rem;
+    font-style: Sans-serif;
+    font-weight: bolder 
+  }
+}
+
+/* Responsive - Mobile & Tablet */
+@media (max-width: 991px) {
+  .nav-links {
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+    font-style: Sans;
+  }
+  
+  .login-btn {
+    width: 100%;
+    margin-top: 15px;
+  }
+  .nav-item {
+    white-space: normal;   /* Allow wrapping only on mobile */
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 42px;               /* Even spacing for 17-inch screens */
+}
+
+.nav-item {
+  color: #333 !important;
+  font-weight: 500;
+  font-size: 1.05rem;
+  font-style: Sans-serif;
+  white-space: nowrap;           /* ← Prevents text from breaking to next line */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #fd7e14 !important;
+  transform: translateY(-1px);
 }
