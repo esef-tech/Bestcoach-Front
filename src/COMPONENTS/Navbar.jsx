@@ -94,10 +94,10 @@ const AppNavbar = () => {
                   <Button className="me-2 login-btn text-white d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signin">
                     <FaUserCircle className="me-1" /> Sign In
                   </Button>
-                  <Button className="signup-btn d-block d-md-inline-block mb-2 mb-md-0 me-md-2" as={Link} to="/signup">
+                  <Button className="signup-btn d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signup">
                     <FaUserCircle className="me-1" /> Sign Up
                   </Button>
-                </>
+              </>
               )}
             </Nav>
           </Navbar.Collapse>

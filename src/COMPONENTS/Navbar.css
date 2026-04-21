@@ -140,3 +140,18 @@
 
 /* Orange accents */
 .text-orange { color: #fd7e14 !important; }
+
+/* Targets the range from 768px to 991px */
+@media (min-width: 768px) and (max-width: 991px) {
+  .login-btn, .signup-btn {
+    display: block;      /* Ensure they are stacked */
+    width: 100%;        /* Optional: makes them look uniform on tablet */
+    margin-bottom: 1.5rem !important; /* Adjust this value for "even" spacing */
+    margin-right: 15px !important;      /* Removes side margin in this range */
+  }
+  
+  /* Removes bottom margin from the last button so it doesn't push the container */
+  .signup-btn {
+    margin-bottom: 0 !important;
+  }
+}
