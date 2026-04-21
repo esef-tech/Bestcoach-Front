@@ -1,6 +1,6 @@
-// src/components/Navbar.jsx - FINAL (links to dedicated auth pages)
+// src/components/Navbar.jsx - FINAL (Mobile Responsive + iPhone Glassmorphism)
 import React, { useState, useEffect, useContext } from 'react';
-import { Navbar, Nav, Container, Button, Image, NavDropdown } from 'react-bootstrap';  
+import { Navbar, Nav, Container, Button, Image, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { auth, db } from '../firebase';
@@ -44,7 +44,7 @@ const AppNavbar = () => {
 
   return (
     <>
-     <TopHeader />
+      <TopHeader />
       <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm modern-navbar glass-navbar" fixed="top">
         {/* Music Bubbles - Full coverage */}
         <div className="animation-container">
@@ -60,6 +60,7 @@ const AppNavbar = () => {
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto nav-links">
               <Nav.Link as={Link} to="/"><FaHome className="me-2 text-orange" />Home</Nav.Link>
@@ -72,13 +73,13 @@ const AppNavbar = () => {
                 <NavDropdown.Item as={Link} to="/about"><FcAbout className="me-2 text-orange" />About Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/team"><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/contact"><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/careers"><FaBriefcase className="me-2 text-orange" />  Careers</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/careers"><FaBriefcase className="me-2 text-orange" />Careers</NavDropdown.Item>
               </NavDropdown>
             </Nav>
 
             <Nav className="align-items-center">
               {isLoggedIn ? (
-                <div className="d-flex align-items-center gap-3">
+                <div className="d-flex align-items-center gap-3 logged-in-group">
                   <Link to="/profile" className="d-flex align-items-center gap-2 text-decoration-none">
                     <Image src={userProfile.photoURL || '/default-avatar.png'} width="36" height="36" roundedCircle />
                     <span>{getFirstName()}</span>
@@ -90,13 +91,11 @@ const AppNavbar = () => {
                 </div>
               ) : (
                 <>
-                  <Button  className="me-2 text-white" as={Link} to="/signin" style={{ backgroundColor: '#00349f' }}>
-                    <FaUserCircle className="me-1" />
-                    Sign In
+                  <Button className="me-2 login-btn text-white d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signin">
+                    <FaUserCircle className="me-1" /> Sign In
                   </Button>
-                  <Button className="me-2 login-btn" as={Link} to="/signup">
-                    <FaUserCircle className="me-1" />
-                    Sign Up 
+                  <Button className="signup-btn d-block d-md-inline-block mb-2 mb-md-0 me-md-2" as={Link} to="/signup">
+                    <FaUserCircle className="me-1" /> Sign Up
                   </Button>
                 </>
               )}
