@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Button, Image, Alert, Spinner } from '
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { auth, db } from "../../../firebase"
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, OAuthProvider, getMultiFactorResolver, PhoneMultiFactorGenerator, PhoneAuthProvider, RecaptchaVerifier } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, OAuthProvider, getMultiFactorResolver, PhoneMultiFactorGenerator, PhoneAuthProvider, RecaptchaVerifier, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import './SignIn.css';
 import logoUrl from "../../Images/bestcoach-pictures/edited/2025-bc-logo.webp";
@@ -15,6 +15,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
   const [error, setError] = useState('');
   const [mfaResolver, setMfaResolver] = useState(null);
   const [mfaPhone, setMfaPhone] = useState('');
@@ -126,14 +127,45 @@ const SignIn = () => {
     } catch (err) { setError(err.message); }
   };
 
-  const handleMicrosoft = async () => {
-    const provider = new OAuthProvider('microsoft.com');
+  const sendVerificationEmail = async (user) => {
+    if (!user) return;
     try {
-      await signInWithPopup(auth, provider);
-      toast.success('Signed in with Microsoft!');
-      navigate('/');
-    } catch (err) { setError(err.message); }
+      await sendEmailVerification(user);
+    } catch (err) {
+      console.error('Email verification send failed:', err);
+      toast.error('Unable to send verification email. Please try again later.');
+    }
   };
+
+  // Inside your Navbar component
+const handleMicrosoft = async () => {
+  const provider = new OAuthProvider('microsoft.com');
+  
+  // Important parameters for cross-origin + PKCE
+  provider.setCustomParameters({
+    prompt: 'consent',
+    tenant: 'common',           // Use 'common' for personal + work accounts
+    // 'consumers' for only personal Microsoft accounts
+  });
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    if (!user.emailVerified && user.email) {
+      await sendVerificationEmail(user);
+      toast.info("Verification email sent. Please check your inbox.");
+    } else {
+      toast.success("Logged in with Microsoft successfully!");
+    }
+
+    setShowLogin(false); // close modal if open
+
+  } catch (err) {
+    console.error("Microsoft login error:", err);
+    toast.error(err.message || "Microsoft login failed. Please try again.");
+  }
+};
 
   // iPhone-style code input
   const renderCodeInputs = () => (
@@ -178,7 +210,8 @@ const SignIn = () => {
       <Container className="py-5">
         <Row className="justify-content-center">
           <Col md={6} lg={5}>
-            <Card className="glass-card shadow border-0">
+            {showLogin ? (
+              <Card className="glass-card shadow border-0">
               <Card.Body className="p-5">
                 <Image src={logoUrl} alt="Bestcoach Music" className="d-block mx-auto mb-4" style={{ height: '60px' }} />
                 <h2 className="text-center mb-4">Sign In</h2>
@@ -236,6 +269,12 @@ const SignIn = () => {
                 <div id="recaptcha-container" ref={recaptchaRef} />
               </Card.Body>
             </Card>
+            ) : (
+              <div className="text-center py-5">
+                <Spinner animation="border" variant="primary" />
+                <div className="mt-3">Signing in…</div>
+              </div>
+            )}
           </Col>
         </Row>
       </Container>
