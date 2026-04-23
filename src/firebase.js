@@ -59,4 +59,9 @@ export const getAnalyticsInstance = () => analyticsInitPromise;
 
 export const googleProvider = new GoogleAuthProvider();
 export const appleProvider = new OAuthProvider("apple.com");
-export const microsoftProvider = new OAuthProvider("microsoft.com");
+export const microsoftProvider = new OAuthProvider('microsoft.com');
+microsoftProvider.setCustomParameters({
+  prompt: 'consent',
+  tenant: 'common'
+});
+
