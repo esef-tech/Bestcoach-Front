@@ -432,8 +432,8 @@ const CommunityForumsPage = () => {
           <Modal.Header closeButton><Modal.Title>Login Required</Modal.Title></Modal.Header>
           <Modal.Body className="text-center">
             <p>You must be logged in to post, like, or comment.</p>
-            <Button href="/login" className="me-2">Log In</Button>
-            <Button href="/signup" variant="outline-primary">Sign Up</Button>
+            <Button href="/signin" className="me-2 text-light">Log In</Button>
+            <Button href="/signup"  className="me-2 text-orange">Sign Up</Button>
           </Modal.Body>
         </Modal>
       </div>
