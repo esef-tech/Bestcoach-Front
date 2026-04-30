@@ -78,7 +78,7 @@ const Faq = () => {
 
 <section className="faqs-page">
       {/* Header */}
-      <div className="header bg-teal text-white text-center py-5 animate-fade-in">
+      <div className="header  text-white text-center py-5 animate-fade-in" style={{ background: '#00394f' }} > 
         <h1 className="display-3 fw-bold">FAQs</h1>
         <p className="lead-faq">Find answers to common questions about Bestcoach Music.</p>
       </div>
