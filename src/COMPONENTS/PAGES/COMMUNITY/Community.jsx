@@ -1,4 +1,4 @@
-// src/COMPONENTS/PAGES/COMMUNITY/CommunityForumsPage.jsx - FINAL FIXED VERSION (Media uploads work)
+// src/COMPONENTS/PAGES/COMMUNITY/CommunityForumsPage.jsx 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container, Row, Col, Form, Button, Card, Image, Modal, Badge, InputGroup } from 'react-bootstrap';
 import { 
