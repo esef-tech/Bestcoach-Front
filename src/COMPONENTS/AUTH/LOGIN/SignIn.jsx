@@ -1,22 +1,34 @@
+// src/COMPONENTS/PAGES/AUTH/SignIn.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Card, Form, Button, Image, Alert, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { auth, db } from "../../../firebase"
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, OAuthProvider, getMultiFactorResolver, PhoneMultiFactorGenerator, PhoneAuthProvider, RecaptchaVerifier, sendEmailVerification } from 'firebase/auth';
+import { auth, db } from "../../../firebase";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  OAuthProvider,
+  sendEmailVerification,
+  RecaptchaVerifier,
+  getMultiFactorResolver,
+  PhoneAuthProvider,
+  PhoneMultiFactorGenerator,
+} from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import './SignIn.css';
+
 import logoUrl from "../../Images/bestcoach-pictures/edited/2025-bc-logo.webp";
 import { FcGoogle } from "react-icons/fc";
 import { BsMicrosoft } from "react-icons/bs";
-
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
   const [error, setError] = useState('');
+
+  // MFA States
   const [mfaResolver, setMfaResolver] = useState(null);
   const [mfaPhone, setMfaPhone] = useState('');
   const [mfaCode, setMfaCode] = useState('');
@@ -26,7 +38,6 @@ const SignIn = () => {
   const recaptchaRef = useRef(null);
 
   useEffect(() => {
-    // Reset MFA state when form changes
     setMfaResolver(null);
     setMfaPhone('');
     setMfaCode('');
@@ -34,15 +45,11 @@ const SignIn = () => {
     setVerificationId('');
   }, [form.email, form.password]);
 
-  // Setup reCAPTCHA only when MFA is required
   useEffect(() => {
     if (mfaResolver && !window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         'recaptcha-container',
-        {
-          size: 'invisible',
-          callback: () => {},
-        },
+        { size: 'invisible' },
         auth
       );
     }
@@ -60,9 +67,10 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, form.email, form.password);
-      // Profile creation (if new)
+
       const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
       if (!userDoc.exists()) {
         await setDoc(doc(db, 'users', userCredential.user.uid), {
@@ -71,27 +79,27 @@ const SignIn = () => {
           role: 'user'
         });
       }
+
       toast.success('Signed in successfully!');
       navigate('/');
+
     } catch (err) {
       if (err.code === 'auth/multi-factor-auth-required') {
         const resolver = getMultiFactorResolver(auth, err);
         setMfaResolver(resolver);
         setMfaPhone(resolver.hints[0].phoneNumber);
         toast.info('2FA required – enter the code sent to your phone.');
-        // Send SMS code
+
         const phoneInfoOptions = {
           multiFactorHint: resolver.hints[0],
           session: resolver.session,
         };
+
         PhoneAuthProvider.verifyPhoneNumber(
           phoneInfoOptions,
           window.recaptchaVerifier
-        ).then((vid) => {
-          setVerificationId(vid);
-        }).catch((err) => {
-          setMfaError(err.message);
-        });
+        ).then((vid) => setVerificationId(vid))
+         .catch((mfaErr) => setMfaError(mfaErr.message));
       } else {
         setError(err.message);
       }
@@ -100,11 +108,11 @@ const SignIn = () => {
     }
   };
 
-  // MFA verification handler
   const handleMfaSubmit = async (e) => {
     e.preventDefault();
     setMfaLoading(true);
     setMfaError('');
+
     try {
       const cred = PhoneAuthProvider.credential(verificationId, mfaCode);
       const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
@@ -124,50 +132,45 @@ const SignIn = () => {
       await signInWithPopup(auth, provider);
       toast.success('Signed in with Google!');
       navigate('/');
-    } catch (err) { setError(err.message); }
-  };
-
-  const sendVerificationEmail = async (user) => {
-    if (!user) return;
-    try {
-      await sendEmailVerification(user);
     } catch (err) {
-      console.error('Email verification send failed:', err);
-      toast.error('Unable to send verification email. Please try again later.');
+      setError(err.message);
     }
   };
 
-  // Inside your Navbar component
-const handleMicrosoft = async () => {
-  const provider = new OAuthProvider('microsoft.com');
-  
-  // Important parameters for cross-origin + PKCE
-  provider.setCustomParameters({
-    prompt: 'consent',
-    tenant: 'common',           // Use 'common' for personal + work accounts
-    // 'consumers' for only personal Microsoft accounts
-  });
+  // FIXED Microsoft Handler - Stable Popup Flow
+  const handleMicrosoft = async () => {
+    const provider = new OAuthProvider('microsoft.com');
 
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    provider.setCustomParameters({
+      prompt: 'select_account',   // Better than 'consent' for most cases
+      tenant: 'common',
+    });
 
-    if (!user.emailVerified && user.email) {
-      await sendVerificationEmail(user);
-      toast.info("Verification email sent. Please check your inbox.");
-    } else {
-      toast.success("Logged in with Microsoft successfully!");
+    try {
+      setLoading(true);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      if (user.email && !user.emailVerified) {
+        await sendEmailVerification(user);
+        toast.info("Verification email sent. Please check your inbox.");
+      } else {
+        toast.success("Signed in with Microsoft successfully!");
+      }
+      navigate('/');
+
+    } catch (err) {
+      console.error("Microsoft login error:", err);
+      if (err.code === 'auth/popup-closed-by-user') {
+        toast.info("Login cancelled.");
+      } else {
+        setError(err.message || "Microsoft login failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
+  };
 
-    setShowLogin(false); // close modal if open
-
-  } catch (err) {
-    console.error("Microsoft login error:", err);
-    toast.error(err.message || "Microsoft login failed. Please try again.");
-  }
-};
-
-  // iPhone-style code input
   const renderCodeInputs = () => (
     <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 20 }}>
       {[...Array(6)].map((_, idx) => (
@@ -190,11 +193,11 @@ const handleMicrosoft = async () => {
           }}
           value={mfaCode[idx] || ''}
           onChange={e => {
-            let codeArr = mfaCode.split('');
-            codeArr[idx] = e.target.value.replace(/[^0-9]/, '');
+            const nextValue = e.target.value.replace(/[^0-9]/g, '');
+            const codeArr = mfaCode.split('');
+            codeArr[idx] = nextValue;
             setMfaCode(codeArr.join('').slice(0, 6));
-            // Focus next input
-            if (e.target.value && idx < 5) {
+            if (nextValue && idx < 5) {
               document.getElementById(`code-input-${idx + 1}`)?.focus();
             }
           }}
@@ -210,12 +213,13 @@ const handleMicrosoft = async () => {
       <Container className="py-5">
         <Row className="justify-content-center">
           <Col md={6} lg={5}>
-            {showLogin ? (
-              <Card className="glass-card shadow border-0">
+            <Card className="glass-card shadow border-0">
               <Card.Body className="p-5">
                 <Image src={logoUrl} alt="Bestcoach Music" className="d-block mx-auto mb-4" style={{ height: '60px' }} />
                 <h2 className="text-center mb-4">Sign In</h2>
+
                 {error && <Alert variant="danger">{error}</Alert>}
+
                 {!mfaResolver ? (
                   <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
@@ -257,24 +261,19 @@ const handleMicrosoft = async () => {
                 <Button variant="outline-dark" className="w-100 mb-2 text-orange" onClick={handleGoogle}>
                   <span className="me-2 text-orange"><FcGoogle /></span> Continue with Google
                 </Button>
+
                 <Button variant="outline-dark" className="w-100 mb-4 text-orange" onClick={handleMicrosoft}>
-                  <span className="me-2 "><BsMicrosoft /></span> Continue with Microsoft
+                  <span className="me-2"><BsMicrosoft /></span> Continue with Microsoft
                 </Button>
 
                 <p className="text-center">
                   Don't have an account?{' '}
                   <Link to="/signup" className="text-orange fw-bold">Sign up here</Link>
                 </p>
-                {/* reCAPTCHA container for MFA */}
+
                 <div id="recaptcha-container" ref={recaptchaRef} />
               </Card.Body>
             </Card>
-            ) : (
-              <div className="text-center py-5">
-                <Spinner animation="border" variant="primary" />
-                <div className="mt-3">Signing in…</div>
-              </div>
-            )}
           </Col>
         </Row>
       </Container>
