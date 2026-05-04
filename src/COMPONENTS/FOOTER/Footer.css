@@ -56,7 +56,7 @@
 
 
 .newsletter-footer {
-  background-color: #17a2b8;
+  background-color: #00394f;
   color: white;
   border: none;
   padding: 1rem;
@@ -64,27 +64,29 @@
 }
 
 #btn-news{
-  background-color: #17a2b8;
+  background-color: #00394f;
   color: white;
   border: none;
   padding: 1rem;
-  transition: background 0.3s;
+    transition: background 0.3s;
+
+  
 }
 #btn-news:hover {
-  background: #17a2b8;
+  background: #00394f;
   color: white;
 }
 
 #newsletter-color {
-  background-color: #17a2b8;
+  background-color: #00394f;
   color: white;
-  border-color: #17a2b8;
+  border-color: #00394f;
 }
 
 
 
 .newsletter-footer:hover {
-  background: #17a2b8;
+  background: #00394f;
   color: white;
 }
 
@@ -92,7 +94,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #17a2b8;
+  background: #00394f;
   color: white;
   padding: 1rem;
   border-radius: 50%;
