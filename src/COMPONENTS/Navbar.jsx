@@ -7,12 +7,15 @@ import { auth, db } from '../firebase';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { FaUserCircle, FaHome, FaMusic, FaMicrophoneAlt, FaBriefcase } from 'react-icons/fa';
+import { MdLoyalty } from "react-icons/md";
 import { FaPeopleGroup, FaPhone } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import { FcAbout } from "react-icons/fc";
 import TopHeader from './TOPHEADER/TopHeader';
 import { ThemeContext } from '../context/ThemeContext';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import './Navbar.css';
+
 
 const logoUrl = 'https://bestcoachmusic.netlify.app/IMAGES/2025-bc-logo.jpeg';
 
@@ -74,6 +77,9 @@ const AppNavbar = () => {
                 <NavDropdown.Item as={Link} to="/team"><FaPeopleGroup className="me-2 text-orange" />Team</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/contact"><FaPhone className="me-2 text-orange" />Contact Us</NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/careers"><FaBriefcase className="me-2 text-orange" />Careers</NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown title="TLP" className="mx-2">
+              <NavDropdown.Item as={Link} to="/loyalty"><MdLoyalty className="me-2 text-orange" />The Loyalty Project</NavDropdown.Item>
               </NavDropdown>
             </Nav>
 

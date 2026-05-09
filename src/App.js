@@ -51,6 +51,7 @@ import MFAVerification from "./COMPONENTS/AUTH/MFA/MFAVerificationPage";
 import FPASS from "./COMPONENTS/AUTH/FPASS/ForgotPassword"
 import Terms from "./COMPONENTS/DocxPages/Terms";
 import Privacy from "./COMPONENTS/DocxPages/Privacy";
+import Loyalty from "./COMPONENTS/TLP/Loyalty"
 
 class ErrorBoundary extends React.Component {
   constructor(props) { super(props); this.state = { hasError: false }; }
@@ -122,6 +123,7 @@ A
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/community" element={<Community />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/loyalty" element={<Loyalty />} />
                   </Routes>
                   <Footer />
                   <AIAgent />
