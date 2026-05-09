@@ -3,7 +3,7 @@ import "./ImageHero.css"
 
 const ImageHero = () => {
     const images = [
-    "https://bestcoach-front.vercel.app/static/media/24.cb44feb0337b0e1f0b46.jpg", // Group in white t-shirts
+    "http://localhost:3000/static/media/8.53ee105175f6e66eaa9a.webp", // Group in white t-shirts
     "https://images.unsplash.com/photo-1552664730-d307ca884978", // Man at computer
     "https://d21q7xesnoiieh.cloudfront.net/fit-in/670x0/filters:quality(95)/marketing/musora/lead-gen/careers/careers-images-04.webp", // Two men talking
     "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae", // Woman singing
