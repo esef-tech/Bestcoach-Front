@@ -1,157 +1,57 @@
-/* Navbar.css - FINAL: iPhone Glassmorphism + Perfect Mobile Buttons (≤991px) */
-
+/* Navbar.css */
 .modern-navbar {
-  background: rgba(255,255,255,0.92) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  border-bottom: 1px solid rgba(253,126,20,0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.85) !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 204, 0, 0.1);
 }
 
-/* Glassmorphic Modals */
-.auth-modal .modal-content,
-.glass-modal {
-  background: rgba(255,255,255,0.95) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
+.glass-navbar.scrolled {
+  background: rgba(10, 10, 10, 0.95) !important;
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border-radius: 24px !important;
-  border: none;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 8px 0;
 }
 
-/* Music Bubbles */
+.modern-navbar .navbar-brand img {
+  transition: height 0.4s ease;
+}
+
+/* Music Animation */
 .animation-container {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
+
 .music-symbol {
   position: absolute;
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: rgba(253, 126, 20, 0.6);
-  animation: floatBubble 18s linear infinite;
-  opacity: 0;
-}
-@keyframes floatBubble {
-  0% { transform: translateY(120vh) rotate(0deg); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateY(-120vh) rotate(720deg); opacity: 0; }
+  top: -20px;
+  font-size: 1.4rem;
+  color: #ffcc00;
+  opacity: 0.25;
+  animation: floatUp 12s linear infinite;
+  z-index: 0;
 }
 
-/* Nav Links */
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 42px;
-}
-.nav-item {
-  color: #333 !important;
-  font-weight: 500;
-  font-size: 1.05rem;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.3s ease;
-}
-.nav-item:hover {
-  color: #fd7e14 !important;
-  transform: translateY(-1px);
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-120px) rotate(25deg); }
 }
 
-/* Login & Sign Up Buttons - Desktop */
-.login-btn,
-.signup-btn {
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 8px 24px;
-  border-radius: 50px;
+/* Extra polish */
+.nav-links .nav-link {
   transition: all 0.3s ease;
 }
-.login-btn {
-  background-color: #00349f;
-  color: white;
-  border: 2px solid #00349f;
-}
-.signup-btn {
-  background-color: #fd7e14;
-  color: white;
-  border: 2px solid #fd7e14;
-}
-.login-btn:hover,
-.signup-btn:hover {
+
+.nav-links .nav-link:hover {
+  color: #ffcc00 !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 52, 159, 0.4);
-}
-
-/* ==================== MOBILE RESPONSIVENESS (≤ 991px) ==================== */
-@media (max-width: 991px) {
-  .nav-links {
-    flex-direction: column;
-    gap: 20px;
-    align-items: flex-start;
-    margin-top: 20px;
-    width: 100%;
-  }
-  .nav-item {
-    white-space: normal;
-    width: 100%;
-    padding: 8px 0;
-  }
-
-  /* Login & Sign Up Buttons - Perfectly spaced on mobile */
-  .login-btn,
-  .signup-btn {
-    width: 100%;
-    margin: 8px 0;
-    padding: 14px 24px;
-    font-size: 1.1rem;
-    text-align: center;
-  }
-
-  /* Reduce music bubbles on mobile for performance */
-  .music-symbol {
-    font-size: 1.4rem;
-  }
-  .music-symbol:nth-child(n+6) {
-    display: none;
-  }
-}
-
-/* Large Screens */
-@media (min-width: 1200px) {
-  .nav-links {
-    gap: 48px !important;
-  }
-  .nav-item {
-    font-size: 1.08rem;
-  }
-}
-
-/* Animations */
-@keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-/* Orange accents */
-.text-orange { color: #fd7e14 !important; }
-
-/* Targets the range from 768px to 991px */
-@media (min-width: 768px) and (max-width: 991px) {
-  .login-btn, .signup-btn {
-    display: block;      /* Ensure they are stacked */
-    width: 100%;        /* Optional: makes them look uniform on tablet */
-    margin-bottom: 1.5rem !important; /* Adjust this value for "even" spacing */
-    margin-right: 15px !important;      /* Removes side margin in this range */
-  }
-  
-  /* Removes bottom margin from the last button so it doesn't push the container */
-  .signup-btn {
-    margin-bottom: 0 !important;
-  }
 }
