@@ -1,11 +1,14 @@
 import React from 'react'
 import './Loyalty.css'
+import TlpHeader from './UI/TlpHeader.jsx'
+
 
 const Loyalty = () => {
   return (
-    <div>
+    <React.Fragment>
+      <TlpHeader />
       
-    </div>
+    </React.Fragment>
   )
 }
 
