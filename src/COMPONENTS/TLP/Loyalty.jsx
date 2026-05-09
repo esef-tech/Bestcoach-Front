@@ -6,6 +6,7 @@ import CTA from './UI/CTA/CTA.jsx'
 import WTE from './UI/WTE/WTE.jsx'
 import PB from './UI/PB/PB.jsx'
 import Enroll from './UI/Enroll/Enroll.jsx'
+import Timonial from './UI/Timonial/Timonial.jsx'
 
 
 
@@ -19,6 +20,7 @@ const Loyalty = () => {
       <WTE />
       <PB />
       <Enroll />
+      <Timonial/>
       
     </React.Fragment>
   )

@@ -50,7 +50,7 @@
   top: 20px;
 }
 
-.quote-text {
+.quote-text-cta {
   font-size: clamp(3.2rem, 8vw, 5.5rem);
   font-weight: 900;
   line-height: 1.05;

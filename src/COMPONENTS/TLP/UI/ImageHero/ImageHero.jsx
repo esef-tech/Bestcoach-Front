@@ -34,7 +34,7 @@ const ImageHero = () => {
       {/* Content Section */}
       <div className="content-section">
         <div className="content-container">
-          <h2 className="section-title">Why The Loyalty Project</h2>
+          <h2 className="section-title-IH">Why The Loyalty Project</h2>
           
           <div className="text-content">
             <p>

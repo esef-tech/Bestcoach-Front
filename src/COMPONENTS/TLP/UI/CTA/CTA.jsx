@@ -22,7 +22,7 @@ const CTA = () => {
           
           <div className="main-quote">
             <span className="quote-mark left">“</span>
-            <h1 className="quote-text">
+            <h1 className="quote-text-cta">
               LET’S FILL<br />THE WORLD<br />WITH MUSIC!
             </h1>
             <span className="quote-mark right">”</span>
