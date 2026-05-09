@@ -1,0 +1,143 @@
+.enroll-section {
+  background: #00394f;
+  color: white;
+  padding: 140px 20px 120px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.enroll-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(255, 204, 0, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.enroll-container {
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.enroll-title {
+  font-size: clamp(3rem, 8vw, 5.2rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 32px;
+  color: #fd7e14;
+  letter-spacing: -2px;
+}
+
+.enroll-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.65;
+  color: #cccccc;
+  max-width: 680px;
+  margin: 0 auto 24px;
+}
+
+.enroll-message {
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #ddd;
+  margin-bottom: 50px;
+  font-style: italic;
+}
+
+/* Enroll Button */
+.enroll-btn {
+  background: #fd7e14;
+  color: #111;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 20px 52px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 12px 35px rgba(255, 204, 0, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.enroll-btn:hover {
+  transform: translateY(-8px) scale(1.06);
+  box-shadow: 0 25px 50px rgba(255, 204, 0, 0.5);
+  background: #fd7e14;
+}
+
+.enroll-btn:active {
+  transform: scale(0.96);
+}
+
+.btn-arrow {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.enroll-btn:hover .btn-arrow {
+  transform: translateX(12px);
+}
+
+/* Success Message */
+.success-message {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #ffcc00;
+  padding: 18px 32px;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  animation: slideDown 0.5s ease, fadeOut 6s 0.5s forwards;
+  border: 1px solid #ffcc00;
+  max-width: 380px;
+  text-align: center;
+}
+
+.success-content {
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+@keyframes slideDown {
+  from { transform: translate(-50%, -50px); opacity: 0; }
+  to { transform: translateX(-50%); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* iPhone Responsive */
+@media (max-width: 768px) {
+  .enroll-section {
+    padding: 100px 20px 90px;
+  }
+  
+  .enroll-title {
+    font-size: clamp(2.6rem, 9vw, 4.2rem);
+  }
+  
+  .enroll-btn {
+    padding: 18px 40px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .enroll-section {
+    padding: 90px 16px 80px;
+  }
+}

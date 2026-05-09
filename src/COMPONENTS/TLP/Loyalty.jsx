@@ -5,6 +5,8 @@ import ImageHero from './UI/ImageHero/ImageHero.jsx'
 import CTA from './UI/CTA/CTA.jsx'
 import WTE from './UI/WTE/WTE.jsx'
 import PB from './UI/PB/PB.jsx'
+import Enroll from './UI/Enroll/Enroll.jsx'
+
 
 
 
@@ -16,6 +18,7 @@ const Loyalty = () => {
       <CTA />
       <WTE />
       <PB />
+      <Enroll />
       
     </React.Fragment>
   )
