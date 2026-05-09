@@ -4,14 +4,17 @@ import { Container, Row, Col, Card, Form, Button, Image, Badge, Modal } from 're
 import { FaSearch, FaMusic, FaPlus } from 'react-icons/fa';
 import CoachMan from "../Images/team/3.jpg";
 import GObeng from "../Images/team/2.jpg";
-import TBonful from "../Images/team/6.jpg";
-import Emm from "../Images/team/7.jpg";
-import MJeff from "../Images/team/Executives/Mr.Jeffrey-1.webp";
-import MTTS from "../Images/team/Executives/Mathias-4.webp";
-import MPR from "../Images/team/Executives/Precious.webp";
-import NTTS from "../Images/team/Executives/NANA-SARFO.webp";
+import TBonful from "../Images/exec-pics/6.webp";
+import Emm from "../Images/exec-pics/7.webp";
+import MJeff from "../Images/exec-pics/Mr.Jeffrey-1_.webp";
+import MTTS from "../Images/exec-pics/Mathias-4_.webp";
+import MPR from "../Images/exec-pics/Precious.webp";
+import NTTS from "../Images/exec-pics/NANA-SARFO.webp";
+import TL from "../Images/exec-pics/TECH.webp"
+import JA from "../Images/exec-pics/Judith (1).jpeg"
 import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { BsAlexa } from 'react-icons/bs';
+import { SiApplemusic } from "react-icons/si";
 import { FcBusinesswoman } from 'react-icons/fc';
 import { TbBrandReactNative } from 'react-icons/tb';
 import { SiGoogleanalytics, SiTechcrunch } from 'react-icons/si';
@@ -33,12 +36,13 @@ const Team = () => {
     { name: 'Emmanuel Ameko', specialty: 'Founder', image: `${CoachMan}`, featured: true, category: 'founder' },
     { name: 'Jeffrey Addo', specialty: 'Director', image: `${MJeff}`, featured: true, category: 'director' },
     { name: 'Emmanuel Boadi', specialty: 'Operations Manager', image: `${Emm}`, featured: true, category: 'operations manager' },
-    { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: 'https://bestcoachmusic.netlify.app/IMAGES/technology.jpeg', featured: true, category: 'tech lead' },
+    { name: 'Ekow Spio Abaidoo', specialty: 'Tech Lead', image: `${TL}`, featured: true, category: 'tech lead' },
     { name: 'Precious Nkrumah', specialty: 'Graphic Design Lead', image: `${MPR}`, featured: true, category: 'graphic design lead' },
     { name: 'Tracy Bonful', specialty: 'Data Analyst', image: `${TBonful}`, featured: true, category: 'data analyst' },
     { name: 'Gifty Obeng', specialty: 'Administrator', image: `${GObeng}`, featured: true, category: 'administrator' },
     { name: 'Nana Sarfo', specialty: 'Media Lead', image: `${NTTS}`, featured: true, category: 'media lead' },
     { name: 'Matthiahs', specialty: 'Assistant Media Lead', image: `${MTTS}`, featured: true, category: 'assistant media lead' },
+    { name: 'Judith Appiah', specialty: 'Music Team Lead', image: `${JA}`, featured: true, category: 'music team lead' },
   ];
 
   const filteredCoaches = coaches.filter(coach =>
@@ -58,6 +62,7 @@ const Team = () => {
     { name: 'administrator', icon: <FcBusinesswoman className="me-2 text-orange" /> },
     { name: 'media lead', icon: <MdPermMedia className="me-2 text-orange" /> },
     { name: 'assistant media lead', icon: <GrMultimedia className="me-2 text-orange" /> },
+    { name: 'music team lead', icon: <SiApplemusic className="me-2 text-orange" /> },
   ];
 
   const handleViewImage = (imageUrl) => {
