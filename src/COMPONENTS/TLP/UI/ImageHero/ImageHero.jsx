@@ -8,7 +8,7 @@ const ImageHero = () => {
     "https://d21q7xesnoiieh.cloudfront.net/fit-in/670x0/filters:quality(95)/marketing/musora/lead-gen/careers/careers-images-04.webp", // Two men talking
     "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae", // Woman singing
     "https://d21q7xesnoiieh.cloudfront.net/fit-in/670x0/filters:quality(95)/marketing/musora/lead-gen/careers/careers-images-09.webp", // Studio control room
-    "http://localhost:3000/static/media/Coach.9f8dc9ce950601b9cc93.webp"  // Man in blue turban
+    "https://bestcoach-front.vercel.app/static/media/Coach.9f8dc9ce950601b9cc93.webp"  // Man in blue turban
   ];
   return (
     <React.Fragment> 
@@ -23,7 +23,7 @@ const ImageHero = () => {
           >
             <img 
               src={src} 
-              alt={`Musora team and community moment ${index + 1}`}
+              alt={`Bestcoach team and the loyalty moment ${index + 1}`}
               loading="lazy"
             />
             <div className="image-overlay"></div>
