@@ -3,6 +3,7 @@ import './Loyalty.css'
 import TlpHeader from './UI/TlpHeader.jsx'
 import ImageHero from './UI/ImageHero/ImageHero.jsx'
 import CTA from './UI/CTA/CTA.jsx'
+import WTE from './UI/WTE/WTE.jsx'
 
 
 
@@ -12,6 +13,7 @@ const Loyalty = () => {
       <TlpHeader />
       <ImageHero />
       <CTA />
+      <WTE />
       
     </React.Fragment>
   )
