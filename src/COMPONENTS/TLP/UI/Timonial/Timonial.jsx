@@ -8,7 +8,7 @@ const Timonial = () => {
       id: 1,
       name: "Gifty Obeng",
       title: "Administartive  Manager, Bestcoach Muisc",
-      image: "https://bestcoach-front.vercel.app/static/media/2.549f179bfc4fe9934975.jpg",
+      image: "https://bestcoach-front.vercel.app/static/media/6.1e01f3f5a1ffa39bac3a.webp",
       quote: "At Bestcoach Music, talent and humility go hand in hand. People are focused, good at what they do, and genuinely want to collaborate. No ego, just shared goals. That kind of openness is rare, and it's something I deeply value.",
     },
     {
@@ -22,7 +22,7 @@ const Timonial = () => {
       id: 3,
       name: "Nana Sarfo",
       title: "Media Lead, Bestcoach Music",
-      image: "https://bestcoach-front.vercel.app/static/media/NANA-SARFO.d59042793c0f130e1b38.webp",
+      image: "https://bestcoach-front.vercel.app/static/media/NANA-SARFO.1416a9c1883c8a8e0c13.webp",
       quote: "At Bestcoach Music,  creativity and care for people are so perfectly balanced. Bestcoach Music  doesn't just talk about community — we live it every day.",
     }
   ];

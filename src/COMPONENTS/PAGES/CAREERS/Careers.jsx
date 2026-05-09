@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Button, Modal, Alert, Image } from 're
 import { Link } from 'react-router-dom';
 import { FaSearch, FaBriefcase, FaUsers, FaHeart, FaUpload } from 'react-icons/fa';
 import './Careers.css';
-import about from './../../Images/team/20.jpg';
+import about from './../../Images/exec-pics/8.webp';
 import { auth, db, storage } from '../../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
