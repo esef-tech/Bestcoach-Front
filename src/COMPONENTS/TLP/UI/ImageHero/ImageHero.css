@@ -1,5 +1,5 @@
 .image-hero {
-  background: #0a0a0a;
+  background: #00394f;
   color: white;
   padding: 80px 0 100px;
   overflow: hidden;
@@ -22,7 +22,7 @@
   border-radius: 12px;
   overflow: hidden;
   aspect-ratio: 1 / 1;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
