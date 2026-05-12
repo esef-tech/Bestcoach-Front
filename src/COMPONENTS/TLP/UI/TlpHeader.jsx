@@ -49,8 +49,8 @@ const TlpHeader = () => {
         <div className="header-content">
           {/* Top Bar */}
           <div className="top-bar">
-            <div className="logo-placeholder">BESTCOACH</div>
-            <div className="nav-hint">MUSIC</div>
+            <div className="logo-placeholder-tlp">BESTCOACH</div>
+            <div className="nav-hint-tlp">MUSIC</div>
           </div>
 
           {/* Main Hero Text */}
