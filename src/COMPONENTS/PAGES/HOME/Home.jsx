@@ -6,9 +6,6 @@ import Register from '../../REGISTER/Register'
 import Seo from '../../Seo'
 import { useSession } from '../../../context/SessionContext'
 
-
-
-
 const Home = () => {
   const { session, savePreferences, getPreferences } = useSession();
   useEffect(() => {
