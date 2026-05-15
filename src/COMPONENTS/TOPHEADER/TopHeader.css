@@ -1,17 +1,76 @@
-/* TopHeader.css - Fully Responsive + Sticky */
+/* ==================== TopHeader.css - Advanced Glassmorphism ==================== */
+
+:root {
+  --blur-base: 12px;
+  --blur-header: 16px
+  --blur-scrolled: 20px;
+  --blur-hover: 24px;
+  --glass-opacity: 0.68;
+}
+
 .top-header {
-  background-color: #00394f;
-  color: #fff;
-  padding: 10px 0;
-  position: -webkit-sticky;
+  background: rgba(0, 57, 79, 1);
+  -webkit-backdrop-filter: blur(var(--blur-header)) saturate(180%);
+  backdrop-filter: blur(var(--blur-header)) saturate(180%);
+  
+  color: #ffffff;
+  padding: 12px 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-bottom: 3px solid #00394f;
-  font-size: 0.95rem;
+  box-shadow: 0 4px 20px rgba(0, 57, 79, 1);
+  border-bottom: 1px solid rgba(0, 57, 79, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* iOS Safe Area */
+  padding-top: calc(12px + env(safe-area-inset-top));
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* Scroll-based Blur Animation */
+.top-header.scrolled {
+  background: rgba(0, 57, 79, 0.65);
+   -webkit-backdrop-filter: blur(var(--blur-scrolled)) saturate(180%);
+  backdrop-filter: blur(var(--blur-scrolled)) saturate(180%);
+ 
+  box-shadow: 0 8px 30px rgba(0, 57, 79, 0.65);
+  padding-top: calc(8px + env(safe-area-inset-top));
+  padding-bottom: 8px;
+}
+
+/* Hover-controlled Blur Intensity */
+.top-header:hover {
+  -webkit-backdrop-filter: blur(var(--blur-hover)) saturate(200%);
+  backdrop-filter: blur(var(--blur-hover)) saturate(200%);
+  
+  background: rgba(0, 57, 79, var(--glass-opacity));
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(12px)) {
+  .top-header,
+  .top-header.scrolled,
+  .top-header:hover {
+    background: rgba(15, 15, 15, 0.97);
+  }
+}
+
+/* ===================== Container Queries ===================== */
+/* Container Query (only when supported) */
+@supports (container-type: inline-size) {
+  @container topheader (max-width: 600px) {
+    .handwritten-text {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+/* Fallback for browsers that don't support Container Queries */
+@media (max-width: 600px) {
+  .handwritten-text {
+    font-size: 1.1rem;
+  }
+}
 
 .top-header-container {
   max-width: 1400px;
@@ -20,11 +79,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
-/* Left Contact */
+/* Opt-in to Container Queries when supported */
+@supports (container-type: inline-size) {
+  .top-header-container {
+    container-type: inline-size;
+    container-name: topheader;
+  }
+}
+
+/* Rest of your styles remain clean */
 .contact-info-top-header {
   display: flex;
   align-items: center;
@@ -36,64 +103,74 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 500;
+  font-size: 0.95rem;
+  color: #e0e0e0;
 }
 
-.icon { color: #fd7e14; font-size: 1.1rem; }
+.info-item-top-header .icon {
+  color: #ff9500;
+  font-size: 1.15rem;
+}
 
-/* Center Handwritten */
 .handwriting-center {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  min-width: 280px;
+  text-align: center;
+  min-width: 260px;
 }
 
 .handwritten-text {
-  font-family: sans-serif;
-  font-size: 1.2rem;
-  white-space: nowrap;
-  animation: handwriting 5.5s steps(42, end) infinite alternate;
-  color: #fd7e14;
+  font-family: sans-serif; 
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #ff9500;
+  text-shadow: 0 2px 12px rgba(255, 149, 0, 0.4);
 }
 
-/* Right Social */
+/* Social Icons */
 .social-section-top-header {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
 }
 
 .social-icon-top-header {
-  width: 32px;
-  height: 32px;
-  background: #fff;
-  color: #fd7e14;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.25rem;
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .social-icon-top-header:hover {
-  background: #00394f;
-  color: #fff;
-  transform: scale(1.15);
+  background: #ff9500;
+  color: #000;
+  transform: translateY(-4px) scale(1.12);
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .top-header-container { flex-direction: column; gap: 12px; text-align: center; }
-  .handwriting-center { min-width: auto; font-size: 1.1rem; }
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .top-header-container {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 15px;
+  }
+  .contact-info-top-header {
+    justify-content: center;
+    gap: 18px;
+  }
 }
 
 @media (max-width: 576px) {
-  .top-header { padding: 8px 0; }
-  .handwritten-text { font-size: 1rem; }
+  .handwritten-text { font-size: 1.15rem; }
+  .social-icon-top-header { width: 34px; height: 34px; font-size: 1.1rem; }
 }
 
-@keyframes handwriting {
-  from { width: 0%; }
-  to { width: 100%; }
+@media (min-width: 1920px) {
+  .handwritten-text { font-size: 1.7rem; }
 }
