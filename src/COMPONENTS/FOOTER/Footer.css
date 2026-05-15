@@ -1,155 +1,270 @@
+/* ==================== Footer.css - Modern iOS Polymorphism Design ==================== */
+
 .footer-section-footer {
-  background-color: #00394f; /* bg-secondary gray */
+  background: linear-gradient(135deg, #001f2b 0%, #00394f 100%);
   color: rgb(255, 255, 255) !important;
-  padding: 3rem 1rem;
+  padding-top: 100px;
   position: relative;
   overflow: hidden;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.footer-brand-footer {
-  font-size: 2.5rem;
-  line-height: 2.5rem;
-  color: #17a2b8; /* Primary blue */
+/* iOS Polymorphism / Glassmorphism Floating Particles */
+.note-particle-footer {
+  position: absolute;
+  font-size: 2.2rem;
+  opacity: 0.08;
+  color: #ff9500;
+  pointer-events: none;
+  animation: floatNote 25s linear infinite;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.text-color-footer, .me-3 {
-  color: #17a2b8; /* Primary blue */
-} 
 
-.footer-text-footer {
-  color: white;
+.note-particle-footer:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; }
+.note-particle-footer:nth-child(2) { top: 35%; right: 12%; animation-delay: 6s; }
+.note-particle-footer:nth-child(3) { bottom: 25%; left: 18%; animation-delay: 12s; }
+.note-particle-footer:nth-child(4) { top: 60%; right: 25%; animation-delay: 18s; }
+.note-particle-footer:nth-child(5) { bottom: 40%; left: 35%; animation-delay: 9s; }
+
+@keyframes floatNote {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-120vh) rotate(360deg); }
 }
 
+/* ===================== MAIN CONTAINER ===================== */
+.footer-section-footer .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* WAI-ARIA Landmarks */
+/* Note: Add role="contentinfo" to the footer element in HTML */
+
+/* ===================== FOCUS STYLES ===================== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #ff9500;
+  outline-offset: 4px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 4px rgba(255, 149, 0, 0.3);
+}
+
+/* Enhanced focus for footer links */
+.footer-link-footer:focus-visible,
+.social-btn-footer-social:focus-visible {
+  background: rgba(255, 149, 0, 0.2);
+  transform: translateX(8px);
+}
+
+/* ===================== SOCIAL BUTTONS ===================== */
 .social-btn-footer-social {
-  width: 38px;
-  height: 38px;
-  border: 1px solid #17a2b8;
-  border-radius: 50%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right: 0.5rem;
-  transition: transform 0.3s ease, background 0.3s;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 57, 79, 1);
+  color: #fff;
+  border-radius: 50%;
+  margin-right: 12px;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .social-btn-footer-social:hover {
-  transform: scale(1.1) rotate(15deg); /* Animated hover */
-  background: #17a2b8;
-  color: white;
+  background: #ff9500;
+  color: #001f2b;
+  transform: scale(1.1) rotate(360deg);
+  
 }
 
+/* ===================== LINKS ===================== */
 .footer-link-footer {
-  color: white;
-  transition: color 0.3s, text-decoration 0.3s;
+  color: #17a2b8;
+  text-decoration: none;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  font-size: 1.02rem;
 }
 
 .footer-link-footer:hover {
-  color: #fd7e14; /* Orange hover for appeal */
-  text-decoration: underline;
+  transform: translateY(-6px) scale(1.1);
+  color: #ff9500;
+  padding-left: 8px;
 }
 
-.newsletter-form .form-control {
-  border: none;
-  padding: 1rem;
+/* ===================== TYPOGRAPHY ===================== */
+.footer-brand-footer {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #fff;
   margin-bottom: 1rem;
 }
 
+.text-color-footer {
+  color: #6ac3ff;
+}
 
+.footer-text-footer {
+  line-height: 1.6;
+  opacity: 0.9;
+}
+/* Bottom Copyright Section */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 35px;
+  padding-bottom: 40px;           /* ← Extra space below text */
+  margin-top: 50px;
+  color: #a0c4e0;
+  font-size: 1.02rem;
+}
 
+.footer-bottom p {
+  margin-bottom: 0;
+}
+
+.footer-bottom a {
+  color: #6ac3ff;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: #ff9500;
+}
+/* ===================== NEWSLETTER ===================== */
 .newsletter-footer {
-  background-color: #00394f;
-  color: white;
-  border: none;
-  padding: 1rem;
-  transition: background 0.3s;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
-
-#btn-news{
-  background-color: #00394f;
-  color: white;
-  border: none;
-  padding: 1rem;
-    transition: background 0.3s;
-
-  
-}
-#btn-news:hover {
-  background: #00394f;
-  color: white;
-}
-
-#newsletter-color {
-  background-color: #00394f;
-  color: white;
-  border-color: #00394f;
-}
-
-
 
 .newsletter-footer:hover {
-  background: #00394f;
-  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 57, 79, 0.4);
 }
 
-.back-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #00394f;
-  color: white;
-  padding: 1rem;
-  border-radius: 50%;
-  display: none; /* Shown via JS */
-  animation: slideUp 0.3s ease;
-  z-index: 1000;
-}
 
-.back-to-top.show {
-  display: block;
-}
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
 
-/* Floating notes animation for appeal */
-.note-particle-footer {
-  position: absolute;
-  font-size: 1.5rem;
-  color: rgba(253, 126, 20, 0.4); /* Orange semi-transparent */
-  animation: floatNote 10s linear infinite;
-  z-index: 0;
-}
+/* ===================== RESPONSIVE DESIGN ===================== */
 
-.note-particle-footer:nth-child(even) {
-  animation-duration: 15s;
-}
-
-@keyframes floatNote {
-  0% { transform: translateY(100%) rotate(0deg); }
-  100% { transform: translateY(-100%) rotate(360deg); }
-}
-
-/* Random positions */
-.note-particle-footer:nth-child(1) { left: 10%; animation-delay: 0s; }
-.note-particle-footer:nth-child(2) { left: 30%; animation-delay: 2s; }
-.note-particle-footer:nth-child(3) { left: 50%; animation-delay: 4s; }
-.note-particle-footer:nth-child(4) { left: 70%; animation-delay: 6s; }
-.note-particle-footer:nth-child(5) { left: 90%; animation-delay: 8s; }
-/* Responsive */
-@media (max-width: 768px) {
+/* Large Screens - Monitors, TVs, Projectors */
+@media (min-width: 1400px) {
   .footer-section-footer {
+    padding-top: 80px;
+  }
+  .footer-brand-footer {
+    font-size: 2.8rem;
+  }
+}
+
+/* Laptops & MacBooks */
+@media (max-width: 1200px) {
+  .footer-brand-footer {
+    font-size: 2.2rem;
+  }
+}
+
+/* Tablets & iPads */
+@media (max-width: 992px) {
+  .footer-section-footer .row > div {
+    margin-bottom: 50px;
+  }
+}
+
+/* Large Mobile / Small Tablets */
+@media (max-width: 768px) {
+  .social-btn-footer-social {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+  .footer-section-footer{
     padding: 2rem 1rem;
   }
   .footer-brand-footer {
     font-size: 2rem;
   }
-  .note-particle-footer {
+  .note.note-particle-footer{
     font-size: 1rem;
   }
-  .back-to-top {
-    bottom: 10px;
-    right: 10px;
-    padding: 0.75rem;
+  
+  .footer-link-footer {
+    font-size: 1rem;
+  }
+}
+
+/* Smartphones */
+@media (max-width: 576px) {
+  .footer-section-footer {
+    padding-top: 50px;
+    text-align: center;
+  }
+  
+  .footer-brand-footer {
+    font-size: 2rem;
+  }
+  
+  .d-flex {
+    justify-content: center;
+  }
+  
+  .social-btn-footer-social {
+    margin: 6px;
+  }
+  
+  .footer-link-footer {
+    justify-content: center;
+  }
+}
+
+/* Very Small Screens (iPhone SE, Smartwatches in landscape) */
+@media (max-width: 380px) {
+  .footer-brand-footer {
+    font-size: 1.85rem;
+  }
+  
+  .social-btn-footer-social {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Extra Large Screens - 4K, TVs, Projectors */
+@media (min-width: 1920px) {
+  .footer-section-footer {
+    padding-top: 100px;
+    padding-bottom: 80px;
+  }
+  
+  .note-particle-footer {
+    font-size: 3rem;
+    opacity: 0.06;
+  }
+}
+
+/* Ultra-wide Monitors */
+@media (min-width: 2500px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .footer-section-footer {
+    background: #00394f;
+    color: #000;
+  }
+  .note-particle-footer {
+    display: none;
   }
 }

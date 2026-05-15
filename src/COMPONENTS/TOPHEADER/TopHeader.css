@@ -139,7 +139,7 @@
   justify-content: center;
   width: 38px;
   height: 38px;
-  background: rgba(255, 255, 255, 0.09);
+  background: rgba(0, 57, 79, 1);
   color: #fff;
   border-radius: 50%;
   font-size: 1.25rem;
@@ -150,7 +150,7 @@
 .social-icon-top-header:hover {
   background: #ff9500;
   color: #000;
-  transform: translateY(-4px) scale(1.12);
+  transform: scale(1.1) rotate(360deg);
 }
 
 /* ===================== RESPONSIVE ===================== */
