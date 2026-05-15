@@ -81,7 +81,7 @@ const Header = () => {
                   rel="noopener noreferrer" 
                   aria-label="Visit our Socials Page and Follow Us"
                 >
-                  Learn more
+                  Follow Us For More
                 </Button>
               </Col>
 
