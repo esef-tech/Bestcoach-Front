@@ -77,6 +77,9 @@ const Header = () => {
                   className="cta-btn"
                   data-aos="zoom-in"
                   data-aos-delay="900"
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label="Visit our Socials Page and Follow Us"
                 >
                   Learn more
                 </Button>

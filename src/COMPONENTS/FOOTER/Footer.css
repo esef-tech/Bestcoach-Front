@@ -268,3 +268,80 @@ select:focus-visible {
     display: none;
   }
 }
+/* ==================== Footer.css - Updated with Proper Heading Hierarchy ==================== */
+
+.footer-section-footer {
+  background: linear-gradient(135deg, #001f2b 0%, #00394f 100%);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  padding-top: 100px;
+  padding-bottom: 80px;
+}
+
+/* ... (Keep all your existing styles for particles, social buttons, links, etc.) ... */
+
+/* Contact Items - Proper Hierarchy */
+.contact-item {
+  display: flex;
+  margin-bottom: 1.4rem;
+  color: #b0d4ff;
+}
+
+.contact-heading {
+  color: #6ac3ff;
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+/* Bottom Copyright */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 40px;
+  padding-bottom: 60px;
+  margin-top: 60px;
+  color: #a0c4e0;
+  font-size: 1.02rem;
+}
+
+.footer-bottom a {
+  color: #6ac3ff;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: #ff9500;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  .footer-section-footer {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+  .contact-item {
+    margin-bottom: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-section-footer {
+    text-align: center;
+    padding-top: 50px;
+  }
+  .d-flex {
+    justify-content: center;
+  }
+  .contact-heading {
+    font-size: 1.1rem;
+  }
+}
+
+/* Large Screens */
+@media (min-width: 1400px) {
+  .footer-section-footer {
+    padding-top: 110px;
+    padding-bottom: 100px;
+  }
+}
