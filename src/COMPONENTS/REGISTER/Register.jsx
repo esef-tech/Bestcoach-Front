@@ -74,7 +74,7 @@ const Register = () => {
           {/* Left side - Text & Benefits */}
           <Col lg={7} className="mb-5 mb-lg-0 fade-in">
             <p className="section-title pr-5">
-              <span className="pr-2">Bestcoach music</span>
+              <span className="pr-2 text-orange">Bestcoach music</span>
             </p>
             <h1 className="mb-4 register-title register-h1-text">Register Now</h1>
             <p className="lead mb-4 register-p">
