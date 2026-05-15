@@ -13,8 +13,9 @@ const Programs = () => {
   const packages = [
     {
       title: 'Standard Package',
-      desc: 'At BestCoach, we inspire creativity and self-expression. Enroll  in our vibrant music program to cultivate rhythm, musicality, and confidence . Sign up today and let the music begin!.',
+      desc: 'At BestCoach, we inspire creativity and self-expression. Enroll in our vibrant music program to cultivate rhythm, musicality, and confidence. Sign up today and let the music begin!',
       img: 'https://www.communitymusicschool.com/wp-content/uploads/2024/10/Joyful-Voices-2024-1-scaled-e1729108515794-2400x1480.jpg',
+      alt: 'Bestcaoch Music standard Package Service',
       age: 'For everyone',
       price: 'GH₵500.00 per month',
       duration: '1 hour per session',
@@ -24,6 +25,7 @@ const Programs = () => {
       title: 'Exclusive Service Package',
       desc: 'Enhance life with inspiring music. Unlock your potential through expert instruction. Enroll in our music program today!',
       img: 'https://www.washingtonperformingarts.org/wp-content/uploads/2023/12/about-the-choir-RS89401_2023LivingTheDream_FEB5_00758-lpr.webp',
+      alt: 'Bestcoach Music Exclusive Service Package Service',
       age: 'For everyone',
       price: 'GH₵1,200.00 per month',
       duration: '2 hours per session',
@@ -31,8 +33,9 @@ const Programs = () => {
     },
     {
       title: 'Flexi-Learn Package',
-      desc: "Whether you're a beginner or looking to refine your skills, bestcoach is designed just for you! Learn to play, sing, and express yourself through music.",
+      desc: "Whether you're a beginner or looking to refine your skills, BestCoach is designed just for you! Learn to play, sing, and express yourself through music.",
       img: 'https://images.squarespace-cdn.com/content/v1/6213f6b6150312039937363e/4bd42772-e43d-4891-97b2-2f7cc06d9e47/20231217__A7C1741.jpg',
+      alt: 'Bestcoach Music Flexi-Learn Package Service',
       age: 'For everyone',
       price: 'GH₵200.00 per month',
       duration: '1 hour per session',
@@ -64,6 +67,7 @@ const Programs = () => {
         timestamp: serverTimestamp(),
         userId: auth.currentUser?.uid || 'anonymous',
       });
+
       toast.success("Enrollment request sent successfully! 🎉");
       setFormData({ name: '', email: '', package: '', price: '' });
       setShowModal(false);
@@ -89,11 +93,18 @@ const Programs = () => {
             {packages.map((pkg, idx) => (
               <Col lg={4} md={6} key={idx}>
                 <Card className="program-card h-100">
-                  <Card.Img variant="top" src={pkg.img} className="card-img" />
+                  <Card.Img 
+                    variant="top" 
+                    src={pkg.img} 
+                    alt={pkg.alt}
+                    className="card-img" 
+                  />
                   <Card.Body className="d-flex flex-column">
                     <Card.Title className="program-card-title">{pkg.title}</Card.Title>
-                    <Card.Text className="program-card-desc flex-grow-1">{pkg.desc}</Card.Text>
-
+                    <Card.Text className="program-card-desc flex-grow-1">
+                      {pkg.desc}
+                    </Card.Text>
+                    
                     <div className="program-details mt-auto">
                       <div className="detail-row">
                         <span className="detail-label">Age range</span>
@@ -138,18 +149,46 @@ const Programs = () => {
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control name="name" value={formData.name} onChange={handleChange} required />
+              <Form.Control 
+                name="name" 
+                value={formData.name} 
+                onChange={handleChange} 
+                required 
+              />
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
-              <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
+              <Form.Control 
+                name="email" 
+                type="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                required 
+              />
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Price (GH₵)</Form.Label>
-              <Form.Control name="price" type="text" value={formData.price} readOnly />
+              <Form.Control 
+                name="price" 
+                type="text" 
+                value={formData.price} 
+                readOnly 
+              />
             </Form.Group>
-            <Button type="submit" variant="primary" disabled={status.loading} className="w-100 py-3 rounded-4">
-              {status.loading ? <Spinner animation="border" size="sm" /> : 'Send Enrollment Request'}
+
+            <Button 
+              type="submit" 
+              variant="primary" 
+              disabled={status.loading} 
+              className="w-100 py-3 rounded-4"
+            >
+              {status.loading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                'Send Enrollment Request'
+              )}
             </Button>
           </Form>
         </Modal.Body>
