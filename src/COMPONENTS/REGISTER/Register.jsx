@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Form,  } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Spinner } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 import './Register.css';
 import { db } from '../../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { Spinner } from 'react-bootstrap';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +12,7 @@ const Register = () => {
     email: '',
     service: '',
   });
+
   const [status, setStatus] = useState({ loading: false, success: false, error: '' });
 
   const services = [
@@ -29,7 +29,7 @@ const Register = () => {
     'Musical Instruments Purchase',
     'Workshops',
     'Instrumentation Services',
-  ].sort(); // alphabetical order
+  ].sort();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -48,21 +48,15 @@ const Register = () => {
         timestamp: serverTimestamp(),
       });
 
-      setStatus({ loading: false, success: true, error: '' });
-
-
-      // In handleSubmit
-       toast.success("Request sent successfully! 🎉");
-       setFormData({ name: '', email: '', service: '' });
-
-      // Auto-clear form
+      toast.success("Request sent successfully! 🎉");
       setFormData({ name: '', email: '', service: '' });
+      
+      setStatus({ loading: false, success: true, error: '' });
 
       // Auto-hide success message after 4 seconds
       setTimeout(() => {
         setStatus(prev => ({ ...prev, success: false }));
       }, 4000);
-
     } catch (err) {
       console.error(err);
       setStatus({
@@ -84,10 +78,9 @@ const Register = () => {
             </p>
             <h1 className="mb-4 register-title register-h1-text">Register Now</h1>
             <p className="lead mb-4 register-p">
-              Ready to take your musical journey to the next level? Register now and become a part of our vibrant community! 
+              Ready to take your musical journey to the next level? Register now and become a part of our vibrant community!
               Fill out the form and let's make some beautiful music together. 🎸🎤
             </p>
-
             <ul className="list-inline m-0 check-list">
               <li className="py-2">
                 <FaCheckCircle className="check-icon" />
@@ -102,12 +95,11 @@ const Register = () => {
                 Bestcoach Music, a BCSE-CENTRE subsidiary 🎵
               </li>
             </ul>
-
-            <Button 
-              id="primary-v" 
-              size="lg" 
+            <Button
+              id="primary-v"
+              size="lg"
               className="mt-4 py-3 px-5 register-btn-text"
-              href="https://form.jotform.com/252515722619559" 
+              href="https://form.jotform.com/252515722619559"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -124,27 +116,35 @@ const Register = () => {
               <Card.Body className="form-body">
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-4">
+                    <Form.Label htmlFor="name" className='text-white'>Full Name</Form.Label>
                     <Form.Control
+                      id="name"
                       type="text"
                       name="name"
-                      placeholder="Your Name"
+                      placeholder="Enter your full name"
                       value={formData.name}
                       onChange={handleChange}
                       required
                     />
                   </Form.Group>
+
                   <Form.Group className="mb-4">
+                    <Form.Label htmlFor="email" className='text-white'>Email Address</Form.Label>
                     <Form.Control
+                      id="email"
                       type="email"
                       name="email"
-                      placeholder="Your Email"
+                      placeholder="Enter your email address"
                       value={formData.email}
                       onChange={handleChange}
                       required
                     />
                   </Form.Group>
+
                   <Form.Group className="mb-4">
+                    <Form.Label htmlFor="service" className='text-white'>Course or Service Requested</Form.Label>
                     <Form.Select
+                      id="service"
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
@@ -169,8 +169,14 @@ const Register = () => {
                     className="btn-submit-register w-100"
                     disabled={status.loading}
                   >
-                    {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
-                    {status.loading ? 'Sending...' : 'Send Message'}
+                    {status.loading ? (
+                      <>
+                        <Spinner animation="border" size="sm" className="me-2" />
+                        Sending...
+                      </>
+                    ) : (
+                      'Send Message'
+                    )}
                   </Button>
                 </Form>
               </Card.Body>
