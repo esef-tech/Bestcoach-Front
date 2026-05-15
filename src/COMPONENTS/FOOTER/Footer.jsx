@@ -62,7 +62,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="footer-section-footer">
+      <footer className="footer-section-footer" role='contentinfo'>
         {/* Floating Notes for animation */}
         <div className="note-particle-footer">♪</div>
         <div className="note-particle-footer">♫</div>

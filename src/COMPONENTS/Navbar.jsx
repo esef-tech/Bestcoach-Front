@@ -48,6 +48,7 @@ const AppNavbar = () => {
   return (
     <>
       <TopHeader />
+      <nav role='navigation' aria-label='Main Navigation'>
       <Navbar bg="light" expand="lg" sticky="top" className="shadow-sm modern-navbar glass-navbar" fixed="top">
         {/* Music Bubbles - Full coverage */}
         <div className="animation-container">
@@ -57,10 +58,19 @@ const AppNavbar = () => {
         </div>
 
         <Container>
-          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center text-primary">
-            <img src={logoUrl} alt="Bestcoach Music Logo" style={{ height: '40px', marginRight: '10px' }} />
-            Bestcoach Music
-          </Navbar.Brand>
+          <Navbar.Brand 
+              as={Link} 
+              to="/" 
+              className="d-flex align-items-center text-primary"
+              aria-label="Bestcoach Music - Go to Homepage"
+            >
+              <img 
+                src={logoUrl} 
+                alt="Bestcoach Music Logo" 
+                style={{ height: '40px', marginRight: '10px' }} 
+              />
+              Bestcoach Music
+            </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
@@ -97,11 +107,11 @@ const AppNavbar = () => {
                 </div>
               ) : (
                 <>
-                  <Button className="me-2 login-btn text-white d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signin">
-                    <FaUserCircle className="me-1" /> Sign In
+                  <Button className="me-2 login-btn text-white d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signin" aria-label="Sign in to your account">
+                    <FaUserCircle className="me-1" aria-hidden="true" /> Sign In
                   </Button>
-                  <Button className="signup-btn d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signup">
-                    <FaUserCircle className="me-1" /> Sign Up
+                  <Button className="signup-btn d-block d-md-inline-block mb-2 mb-md-0 me-md-2 " as={Link} to="/signup" aria-label="Create a new account">
+                    <FaUserCircle className="me-1" aria-hidden="true" /> Sign Up
                   </Button>
               </>
               )}
@@ -109,6 +119,7 @@ const AppNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      </nav>
     </>
   );
 };

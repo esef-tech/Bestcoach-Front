@@ -84,7 +84,10 @@ function App() {
             <ErrorBoundary>
               <div className="App">
                 <ThemeProvider>
+                  <header role="banner">
                   <Navbar />
+                  </header>
+                  <main id="main-content" role="main" aria-label="Main Content">
                   <Routes>
                     <Route path="/signin" element={<SignIn />} />
   <Route path="/signup" element={<SignUp />} />
@@ -125,6 +128,7 @@ A
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/loyalty" element={<Loyalty />} />
                   </Routes>
+                  </main>
                   <Footer />
                   <AIAgent />
                 </ThemeProvider>
