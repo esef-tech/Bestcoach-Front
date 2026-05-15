@@ -1,136 +1,271 @@
+/* ==================== Register.css - Full Responsive Design ==================== */
+
 .register-section {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9f5ff 100%);
-  padding: 5rem 0;
+  padding: 6rem 0 4rem;
+  min-height: 100vh;
 }
 
+/* ===================== TYPOGRAPHY & LAYOUT ===================== */
 .section-title {
   background-color: #00394f;
   color: white;
   display: inline-block;
-  padding: 0.5rem 1.5rem;
+  padding: 0.6rem 1.8rem;
   border-radius: 30px;
   font-weight: 600;
-  margin-bottom: 1rem;
-}
-#primary-v {
-  background-color: #00394f;
-  color: white;
-  font-weight: 600;
-  border-radius: 30px;
-  cursor: pointer;
-  line-height: 1.5;
-  display: inline-block;
-  border-color: #00394f;
+  margin-bottom: 1.2rem;
 }
 
 .register-title {
   font-weight: bold;
   color: #ff6900;
-  font-family: "Handlee", cursive;
-  line-height: 1.2;
-  font-size: 2.5rem;
-  
+  font-family: "Handlee";
+  line-height: 1.1;
+  font-size: 2.8rem;
+}
+
+.register-p {
+  font-family: sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #000;
 }
 
 .check-list li {
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
+  font-size: 1.15rem;
+  margin-bottom: 0.9rem;
 }
 
 .check-icon {
   color: #28a745;
   margin-right: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 
+/* ===================== FORM CARD ===================== */
 .form-card {
   border: none;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .form-header {
   background: #343a40;
   color: white;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   text-align: center;
 }
 
 .form-body {
   background: #00394f;
   color: white;
-  padding: 2.5rem;
+  padding: 2.8rem 2.2rem;
 }
 
-.form-control, .custom-select {
-  border-radius: 8px !important;
-  padding: 1rem !important;
+.text-orange-register {
+  color: #fd7e14 !important;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: 700;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+  border-radius: 10px !important;
+  padding: 1.1rem 1.2rem !important;
   border: none !important;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
 }
 
-.form-control:focus, .custom-select:focus {
-  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25) !important;
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 0 0.3rem rgba(253, 126, 20, 0.3) !important;
+  border-color: #fd7e14 !important;
 }
 
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #ffffff;
+}
+
+/* Submit Button */
 .btn-submit-register {
   background: #00394f;
   border: none;
   font-weight: 600;
-  padding: 1rem;
-  transition: all 0.3s;
+  padding: 1.1rem;
+  font-size: 1.1rem;
   border-radius: 30px;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
 }
 
 .btn-submit-register:hover {
-  background: #00394f;
-  transform: translateY(-2px);
+  background: #fd7e14;
+  transform: translateY(-3px);
+  color: #000;
 }
 
-.form-message {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border-radius: 8px;
-}
+/* ===================== RESPONSIVE DESIGN ===================== */
 
-.fade-in {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 992px) {
+/* Large Screens - Monitors, TVs, Projectors */
+@media (min-width: 1400px) {
+  .register-section {
+    padding: 8rem 0 6rem;
+  }
+  .register-title {
+    font-size: 3.2rem;
+  }
   .form-body {
-    padding: 2rem;
+    padding: 3.5rem 3rem;
   }
 }
-.text-orange-register {
-  color: #fd7e14 !important; 
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-weight: 700;
+
+/* Laptops & Desktops */
+@media (max-width: 1200px) {
+  .register-title {
+    font-size: 2.6rem;
+  }
+}
+
+/* Tablets & iPads */
+@media (max-width: 992px) {
+  .register-section {
+    padding: 5rem 0 3rem;
+  }
   
-  /* Vibrant orange for appeal; !important to override if needed */
+  .Row .col-lg-7,
+  .Row .col-lg-5 {
+    padding: 0 15px;
+  }
+  
+  .form-body {
+    padding: 2.2rem;
+  }
 }
-.register-h1-text{
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-weight: 700;
+
+/* Large Mobile / Small Tablets */
+@media (max-width: 768px) {
+  .register-section {
+    padding: 4rem 0 3rem;
+  }
+  
+  .register-title {
+    font-size: 2.4rem;
+  }
+  
+  .register-p {
+    font-size: 1.15rem;
+  }
+  
+  .form-card {
+    margin-top: 2rem;
+  }
 }
-.register-p{
-  font-family:  sans-serif;
-  font-size: 1.2rem;
-  font-weight: 500;
+
+/* Smartphones & Mobile Devices */
+@media (max-width: 576px) {
+  .register-section {
+    padding: 3.5rem 0 2.5rem;
+  }
+  
+  .register-title {
+    font-size: 2.1rem;
+  }
+  
+  .section-title {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+  }
+  
+  .form-body {
+    padding: 2rem 1.5rem;
+  }
+  
+  .form-control,
+  .form-select {
+    padding: 0.95rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .btn-submit-register {
+    padding: 1rem;
+    font-size: 1.05rem;
+  }
+  
+  .check-list li {
+    font-size: 1.05rem;
+  }
 }
-.register-btn-text{
-  font-family: sans-serif;
-  font-weight: 500;
-  font-size: 1.2rem;
-  color: #fd7e14;
+
+/* Very Small Screens - iPhone SE, Smartwatches (landscape), Small Phones */
+@media (max-width: 380px) {
+  .register-title {
+    font-size: 1.9rem;
+  }
+  
+  .register-p {
+    font-size: 1.05rem;
+  }
+  
+  .form-body {
+    padding: 1.8rem 1.2rem;
+  }
+  
+  .check-icon {
+    font-size: 1.3rem;
+  }
+}
+
+/* Extra Large Screens - 4K, Large TVs, Projectors */
+@media (min-width: 1920px) {
+  .register-section {
+    padding: 10rem 0 8rem;
+  }
+  .register-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* Ultra-wide Monitors */
+@media (min-width: 2500px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* iOS Safe Area Support */
+@media (max-width: 576px) {
+  .register-section {
+    padding-top: calc(3.5rem + env(safe-area-inset-top));
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Focus States for Accessibility */
+.form-control:focus,
+.form-select:focus,
+.btn-submit-register:focus-visible {
+  outline: 3px solid #fd7e14;
+  outline-offset: 4px;
+}
+
+/* Print Styles */
+@media print {
+  .register-section {
+    background: white;
+    color: black;
+    padding: 2rem 0;
+  }
 }
