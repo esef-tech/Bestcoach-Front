@@ -94,12 +94,12 @@ const Footer = () => {
 
             {/* Get In Touch - Proper Heading Hierarchy */}
             <Col lg={3} md={6} className="mb-5">
-              <h3 className="text-color-footer mb-4">Get In Touch</h3>
+              <h1 className="text-color-footer mb-4">Get In Touch</h1>
               
               <div className="contact-item mb-3">
                 <FaMapMarkerAlt className="text-color-footer me-3" size={24} aria-hidden="true" />
                 <div>
-                  <h4 className="contact-heading">Address</h4>
+                  <h2 className="contact-heading">Address</h2>
                   <p>Dansoman Control-down, World Temple AG, Accra, Ghana</p>
                 </div>
               </div>
@@ -107,7 +107,7 @@ const Footer = () => {
               <div className="contact-item mb-3">
                 <FaEnvelope className="text-color-footer me-3" size={24} aria-hidden="true" />
                 <div>
-                  <h4 className="contact-heading">Email</h4>
+                  <h2 className="contact-heading">Email</h2>
                   <p>bestcoachmusic@gmail.com</p>
                 </div>
               </div>
@@ -115,7 +115,7 @@ const Footer = () => {
               <div className="contact-item">
                 <FaPhoneAlt className="text-color-footer me-3" size={24} aria-hidden="true" />
                 <div>
-                  <h4 className="contact-heading">Phone</h4>
+                  <h2 className="contact-heading">Phone</h2>
                   <p>+233 5930 88047<br />+233 2085 02819</p>
                 </div>
               </div>
@@ -123,7 +123,7 @@ const Footer = () => {
 
             {/* Quick Links */}
             <Col lg={3} md={6} className="mb-5">
-              <h3 className="text-color-footer mb-4">Quick Links</h3>
+              <h1 className="text-color-footer mb-4">Quick Links</h1>
               <nav className="quick-links-footer" aria-label="Quick Navigation Links">
                 <RouterLink to="/" className="footer-link-footer mb-2"><FaAngleRight className="me-2" aria-hidden="true" />Home</RouterLink>
                 <RouterLink to="/about" className="footer-link-footer mb-2"><FaAngleRight className="me-2" aria-hidden="true" />About Us</RouterLink>
@@ -138,7 +138,7 @@ const Footer = () => {
 
             {/* Newsletter */}
             <Col lg={3} md={6} className="mb-5">
-              <h3 className="text-color-footer mb-4">Newsletter</h3>
+              <h1 className="text-color-footer mb-4">Newsletter</h1>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label htmlFor="footer-name">Your Name</Form.Label>
