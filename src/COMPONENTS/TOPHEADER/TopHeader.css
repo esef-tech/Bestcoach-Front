@@ -1,77 +1,26 @@
-/* ==================== TopHeader.css - Advanced Glassmorphism ==================== */
-
-:root {
-  --blur-base: 12px;
-  --blur-header: 16px
-  --blur-scrolled: 20px;
-  --blur-hover: 24px;
-  --glass-opacity: 0.68;
-}
-
+/* TopHeader.css - Perfect Stacking Above Navbar */
 .top-header {
-  background: rgba(0, 57, 79, 1);
-  -webkit-backdrop-filter: blur(var(--blur-header)) saturate(180%);
-  backdrop-filter: blur(var(--blur-header)) saturate(180%);
-  
+  background: rgba(0, 57, 79, 0.98);
   color: #ffffff;
-  padding: 12px 0;
-  position: sticky;
+  padding: 10px 0;
+  position: fixed;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 4px 20px rgba(0, 57, 79, 1);
-  border-bottom: 1px solid rgba(0, 57, 79, 1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* iOS Safe Area */
-  padding-top: calc(12px + env(safe-area-inset-top));
-  padding-bottom: env(safe-area-inset-bottom);
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 57, 79, 0.5);
 }
 
-/* Scroll-based Blur Animation */
+/* When scrolled → Slide up and hide */
 .top-header.scrolled {
-  background: rgba(0, 57, 79, 0.65);
-   -webkit-backdrop-filter: blur(var(--blur-scrolled)) saturate(180%);
-  backdrop-filter: blur(var(--blur-scrolled)) saturate(180%);
- 
-  box-shadow: 0 8px 30px rgba(0, 57, 79, 0.65);
-  padding-top: calc(8px + env(safe-area-inset-top));
-  padding-bottom: 8px;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
-/* Hover-controlled Blur Intensity */
-.top-header:hover {
-  -webkit-backdrop-filter: blur(var(--blur-hover)) saturate(200%);
-  backdrop-filter: blur(var(--blur-hover)) saturate(200%);
-  
-  background: rgba(0, 57, 79, var(--glass-opacity));
-}
-
-/* Fallback for browsers without backdrop-filter */
-@supports not (backdrop-filter: blur(12px)) {
-  .top-header,
-  .top-header.scrolled,
-  .top-header:hover {
-    background: rgba(15, 15, 15, 0.97);
-  }
-}
-
-/* ===================== Container Queries ===================== */
-/* Container Query (only when supported) */
-@supports (container-type: inline-size) {
-  @container topheader (max-width: 600px) {
-    .handwritten-text {
-      font-size: 1.1rem;
-    }
-  }
-}
-
-/* Fallback for browsers that don't support Container Queries */
-@media (max-width: 600px) {
-  .handwritten-text {
-    font-size: 1.1rem;
-  }
-}
-
+/* Container */
 .top-header-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -79,23 +28,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
-/* Opt-in to Container Queries when supported */
-@supports (container-type: inline-size) {
-  .top-header-container {
-    container-type: inline-size;
-    container-name: topheader;
-  }
-}
-
-/* Rest of your styles remain clean */
+/* Rest of your styles (unchanged but optimized) */
 .contact-info-top-header {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
@@ -104,73 +45,59 @@
   align-items: center;
   gap: 8px;
   font-size: 0.95rem;
-  color: #e0e0e0;
 }
 
 .info-item-top-header .icon {
   color: #ff9500;
-  font-size: 1.15rem;
 }
 
 .handwriting-center {
   flex: 1;
   text-align: center;
-  min-width: 260px;
 }
 
 .handwritten-text {
-  font-family: sans-serif; 
-  font-size: 1.35rem;
-  font-weight: 500;
+  font-size: 1.32rem;
   color: #ff9500;
-  text-shadow: 0 2px 12px rgba(255, 149, 0, 0.4);
+  font-weight: 500;
 }
 
-/* Social Icons */
 .social-section-top-header {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .social-icon-top-header {
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: rgba(0, 57, 79, 1);
-  color: #fff;
+  background: rgba(255,255,255,0.1);
+  color: white;
   border-radius: 50%;
-  font-size: 1.25rem;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .social-icon-top-header:hover {
   background: #ff9500;
-  color: #000;
-  transform: scale(1.1) rotate(360deg);
+  color: #111;
+  transform: scale(1.1);
 }
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px) {
   .top-header-container {
     flex-direction: column;
-    gap: 12px;
-    padding: 0 15px;
+    gap: 10px;
   }
-  .contact-info-top-header {
-    justify-content: center;
-    gap: 18px;
+  .handwritten-text {
+    font-size: 1.15rem;
   }
 }
 
-@media (max-width: 576px) {
-  .handwritten-text { font-size: 1.15rem; }
-  .social-icon-top-header { width: 34px; height: 34px; font-size: 1.1rem; }
-}
-
-@media (min-width: 1920px) {
-  .handwritten-text { font-size: 1.7rem; }
+@media (max-width: 480px) {
+  .handwritten-text {
+    font-size: 1.05rem;
+  }
 }
