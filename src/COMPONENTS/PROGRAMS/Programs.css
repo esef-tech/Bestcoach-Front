@@ -1,7 +1,7 @@
-/* Programs.css - iPhone Polymorphic Glassmorphism Cards */
+/* Programs.css - Ultra Responsive + iPhone Polymorphism */
 .programs-section {
   background: linear-gradient(to bottom, #f8f9fa, #ffffff);
-  padding: 6rem 0 4rem;
+  padding: 6rem 0 5rem;
   background-color: #00394f;
 }
 
@@ -9,26 +9,27 @@
   background-color: #00394f;
   color: white;
   display: inline-block;
-  padding: 6px 18px;
+  padding: 8px 24px;
   border-radius: 50px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  letter-spacing: 1px;
 }
 
 .programs-title {
-  font-size: 2.8rem;
+  font-size: clamp(2.4rem, 6vw, 3.2rem);
   font-weight: 700;
   color: #222;
   margin-bottom: 3rem;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-/* iPhone Glassmorphism Cards */
+/* Glassmorphism Cards */
 .program-card {
   border: none;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
@@ -40,19 +41,24 @@
 }
 
 .program-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.18);
+  transform: translateY(-14px);
+  box-shadow: 0 35px 60px rgba(0, 0, 0, 0.18);
 }
 
 .card-img {
-  height: 220px;
+  height: 240px;
   object-fit: cover;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
+  transition: transform 0.6s ease;
+}
+
+.program-card:hover .card-img {
+  transform: scale(1.05);
 }
 
 .program-card-title {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: #222;
   margin-bottom: 12px;
@@ -60,12 +66,12 @@
 
 .program-card-desc {
   color: #555;
-  line-height: 1.5;
+  line-height: 1.6;
   flex-grow: 1;
 }
 
 .program-details {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   padding: 16px;
   margin-top: auto;
@@ -74,61 +80,98 @@
 .detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 9px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 
 .detail-row:last-child {
   border-bottom: none;
 }
 
-.detail-label {
-  color: #666;
-  font-weight: 500;
-}
+.detail-label { color: #666; font-weight: 500; }
+.detail-value { font-weight: 600; color: #222; }
 
-.detail-value {
-  font-weight: 600;
-  color: #222;
-}
-
-/* Join Button */
+/* Button */
 .join-btn-prog {
-  background:  #00394f;
+  background: #00394f;
   border: none;
   color: white;
   font-weight: 600;
-  padding: 14px;
+  padding: 16px;
   border-radius: 50px;
-  transition: all 0.3s ease;
-  font-family: sans-serif;
-  font-size: 16px;
+  font-size: 1.05rem;
+  transition: all 0.4s ease;
 }
 
 .join-btn-prog:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(0, 123, 255, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 57, 79, 0.4);
+  background: #004f6b;
 }
 
-/* Responsive */
+/* Modal */
+.programs-enroll-modal .modal-content {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+}
+
+.programs-enroll-modal .modal-header {
+  border-bottom: 1px solid #eee;
+}
+
+/* ============= RESPONSIVE BREAKPOINTS ============= */
+
+@media (max-width: 1400px) {
+  .programs-section { padding: 5rem 0 4rem; }
+}
+
 @media (max-width: 992px) {
-  .programs-title {
-    font-size: 2.4rem;
-  }
-  .program-card {
-    margin-bottom: 2rem;
-  }
+  .program-card { margin-bottom: 2rem; }
+  .card-img { height: 220px; }
+}
+
+@media (max-width: 768px) {
+  .programs-section { padding: 4rem 0 3rem; }
+  .programs-title { margin-bottom: 2.5rem; }
 }
 
 @media (max-width: 576px) {
-  .programs-section {
-    padding: 4rem 0 3rem;
-  }
   .program-card {
     border-radius: 20px;
   }
   .card-img {
     height: 200px;
+  }
+  .join-btn-prog {
+    padding: 14px;
+    font-size: 1rem;
+  }
+}
+
+/* iPhone Safe Area & Touch Optimization */
+@media (max-width: 480px) {
+  .programs-section {
+    padding: 3.5rem 0 2.5rem;
+  }
+  
+  .program-details {
+    padding: 14px;
+  }
+  
+  .detail-row {
+    font-size: 0.95rem;
+    padding: 8px 0;
+  }
+}
+
+/* Large Screens (TVs, Billboards, Projectors) */
+@media (min-width: 1920px) {
+  .programs-title {
+    font-size: 3.8rem;
+  }
+  .card-img {
+    height: 280px;
   }
 }
