@@ -82,7 +82,7 @@
 .social-icon-top-header:hover {
   background: #ff9500;
   color: #111;
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(360deg);
 }
 
 /* ===================== RESPONSIVE ===================== */
