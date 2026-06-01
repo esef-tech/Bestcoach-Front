@@ -11,7 +11,7 @@ import { MdLoyalty } from "react-icons/md";
 import { FaPeopleGroup, FaPhone } from 'react-icons/fa6';
 import { BsPeopleFill } from "react-icons/bs";
 import { FcAbout } from "react-icons/fc";
-import TopHeader from './TOPHEADER/TopHeader';
+//import TopHeader from './TOPHEADER/TopHeader'; --Add -as-an-update-for-next-version
 import { ThemeContext } from '../context/ThemeContext';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import './Navbar.css';
@@ -58,7 +58,7 @@ const AppNavbar = () => {
 
   return (
     <>
-      <TopHeader />
+    
       
       <nav role="navigation" aria-label="Main Navigation">
         <Navbar 
