@@ -19,8 +19,8 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import './SignIn.css';
 
 import logoUrl from "../../Images/bestcoach-pictures/edited/2025-bc-logo.webp";
-import { FcGoogle } from "react-icons/fc";
-import { BsMicrosoft } from "react-icons/bs";
+import { FaGoogle } from "react-icons/fa";
+import { FaMicrosoft } from "react-icons/fa";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -259,11 +259,11 @@ const SignIn = () => {
                 </div>
 
                 <Button variant="outline-dark" className="w-100 mb-2 text-orange" onClick={handleGoogle}>
-                  <span className="me-2 text-orange"><FcGoogle /></span> Continue with Google
+                  <span className="me-2 text-orange"><FaGoogle /></span> Continue with Google
                 </Button>
 
                 <Button variant="outline-dark" className="w-100 mb-4 text-orange" onClick={handleMicrosoft}>
-                  <span className="me-2"><BsMicrosoft /></span> Continue with Microsoft
+                  <span className="me-2 text-orange"><FaMicrosoft /></span> Continue with Microsoft
                 </Button>
 
                 <p className="text-center">

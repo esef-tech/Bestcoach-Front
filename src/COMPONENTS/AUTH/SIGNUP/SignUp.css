@@ -1,10 +1,10 @@
-/* SignUp.css - iPhone Glassmorphism + Password Strength Bar */
-
+/* SignUp.css*/
 .auth-page {
   background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
+  padding-top: 80px; /* Space for fixed navbar */
 }
 
 .signup-page .glass-card {
@@ -14,6 +14,10 @@
   border-radius: 24px !important;
   border: none;
   box-shadow: 0 25px 50px rgba(0,0,0,0.18);
+  overflow: hidden;
+  margin: 20px auto;
+  max-width: 480px;
+  width: 100%;
 }
 
 .signup-page .glass-card:hover {
@@ -35,37 +39,59 @@
   padding: 14px 40px;
   font-weight: 700;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-weight: 700;
+  width: 100%;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .signup-page button:hover {
-  transform: translateY(-3px) scale(1.06);
+  transform: translateY(-3px) scale(1.03);
   background-color: #00394f !important;
-  box-shadow: #00394f;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 768px) {
+  .auth-page {
+    padding-top: 70px;
+  }
+  
   .signup-page .glass-card {
-    margin: 0 15px;
+    margin: 15px 20px;
+    border-radius: 20px;
+  }
+
+  .signup-page .glass-card .p-5 {
+    padding: 2rem 1.5rem !important;
   }
 }
-.p-mouse{
-  cursor: pointer;
+
+@media (max-width: 480px) {
+  .signup-page .glass-card {
+    margin: 12px 15px;
+  }
+  
+  .signup-page button {
+    padding: 13px 24px;
+    font-size: 1.05rem;
+  }
+  
+  .p-sigin-text, .p-text-sign-p {
+    font-size: 1.05rem;
+  }
 }
-.p-sigin-text{
+
+@media (min-width: 1200px) {
+  .signup-page .glass-card {
+    max-width: 520px;
+  }
+}
+
+/* Existing utility classes */
+.p-mouse { cursor: pointer; }
+.p-sigin-text, .p-text-sign-p {
   font-family: sans-serif;
   font-weight: 200;
-  font-size: 1.2rem;
-
 }
-.span-text-span{
+.span-text-span {
   font-family: sans-serif;
   font-weight: 300;
-  font-size: 1.5rem;
-}
-.p-text-sign-p{
-  font-family: sans-serif;
-  font-weight: 200;
-  font-size: 1.2rem;
 }
