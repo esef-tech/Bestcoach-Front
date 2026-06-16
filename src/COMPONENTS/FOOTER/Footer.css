@@ -7,6 +7,8 @@
   position: relative;
   overflow: hidden;
   padding-bottom: env(safe-area-inset-bottom);
+  z-index: 1;
+;
 }
 
 /* iOS Polymorphism / Glassmorphism Floating Particles */
@@ -19,6 +21,7 @@
   animation: floatNote 25s linear infinite;
   -webkit-user-select: none;
   user-select: none;
+  z-index: 2;
 }
 
 .note-particle-footer:nth-child(1) { top: 15%; left: 8%; animation-delay: 0s; }
@@ -35,7 +38,7 @@
 /* ===================== MAIN CONTAINER ===================== */
 .footer-section-footer .container {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 /* WAI-ARIA Landmarks */
@@ -123,6 +126,7 @@ select:focus-visible {
   margin-top: 50px;
   color: #a0c4e0;
   font-size: 1.02rem;
+  z-index: 5;
 }
 
 .footer-bottom p {
@@ -143,6 +147,7 @@ select:focus-visible {
   padding: 14px 24px;
   font-weight: 600;
   transition: all 0.3s ease;
+  z-index: 4;
 }
 
 .newsletter-footer:hover {
@@ -150,6 +155,38 @@ select:focus-visible {
   box-shadow: 0 10px 25px rgba(0, 57, 79, 0.4);
 }
 
+/* ===================== RELEVANCE AI CHATBOT FIX ===================== */
+/* Force chatbot to stay on top across the entire site */
+.relevance-chat-bubble,
+[data-relevanceai-chat],
+.relevanceai-chat-container,
+iframe[src*="relevanceai.com"],
+.relevance-chat-widget {
+  z-index: 99999 !important;
+  position: fixed !important;
+}
+
+.relevance-chat-bubble {
+  z-index: 2147483647 !important; /* Maximum safe z-index */
+}
+
+/* Extra insurance for any dynamic chat elements */
+body .relevance-chat-bubble,
+body [class*="relevance"],
+body [id*="relevance"] {
+  z-index: 2147483647 !important;
+}
+
+/* ===================== FOCUS STYLES ===================== */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #ff9500;
+  outline-offset: 4px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 4px rgba(255, 149, 0, 0.3);
+}
 
 
 
