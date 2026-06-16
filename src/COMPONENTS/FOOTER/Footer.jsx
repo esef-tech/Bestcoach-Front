@@ -99,7 +99,7 @@ const Footer = () => {
               <div className="contact-item mb-3">
                 <FaMapMarkerAlt className="text-color-footer me-3" size={24} aria-hidden="true" />
                 <div>
-                  <h2 className="contact-heading">Address</h2>
+                  <h2 className="contact-heading mb3">Address</h2>
                   <p>Dansoman Control-down, World Temple AG, Accra, Ghana</p>
                 </div>
               </div>
@@ -107,15 +107,16 @@ const Footer = () => {
               <div className="contact-item mb-3">
                 <FaEnvelope className="text-color-footer me-3" size={24} aria-hidden="true" />
                 <div>
-                  <h2 className="contact-heading">Email</h2>
+                  <h2 className="contact-heading mb-3
+                  ">Email</h2>
                   <p>bestcoachmusic@gmail.com</p>
                 </div>
               </div>
 
-              <div className="contact-item">
+              <div className="contact-item mb-3">
                 <FaPhoneAlt className="text-color-footer me-3" size={24} aria-hidden="true" />
                 <div>
-                  <h2 className="contact-heading">Phone</h2>
+                  <h2 className="contact-heading mb-3">Phone</h2>
                   <p>+233 5930 88047<br />+233 2085 02819</p>
                 </div>
               </div>
