@@ -1,4 +1,5 @@
-/* TSS.css - iPhone Polymorphic UI + Celebration Animations */
+/* TSS.css - iPhone Polymorphic UI + Celebration Animations + Fixed Navbar Gap */
+
 .tss-page {
   background: linear-gradient(180deg, #0f172a 0%, #1e2937 100%);
   color: #fff;
@@ -6,39 +7,87 @@
   overflow: hidden;
 }
 
-/* Header */
+/* ===================== HEADER SECTION ===================== */
 .header-tss {
   background: linear-gradient(90deg, #1e40af, #3b82f6);
-  padding: 4rem 0 3rem;
+  padding: 6rem 1rem 4rem; /* Even gap from navbar */
   text-align: center;
   position: relative;
-  min-height: 70px;
+  min-height: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 1.5s ease;
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
-  color: mediumorchid;
+  color: #ffffff;
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  margin-top: 0; /* Ensures clean gap from fixed navbar */
+}
 
+/* Title & Subtitle */
+.header-tss h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  color: #c026d3;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.header-tss .lead-1-tss {
+  font-size: 1.35rem;
+  color: #0f172a;
+  font-weight: 600;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .header-tss {
+    padding: 5rem 1rem 3rem;
+    min-height: 260px;
+  }
   
+  .header-tss h1 {
+    font-size: 2.4rem;
+  }
+  
+  .header-tss .lead-1-tss {
+    font-size: 1.15rem;
+  }
 }
 
-
-.tss-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
+@media (max-width: 480px) {
+  .header-tss {
+    padding: 4.5rem 1rem 2.5rem;
+  }
+  
+  .header-tss h1 {
+    font-size: 2.1rem;
+  }
 }
 
-/* Countdown Section */
+/* Large Screens / TV / Monitors */
+@media (min-width: 1400px) {
+  .header-tss {
+    padding: 8rem 2rem 6rem;
+  }
+  
+  .header-tss h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .header-tss {
+    padding: 9rem 3rem 7rem;
+  }
+}
+
+/* ===================== COUNTDOWN & OTHER SECTIONS ===================== */
 .countdown-section {
   background: rgba(255,255,255,0.1);
   -webkit-backdrop-filter: blur(16px);
@@ -119,23 +168,7 @@
   100% { transform: translateY(-100vh) rotate(360deg); }
 }
 
-.firework {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #f59e0b;
-  border-radius: 50%;
-  box-shadow: 0 0 20px 10px #f59e0b;
-  animation: fireworks 1.8s ease-in-out infinite;
-}
-
-@keyframes fireworks {
-  0% { opacity: 1; transform: scale(0.2); }
-  50% { opacity: 1; transform: scale(1.2); }
-  100% { opacity: 0; transform: scale(0.8); }
-}
-
-/* Glassmorphism Cards (iPhone Style) */
+/* Glassmorphism Cards */
 .program-card, .card {
   background: rgba(255,255,255,0.92) !important;
   -webkit-backdrop-filter: blur(16px) !important;
@@ -151,7 +184,7 @@
   box-shadow: 0 30px 50px rgba(0,0,0,0.18);
 }
 
-/* Responsive */
+/* Extra Responsive Safeguards */
 @media (max-width: 768px) {
   .countdown-timer {
     gap: 12px;
@@ -163,9 +196,4 @@
   .countdown-number {
     font-size: 2.2rem;
   }
-}
-.lead-1-tss{
-  color: #0f172a;
-  font-weight: bolder;
-  font-family:  'Open Sans', 'Helvetica Neue', Arial, sans-serif;;
 }
