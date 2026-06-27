@@ -27,9 +27,9 @@ const About = () => {
 
   const metrics = [
     { value: '1,000+', label: 'Members' },
-    { value: '100+', label: 'Blog Pageviews' },
-    { value: '100+', label: 'Instagram Likes' },
-    { value: '100+', label: 'Facebook Likes' },
+    { value: '100+', label: 'Pageviews' },
+    { value: '100+', label: 'Instagram' },
+    { value: '100+', label: 'Facebook' },
     { value: '9+', label: 'Executives' },
     { value: '2+', label: 'Events' }
   ];

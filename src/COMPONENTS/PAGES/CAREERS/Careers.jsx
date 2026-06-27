@@ -169,7 +169,7 @@ const Careers = () => {
                     <h4 className="text-orange h4-text">{job.title}</h4>
                     <p className="text-muted">{job.location} - {job.type}</p>
                     <p className="p-text">{job.desc}</p>
-                    <Button variant="primary" onClick={() => handleApply(job.title)} className="animate-bounce-in">Apply Now</Button>
+                    <Button id="careers-btn"   onClick={() => handleApply(job.title)} className="animate-bounce-in careers-btn">Apply Now</Button>
                   </Card.Body>
                 </Card>
               </Col>
@@ -208,7 +208,7 @@ const Careers = () => {
                 <Form.Label>Or Resume URL (Google Drive, LinkedIn, etc.)</Form.Label>
                 <Form.Control name="resumeUrl" value={formData.resumeUrl} onChange={handleChange} placeholder="https://drive.google.com/... or https://linkedin.com/in/..." />
               </Form.Group>
-              <Button type="submit" variant="primary" disabled={status.loading} className="w-100">
+              <Button id="careers-btn" type="submit"  disabled={status.loading} className="w-100 careers-btn">
                 {status.loading ? 'Submitting...' : 'Submit Application'}
               </Button>
               {status.success && <Alert variant="success" className="mt-3">Application sent successfully!</Alert>}
@@ -225,9 +225,9 @@ const Careers = () => {
           <Modal.Body className="glass-modal text-center">
             <h5 className='h5-text'>You must be logged in to apply for jobs.</h5>
             <p className='p-text'>Please sign in or create an account first.</p>
-            <Button variant="primary" onClick={() => {
+            <Button  id="careers-btn" className='careers-btn' onClick={() => {
               setShowLoginPrompt(false);
-              window.location.href = '/?login=true';
+              window.location.href = '/signin';
             }}>
               Sign In Now
             </Button>

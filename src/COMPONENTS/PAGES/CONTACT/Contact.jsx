@@ -207,10 +207,10 @@ const Contact = () => {
                     <Form.Control type="file" name="attachment" onChange={handleChange} />
                   </Form.Group>
                   <Button
-                    id="contact-button-submit-color"
+                    
                     type="submit"
                     disabled={status.loading}
-                    className="w-100 animate-bounce-in"
+                    className="w-100 animate-bounce-in contact-btn"
                   >
                     {status.loading ? <Spinner animation="border" size="sm" className="me-2" /> : null}
                     {status.loading ? 'Sending...' : 'Send Message'}
@@ -260,7 +260,7 @@ const Contact = () => {
             >
               📞 Call Now
             </Button>
-            <Button variant="outline-secondary" onClick={() => setShowCallModal(false)} className="w-100">
+            <Button  onClick={() => setShowCallModal(false)} className="w-100 contact-btn">
               Cancel
             </Button>
           </Modal.Body>
@@ -283,7 +283,7 @@ const Contact = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowMapModal(false)}>Close Map</Button>
+            <Button  onClick={() => setShowMapModal(false)} className='contact-btn'>Close Map</Button>
           </Modal.Footer>
         </Modal>
 
@@ -301,7 +301,7 @@ const Contact = () => {
             >
               <FaWhatsapp className="me-2" /> Chat on WhatsApp
             </Button>
-            <Button variant="outline-secondary" onClick={() => setShowWhatsAppModal(false)} className="w-100">
+            <Button  onClick={() => setShowWhatsAppModal(false)} className="w-100 contact-btn">
               Cancel
             </Button>
           </Modal.Body>
@@ -317,7 +317,7 @@ const Contact = () => {
             <Button size="lg" className="w-100 py-3 mb-3 telegram-btn" onClick={openTelegram}>
               <FaTelegramPlane className="me-2" /> Open in Telegram
             </Button>
-            <Button variant="outline-secondary" onClick={() => setShowTelegramModal(false)} className="w-100">Cancel</Button>
+            <Button  onClick={() => setShowTelegramModal(false)} className="w-100 contact-btn">Cancel</Button>
           </Modal.Body>
         </Modal>
 
@@ -328,14 +328,14 @@ const Contact = () => {
             <div className="phone-number-display mb-4">
               <h2 className="fw-bold text-orange">bestcoachmusic@gmail.com</h2>
             </div>
-            <Button
+            <Button 
               size="lg"
-              className="w-100 py-3 mb-3 email-btn"
+              className="w-100 py-3 mb-3 contact-btn"
               onClick={openEmail}
             >
               ✉️ Open Email Client
             </Button>
-            <Button variant="outline-secondary" onClick={() => setShowEmailModal(false)} className="w-100">Cancel</Button>
+            <Button  onClick={() => setShowEmailModal(false)} className="w-100 contact-btn">Cancel</Button>
           </Modal.Body>
         </Modal>
 

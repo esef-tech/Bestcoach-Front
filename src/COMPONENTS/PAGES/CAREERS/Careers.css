@@ -154,3 +154,13 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-weight: bold;
 }
+.careers-btn{
+   background: #00394f;
+  color: whitesmoke;
+  border: none;
+}
+#careers-btn {
+   background: #00394f;
+  color: whitesmoke;
+  border: none;
+}

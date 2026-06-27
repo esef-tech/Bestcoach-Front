@@ -98,7 +98,7 @@
 
 /* Glassmorphic Urgent Buttons */
 .urgent-button {
-  background: rgba(255,255,255,0.92) !important;
+  background:  linear-gradient(90deg, #00394f, #001f2e)!important;
   -webkit-backdrop-filter: blur(16px) !important;
   backdrop-filter: blur(16px);
   border-radius: 16px !important;
