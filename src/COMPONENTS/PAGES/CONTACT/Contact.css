@@ -1,4 +1,4 @@
-/* Contact.css - FULL iPhone Polymorphic Glassmorphism (scoped ONLY to .contact-page) */
+/* Contact.css - FULL iPhone Polymorphic Glassmorphism + FIXED Navbar Gap + Responsive Hero */
 
 .contact-page {
   background: linear-gradient(90deg, #00394f, #001f2e);
@@ -7,31 +7,72 @@
   overflow: hidden;
 }
 
-/* Header */
+/* ===================== HERO HEADER - EVEN GAP FROM NAVBAR ===================== */
 .header-contact {
   background: linear-gradient(90deg, #1e40af, #3b82f6);
-  padding: 4rem 0 3rem;
+  padding: 6.5rem 1rem 4.5rem; /* Clean, even gap from fixed navbar */
   text-align: center;
   position: relative;
+  min-height: 340px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 1.5s ease;
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
-  color: blueviolet;
-  min-height: 70px;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: 0;
 }
-.header-contact::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
+
+/* Title */
+.header-contact h1 {
+  font-size: 3.4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.05;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .header-contact {
+    padding: 5.5rem 1rem 3.5rem;
+    min-height: 280px;
+  }
+  
+  .header-contact h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-contact {
+    padding: 4.8rem 1rem 3rem;
+  }
+  
+  .header-contact h1 {
+    font-size: 2.15rem;
+  }
+}
+
+/* Large Screens / Monitors / TV */
+@media (min-width: 1400px) {
+  .header-contact {
+    padding: 8.5rem 2rem 6rem;
+  }
+  
+  .header-contact h1 {
+    font-size: 4.2rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .header-contact {
+    padding: 9.5rem 3rem 7rem;
+  }
 }
 
 /* Glassmorphic Cards & Accordion */
@@ -49,6 +90,7 @@
   font-size: 19px;
   font-weight: 700;
 }
+
 .glass-card:hover {
   transform: translateY(-12px);
   box-shadow: 0 30px 50px rgba(0,0,0,0.18);
@@ -65,10 +107,12 @@
   color: #333;
   transition: all 0.3s ease;
 }
+
 .urgent-button:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
+
 .text-h1-c {
   color: blueviolet;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -82,15 +126,19 @@
   border-color: #17a2b8 !important;
   color: #fff !important;
 }
+
 .text-orange { color: #fd7e14 !important; }
 
 /* Animations (preserved from original) */
 .animate-fade-in { animation: fadeIn 1s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 .animate-slide-up { animation: slideUp 1s; }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
 .animate-bounce-in { animation: bounceIn 0.5s; }
 @keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
 .animate-slide-left { animation: slideLeft 1s; }
 @keyframes slideLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
@@ -150,7 +198,6 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 16px;
   font-weight: 700;
-
 }
 
 /* WhatsApp Modal & Button */
@@ -162,22 +209,6 @@
   font-weight: bold;
 }
 
-/* Ensure all modals have consistent glass look */
-.contact-modal .modal-content {
-  background: rgba(255,255,255,0.95) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  backdrop-filter: blur(20px);
-  border-radius: 24px !important;
-  border: none;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
-}
-
-.glass-modal {
-  background: rgba(255,255,255,0.95) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-}
 /* Telegram Modal & Button */
 .telegram-btn {
   background: linear-gradient(90deg, #229ED9, #1E96D3) !important;
@@ -187,22 +218,6 @@
   font-weight: bold;
 }
 
-/* Consistent glass look for all modals */
-.contact-modal .modal-content {
-  background: rgba(255,255,255,0.95) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  backdrop-filter: blur(20px);
-  border-radius: 24px !important;
-  border: none;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.25);
-}
-
-.glass-modal {
-  background: rgba(255,255,255,0.95) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-}
 /* Email Modal & Button */
 .email-btn {
   background: linear-gradient(90deg, #17a2b8, #fd7e14) !important;
@@ -228,36 +243,39 @@
   backdrop-filter: blur(20px);
   border-radius: 24px;
 }
+
 .h3-contact{
-  font-family:  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 48px;
   font-weight: 700;
-
 }
+
 .p-contact{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 16px;
 }
+
 .h3-contact-c{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 24px;
   font-weight: 700;
 }
+
 .form-text-contact{
-  font-family: Verdana, Geneva, Tahoma, sans-serif; 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 19px;
 }
+
 .contact-btn{
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: #00394f !important;
-  border-color: #00394f !important; 
+  border-color: #00394f !important;
   color: #fd7e14;
-
 }
+
 .link-text-contact{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 22px;
   color: #fd7e14;
   font-weight: 700;
-
 }
