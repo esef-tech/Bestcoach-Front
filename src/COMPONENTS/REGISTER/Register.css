@@ -269,3 +269,38 @@
     padding: 2rem 0;
   }
 }
+/* Button */
+.register-enroll-btn {
+  background: #00394f;
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 16px;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  transition: all 0.4s ease;
+}
+
+.register-enroll-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 57, 79, 0.4);
+  background: #004f6b;
+}
+
+
+#register-enroll-btn {
+  background: #00394f;
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 16px;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  transition: all 0.4s ease;
+}
+
+#register-enroll-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 57, 79, 0.4);
+  background: #004f6b;
+}

@@ -96,9 +96,9 @@ const Register = () => {
               </li>
             </ul>
             <Button
-              id="primary-v"
+              id="register-enroll-btn"
               size="lg"
-              className="mt-4 py-3 px-5 register-btn-text"
+              className="mt-4 py-3 px-5 register-enroll-btn"
               href="https://form.jotform.com/252515722619559"
               target="_blank"
               rel="noopener noreferrer"
