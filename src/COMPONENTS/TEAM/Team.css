@@ -1,42 +1,79 @@
-/* Team.css - Images fully visible + even alignment + Featured button spacing (scoped ONLY to .team-page) */
+/* Team.css - Images fully visible + even alignment + Featured button spacing + FIXED Navbar Gap */
 
-
-*{
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
 .team-page {
   background: linear-gradient(180deg, #00394f 0%, #001f2e 100%);
   color: #fff;
   position: relative;
   overflow: hidden;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/* Header */
+/* ===================== HERO HEADER - EVEN GAP FROM NAVBAR ===================== */
 #header-color {
   background: linear-gradient(90deg, #00394f, #001f2e);
-  padding: 4rem 0 3rem;
+  padding: 6.5rem 1rem 4.5rem; /* Clean, even gap from fixed navbar */
   text-align: center;
   position: relative;
+  min-height: 340px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 1.5s ease;
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: 0;
 }
-#header-color::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+/* Title */
+#header-color h1 {
+  font-size: 3.4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.05;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  #header-color {
+    padding: 5.5rem 1rem 3.5rem;
+    min-height: 280px;
+  }
+  
+  #header-color h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #header-color {
+    padding: 4.8rem 1rem 3rem;
+  }
+  
+  #header-color h1 {
+    font-size: 2.15rem;
+  }
+}
+
+/* Large Screens / Monitors / TV */
+@media (min-width: 1400px) {
+  #header-color {
+    padding: 8.5rem 2rem 6rem;
+  }
+  
+  #header-color h1 {
+    font-size: 4.2rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  #header-color {
+    padding: 9.5rem 3rem 7rem;
+  }
 }
 
 /* Grid - Even spacing between ALL cards */
@@ -53,12 +90,12 @@
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
 .team-card:hover {
   transform: translateY(-12px);
   box-shadow: 0 30px 50px rgba(0,0,0,0.25);
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* Images - FULLY VISIBLE + even fit */
@@ -69,7 +106,7 @@
   background-color: #f8f9fa;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  padding: 12px; /* subtle padding so full image is perfectly framed */
+  padding: 12px;
 }
 
 /* Plus overlay - Bottom-right like screenshot */
@@ -91,6 +128,7 @@
   z-index: 10;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .plus-overlay:hover {
   transform: scale(1.15);
   background: #fd7e14;
@@ -106,23 +144,23 @@
   top: 16px;
   right: 16px;
   z-index: 20;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* Name & Specialty - Exact screenshot style */
 .team-card h4 {
   color: #fd7e14 !important;
   font-weight: 700;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
 .team-card p.text-muted {
   color: #555 !important;
   font-size: 1.05rem;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* Buttons - Exact dark teal from screenshot */
-
 .search-btn,
 #button-profile-color,
 #button-join-color {
@@ -131,6 +169,7 @@
   color: #00394f!important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 #button-color:hover,
 .search-button:hover,
 #button-profile-color:hover,
@@ -143,7 +182,7 @@
 #button-color{
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: #00394f !important;
-  border-color: #00394f !important; 
+  border-color: #00394f !important;
   color: #00394f;
 }
 
@@ -152,6 +191,7 @@
   background: transparent;
   border: none;
 }
+
 .full-view-image {
   max-height: 90vh;
   border-radius: 24px;
@@ -161,36 +201,40 @@
 /* Animations (preserved) */
 .animate-fade-in { animation: fadeIn 1s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 .animate-slide-up { animation: slideUp 1s; }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
 .animate-bounce-in { animation: bounceIn 0.5s; }
 @keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header h1 { font-size: 2.5rem; }
   .team-card { margin-bottom: 2rem; }
   .coach-image { height: 240px; }
 }
-.text-text{
+
+.text-text {
   color: #00394f;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
-}
-#search-button{
+#search-button {
   background-color: #00394f !important;
   border-color: #00394f !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: #fd7e14!important;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-#button-button{
+
+#button-button {
   background-color: #00394f !important;
 }
-.search-button{
+
+.search-button {
   background-color: #00394f !important;
   border-color: #00394f !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: #fd7e14!important;
-   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
