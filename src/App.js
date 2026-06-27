@@ -13,6 +13,7 @@ import { SessionProvider } from "./context/SessionContext";
 import { AuthProvider } from "./context/AuthContext";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Layout from "./COMPONENTS/Layout";
 
 // All pages imported normally (no lazy loading yet - this fixes Vercel blank page)
 import Home from "./COMPONENTS/PAGES/HOME/Home";
@@ -84,6 +85,7 @@ function App() {
             <ErrorBoundary>
               <div className="App">
                 <ThemeProvider>
+                  <Layout>
                   <header role="banner">
                   <Navbar />
                   </header>
@@ -131,6 +133,7 @@ A
                   </main>
                   <Footer />
                   <AIAgent />
+                  </Layout>
                 </ThemeProvider>
               </div>
             </ErrorBoundary>

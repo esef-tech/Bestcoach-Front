@@ -1,45 +1,10 @@
 {
   "headers": [
     {
-      "source": "/(.*)\\.(jpg|jpeg|png|webp|avif|gif|ico|svg)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
       "source": "/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: blob: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https: blob: https://firebasestorage.googleapis.com https://bestcoachmusic.netlify.app https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api-d7b62b.stack.tryrelevance.com https://firebasestorage.googleapis.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://*.googleapis.com wss://*.firebaseio.com https://app.relevanceai.com https://www.google-analytics.com https://www.google.com https://region1.google-analytics.com https://www.googletagmanager.com; media-src 'self' https://api-d7b62b.stack.tryrelevance.com https://player.vimeo.com https://*.vimeo.com https://*.vimeocdn.com; frame-src 'self' https://player.vimeo.com https:; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests;"
-        }
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'strict-dynamic' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://api-d7b62b.stack.tryrelevance.com https://firebasestorage.googleapis.com https://*.googleapis.com wss://*.firebaseio.com https://app.relevanceai.com https://www.google-analytics.com; media-src 'self' https://player.vimeo.com; frame-src 'self' https://player.vimeo.com https:; base-uri 'self'; object-src 'none';" }
       ]
     }
-  ],
-  "images": {
-    "sizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    "domains": [
-      "bestcoachmusic.netlify.app",
-      "mcmusicschool.org",
-      "communitymusicschool.com",
-      "squarespace-cdn.com",
-      "washingtonperformingarts.org",
-      "firebasestorage.googleapis.com"
-    ],
-    "formats": ["image/webp", "image/avif"],
-    "minimumCacheTTL": 60,
-    "dangerouslyAllowSVG": false
-  },
-  "build": {
-    "env": {
-      "GENERATE_SOURCEMAP": "false"
-    }
-  }
+  ]
 }
