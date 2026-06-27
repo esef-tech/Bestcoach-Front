@@ -1,4 +1,4 @@
-/* Careers.css - FULL iPhone Polymorphic Glassmorphism (scoped ONLY to .careers-page) */
+/* Careers.css - FULL iPhone Polymorphic Glassmorphism + FIXED Navbar Gap + Responsive Hero */
 
 .careers-page {
   background: linear-gradient(90deg, #00394f, #001f2e);
@@ -7,37 +7,84 @@
   overflow: hidden;
 }
 
-/* Glassmorphic Header */
+/* ===================== HERO HEADER - EVEN GAP FROM NAVBAR ===================== */
 .header-1 {
   background: linear-gradient(90deg, #1e40af, #3b82f6);
-  padding: 4rem 0 3rem;
+  padding: 6.5rem 1rem 4.5rem; /* Clean, even gap from fixed navbar */
   text-align: center;
   position: relative;
-    display: flex;
+  min-height: 360px;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 1.5s ease;
   background-image: url('https://tonara.com/wp-content/themes/tonara/img/tutorials/tutorials_page_banner.jpg');
   background-size: cover;
   background-position: center;
-  text-shadow: 0 0 10px rgba(0,0,0,0.5);
-  color: white;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: 0;
 }
-.header-1::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #fd7e14, transparent);
+
+/* Title & Subtitle */
+.header-1 h1 {
+  font-size: 3.4rem;
+  font-weight: 800;
+  margin-bottom: 1.2rem;
+  line-height: 1.05;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
 }
-.primary-text {
-  font-size: 2.2rem;
-  margin-top: 10px;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
+
+.header-1 p {
+  font-size: 1.35rem;
+  max-width: 720px;
+  margin: 0 auto;
+  color: #e0f2fe;
+  font-weight: 500;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .header-1 {
+    padding: 5.5rem 1rem 3.5rem;
+    min-height: 300px;
+  }
+  
+  .header-1 h1 {
+    font-size: 2.5rem;
+  }
+  
+  .header-1 p {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-1 {
+    padding: 4.8rem 1rem 3rem;
+  }
+  
+  .header-1 h1 {
+    font-size: 2.15rem;
+  }
+}
+
+/* Large Screens / Monitors / TV */
+@media (min-width: 1400px) {
+  .header-1 {
+    padding: 8.5rem 2rem 6rem;
+  }
+  
+  .header-1 h1 {
+    font-size: 4.2rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .header-1 {
+    padding: 9.5rem 3rem 7rem;
+  }
 }
 
 /* Glassmorphic Cards */
@@ -51,12 +98,13 @@
   overflow: hidden;
   transition: all 0.3s ease;
 }
+
 .glass-card:hover {
   transform: translateY(-12px);
   box-shadow: 0 30px 50px rgba(0,0,0,0.18);
 }
 
-/* Modal Glass Style */
+/* Glassmorphic Modal */
 .glass-modal {
   background: rgba(255,255,255,0.95) !important;
   -webkit-backdrop-filter: blur(20px) !important;
@@ -66,41 +114,42 @@
 
 /* Brand Colors Preserved */
 .text-orange { color: #fd7e14 !important; }
-#button-color, .btn-primary, .btn-orange {
-  background-color: #00394f !important;
-  border-color: #00394f !important;
-  color: #fd7e14 !important;
-}
 
 /* Animations (preserved) */
 .animate-fade-in { animation: fadeIn 1s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 .animate-slide-up { animation: slideUp 1s; }
 @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
 .animate-bounce-in { animation: bounceIn 0.5s; }
 @keyframes bounceIn { 0% { transform: scale(0.9); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header-1 h1 { font-size: 2.5rem; }
   .glass-card { margin-bottom: 1.5rem; }
 }
+
+/* Typography */
 .h4-text{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
 .p-text{
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
 .link-text{
   color: whitesmoke;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
 }
+
 .h2-text{
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
-
 }
+
 .h4-text{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-weight: bold;
