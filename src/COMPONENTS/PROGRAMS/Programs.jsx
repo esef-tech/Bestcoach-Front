@@ -122,7 +122,8 @@ const Programs = () => {
                   </Card.Body>
 
                   <Card.Footer className="bg-transparent border-0 pt-0 pb-4 px-4">
-                    <Button
+                    <Button 
+                    id="join-btn-prog"
                       className="join-btn-prog w-100"
                       onClick={() => handleShow(pkg.title, pkg.price)}
                     >
@@ -184,7 +185,7 @@ const Programs = () => {
 
             <Button
               type="submit"
-              variant="primary"
+              id="join-btn-prog"
               disabled={status.loading}
               className="w-100 py-3 fs-5 rounded-4 fw-bold"
             >
