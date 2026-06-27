@@ -206,3 +206,18 @@
     min-width: 100px;
   }
 }
+#login-btn {
+  background: #00394f;
+  color: white;
+  border: none;
+}
+
+#signup-btn {
+  background: #00394f;
+  color: #ff9500;
+  border: none;
+}
+
+#login-btn:hover, #signup-btn:hover {
+  transform: translateY(-3px);
+}

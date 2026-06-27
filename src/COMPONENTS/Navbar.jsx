@@ -145,10 +145,10 @@ const AppNavbar = () => {
                   </div>
                 ) : (
                   <>
-                    <Button className="me-2 login-btn text-light" as={Link} to="/signin">
+                    <Button  id="login-btn"className="me-2 login-btn text-light" as={Link} to="/signin">
                       <FaUserCircle className="me-1" /> Sign In
                     </Button>
-                    <Button className="signup-btn" as={Link} to="/signup">
+                    <Button id="signup-btn" className="signup-btn" as={Link} to="/signup">
                       <FaUserCircle className="me-1" /> Sign Up
                     </Button>
                   </>
